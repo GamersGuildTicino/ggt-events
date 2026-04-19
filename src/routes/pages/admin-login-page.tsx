@@ -13,43 +13,41 @@ import { useCallback, useState } from "react";
 import { Link as RouterLink, useLocation, useNavigate } from "react-router";
 import { useAuth } from "~/auth/use-auth";
 import { PasswordInput } from "~/ui/password-input";
+import { failure, initial, loading, success } from "~/utils/async-state";
+
+//------------------------------------------------------------------------------
+// Admin Login Page
+//------------------------------------------------------------------------------
 
 type LoginLocationState = {
   from?: { pathname?: string; search?: string };
 };
 
-export function AdminLoginPage() {
+export default function AdminLoginPage() {
   const location = useLocation();
   const navigate = useNavigate();
-  const [signingIn, setSigningIn] = useState(false);
-  const [signInError, setSignInError] = useState("");
   const { signInWithPassword } = useAuth();
+  const [signInState, setSignInState] = useState(initial<void>());
 
   const signIn = useCallback(
     async (e: React.SubmitEvent<HTMLFormElement>) => {
       e.preventDefault();
 
-      setSigningIn(true);
-      setSignInError("");
+      setSignInState(loading());
 
       const formData = new FormData(e.currentTarget);
       const email = String(formData.get("email") ?? "").trim();
       const password = String(formData.get("password") ?? "");
 
       const error = await signInWithPassword(email, password);
-
-      if (error) {
-        setSignInError(error);
-        setSigningIn(false);
-        return;
-      }
+      if (error) return setSignInState(failure(error));
 
       const state = location.state as LoginLocationState | null;
       const pathname = state?.from?.pathname ?? "/admin";
       const search = state?.from?.search ?? "";
 
       navigate(`${pathname}${search}`, { replace: true });
-      setSigningIn(false);
+      setSignInState(success(undefined));
     },
     [location.state, navigate, signInWithPassword],
   );
@@ -60,12 +58,12 @@ export function AdminLoginPage() {
         <VStack align="flex-start" gap={3} maxW="20em" p={1} w="full">
           <Heading size="3xl">Sign in to GGT</Heading>
 
-          <Field.Root disabled={signingIn} required>
+          <Field.Root disabled={signInState.isLoading} required>
             <Field.Label>Email</Field.Label>
             <Input autoComplete="email" name="email" size="sm" type="email" />
           </Field.Root>
 
-          <Field.Root disabled={signingIn} required>
+          <Field.Root disabled={signInState.isLoading} required>
             <Field.Label>Password</Field.Label>
             <PasswordInput
               autoComplete="current-password"
@@ -74,14 +72,14 @@ export function AdminLoginPage() {
             />
           </Field.Root>
 
-          {signInError && (
+          {signInState.hasError && (
             <Alert.Root status="error">
-              <Alert.Description>{signInError}</Alert.Description>
+              <Alert.Description>{signInState.error}</Alert.Description>
             </Alert.Root>
           )}
 
           <HStack gap={3}>
-            <Button loading={signingIn} size="sm" type="submit">
+            <Button loading={signInState.isLoading} size="sm" type="submit">
               Sign In
             </Button>
             <Link asChild fontSize="sm" tabIndex={0}>
