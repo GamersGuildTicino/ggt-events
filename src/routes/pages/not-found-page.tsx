@@ -1,5 +1,9 @@
-import { PagePlaceholder } from "../components/page-placeholder";
+import PagePlaceholder from "../components/page-placeholder";
 
-export function NotFoundPage() {
+//------------------------------------------------------------------------------
+// Not Found Page
+//------------------------------------------------------------------------------
+
+export default function NotFoundPage() {
   return <PagePlaceholder title="Page Not Found" />;
 }

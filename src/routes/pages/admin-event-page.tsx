@@ -1,5 +1,9 @@
-import { PagePlaceholder } from "../components/page-placeholder";
+import PagePlaceholder from "../components/page-placeholder";
 
-export function AdminEventPage() {
+//------------------------------------------------------------------------------
+// Admin Event Page
+//------------------------------------------------------------------------------
+
+export default function AdminEventPage() {
   return <PagePlaceholder title="Admin Event Page" />;
 }

@@ -1,5 +1,9 @@
-import { PagePlaceholder } from "../components/page-placeholder";
+import PagePlaceholder from "../components/page-placeholder";
 
-export function AdminPage() {
+//------------------------------------------------------------------------------
+// Admin Page
+//------------------------------------------------------------------------------
+
+export default function AdminPage() {
   return <PagePlaceholder title="Admin Dashboard Page" />;
 }

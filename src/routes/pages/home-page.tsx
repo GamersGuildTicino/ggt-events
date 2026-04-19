@@ -1,5 +1,9 @@
-import { PagePlaceholder } from "../components/page-placeholder";
+import PagePlaceholder from "../components/page-placeholder";
 
-export function HomePage() {
+//------------------------------------------------------------------------------
+// Home Page
+//------------------------------------------------------------------------------
+
+export default function HomePage() {
   return <PagePlaceholder title="Home Page" />;
 }
