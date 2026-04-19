@@ -9,37 +9,50 @@ import {
   Link,
   VStack,
 } from "@chakra-ui/react";
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useState } from "react";
+import { Link as RouterLink, useLocation, useNavigate } from "react-router";
+import { useAuth } from "~/auth/use-auth";
 import { PasswordInput } from "~/ui/password-input";
 
-export function AdminLoginPage() {
-  const emailInputRef = useRef<HTMLInputElement>(null);
-  const passwordInputRef = useRef<HTMLInputElement>(null);
+type LoginLocationState = {
+  from?: { pathname?: string; search?: string };
+};
 
+export function AdminLoginPage() {
+  const location = useLocation();
+  const navigate = useNavigate();
   const [signingIn, setSigningIn] = useState(false);
   const [signInError, setSignInError] = useState("");
+  const { signInWithPassword } = useAuth();
 
-  const signIn = useCallback(async (e: React.SubmitEvent) => {
-    e.preventDefault();
+  const signIn = useCallback(
+    async (e: React.SubmitEvent<HTMLFormElement>) => {
+      e.preventDefault();
 
-    setSigningIn(true);
-    setSignInError("");
+      setSigningIn(true);
+      setSignInError("");
 
-    const formData = new FormData(e.target);
-    const values = {
-      email: String(formData.get("email") ?? ""),
-      password: String(formData.get("password") ?? ""),
-    };
+      const formData = new FormData(e.currentTarget);
+      const email = String(formData.get("email") ?? "").trim();
+      const password = String(formData.get("password") ?? "");
 
-    try {
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      console.log(values);
-    } catch {
-      setSignInError("Something went wrong, please try again.");
-    }
+      const error = await signInWithPassword(email, password);
 
-    setSigningIn(false);
-  }, []);
+      if (error) {
+        setSignInError(error);
+        setSigningIn(false);
+        return;
+      }
+
+      const state = location.state as LoginLocationState | null;
+      const pathname = state?.from?.pathname ?? "/admin";
+      const search = state?.from?.search ?? "";
+
+      navigate(`${pathname}${search}`, { replace: true });
+      setSigningIn(false);
+    },
+    [location.state, navigate, signInWithPassword],
+  );
 
   return (
     <form onSubmit={signIn}>
@@ -49,12 +62,16 @@ export function AdminLoginPage() {
 
           <Field.Root disabled={signingIn} required>
             <Field.Label>Email</Field.Label>
-            <Input name="email" ref={emailInputRef} size="sm" type="email" />
+            <Input autoComplete="email" name="email" size="sm" type="email" />
           </Field.Root>
 
           <Field.Root disabled={signingIn} required>
             <Field.Label>Password</Field.Label>
-            <PasswordInput name="password" ref={passwordInputRef} size="sm" />
+            <PasswordInput
+              autoComplete="current-password"
+              name="password"
+              size="sm"
+            />
           </Field.Root>
 
           {signInError && (
@@ -67,8 +84,10 @@ export function AdminLoginPage() {
             <Button loading={signingIn} size="sm" type="submit">
               Sign In
             </Button>
-            <Link fontSize="sm" href="/admin/forgot-password" tabIndex={0}>
-              Forgot password?
+            <Link asChild fontSize="sm" tabIndex={0}>
+              <RouterLink to="/admin/forgot-password">
+                Forgot password?
+              </RouterLink>
             </Link>
           </HStack>
         </VStack>

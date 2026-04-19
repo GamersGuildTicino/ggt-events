@@ -1,6 +1,8 @@
 import { createBrowserRouter } from "react-router";
-import { AdminLayout } from "./routes/layouts/admin-layout";
-import { PublicLayout } from "./routes/layouts/public-layout";
+import AdminAuthLayout from "./routes/layouts/admin-auth-layout";
+import AdminLayout from "./routes/layouts/admin-layout";
+import AdminProtectedLayout from "./routes/layouts/admin-protected-layout";
+import PublicLayout from "./routes/layouts/public-layout";
 import { AdminEventPage } from "./routes/pages/admin-event-page";
 import { AdminEventsNewPage } from "./routes/pages/admin-events-new-page";
 import { AdminEventsPage } from "./routes/pages/admin-events-page";
@@ -21,16 +23,26 @@ export const router = createBrowserRouter([
   },
   {
     children: [
-      { Component: AdminForgotPasswordPage, path: "forgot-password" },
-      { Component: AdminLoginPage, path: "login" },
       {
         children: [
-          { Component: AdminPage, index: true },
-          { Component: AdminEventsPage, path: "events" },
-          { Component: AdminEventsNewPage, path: "events/new" },
-          { Component: AdminEventPage, path: "events/:eventId" },
+          { Component: AdminForgotPasswordPage, path: "forgot-password" },
+          { Component: AdminLoginPage, path: "login" },
         ],
-        element: <AdminLayout />,
+        element: <AdminAuthLayout />,
+      },
+      {
+        children: [
+          {
+            children: [
+              { Component: AdminPage, index: true },
+              { Component: AdminEventsPage, path: "events" },
+              { Component: AdminEventsNewPage, path: "events/new" },
+              { Component: AdminEventPage, path: "events/:eventId" },
+            ],
+            element: <AdminLayout />,
+          },
+        ],
+        element: <AdminProtectedLayout />,
       },
     ],
     path: "admin",
