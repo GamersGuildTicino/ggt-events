@@ -2,6 +2,10 @@ import { Box, Button, HStack, Text } from "@chakra-ui/react";
 import { Outlet } from "react-router";
 import { useAuth } from "~/auth/use-auth";
 
+//------------------------------------------------------------------------------
+// Admin Layout
+//------------------------------------------------------------------------------
+
 export default function AdminLayout() {
   const { signOut, user } = useAuth();
 
