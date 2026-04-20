@@ -13,12 +13,14 @@ import { useCallback, useState } from "react";
 import { Link as RouterLink } from "react-router";
 import { useAuth } from "~/auth/use-auth";
 import { failure, initial, loading, success } from "~/utils/async-state";
+import useI18n from "../../i18n/use-i18n";
 
 //------------------------------------------------------------------------------
 // Admin Forgot Password Page
 //------------------------------------------------------------------------------
 
 export default function AdminForgotPasswordPage() {
+  const i18n = useI18n();
   const [resetPasswordState, setResetPasswordState] = useState(initial<void>());
   const { resetPasswordForEmail } = useAuth();
 
@@ -43,10 +45,12 @@ export default function AdminForgotPasswordPage() {
     <form onSubmit={resetPassword}>
       <Center minH="100vh">
         <VStack align="flex-start" gap={3} maxW="20em" p={1} w="full">
-          <Heading size="3xl">Reset password</Heading>
+          <Heading size="3xl">{i18n.t("admin.forgot_password.title")}</Heading>
 
           <Field.Root disabled={resetPasswordState.isLoading} required>
-            <Field.Label>Email</Field.Label>
+            <Field.Label>
+              {i18n.t("admin.forgot_password.email.label")}
+            </Field.Label>
             <Input autoComplete="email" name="email" size="sm" type="email" />
           </Field.Root>
 
@@ -59,7 +63,7 @@ export default function AdminForgotPasswordPage() {
           {resetPasswordState.status === "success" && (
             <Alert.Root status="success">
               <Alert.Description>
-                If that account exists, a reset email has been sent.
+                {i18n.t("admin.forgot_password.confirmation")}
               </Alert.Description>
             </Alert.Root>
           )}
@@ -70,10 +74,12 @@ export default function AdminForgotPasswordPage() {
               size="sm"
               type="submit"
             >
-              Send reset email
+              {i18n.t("admin.forgot_password.send")}
             </Button>
             <Link asChild fontSize="sm">
-              <RouterLink to="/admin/login">Back to login</RouterLink>
+              <RouterLink to="/admin/login">
+                {i18n.t("admin.forgot_password.back_to_login")}
+              </RouterLink>
             </Link>
           </HStack>
         </VStack>
