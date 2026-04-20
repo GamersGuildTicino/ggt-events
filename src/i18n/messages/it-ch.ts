@@ -3,20 +3,20 @@ const itCH = {
   "enum.event_visibility.public": "Pubblica",
   "enum.event_visibility.restricted": "Ristretta",
 
-  "admin.forgot_password.back_to_login": "Torna al login",
-  "admin.forgot_password.confirmation":
+  "page.admin_forgot_password.back_to_login": "Torna al login",
+  "page.admin_forgot_password.confirmation":
     "Se l'account esiste, è stata inviata un'email per reimpostare la password.",
-  "admin.forgot_password.email.label": "Email",
-  "admin.forgot_password.send": "Invia email",
-  "admin.forgot_password.title": "Reimposta password",
+  "page.admin_forgot_password.email.label": "Email",
+  "page.admin_forgot_password.heading": "Reimposta password",
+  "page.admin_forgot_password.send": "Invia email",
 
-  "admin.login.email.label": "Email",
-  "admin.login.forgot_password": "Password dimenticata?",
-  "admin.login.password.label": "Password",
-  "admin.login.sign_in": "Login",
-  "admin.login.title": "Loggati in GGT",
+  "page.admin_login.email.label": "Email",
+  "page.admin_login.forgot_password": "Password dimenticata?",
+  "page.admin_login.heading": "Loggati in GGT",
+  "page.admin_login.password.label": "Password",
+  "page.admin_login.sign_in": "Login",
 
-  "not_found.title": "Pagina Non Trovata",
+  "page.not_found.heading": "Pagina Non Trovata",
 } as const;
 
 export default itCH;

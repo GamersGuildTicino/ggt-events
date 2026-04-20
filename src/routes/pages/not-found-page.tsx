@@ -11,7 +11,7 @@ export default function NotFoundPage() {
 
   return (
     <VStack minH="100vh">
-      <PagePlaceholder title={i18n.t("not_found.title")} />
+      <PagePlaceholder title={i18n.t("page.not_found.title")} />
     </VStack>
   );
 }

@@ -1,7 +1,6 @@
 import {
   Alert,
   Button,
-  Center,
   Field,
   HStack,
   Heading,
@@ -13,6 +12,7 @@ import { useCallback, useState } from "react";
 import { Link as RouterLink } from "react-router";
 import { useAuth } from "~/auth/use-auth";
 import useI18n from "~/i18n/use-i18n";
+import Form from "~/ui/form";
 import { failure, initial, loading, success } from "~/utils/async-state";
 
 //------------------------------------------------------------------------------
@@ -42,48 +42,54 @@ export default function AdminForgotPasswordPage() {
   );
 
   return (
-    <form onSubmit={resetPassword}>
-      <Center minH="100vh">
-        <VStack align="flex-start" gap={3} maxW="20em" p={1} w="full">
-          <Heading size="3xl">{i18n.t("admin.forgot_password.title")}</Heading>
+    <Form
+      alignItems="center"
+      display="flex"
+      justifyContent="center"
+      minH="100vh"
+      onSubmit={resetPassword}
+    >
+      <VStack align="flex-start" gap={3} maxW="20em" p={1} w="full">
+        <Heading size="3xl">
+          {i18n.t("page.admin_forgot_password.heading")}
+        </Heading>
 
-          <Field.Root disabled={resetPasswordState.isLoading} required>
-            <Field.Label>
-              {i18n.t("admin.forgot_password.email.label")}
-            </Field.Label>
-            <Input autoComplete="email" name="email" size="sm" type="email" />
-          </Field.Root>
+        <Field.Root disabled={resetPasswordState.isLoading} required>
+          <Field.Label>
+            {i18n.t("page.admin_forgot_password.email.label")}
+          </Field.Label>
+          <Input autoComplete="email" name="email" size="sm" type="email" />
+        </Field.Root>
 
-          {resetPasswordState.hasError && (
-            <Alert.Root status="error">
-              <Alert.Description>{resetPasswordState.error}</Alert.Description>
-            </Alert.Root>
-          )}
+        {resetPasswordState.hasError && (
+          <Alert.Root status="error">
+            <Alert.Description>{resetPasswordState.error}</Alert.Description>
+          </Alert.Root>
+        )}
 
-          {resetPasswordState.status === "success" && (
-            <Alert.Root status="success">
-              <Alert.Description>
-                {i18n.t("admin.forgot_password.confirmation")}
-              </Alert.Description>
-            </Alert.Root>
-          )}
+        {resetPasswordState.status === "success" && (
+          <Alert.Root status="success">
+            <Alert.Description>
+              {i18n.t("page.admin_forgot_password.confirmation")}
+            </Alert.Description>
+          </Alert.Root>
+        )}
 
-          <HStack gap={3}>
-            <Button
-              loading={resetPasswordState.isLoading}
-              size="sm"
-              type="submit"
-            >
-              {i18n.t("admin.forgot_password.send")}
-            </Button>
-            <Link asChild fontSize="sm">
-              <RouterLink to="/admin/login">
-                {i18n.t("admin.forgot_password.back_to_login")}
-              </RouterLink>
-            </Link>
-          </HStack>
-        </VStack>
-      </Center>
-    </form>
+        <HStack gap={3}>
+          <Button
+            loading={resetPasswordState.isLoading}
+            size="sm"
+            type="submit"
+          >
+            {i18n.t("page.admin_forgot_password.send")}
+          </Button>
+          <Link asChild fontSize="sm">
+            <RouterLink to="/admin/login">
+              {i18n.t("page.admin_forgot_password.back_to_login")}
+            </RouterLink>
+          </Link>
+        </HStack>
+      </VStack>
+    </Form>
   );
 }
