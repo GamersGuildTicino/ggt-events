@@ -11,6 +11,8 @@ const itCH = {
   "admin.login.password.label": "Password",
   "admin.login.sign_in": "Login",
   "admin.login.title": "Loggati in GGT",
+
+  "not_found.title": "Pagina Non Trovata",
 } as const;
 
 export default itCH;

@@ -11,6 +11,8 @@ const enGB = {
   "admin.login.password.label": "Password",
   "admin.login.sign_in": "Sign In",
   "admin.login.title": "Sign in to GGT",
+
+  "not_found.title": "Page Not Found",
 } as const;
 
 export default enGB;

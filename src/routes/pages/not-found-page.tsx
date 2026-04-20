@@ -1,3 +1,5 @@
+import { VStack } from "@chakra-ui/react";
+import useI18n from "~/i18n/use-i18n";
 import PagePlaceholder from "../components/page-placeholder";
 
 //------------------------------------------------------------------------------
@@ -5,5 +7,11 @@ import PagePlaceholder from "../components/page-placeholder";
 //------------------------------------------------------------------------------
 
 export default function NotFoundPage() {
-  return <PagePlaceholder title="Page Not Found" />;
+  const i18n = useI18n();
+
+  return (
+    <VStack minH="100vh">
+      <PagePlaceholder title={i18n.t("not_found.title")} />
+    </VStack>
+  );
 }
