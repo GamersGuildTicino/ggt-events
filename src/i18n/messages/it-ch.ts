@@ -1,4 +1,8 @@
 const itCH = {
+  "enum.event_visibility.private": "Privata",
+  "enum.event_visibility.public": "Pubblica",
+  "enum.event_visibility.restricted": "Ristretta",
+
   "admin.forgot_password.back_to_login": "Torna al login",
   "admin.forgot_password.confirmation":
     "Se l'account esiste, è stata inviata un'email per reimpostare la password.",
