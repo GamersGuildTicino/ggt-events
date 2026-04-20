@@ -15,7 +15,7 @@ import AuthContext, { type AuthContextValue } from "./auth-context";
 //------------------------------------------------------------------------------
 
 function AuthProvider({ children }: PropsWithChildren) {
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [session, setSession] = useState<Session | null>(null);
 
   useEffect(() => {
