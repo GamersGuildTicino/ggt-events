@@ -11,7 +11,7 @@ export type PagePlaceholderProps = {
 
 export default function PagePlaceholder({ title }: PagePlaceholderProps) {
   return (
-    <Center minH="100vh" px="6">
+    <Center flex={1} px="6">
       <Heading size="2xl" textAlign="center">
         {title}
       </Heading>

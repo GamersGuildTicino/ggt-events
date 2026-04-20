@@ -1,3 +1,4 @@
+import { VStack } from "@chakra-ui/react";
 import { Outlet } from "react-router";
 
 //------------------------------------------------------------------------------
@@ -5,5 +6,9 @@ import { Outlet } from "react-router";
 //------------------------------------------------------------------------------
 
 export default function PublicLayout() {
-  return <Outlet />;
+  return (
+    <VStack minH="100vh">
+      <Outlet />
+    </VStack>
+  );
 }
