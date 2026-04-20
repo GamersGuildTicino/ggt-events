@@ -12,6 +12,7 @@ import {
 import { useCallback, useState } from "react";
 import { Link as RouterLink, useLocation, useNavigate } from "react-router";
 import { useAuth } from "~/auth/use-auth";
+import useI18n from "~/i18n/use-i18n";
 import { PasswordInput } from "~/ui/password-input";
 import { failure, initial, loading, success } from "~/utils/async-state";
 
@@ -24,6 +25,7 @@ type LoginLocationState = {
 };
 
 export default function AdminLoginPage() {
+  const i18n = useI18n();
   const location = useLocation();
   const navigate = useNavigate();
   const { signInWithPassword } = useAuth();
@@ -56,15 +58,15 @@ export default function AdminLoginPage() {
     <form onSubmit={signIn}>
       <Center minH="100vh">
         <VStack align="flex-start" gap={3} maxW="20em" p={1} w="full">
-          <Heading size="3xl">Sign in to GGT</Heading>
+          <Heading size="3xl">{i18n.t("admin.login.title")}</Heading>
 
           <Field.Root disabled={signInState.isLoading} required>
-            <Field.Label>Email</Field.Label>
+            <Field.Label>{i18n.t("admin.login.email.label")}</Field.Label>
             <Input autoComplete="email" name="email" size="sm" type="email" />
           </Field.Root>
 
           <Field.Root disabled={signInState.isLoading} required>
-            <Field.Label>Password</Field.Label>
+            <Field.Label>{i18n.t("admin.login.password.label")}</Field.Label>
             <PasswordInput
               autoComplete="current-password"
               name="password"
@@ -80,11 +82,11 @@ export default function AdminLoginPage() {
 
           <HStack gap={3}>
             <Button loading={signInState.isLoading} size="sm" type="submit">
-              Sign In
+              {i18n.t("admin.login.sign_in")}
             </Button>
             <Link asChild fontSize="sm" tabIndex={0}>
               <RouterLink to="/admin/forgot-password">
-                Forgot password?
+                {i18n.t("admin.login.forgot_password")}
               </RouterLink>
             </Link>
           </HStack>
