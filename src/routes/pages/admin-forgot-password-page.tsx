@@ -12,8 +12,8 @@ import {
 import { useCallback, useState } from "react";
 import { Link as RouterLink } from "react-router";
 import { useAuth } from "~/auth/use-auth";
+import useI18n from "~/i18n/use-i18n";
 import { failure, initial, loading, success } from "~/utils/async-state";
-import useI18n from "../../i18n/use-i18n";
 
 //------------------------------------------------------------------------------
 // Admin Forgot Password Page
