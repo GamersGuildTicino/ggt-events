@@ -10,6 +10,7 @@ import {
 } from "@chakra-ui/react";
 import { CalendarDate } from "@internationalized/date";
 import { useCallback, useState } from "react";
+import { useNavigate } from "react-router";
 import { useAuth } from "~/auth/use-auth";
 import {
   type EventVisibility,
@@ -30,6 +31,7 @@ import { failure, initial, loading, success } from "~/utils/async-state";
 export default function AdminEventsNewPage() {
   const { t } = useI18n();
   const { user } = useAuth();
+  const navigate = useNavigate();
   const [createEventState, setCreateEventState] = useState(initial());
   const eventVisibilityOptions = useEventVisibilityOptions();
 
@@ -68,15 +70,16 @@ export default function AdminEventsNewPage() {
           visibility,
         });
 
-        return error ?
-            setCreateEventState(failure(error))
-          : setCreateEventState(success(undefined));
+        if (error) return setCreateEventState(failure(error));
+
+        setCreateEventState(success(undefined));
+        navigate("/admin/events");
       } catch (e) {
         console.log(e);
         setCreateEventState(failure("page.admin_events_new.error.generic"));
       }
     },
-    [user],
+    [navigate, user],
   );
 
   return (
