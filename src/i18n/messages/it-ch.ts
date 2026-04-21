@@ -3,6 +3,16 @@ const itCH = {
   "enum.event_visibility.public": "Pubblica",
   "enum.event_visibility.restricted": "Ristretta",
 
+  "page.admin_events.empty": "Nessun evento.",
+  "page.admin_events.error": "Impossibile caricare gli eventi.",
+  "page.admin_events.heading": "Eventi",
+  "page.admin_events.location": "Luogo",
+  "page.admin_events.new": "Nuovo evento",
+  "page.admin_events.registrations_closed": "Registrazioni chiuse",
+  "page.admin_events.registrations_open": "Registrazioni aperte",
+  "page.admin_events.starts_at": "Data",
+  "page.admin_events.visibility": "Visibilità",
+
   "page.admin_events_new.create": "Crea",
   "page.admin_events_new.error.generic":
     "Qualcosa è andato storto, per favore prova di nuovo.",

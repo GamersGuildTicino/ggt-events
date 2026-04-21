@@ -3,6 +3,16 @@ const enGB = {
   "enum.event_visibility.public": "Public",
   "enum.event_visibility.restricted": "Restricted",
 
+  "page.admin_events.empty": "No events yet.",
+  "page.admin_events.error": "Unable to load events.",
+  "page.admin_events.heading": "Events",
+  "page.admin_events.location": "Location",
+  "page.admin_events.new": "New event",
+  "page.admin_events.registrations_closed": "Registrations closed",
+  "page.admin_events.registrations_open": "Registrations open",
+  "page.admin_events.starts_at": "Date",
+  "page.admin_events.visibility": "Visibility",
+
   "page.admin_events_new.create": "Create",
   "page.admin_events_new.error.generic":
     "Something went wrong, please try again.",
