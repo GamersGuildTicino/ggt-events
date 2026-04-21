@@ -14,7 +14,13 @@ import useI18n from "~/i18n/use-i18n";
 import { signInWithPassword } from "~/lib/supabase";
 import Form from "~/ui/form";
 import { PasswordInput } from "~/ui/password-input";
-import { failure, initial, loading, success } from "~/utils/async-state";
+import {
+  type AsyncState,
+  failure,
+  initial,
+  loading,
+  success,
+} from "~/utils/async-state";
 
 //------------------------------------------------------------------------------
 // Admin Login Page
@@ -28,7 +34,7 @@ export default function AdminLoginPage() {
   const i18n = useI18n();
   const location = useLocation();
   const navigate = useNavigate();
-  const [signInState, setSignInState] = useState(initial<void>());
+  const [signInState, setSignInState] = useState<AsyncState>(initial());
 
   const signIn = useCallback(
     async (e: React.SubmitEvent<HTMLFormElement>) => {

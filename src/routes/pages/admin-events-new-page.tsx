@@ -22,7 +22,13 @@ import Checkbox from "~/ui/checkbox";
 import DatePicker from "~/ui/date-picker";
 import Form from "~/ui/form";
 import SelectEnum from "~/ui/select-enum";
-import { failure, initial, loading, success } from "~/utils/async-state";
+import {
+  type AsyncState,
+  failure,
+  initial,
+  loading,
+  success,
+} from "~/utils/async-state";
 
 //------------------------------------------------------------------------------
 // Admin Events New Page
@@ -32,7 +38,8 @@ export default function AdminEventsNewPage() {
   const { t } = useI18n();
   const { user } = useAuth();
   const navigate = useNavigate();
-  const [createEventState, setCreateEventState] = useState(initial());
+  const [createEventState, setCreateEventState] =
+    useState<AsyncState>(initial());
   const eventVisibilityOptions = useEventVisibilityOptions();
 
   const handleCreateEvent = useCallback(

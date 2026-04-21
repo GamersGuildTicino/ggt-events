@@ -13,7 +13,13 @@ import { Link as RouterLink } from "react-router";
 import useI18n from "~/i18n/use-i18n";
 import { resetPasswordForEmail } from "~/lib/supabase";
 import Form from "~/ui/form";
-import { failure, initial, loading, success } from "~/utils/async-state";
+import {
+  type AsyncState,
+  failure,
+  initial,
+  loading,
+  success,
+} from "~/utils/async-state";
 
 //------------------------------------------------------------------------------
 // Admin Forgot Password Page
@@ -21,7 +27,8 @@ import { failure, initial, loading, success } from "~/utils/async-state";
 
 export default function AdminForgotPasswordPage() {
   const i18n = useI18n();
-  const [resetPasswordState, setResetPasswordState] = useState(initial<void>());
+  const [resetPasswordState, setResetPasswordState] =
+    useState<AsyncState>(initial());
 
   const resetPassword = useCallback(
     async (event: React.SubmitEvent<HTMLFormElement>) => {
@@ -66,7 +73,7 @@ export default function AdminForgotPasswordPage() {
           </Alert.Root>
         )}
 
-        {resetPasswordState.status === "success" && (
+        {resetPasswordState.isSuccess && (
           <Alert.Root status="success">
             <Alert.Description>
               {i18n.t("page.admin_forgot_password.confirmation")}
