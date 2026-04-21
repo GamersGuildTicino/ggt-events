@@ -1,13 +1,7 @@
 import type { Session } from "@supabase/supabase-js";
 import { useEffect, useMemo, useState } from "react";
 import type { PropsWithChildren } from "react";
-import {
-  getSession,
-  onAuthStateChange,
-  resetPasswordForEmail,
-  signInWithPassword,
-  signOut,
-} from "~/lib/supabase";
+import { getSession, onAuthStateChange } from "~/lib/supabase";
 import AuthContext, { type AuthContextValue } from "./auth-context";
 
 //------------------------------------------------------------------------------
@@ -47,10 +41,7 @@ function AuthProvider({ children }: PropsWithChildren) {
     return {
       isAuthenticated: user !== null,
       isLoading,
-      resetPasswordForEmail,
       session,
-      signInWithPassword,
-      signOut,
       user,
     };
   }, [isLoading, session]);

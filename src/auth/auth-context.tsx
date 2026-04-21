@@ -8,10 +8,7 @@ import { createContext } from "react";
 export type AuthContextValue = {
   isAuthenticated: boolean;
   isLoading: boolean;
-  resetPasswordForEmail: (email: string) => Promise<string>;
   session: Session | null;
-  signInWithPassword: (email: string, password: string) => Promise<string>;
-  signOut: () => Promise<string>;
   user: User | null;
 };
 

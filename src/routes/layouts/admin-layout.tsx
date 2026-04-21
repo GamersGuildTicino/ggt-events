@@ -1,13 +1,14 @@
 import { Button, HStack, Text, VStack } from "@chakra-ui/react";
 import { Outlet } from "react-router";
 import { useAuth } from "~/auth/use-auth";
+import { signOut } from "~/lib/supabase";
 
 //------------------------------------------------------------------------------
 // Admin Layout
 //------------------------------------------------------------------------------
 
 export default function AdminLayout() {
-  const { signOut, user } = useAuth();
+  const { user } = useAuth();
 
   return (
     <VStack minH="100vh">

@@ -10,8 +10,8 @@ import {
 } from "@chakra-ui/react";
 import { useCallback, useState } from "react";
 import { Link as RouterLink, useLocation, useNavigate } from "react-router";
-import { useAuth } from "~/auth/use-auth";
 import useI18n from "~/i18n/use-i18n";
+import { signInWithPassword } from "~/lib/supabase";
 import Form from "~/ui/form";
 import { PasswordInput } from "~/ui/password-input";
 import { failure, initial, loading, success } from "~/utils/async-state";
@@ -28,7 +28,6 @@ export default function AdminLoginPage() {
   const i18n = useI18n();
   const location = useLocation();
   const navigate = useNavigate();
-  const { signInWithPassword } = useAuth();
   const [signInState, setSignInState] = useState(initial<void>());
 
   const signIn = useCallback(
@@ -51,7 +50,7 @@ export default function AdminLoginPage() {
       navigate(`${pathname}${search}`, { replace: true });
       setSignInState(success(undefined));
     },
-    [location.state, navigate, signInWithPassword],
+    [location.state, navigate],
   );
 
   return (
