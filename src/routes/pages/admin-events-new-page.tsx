@@ -1,69 +1,89 @@
 import {
+  Alert,
   Button,
+  type DateValue,
   Field,
   HStack,
   Heading,
   Input,
   VStack,
 } from "@chakra-ui/react";
+import { CalendarDate } from "@internationalized/date";
 import { useCallback, useState } from "react";
-import useI18n from "~/i18n/use-i18n";
+import { useAuth } from "~/auth/use-auth";
 import {
   type EventVisibility,
   useEventVisibilityOptions,
-} from "~/models/enums/event-visibility";
+} from "~/domain/enums/event-visibility";
+import { createEvent } from "~/domain/events";
+import useI18n from "~/i18n/use-i18n";
 import Checkbox from "~/ui/checkbox";
 import DatePicker from "~/ui/date-picker";
 import Form from "~/ui/form";
 import SelectEnum from "~/ui/select-enum";
-import { initial, loading, success } from "~/utils/async-state";
+import { failure, initial, loading, success } from "~/utils/async-state";
 
 //------------------------------------------------------------------------------
 // Admin Events New Page
 //------------------------------------------------------------------------------
 
 export default function AdminEventsNewPage() {
-  const { locale, t } = useI18n();
+  const { t } = useI18n();
+  const { user } = useAuth();
   const [createEventState, setCreateEventState] = useState(initial());
   const eventVisibilityOptions = useEventVisibilityOptions();
 
-  const createEvent = useCallback(
+  const handleCreateEvent = useCallback(
     async (e: React.SubmitEvent<HTMLFormElement>) => {
       e.preventDefault();
 
-      setCreateEventState(loading());
+      try {
+        if (user === null)
+          return setCreateEventState(
+            failure("page.admin_events_new.error.missing_user"),
+          );
 
-      const formData = new FormData(e.currentTarget);
-      const getString = (key: string) => String(formData.get(key) ?? "").trim();
+        setCreateEventState(loading());
 
-      const title = getString("title");
-      const startsAtDate = formData.get("starts-at-date");
-      const startsAtTime = formData.get("starts-at-time");
-      const locationName = getString("location-name");
-      const locationAddress = getString("location-address");
-      const visibility = formData.get("visibility") ?? "private";
-      const registrationsOpen = formData.get("registrations-open") === "on";
+        const formData = new FormData(e.currentTarget);
+        const getString = (key: string) =>
+          String(formData.get(key) ?? "").trim();
 
-      console.log(
-        title,
-        startsAtDate,
-        startsAtTime,
-        locationName,
-        locationAddress,
-        visibility,
-        registrationsOpen,
-      );
+        const title = getString("title");
+        const startsAtDate = formData.get("starts-at-date");
+        const startsAtTime = formData.get("starts-at-time");
+        const startsAt = new Date(`${startsAtDate}T${startsAtTime}`);
+        const locationName = getString("location-name");
+        const locationAddress = getString("location-address");
+        const visibility = formData.get("visibility") as EventVisibility;
+        const registrationsOpen = formData.get("registrations-open") === "on";
 
-      setCreateEventState(success(undefined));
+        const error = await createEvent({
+          createdBy: user.id,
+          locationAddress,
+          locationName,
+          registrationsOpen,
+          startsAt,
+          title,
+          visibility,
+        });
+
+        return error ?
+            setCreateEventState(failure(error))
+          : setCreateEventState(success(undefined));
+      } catch (e) {
+        console.log(e);
+        setCreateEventState(failure("page.admin_events_new.error.generic"));
+      }
     },
-    [],
+    [user],
   );
 
   return (
     <Form
       display="flex"
       justifyContent="center"
-      onSubmit={createEvent}
+      onSubmit={handleCreateEvent}
       w="full"
     >
       <VStack align="flex-start" gap={3} maxW="20em" p={1} w="full">
@@ -84,11 +104,11 @@ export default function AdminEventsNewPage() {
               <Field.RequiredIndicator />
             </Field.Label>
             <DatePicker
-              locale={locale}
+              format={formatDate}
+              locale="en-CA" // This allows using - in the input field
               name="starts-at-date"
-              placeholder={t(
-                "page.admin_events_new.starts_at_date.placeholder",
-              )}
+              parse={parseDate}
+              placeholder="yyyy-mm-dd"
               size="sm"
             />
           </Field.Root>
@@ -136,10 +156,31 @@ export default function AdminEventsNewPage() {
           </Checkbox>
         </Field.Root>
 
-        <Button size="sm" type="submit">
+        {createEventState.hasError && (
+          <Alert.Root status="error">
+            <Alert.Description>{t(createEventState.error)}</Alert.Description>
+          </Alert.Root>
+        )}
+
+        <Button loading={createEventState.isLoading} size="sm" type="submit">
           {t("page.admin_events_new.create")}
         </Button>
       </VStack>
     </Form>
   );
+}
+
+//------------------------------------------------------------------------------
+// Format / Parse Date
+//------------------------------------------------------------------------------
+
+function formatDate(date: DateValue) {
+  return `${date.year}-${String(date.month).padStart(2, "0")}-${String(date.day).padStart(2, "0")}`;
+}
+
+function parseDate(value: string) {
+  const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(value);
+  if (!match) return undefined;
+  const [, year, month, day] = match;
+  return new CalendarDate(Number(year), Number(month), Number(day));
 }

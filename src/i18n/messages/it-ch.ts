@@ -4,12 +4,15 @@ const itCH = {
   "enum.event_visibility.restricted": "Ristretta",
 
   "page.admin_events_new.create": "Crea",
+  "page.admin_events_new.error.generic":
+    "Qualcosa è andato storto, per favore prova di nuovo.",
+  "page.admin_events_new.error.missing_user":
+    "Devi essere registrato per creare un nuovo evento.",
   "page.admin_events_new.heading": "Crea nuovo evento",
   "page.admin_events_new.location_address.label": "Indirizzo",
   "page.admin_events_new.location_name.label": "Luogo",
   "page.admin_events_new.registrations_open": "Registrazioni aperte",
   "page.admin_events_new.starts_at_date.label": "Data",
-  "page.admin_events_new.starts_at_date.placeholder": "DD/MM/YYYY",
   "page.admin_events_new.starts_at_time.label": "Ora",
   "page.admin_events_new.title.label": "Titolo",
   "page.admin_events_new.visibility.label": "Visibilità",

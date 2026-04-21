@@ -7,9 +7,9 @@ import useI18n from "~/i18n/use-i18n";
 //------------------------------------------------------------------------------
 
 export const eventVisibilitySchema = z.enum([
+  "private",
   "public",
   "restricted",
-  "private",
 ]);
 
 export const eventVisibilities = eventVisibilitySchema.options;
