@@ -11,6 +11,7 @@ import {
 import { CalendarDate } from "@internationalized/date";
 import { useCallback, useState } from "react";
 import { useNavigate } from "react-router";
+import { Link as RouterLink } from "react-router";
 import { useAuth } from "~/auth/use-auth";
 import {
   type EventVisibility,
@@ -189,9 +190,17 @@ export default function AdminEventsNewPage() {
           </Alert.Root>
         )}
 
-        <Button loading={createEventState.isLoading} size="sm" type="submit">
-          {t("page.admin_events_new.create")}
-        </Button>
+        <HStack>
+          <Button loading={createEventState.isLoading} size="sm" type="submit">
+            {t("page.admin_events_new.create")}
+          </Button>
+
+          <Button asChild size="sm" variant="outline">
+            <RouterLink to="/admin/events">
+              {t("page.admin_events_new.cancel")}
+            </RouterLink>
+          </Button>
+        </HStack>
       </VStack>
     </Form>
   );

@@ -18,6 +18,7 @@ const enGB = {
   "page.admin_events_new.breadcrumb.admin": "Dashboard",
   "page.admin_events_new.breadcrumb.events": "Events",
   "page.admin_events_new.breadcrumb.new": "New event",
+  "page.admin_events_new.cancel": "Cancel",
   "page.admin_events_new.create": "Create",
   "page.admin_events_new.error.generic":
     "Something went wrong, please try again.",

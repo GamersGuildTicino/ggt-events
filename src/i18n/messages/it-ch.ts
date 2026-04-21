@@ -18,6 +18,7 @@ const itCH = {
   "page.admin_events_new.breadcrumb.admin": "Panoramica",
   "page.admin_events_new.breadcrumb.events": "Eventi",
   "page.admin_events_new.breadcrumb.new": "Nuovo evento",
+  "page.admin_events_new.cancel": "Annulla",
   "page.admin_events_new.create": "Crea",
   "page.admin_events_new.error.generic":
     "Qualcosa è andato storto, per favore prova di nuovo.",
