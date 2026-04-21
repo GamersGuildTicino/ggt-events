@@ -94,9 +94,11 @@ export default function AdminEventsNewPage() {
       display="flex"
       justifyContent="center"
       onSubmit={handleCreateEvent}
+      px={8}
+      py={4}
       w="full"
     >
-      <VStack align="flex-start" gap={3} maxW="20em" p={1} w="full">
+      <VStack align="flex-start" gap={3} maxW="40em" w="full">
         <Heading size="3xl">{t("page.admin_events_new.heading")}</Heading>
 
         <Field.Root disabled={createEventState.isLoading} required>
