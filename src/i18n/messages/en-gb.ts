@@ -3,6 +3,17 @@ const enGB = {
   "enum.event_visibility.public": "Public",
   "enum.event_visibility.restricted": "Restricted",
 
+  "page.admin_events_new.create": "Create",
+  "page.admin_events_new.heading": "Create new event",
+  "page.admin_events_new.location_address.label": "Address",
+  "page.admin_events_new.location_name.label": "Location",
+  "page.admin_events_new.registrations_open": "Registrations open",
+  "page.admin_events_new.starts_at_date.label": "Date",
+  "page.admin_events_new.starts_at_date.placeholder": "DD/MM/YYYY",
+  "page.admin_events_new.starts_at_time.label": "Time",
+  "page.admin_events_new.title.label": "Title",
+  "page.admin_events_new.visibility.label": "Visibility",
+
   "page.admin_forgot_password.back_to_login": "Back to login",
   "page.admin_forgot_password.confirmation":
     "If that account exists, a reset email has been sent.",
