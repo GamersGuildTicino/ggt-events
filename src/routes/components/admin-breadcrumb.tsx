@@ -1,4 +1,5 @@
 import { Breadcrumb } from "@chakra-ui/react";
+import { Fragment } from "react/jsx-runtime";
 import { Link as RouterLink } from "react-router";
 
 //------------------------------------------------------------------------------
@@ -23,8 +24,8 @@ export default function AdminBreadcrumb({ items }: AdminBreadcrumbProps) {
           const hasSeparator = index < items.length - 1;
 
           return (
-            <>
-              <Breadcrumb.Item key={`${item.label}-${index}`}>
+            <Fragment key={`${item.label}-${index}`}>
+              <Breadcrumb.Item>
                 {item.to && !isCurrent ?
                   <Breadcrumb.Link asChild>
                     <RouterLink to={item.to}>{item.label}</RouterLink>
@@ -34,7 +35,7 @@ export default function AdminBreadcrumb({ items }: AdminBreadcrumbProps) {
                 : <Breadcrumb.Link>{item.label}</Breadcrumb.Link>}
               </Breadcrumb.Item>
               {hasSeparator && <Breadcrumb.Separator />}
-            </>
+            </Fragment>
           );
         })}
       </Breadcrumb.List>
