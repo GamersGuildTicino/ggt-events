@@ -29,6 +29,7 @@ import {
   loading,
   success,
 } from "~/utils/async-state";
+import AdminBreadcrumb from "../components/admin-breadcrumb";
 
 //------------------------------------------------------------------------------
 // Admin Events New Page
@@ -99,6 +100,20 @@ export default function AdminEventsNewPage() {
       w="full"
     >
       <VStack align="flex-start" gap={3} maxW="40em" w="full">
+        <AdminBreadcrumb
+          items={[
+            {
+              label: t("page.admin_events_new.breadcrumb.admin"),
+              to: "/admin",
+            },
+            {
+              label: t("page.admin_events_new.breadcrumb.events"),
+              to: "/admin/events",
+            },
+            { label: t("page.admin_events_new.breadcrumb.new") },
+          ]}
+        />
+
         <Heading size="3xl">{t("page.admin_events_new.heading")}</Heading>
 
         <Field.Root disabled={createEventState.isLoading} required>

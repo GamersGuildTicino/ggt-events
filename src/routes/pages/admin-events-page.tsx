@@ -16,6 +16,7 @@ import { Link as RouterLink } from "react-router";
 import { type Event, fetchEvents } from "~/domain/events";
 import useI18n from "~/i18n/use-i18n";
 import { type AsyncState, initial, loading } from "~/utils/async-state";
+import AdminBreadcrumb from "../components/admin-breadcrumb";
 
 //------------------------------------------------------------------------------
 // Admin Events Page
@@ -45,7 +46,14 @@ export default function AdminEventsPage() {
 
   return (
     <Center px={8} py={4} w="full">
-      <VStack align="stretch" gap={6} maxW="40em" mx="auto" w="full">
+      <VStack align="stretch" gap={3} maxW="40em" mx="auto" w="full">
+        <AdminBreadcrumb
+          items={[
+            { label: t("page.admin_events.breadcrumb.admin"), to: "/admin" },
+            { label: t("page.admin_events.breadcrumb.events") },
+          ]}
+        />
+
         <HStack justify="space-between">
           <Heading size="3xl">{t("page.admin_events.heading")}</Heading>
           <Button asChild size="xs">
