@@ -130,7 +130,7 @@ export default function AdminEventsNewPage() {
               {t("page.admin_events_new.starts_at_time.label")}
               <Field.RequiredIndicator />
             </Field.Label>
-            <Input name="starts-at-time" type="time" />
+            <Input name="starts-at-time" size="sm" type="time" />
           </Field.Root>
         </HStack>
 
