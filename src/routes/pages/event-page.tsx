@@ -397,7 +397,9 @@ function EventTableCard({
             {ti("page.event.tables.game_master", eventTable.gameMasterName)}
           </Text>
           {eventTable.description && (
-            <Text fontSize="sm">{eventTable.description}</Text>
+            <Text fontSize="sm" whiteSpace="pre-line">
+              {eventTable.description}
+            </Text>
           )}
         </VStack>
 
@@ -409,12 +411,7 @@ function EventTableCard({
               {t("page.event.tables.seats")}
             </Text>
             <Text fontWeight="semibold">
-              {formatPlayerCount({
-                maxPlayers: eventTable.maxPlayers,
-                minPlayers: eventTable.minPlayers,
-                t,
-                ti,
-              })}
+              {formatPlayerCount({ ...eventTable, t, ti })}
             </Text>
           </VStack>
 

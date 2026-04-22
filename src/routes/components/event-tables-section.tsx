@@ -293,7 +293,7 @@ function EventTableCard({
 
   return (
     <Card.Root>
-      <Card.Body gap={3}>
+      <Card.Body gap={3} whiteSpace="pre-line">
         {editing ?
           <EventTableForm
             actions={
