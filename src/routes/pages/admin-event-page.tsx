@@ -8,6 +8,10 @@ import {
 } from "@chakra-ui/react";
 import { useCallback, useState } from "react";
 import { Link as RouterLink, useParams } from "react-router";
+import {
+  type EventTimeSlot,
+  fetchEventTimeSlots,
+} from "~/domain/event-time-slots";
 import { type Event, fetchEvent, updateEvent } from "~/domain/events";
 import { useAsyncEffect } from "~/hooks/use-async-effect";
 import useI18n from "~/i18n/use-i18n";
@@ -24,6 +28,7 @@ import EventDetailsForm, {
   type EventDetailsFormValue,
 } from "../components/event-details-form";
 import EventTablesSection from "../components/event-tables-section";
+import EventTimeSlotsSection from "../components/event-time-slots-section";
 
 //------------------------------------------------------------------------------
 // Admin Event Page
@@ -33,7 +38,16 @@ export default function AdminEventPage() {
   const { eventId } = useParams();
   const { t } = useI18n();
   const [eventState, setEventState] = useState<AsyncState<Event>>(initial());
+  const [eventTimeSlotsState, setEventTimeSlotsState] =
+    useState<AsyncState<EventTimeSlot[]>>(initial());
   const [saveState, setSaveState] = useState<AsyncState>(initial());
+
+  const loadTimeSlots = useCallback(async () => {
+    if (!eventId) return;
+    setEventTimeSlotsState(loading());
+    const timeSlots = await fetchEventTimeSlots(eventId);
+    setEventTimeSlotsState(timeSlots);
+  }, [eventId]);
 
   useAsyncEffect(
     async (isActive) => {
@@ -45,6 +59,22 @@ export default function AdminEventPage() {
       const event = await fetchEvent(eventId);
       if (!isActive()) return;
       setEventState(event);
+    },
+    [eventId],
+  );
+
+  useAsyncEffect(
+    async (isActive) => {
+      setEventTimeSlotsState(loading());
+
+      if (!eventId)
+        return setEventTimeSlotsState(
+          failure("page.admin_event.error.missing_event"),
+        );
+
+      const timeSlots = await fetchEventTimeSlots(eventId);
+      if (!isActive()) return;
+      setEventTimeSlotsState(timeSlots);
     },
     [eventId],
   );
@@ -132,7 +162,27 @@ export default function AdminEventPage() {
             onSubmit={handleUpdateEvent}
           />
 
-          <EventTablesSection eventId={eventState.data.id} />
+          <EventTimeSlotsSection
+            eventId={eventState.data.id}
+            onChange={loadTimeSlots}
+          />
+
+          {eventTimeSlotsState.isLoading && <Spinner />}
+
+          {eventTimeSlotsState.hasError && (
+            <Alert.Root status="error">
+              <Alert.Description>
+                {t(eventTimeSlotsState.error)}
+              </Alert.Description>
+            </Alert.Root>
+          )}
+
+          {eventTimeSlotsState.isSuccess && (
+            <EventTablesSection
+              eventId={eventState.data.id}
+              timeSlots={eventTimeSlotsState.data}
+            />
+          )}
         </AdminContentColumns>
       )}
     </VStack>

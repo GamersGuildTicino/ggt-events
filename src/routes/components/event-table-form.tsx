@@ -1,6 +1,7 @@
 import { Field, HStack, Input, Textarea } from "@chakra-ui/react";
 import type { ReactNode } from "react";
 import type { EventTable } from "~/domain/event-tables";
+import type { EventTimeSlot } from "~/domain/event-time-slots";
 import type { GameSystem } from "~/domain/game-systems";
 import useI18n from "~/i18n/use-i18n";
 import Form from "~/ui/form";
@@ -17,6 +18,7 @@ export type EventTableFormValue = Pick<
   | "gameSystemId"
   | "maxPlayers"
   | "minPlayers"
+  | "timeSlotId"
   | "title"
 >;
 
@@ -34,6 +36,7 @@ export type EventTableFormProps = {
     value: EventTableFormValue,
     e: React.SubmitEvent<HTMLFormElement>,
   ) => void;
+  timeSlots: EventTimeSlot[];
 };
 
 export default function EventTableForm({
@@ -43,8 +46,9 @@ export default function EventTableForm({
   initialValue,
   message,
   onSubmit,
+  timeSlots,
 }: EventTableFormProps) {
-  const { t } = useI18n();
+  const { locale, t } = useI18n();
 
   const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -78,6 +82,22 @@ export default function EventTableForm({
         <Textarea
           defaultValue={initialValue?.description}
           name="description"
+          size="sm"
+        />
+      </Field.Root>
+
+      <Field.Root disabled={disabled} required>
+        <Field.Label>
+          {t("form.event_table.time_slot.label")}
+          <Field.RequiredIndicator />
+        </Field.Label>
+        <SelectEnum<string>
+          defaultValue={initialValue?.timeSlotId ?? timeSlots[0]?.id}
+          name="time-slot-id"
+          options={timeSlots.map((timeSlot) => ({
+            label: formatSlot(timeSlot, locale),
+            value: timeSlot.id,
+          }))}
           size="sm"
         />
       </Field.Root>
@@ -163,6 +183,36 @@ function eventTableFormValueFromForm(form: HTMLFormElement) {
     gameSystemId: getString("game-system-id"),
     maxPlayers: getNumber("max-players"),
     minPlayers: getNumber("min-players"),
+    timeSlotId: getString("time-slot-id"),
     title: getString("title"),
   };
+}
+
+//------------------------------------------------------------------------------
+// Format Slot
+//------------------------------------------------------------------------------
+
+function formatSlot(timeSlot: EventTimeSlot, locale: string) {
+  return `${formatDateTime(timeSlot.startsAt, locale)}-${formatTime(timeSlot.endsAt, locale)}`;
+}
+
+//------------------------------------------------------------------------------
+// Format Date Time
+//------------------------------------------------------------------------------
+
+function formatDateTime(date: Date, locale: string) {
+  return new Intl.DateTimeFormat(locale, {
+    dateStyle: "medium",
+    timeStyle: "short",
+  }).format(date);
+}
+
+//------------------------------------------------------------------------------
+// Format Time
+//------------------------------------------------------------------------------
+
+function formatTime(date: Date, locale: string) {
+  return new Intl.DateTimeFormat(locale, {
+    timeStyle: "short",
+  }).format(date);
 }

@@ -16,6 +16,10 @@ import { ChevronLeft } from "lucide-react";
 import { useMemo, useState } from "react";
 import { Link as RouterLink, useParams } from "react-router";
 import { type EventTable, fetchEventTables } from "~/domain/event-tables";
+import {
+  type EventTimeSlot,
+  fetchEventTimeSlots,
+} from "~/domain/event-time-slots";
 import { type Event, fetchPublicEvent } from "~/domain/events";
 import { type GameSystem, fetchGameSystems } from "~/domain/game-systems";
 import { formatPlayerCount } from "~/domain/players";
@@ -40,6 +44,8 @@ export default function EventPage() {
   const [eventState, setEventState] = useState<AsyncState<Event>>(initial());
   const [eventTablesState, setEventTablesState] =
     useState<AsyncState<EventTable[]>>(initial());
+  const [eventTimeSlotsState, setEventTimeSlotsState] =
+    useState<AsyncState<EventTimeSlot[]>>(initial());
   const [gameSystemsState, setGameSystemsState] =
     useState<AsyncState<GameSystem[]>>(initial());
 
@@ -59,6 +65,18 @@ export default function EventPage() {
       const event = await fetchPublicEvent(eventId);
       if (!isActive()) return;
       setEventState(event);
+    },
+    [eventId],
+  );
+
+  useAsyncEffect(
+    async (isActive) => {
+      if (!eventId) return;
+
+      setEventTimeSlotsState(loading());
+      const eventTimeSlots = await fetchEventTimeSlots(eventId);
+      if (!isActive()) return;
+      setEventTimeSlotsState(eventTimeSlots);
     },
     [eventId],
   );
@@ -104,11 +122,17 @@ export default function EventPage() {
 
       {eventState.isSuccess && (
         <>
-          <EventHero event={eventState.data} />
+          <EventHero
+            event={eventState.data}
+            timeSlots={
+              eventTimeSlotsState.isSuccess ? eventTimeSlotsState.data : []
+            }
+          />
 
           <TablesSection
             event={eventState.data}
             eventTablesState={eventTablesState}
+            eventTimeSlotsState={eventTimeSlotsState}
             gameSystemById={gameSystemById}
             gameSystemsState={gameSystemsState}
           />
@@ -122,7 +146,13 @@ export default function EventPage() {
 // Event Hero
 //------------------------------------------------------------------------------
 
-function EventHero({ event }: { event: Event }) {
+function EventHero({
+  event,
+  timeSlots,
+}: {
+  event: Event;
+  timeSlots: EventTimeSlot[];
+}) {
   const { locale, t } = useI18n();
 
   return (
@@ -200,11 +230,11 @@ function EventHero({ event }: { event: Event }) {
           <Card.Body gap={4}>
             <DetailRow
               label={t("page.event.details.date")}
-              value={formatDate(event.startsAt, locale)}
+              value={formatDateRange(timeSlots, locale)}
             />
             <DetailRow
               label={t("page.event.details.time")}
-              value={formatTime(event.startsAt, locale)}
+              value={formatTimeRange(timeSlots, locale)}
             />
             <DetailRow
               label={t("page.event.details.location")}
@@ -247,21 +277,35 @@ function DetailRow({ label, value }: { label: string; value: string }) {
 function TablesSection({
   event,
   eventTablesState,
+  eventTimeSlotsState,
   gameSystemById,
   gameSystemsState,
 }: {
   event: Event;
   eventTablesState: AsyncState<EventTable[]>;
+  eventTimeSlotsState: AsyncState<EventTimeSlot[]>;
   gameSystemById: Map<string, GameSystem>;
   gameSystemsState: AsyncState<GameSystem[]>;
 }) {
-  const { t } = useI18n();
+  const { locale, t } = useI18n();
+  const tablesBySlotId = useMemo(() => {
+    if (!eventTablesState.isSuccess) return new Map<string, EventTable[]>();
+
+    const result = new Map<string, EventTable[]>();
+    for (const eventTable of eventTablesState.data) {
+      const tables = result.get(eventTable.timeSlotId) ?? [];
+      tables.push(eventTable);
+      result.set(eventTable.timeSlotId, tables);
+    }
+    return result;
+  }, [eventTablesState]);
 
   return (
     <VStack align="stretch" gap={4}>
       <Heading size="2xl">{t("page.event.tables.heading")}</Heading>
 
       {eventTablesState.isLoading && <Spinner />}
+      {eventTimeSlotsState.isLoading && <Spinner />}
 
       {eventTablesState.hasError && (
         <Alert.Root status="error">
@@ -275,6 +319,12 @@ function TablesSection({
         </Alert.Root>
       )}
 
+      {eventTimeSlotsState.hasError && (
+        <Alert.Root status="error">
+          <Alert.Description>{t(eventTimeSlotsState.error)}</Alert.Description>
+        </Alert.Root>
+      )}
+
       {eventTablesState.isSuccess && eventTablesState.data.length === 0 && (
         <Card.Root borderStyle="dashed">
           <Card.Body>
@@ -283,20 +333,36 @@ function TablesSection({
         </Card.Root>
       )}
 
-      {eventTablesState.isSuccess && eventTablesState.data.length > 0 && (
-        <AdminContentColumns minColumnWidth="22rem">
-          {eventTablesState.data.map((eventTable) => (
-            <EventTableCard
-              eventTable={eventTable}
-              gameSystemName={
-                gameSystemById.get(eventTable.gameSystemId)?.name ?? ""
-              }
-              key={eventTable.id}
-              registrationsOpen={event.registrationsOpen}
-            />
-          ))}
-        </AdminContentColumns>
-      )}
+      {eventTablesState.isSuccess &&
+        eventTablesState.data.length > 0 &&
+        eventTimeSlotsState.isSuccess && (
+          <VStack align="stretch" gap={6}>
+            {eventTimeSlotsState.data.map((timeSlot) => {
+              const tables = tablesBySlotId.get(timeSlot.id) ?? [];
+              if (tables.length === 0) return null;
+
+              return (
+                <VStack align="stretch" gap={3} key={timeSlot.id}>
+                  <Heading size="md">{formatSlot(timeSlot, locale)}</Heading>
+
+                  <AdminContentColumns minColumnWidth="22rem">
+                    {tables.map((eventTable) => (
+                      <EventTableCard
+                        eventTable={eventTable}
+                        gameSystemName={
+                          gameSystemById.get(eventTable.gameSystemId)?.name ??
+                          ""
+                        }
+                        key={eventTable.id}
+                        registrationsOpen={event.registrationsOpen}
+                      />
+                    ))}
+                  </AdminContentColumns>
+                </VStack>
+              );
+            })}
+          </VStack>
+        )}
     </VStack>
   );
 }
@@ -364,15 +430,32 @@ function EventTableCard({
 }
 
 //------------------------------------------------------------------------------
-// Format Date
+// Format Date Range
 //------------------------------------------------------------------------------
 
-function formatDate(date: Date, locale: string) {
-  const value = new Intl.DateTimeFormat(locale, {
-    dateStyle: "full",
-  }).format(date);
+function formatDateRange(timeSlots: EventTimeSlot[], locale: string) {
+  const firstTimeSlot = timeSlots[0];
+  const lastTimeSlot = timeSlots.at(-1);
+  if (!firstTimeSlot || !lastTimeSlot) return "";
 
-  return capitalize(value);
+  const format = new Intl.DateTimeFormat(locale, { dateStyle: "full" });
+  const startDate = capitalize(format.format(firstTimeSlot.startsAt));
+  const endDate = capitalize(format.format(lastTimeSlot.endsAt));
+
+  if (startDate === endDate) return startDate;
+  return `${startDate} - ${endDate}`;
+}
+
+//------------------------------------------------------------------------------
+// Format Time Range
+//------------------------------------------------------------------------------
+
+function formatTimeRange(timeSlots: EventTimeSlot[], locale: string) {
+  const firstTimeSlot = timeSlots[0];
+  const lastTimeSlot = timeSlots.at(-1);
+  if (!firstTimeSlot || !lastTimeSlot) return "";
+
+  return `${formatTime(firstTimeSlot.startsAt, locale)} - ${formatTime(lastTimeSlot.endsAt, locale)}`;
 }
 
 //------------------------------------------------------------------------------
@@ -383,6 +466,20 @@ function formatTime(date: Date, locale: string) {
   return new Intl.DateTimeFormat(locale, {
     timeStyle: "short",
   }).format(date);
+}
+
+//------------------------------------------------------------------------------
+// Format Slot
+//------------------------------------------------------------------------------
+
+function formatSlot(timeSlot: EventTimeSlot, locale: string) {
+  const date = capitalize(
+    new Intl.DateTimeFormat(locale, { dateStyle: "full" }).format(
+      timeSlot.startsAt,
+    ),
+  );
+
+  return `${date}, ${formatTime(timeSlot.startsAt, locale)}-${formatTime(timeSlot.endsAt, locale)}`;
 }
 
 //------------------------------------------------------------------------------

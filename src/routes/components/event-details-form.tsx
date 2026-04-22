@@ -1,12 +1,4 @@
-import {
-  Card,
-  type DateValue,
-  Field,
-  HStack,
-  Heading,
-  Input,
-} from "@chakra-ui/react";
-import { CalendarDate } from "@internationalized/date";
+import { Card, Field, Heading, Input } from "@chakra-ui/react";
 import type { ReactNode } from "react";
 import {
   type EventVisibility,
@@ -15,7 +7,6 @@ import {
 import type { Event } from "~/domain/events";
 import useI18n from "~/i18n/use-i18n";
 import Checkbox from "~/ui/checkbox";
-import DatePicker from "~/ui/date-picker";
 import Form from "~/ui/form";
 import SelectEnum from "~/ui/select-enum";
 
@@ -28,7 +19,6 @@ export type EventDetailsFormValue = Pick<
   | "locationAddress"
   | "locationName"
   | "registrationsOpen"
-  | "startsAt"
   | "title"
   | "visibility"
 >;
@@ -88,39 +78,6 @@ export default function EventDetailsForm({
               size="sm"
             />
           </Field.Root>
-
-          <HStack w="full">
-            <Field.Root disabled={disabled} required>
-              <Field.Label>
-                {t("form.event_details.starts_at_date.label")}
-                <Field.RequiredIndicator />
-              </Field.Label>
-              <DatePicker
-                defaultValue={initialValue?.startsAt}
-                format={formatDate}
-                locale="en-CA" // This allows using - in the input field
-                name="starts-at-date"
-                parse={parseDate}
-                placeholder="yyyy-mm-dd"
-                size="sm"
-              />
-            </Field.Root>
-
-            <Field.Root disabled={disabled} required>
-              <Field.Label>
-                {t("form.event_details.starts_at_time.label")}
-                <Field.RequiredIndicator />
-              </Field.Label>
-              <Input
-                defaultValue={
-                  initialValue ? formatTime(initialValue.startsAt) : undefined
-                }
-                name="starts-at-time"
-                size="sm"
-                type="time"
-              />
-            </Field.Root>
-          </HStack>
 
           <Field.Root disabled={disabled} required>
             <Field.Label>
@@ -188,44 +145,11 @@ function eventDetailsFormValueFromForm(
   const formData = new FormData(form);
   const getString = (key: string) => String(formData.get(key) ?? "").trim();
 
-  const startsAtDate = formData.get("starts-at-date");
-  const startsAtTime = formData.get("starts-at-time");
-
   return {
     locationAddress: getString("location-address"),
     locationName: getString("location-name"),
     registrationsOpen: formData.get("registrations-open") === "on",
-    startsAt: new Date(`${startsAtDate}T${startsAtTime}`),
     title: getString("title"),
     visibility: formData.get("visibility") as EventVisibility,
   };
-}
-
-//------------------------------------------------------------------------------
-// Format Date
-//------------------------------------------------------------------------------
-
-function formatDate(date: DateValue) {
-  return `${date.year}-${String(date.month).padStart(2, "0")}-${String(date.day).padStart(2, "0")}`;
-}
-
-//------------------------------------------------------------------------------
-// Parse Date
-//------------------------------------------------------------------------------
-
-function parseDate(value: string) {
-  const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(value);
-  if (!match) return undefined;
-  const [, year, month, day] = match;
-  return new CalendarDate(Number(year), Number(month), Number(day));
-}
-
-//------------------------------------------------------------------------------
-// Format Time
-//------------------------------------------------------------------------------
-
-function formatTime(date: Date) {
-  return `${String(date.getHours()).padStart(2, "0")}:${String(
-    date.getMinutes(),
-  ).padStart(2, "0")}`;
 }

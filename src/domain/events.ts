@@ -19,8 +19,8 @@ export const eventSchema = z.object({
   locationAddress: z.string(),
   locationName: z.string(),
   registrationsOpen: z.boolean(),
-  startsAt: z.date(),
   title: z.string(),
+  updatedAt: z.date(),
   visibility: eventVisibilitySchema,
 });
 
@@ -37,8 +37,8 @@ export const eventRowSchema = z.object({
   location_address: z.string(),
   location_name: z.string(),
   registrations_open: z.boolean(),
-  starts_at: z.string(),
   title: z.string(),
+  updated_at: z.string(),
   visibility: eventVisibilitySchema,
 });
 
@@ -56,8 +56,8 @@ export const eventFromRowSchema = eventRowSchema.transform(
     locationAddress: row.location_address,
     locationName: row.location_name,
     registrationsOpen: row.registrations_open,
-    startsAt: new Date(row.starts_at),
     title: row.title,
+    updatedAt: new Date(row.updated_at),
     visibility: row.visibility,
   }),
 );
@@ -74,8 +74,8 @@ export const eventToRowSchema = eventSchema.transform(
     location_address: event.locationAddress,
     location_name: event.locationName,
     registrations_open: event.registrationsOpen,
-    starts_at: event.startsAt.toISOString(),
     title: event.title,
+    updated_at: event.updatedAt.toISOString(),
     visibility: event.visibility,
   }),
 );
@@ -84,13 +84,14 @@ export const eventToRowSchema = eventSchema.transform(
 // Create Event
 //------------------------------------------------------------------------------
 
-export async function createEvent(event: Omit<Event, "createdAt" | "id">) {
+export async function createEvent(
+  event: Omit<Event, "createdAt" | "id" | "updatedAt">,
+) {
   const { error } = await supabase.from("events").insert({
     created_by: event.createdBy,
     location_address: event.locationAddress,
     location_name: event.locationName,
     registrations_open: event.registrationsOpen,
-    starts_at: event.startsAt.toISOString(),
     title: event.title,
     visibility: event.visibility,
   });
@@ -160,7 +161,7 @@ export async function fetchEvents(): Promise<
   const { data, error } = await supabase
     .from("events")
     .select("*")
-    .order("starts_at", { ascending: false });
+    .order("created_at", { ascending: false });
 
   if (error) return failure("error.events.fetch_many");
 
@@ -181,8 +182,7 @@ export async function fetchPublicEvents(): Promise<
     .from("events")
     .select("*")
     .eq("visibility", "public")
-    .gte("starts_at", new Date().toISOString())
-    .order("starts_at", { ascending: true });
+    .order("created_at", { ascending: false });
 
   if (error) return failure("error.events.fetch_many");
 
@@ -197,7 +197,8 @@ export async function fetchPublicEvents(): Promise<
 //------------------------------------------------------------------------------
 
 export async function updateEvent(
-  event: Pick<Event, "id"> & Omit<Event, "createdAt" | "createdBy" | "id">,
+  event: Pick<Event, "id"> &
+    Omit<Event, "createdAt" | "createdBy" | "id" | "updatedAt">,
 ) {
   const { error } = await supabase
     .from("events")
@@ -205,7 +206,6 @@ export async function updateEvent(
       location_address: event.locationAddress,
       location_name: event.locationName,
       registrations_open: event.registrationsOpen,
-      starts_at: event.startsAt.toISOString(),
       title: event.title,
       visibility: event.visibility,
     })

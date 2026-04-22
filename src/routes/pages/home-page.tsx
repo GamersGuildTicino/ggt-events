@@ -13,8 +13,12 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { Link as RouterLink } from "react-router";
+import {
+  type EventTimeSlot,
+  fetchEventTimeSlots,
+} from "~/domain/event-time-slots";
 import { type Event, fetchPublicEvents } from "~/domain/events";
 import { useAsyncEffect } from "~/hooks/use-async-effect";
 import useI18n from "~/i18n/use-i18n";
@@ -27,19 +31,35 @@ import { type AsyncState, initial, loading } from "~/utils/async-state";
 export default function HomePage() {
   const [eventsState, setEventsState] =
     useState<AsyncState<Event[]>>(initial());
+  const [timeSlotsByEventId, setTimeSlotsByEventId] = useState<
+    Record<Event["id"], EventTimeSlot[]>
+  >({});
 
   useAsyncEffect(async (isActive) => {
     setEventsState(loading());
     const events = await fetchPublicEvents();
     if (!isActive()) return;
     setEventsState(events);
+    if (events.isSuccess) {
+      const entries = await Promise.all(
+        events.data.map(async (event) => {
+          const timeSlots = await fetchEventTimeSlots(event.id);
+          return [event.id, timeSlots.isSuccess ? timeSlots.data : []] as const;
+        }),
+      );
+      if (!isActive()) return;
+      setTimeSlotsByEventId(Object.fromEntries(entries));
+    }
   }, []);
 
   return (
     <VStack align="stretch" gap={10} w="full">
       <Hero />
       <Intro />
-      <UpcomingEvents eventsState={eventsState} />
+      <UpcomingEvents
+        eventsState={eventsState}
+        timeSlotsByEventId={timeSlotsByEventId}
+      />
     </VStack>
   );
 }
@@ -216,8 +236,31 @@ function InfoCard({
 // Upcoming Events
 //------------------------------------------------------------------------------
 
-function UpcomingEvents({ eventsState }: { eventsState: AsyncState<Event[]> }) {
+function UpcomingEvents({
+  eventsState,
+  timeSlotsByEventId,
+}: {
+  eventsState: AsyncState<Event[]>;
+  timeSlotsByEventId: Record<Event["id"], EventTimeSlot[]>;
+}) {
   const { t } = useI18n();
+  const upcomingEvents = useMemo(() => {
+    if (!eventsState.isSuccess) return [];
+
+    return eventsState.data
+      .map((event) => ({
+        event,
+        timeSlots: timeSlotsByEventId[event.id] ?? [],
+      }))
+      .filter(({ timeSlots }) =>
+        timeSlots.some((slot) => slot.endsAt >= new Date()),
+      )
+      .sort((a, b) => {
+        const aStart = a.timeSlots[0]?.startsAt.getTime() ?? 0;
+        const bStart = b.timeSlots[0]?.startsAt.getTime() ?? 0;
+        return aStart - bStart;
+      });
+  }, [eventsState, timeSlotsByEventId]);
 
   return (
     <VStack align="stretch" gap={4} id="upcoming-events">
@@ -236,7 +279,7 @@ function UpcomingEvents({ eventsState }: { eventsState: AsyncState<Event[]> }) {
         </Alert.Root>
       )}
 
-      {eventsState.isSuccess && eventsState.data.length === 0 && (
+      {eventsState.isSuccess && upcomingEvents.length === 0 && (
         <Card.Root borderStyle="dashed">
           <Card.Body>
             <Text color="fg.muted">{t("page.home.events.empty")}</Text>
@@ -244,10 +287,10 @@ function UpcomingEvents({ eventsState }: { eventsState: AsyncState<Event[]> }) {
         </Card.Root>
       )}
 
-      {eventsState.isSuccess && eventsState.data.length > 0 && (
+      {eventsState.isSuccess && upcomingEvents.length > 0 && (
         <SimpleGrid columns={{ base: 1, lg: 2 }} gap={4}>
-          {eventsState.data.map((event) => (
-            <EventCard event={event} key={event.id} />
+          {upcomingEvents.map(({ event, timeSlots }) => (
+            <EventCard event={event} key={event.id} timeSlots={timeSlots} />
           ))}
         </SimpleGrid>
       )}
@@ -259,8 +302,16 @@ function UpcomingEvents({ eventsState }: { eventsState: AsyncState<Event[]> }) {
 // Event Card
 //------------------------------------------------------------------------------
 
-function EventCard({ event }: { event: Event }) {
+function EventCard({
+  event,
+  timeSlots,
+}: {
+  event: Event;
+  timeSlots: EventTimeSlot[];
+}) {
   const { locale, t } = useI18n();
+  const firstTimeSlot = timeSlots[0];
+  if (!firstTimeSlot) return null;
 
   return (
     <Card.Root
@@ -269,7 +320,7 @@ function EventCard({ event }: { event: Event }) {
     >
       <Card.Body gap={4}>
         <HStack align="flex-start" gap={4}>
-          <DateBadge date={event.startsAt} locale={locale} />
+          <DateBadge date={firstTimeSlot.startsAt} locale={locale} />
 
           <VStack align="flex-start" flex={1} gap={1}>
             <HStack align="flex-start" justify="space-between" w="full">
@@ -287,7 +338,7 @@ function EventCard({ event }: { event: Event }) {
 
             <VStack align="flex-start" gap={0}>
               <Text color="fg.muted" fontSize="sm">
-                {formatTime(event.startsAt, locale)}
+                {formatTimeSlotRange(timeSlots, locale)}
               </Text>
               <Text fontSize="sm">
                 {[event.locationName, event.locationAddress]
@@ -344,17 +395,35 @@ function DateBadge({ date, locale }: { date: Date; locale: string }) {
 }
 
 //------------------------------------------------------------------------------
-// Format Time
+// Format Time Slot Range
 //------------------------------------------------------------------------------
 
-function formatTime(date: Date, locale: string) {
-  const value = new Intl.DateTimeFormat(locale, {
+function formatTimeSlotRange(timeSlots: EventTimeSlot[], locale: string) {
+  const firstTimeSlot = timeSlots[0];
+  const lastTimeSlot = timeSlots.at(-1);
+  if (!firstTimeSlot || !lastTimeSlot) return "";
+
+  const date = new Intl.DateTimeFormat(locale, {
     hour: "2-digit",
     minute: "2-digit",
     weekday: "long",
-  }).format(date);
+  }).format(firstTimeSlot.startsAt);
 
-  return capitalize(value);
+  if (
+    firstTimeSlot.startsAt.toDateString() !== lastTimeSlot.endsAt.toDateString()
+  ) {
+    const endDate = new Intl.DateTimeFormat(locale, {
+      dateStyle: "medium",
+    }).format(lastTimeSlot.endsAt);
+    return `${capitalize(date)} - ${endDate}`;
+  }
+
+  const endTime = new Intl.DateTimeFormat(locale, {
+    hour: "2-digit",
+    minute: "2-digit",
+  }).format(lastTimeSlot.endsAt);
+
+  return `${capitalize(date)} - ${endTime}`;
 }
 
 //------------------------------------------------------------------------------

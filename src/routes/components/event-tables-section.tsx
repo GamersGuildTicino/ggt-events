@@ -17,6 +17,7 @@ import {
   fetchEventTables,
   updateEventTable,
 } from "~/domain/event-tables";
+import type { EventTimeSlot } from "~/domain/event-time-slots";
 import type { Event } from "~/domain/events";
 import { type GameSystem, fetchGameSystems } from "~/domain/game-systems";
 import { formatPlayerCount } from "~/domain/players";
@@ -37,10 +38,12 @@ import EventTableForm, { type EventTableFormValue } from "./event-table-form";
 
 export type EventTablesSectionProps = {
   eventId: Event["id"];
+  timeSlots: EventTimeSlot[];
 };
 
 export default function EventTablesSection({
   eventId,
+  timeSlots,
 }: EventTablesSectionProps) {
   const { t, ti } = useI18n();
   const { user } = useAuth();
@@ -98,7 +101,6 @@ export default function EventTablesSection({
       setCreateState(loading());
       const error = await createEventTable({
         createdBy: user.id,
-        eventId,
         ...value,
       });
 
@@ -173,31 +175,40 @@ export default function EventTablesSection({
                 </Text>
               )}
 
-            {gameSystemsState.isSuccess && gameSystemsState.data.length > 0 && (
-              <EventTableForm
-                actions={
-                  <Button
-                    loading={createState.isLoading}
-                    size="sm"
-                    type="submit"
-                  >
-                    {t("page.admin_event.tables.create")}
-                  </Button>
-                }
-                disabled={createState.isLoading}
-                gameSystems={gameSystemsState.data}
-                message={
-                  createState.hasError ?
-                    <Alert.Root status="error">
-                      <Alert.Description>
-                        {t(createState.error)}
-                      </Alert.Description>
-                    </Alert.Root>
-                  : undefined
-                }
-                onSubmit={handleCreateEventTable}
-              />
+            {timeSlots.length === 0 && (
+              <Text color="fg.muted">
+                {t("page.admin_event.tables.no_time_slots")}
+              </Text>
             )}
+
+            {gameSystemsState.isSuccess &&
+              gameSystemsState.data.length > 0 &&
+              timeSlots.length > 0 && (
+                <EventTableForm
+                  actions={
+                    <Button
+                      loading={createState.isLoading}
+                      size="sm"
+                      type="submit"
+                    >
+                      {t("page.admin_event.tables.create")}
+                    </Button>
+                  }
+                  disabled={createState.isLoading}
+                  gameSystems={gameSystemsState.data}
+                  message={
+                    createState.hasError ?
+                      <Alert.Root status="error">
+                        <Alert.Description>
+                          {t(createState.error)}
+                        </Alert.Description>
+                      </Alert.Root>
+                    : undefined
+                  }
+                  onSubmit={handleCreateEventTable}
+                  timeSlots={timeSlots}
+                />
+              )}
           </VStack>
         </Card.Body>
       </Card.Root>
@@ -238,6 +249,7 @@ export default function EventTablesSection({
                   setEditingEventTableId(eventTable.id);
                 }}
                 onUpdate={handleUpdateEventTable}
+                timeSlots={timeSlots}
                 updateState={updateState}
               />
             ))}
@@ -262,6 +274,7 @@ function EventTableCard({
   onDelete,
   onEdit,
   onUpdate,
+  timeSlots,
   updateState,
 }: {
   deleting: boolean;
@@ -273,6 +286,7 @@ function EventTableCard({
   onDelete: (eventTable: EventTable) => void;
   onEdit: () => void;
   onUpdate: (eventTable: EventTable, value: EventTableFormValue) => void;
+  timeSlots: EventTimeSlot[];
   updateState: AsyncState;
 }) {
   const { t, ti } = useI18n();
@@ -303,6 +317,7 @@ function EventTableCard({
               : undefined
             }
             onSubmit={(value) => onUpdate(eventTable, value)}
+            timeSlots={timeSlots}
           />
         : <VStack align="stretch" gap={2}>
             <HStack align="flex-start" justify="space-between" w="full">

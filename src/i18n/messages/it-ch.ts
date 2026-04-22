@@ -24,6 +24,13 @@ const itCH = {
   "error.event_tables.parse_many": "I dati dei tavoli non sono validi.",
   "error.event_tables.update": "Impossibile aggiornare il tavolo.",
 
+  "error.event_time_slots.create": "Impossibile creare la fascia oraria.",
+  "error.event_time_slots.delete": "Impossibile eliminare la fascia oraria.",
+  "error.event_time_slots.fetch_many": "Impossibile caricare le fasce orarie.",
+  "error.event_time_slots.parse_many":
+    "I dati delle fasce orarie non sono validi.",
+  "error.event_time_slots.update": "Impossibile aggiornare la fascia oraria.",
+
   "error.game_systems.create": "Impossibile creare il sistema di gioco.",
   "error.game_systems.delete":
     "Impossibile eliminare il sistema di gioco, forse alcuni tavoli lo stanno usando.",
@@ -49,7 +56,12 @@ const itCH = {
   "form.event_table.game_system.label": "Sistema di gioco",
   "form.event_table.max_players.label": "Giocatori max",
   "form.event_table.min_players.label": "Giocatori min",
+  "form.event_table.time_slot.label": "Fascia oraria",
   "form.event_table.title.label": "Titolo",
+
+  "form.event_time_slot.date.label": "Data",
+  "form.event_time_slot.ends_at_time.label": "Ora di fine",
+  "form.event_time_slot.starts_at_time.label": "Ora di inizio",
 
   "form.game_system.description.label": "Descrizione",
   "form.game_system.heading": "Dettagli",
@@ -96,7 +108,23 @@ const itCH = {
   "page.admin_event.tables.new": "Nuovo tavolo",
   "page.admin_event.tables.no_game_systems":
     "Crea un sistema di gioco prima di aggiungere tavoli.",
+  "page.admin_event.tables.no_time_slots":
+    "Crea una fascia oraria prima di aggiungere tavoli.",
   "page.admin_event.tables.save": "Salva modifiche",
+  "page.admin_event.time_slots.cancel": "Annulla",
+  "page.admin_event.time_slots.create": "Aggiungi fascia oraria",
+  "page.admin_event.time_slots.delete": "Elimina",
+  "page.admin_event.time_slots.delete.confirm":
+    'Eliminare "{0}"? Anche i tavoli assegnati a questa fascia oraria saranno eliminati.',
+  "page.admin_event.time_slots.edit": "Modifica",
+  "page.admin_event.time_slots.empty": "Nessuna fascia oraria.",
+  "page.admin_event.time_slots.error.generic":
+    "Qualcosa è andato storto, per favore prova di nuovo.",
+  "page.admin_event.time_slots.error.missing_user":
+    "Devi essere registrato per creare una fascia oraria.",
+  "page.admin_event.time_slots.existing": "Fasce orarie esistenti",
+  "page.admin_event.time_slots.new": "Nuova fascia oraria",
+  "page.admin_event.time_slots.save": "Salva modifiche",
 
   "page.admin_events.breadcrumb.admin": "Panoramica",
   "page.admin_events.breadcrumb.events": "Eventi",

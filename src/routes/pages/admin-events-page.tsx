@@ -12,6 +12,10 @@ import {
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { Link as RouterLink } from "react-router";
+import {
+  type EventTimeSlot,
+  fetchEventTimeSlots,
+} from "~/domain/event-time-slots";
 import { type Event, deleteEvent, fetchEvents } from "~/domain/events";
 import { useAsyncEffect } from "~/hooks/use-async-effect";
 import useI18n from "~/i18n/use-i18n";
@@ -31,11 +35,23 @@ export default function AdminEventsPage() {
   );
   const [eventsState, setEventsState] =
     useState<AsyncState<Event[]>>(initial());
+  const [timeSlotsByEventId, setTimeSlotsByEventId] = useState<
+    Record<Event["id"], EventTimeSlot[]>
+  >({});
 
   const loadEvents = async () => {
     setEventsState(loading());
     const events = await fetchEvents();
     setEventsState(events);
+    if (events.isSuccess) {
+      const entries = await Promise.all(
+        events.data.map(async (event) => {
+          const timeSlots = await fetchEventTimeSlots(event.id);
+          return [event.id, timeSlots.isSuccess ? timeSlots.data : []] as const;
+        }),
+      );
+      setTimeSlotsByEventId(Object.fromEntries(entries));
+    }
   };
 
   useAsyncEffect(async (isActive) => {
@@ -43,6 +59,16 @@ export default function AdminEventsPage() {
     const events = await fetchEvents();
     if (!isActive()) return;
     setEventsState(events);
+    if (events.isSuccess) {
+      const entries = await Promise.all(
+        events.data.map(async (event) => {
+          const timeSlots = await fetchEventTimeSlots(event.id);
+          return [event.id, timeSlots.isSuccess ? timeSlots.data : []] as const;
+        }),
+      );
+      if (!isActive()) return;
+      setTimeSlotsByEventId(Object.fromEntries(entries));
+    }
   }, []);
 
   const handleDeleteEvent = async (event: Event) => {
@@ -106,6 +132,7 @@ export default function AdminEventsPage() {
               key={event.id}
               locale={locale}
               onDelete={handleDeleteEvent}
+              timeSlots={timeSlotsByEventId[event.id] ?? []}
             />
           ))}
         </AdminContentColumns>
@@ -123,11 +150,13 @@ function EventCard({
   event,
   locale,
   onDelete,
+  timeSlots,
 }: {
   deleting: boolean;
   event: Event;
   locale: string;
   onDelete: (event: Event) => void;
+  timeSlots: EventTimeSlot[];
 }) {
   const { t } = useI18n();
 
@@ -142,7 +171,7 @@ function EventCard({
               </RouterLink>
             </Link>
             <Text color="fg.muted" fontSize="sm">
-              {formatDateTime(event.startsAt, locale)}
+              {formatEventTimeRange(timeSlots, locale)}
             </Text>
             <Text fontSize="sm">
               {[event.locationName, event.locationAddress]
@@ -185,9 +214,17 @@ function EventCard({
 // Format Date Time
 //------------------------------------------------------------------------------
 
-function formatDateTime(date: Date, locale: string) {
-  return new Intl.DateTimeFormat(locale, {
-    dateStyle: "medium",
-    timeStyle: "short",
-  }).format(date);
+function formatEventTimeRange(timeSlots: EventTimeSlot[], locale: string) {
+  if (timeSlots.length === 0) return "";
+
+  const startsAt = timeSlots[0]?.startsAt;
+  const endsAt = timeSlots.at(-1)?.endsAt;
+  if (!startsAt || !endsAt) return "";
+
+  const date = new Intl.DateTimeFormat(locale, { dateStyle: "medium" });
+  if (startsAt.toDateString() === endsAt.toDateString()) {
+    return date.format(startsAt);
+  }
+
+  return `${date.format(startsAt)} - ${date.format(endsAt)}`;
 }

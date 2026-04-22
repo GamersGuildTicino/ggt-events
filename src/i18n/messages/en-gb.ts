@@ -24,6 +24,12 @@ const enGB = {
   "error.event_tables.parse_many": "Tables data is invalid.",
   "error.event_tables.update": "Unable to update table.",
 
+  "error.event_time_slots.create": "Unable to create time slot.",
+  "error.event_time_slots.delete": "Unable to delete time slot.",
+  "error.event_time_slots.fetch_many": "Unable to load time slots.",
+  "error.event_time_slots.parse_many": "Time slots data is invalid.",
+  "error.event_time_slots.update": "Unable to update time slot.",
+
   "error.game_systems.create": "Unable to create game system.",
   "error.game_systems.delete":
     "Unable to delete game system, maybe some tables are using it.",
@@ -47,7 +53,12 @@ const enGB = {
   "form.event_table.game_system.label": "Game system",
   "form.event_table.max_players.label": "Max players",
   "form.event_table.min_players.label": "Min players",
+  "form.event_table.time_slot.label": "Time slot",
   "form.event_table.title.label": "Title",
+
+  "form.event_time_slot.date.label": "Date",
+  "form.event_time_slot.ends_at_time.label": "End time",
+  "form.event_time_slot.starts_at_time.label": "Start time",
 
   "form.game_system.description.label": "Description",
   "form.game_system.heading": "Details",
@@ -92,7 +103,23 @@ const enGB = {
   "page.admin_event.tables.new": "New table",
   "page.admin_event.tables.no_game_systems":
     "Create a game system before adding tables.",
+  "page.admin_event.tables.no_time_slots":
+    "Create a time slot before adding tables.",
   "page.admin_event.tables.save": "Save changes",
+  "page.admin_event.time_slots.cancel": "Cancel",
+  "page.admin_event.time_slots.create": "Add time slot",
+  "page.admin_event.time_slots.delete": "Delete",
+  "page.admin_event.time_slots.delete.confirm":
+    'Delete "{0}"? Tables assigned to this time slot will also be deleted.',
+  "page.admin_event.time_slots.edit": "Edit",
+  "page.admin_event.time_slots.empty": "No time slots yet.",
+  "page.admin_event.time_slots.error.generic":
+    "Something went wrong, please try again.",
+  "page.admin_event.time_slots.error.missing_user":
+    "You must be logged in to create a time slot.",
+  "page.admin_event.time_slots.existing": "Existing time slots",
+  "page.admin_event.time_slots.new": "New time slot",
+  "page.admin_event.time_slots.save": "Save changes",
 
   "page.admin_events.breadcrumb.admin": "Dashboard",
   "page.admin_events.breadcrumb.events": "Events",
