@@ -48,7 +48,7 @@ export default function AdminEventsNewPage() {
         setCreateEventState(success(undefined));
         navigate("/admin/events");
       } catch (e) {
-        console.log(e);
+        console.error(e);
         setCreateEventState(failure("page.admin_events_new.error.generic"));
       }
     },
