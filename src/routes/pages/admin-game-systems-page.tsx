@@ -80,9 +80,6 @@ export default function AdminGameSystemsPage() {
       <HStack justify="space-between">
         <VStack align="flex-start" gap={1}>
           <Heading size="3xl">{t("page.admin_game_systems.heading")}</Heading>
-          <Text color="fg.muted">
-            {t("page.admin_game_systems.description")}
-          </Text>
         </VStack>
 
         <Button asChild size="xs">
