@@ -22,6 +22,7 @@ import AdminBreadcrumb from "../components/admin-breadcrumb";
 import EventDetailsForm, {
   type EventDetailsFormValue,
 } from "../components/event-details-form";
+import EventTablesSection from "../components/event-tables-section";
 
 //------------------------------------------------------------------------------
 // Admin Event Page
@@ -93,42 +94,46 @@ export default function AdminEventPage() {
       )}
 
       {eventState.isSuccess && (
-        <EventDetailsForm
-          actions={
-            <HStack>
-              <Button loading={saveState.isLoading} size="sm" type="submit">
-                {t("page.admin_event.save")}
-              </Button>
+        <>
+          <EventDetailsForm
+            actions={
+              <HStack>
+                <Button loading={saveState.isLoading} size="sm" type="submit">
+                  {t("page.admin_event.save")}
+                </Button>
 
-              <Button asChild size="sm" variant="outline">
-                <RouterLink to="/admin/events">
-                  {t("page.admin_event.back_to_events")}
-                </RouterLink>
-              </Button>
-            </HStack>
-          }
-          disabled={saveState.isLoading}
-          initialValue={eventState.data}
-          message={
-            <>
-              {saveState.hasError && (
-                <Alert.Root status="error">
-                  <Alert.Description>{t(saveState.error)}</Alert.Description>
-                </Alert.Root>
-              )}
+                <Button asChild size="sm" variant="outline">
+                  <RouterLink to="/admin/events">
+                    {t("page.admin_event.back_to_events")}
+                  </RouterLink>
+                </Button>
+              </HStack>
+            }
+            disabled={saveState.isLoading}
+            initialValue={eventState.data}
+            message={
+              <>
+                {saveState.hasError && (
+                  <Alert.Root status="error">
+                    <Alert.Description>{t(saveState.error)}</Alert.Description>
+                  </Alert.Root>
+                )}
 
-              {saveState.isSuccess && (
-                <Alert.Root status="success">
-                  <Alert.Description>
-                    {t("page.admin_event.saved")}
-                  </Alert.Description>
-                </Alert.Root>
-              )}
-            </>
-          }
-          onSubmit={handleUpdateEvent}
-          title={t("page.admin_event.details.heading")}
-        />
+                {saveState.isSuccess && (
+                  <Alert.Root status="success">
+                    <Alert.Description>
+                      {t("page.admin_event.saved")}
+                    </Alert.Description>
+                  </Alert.Root>
+                )}
+              </>
+            }
+            onSubmit={handleUpdateEvent}
+            title={t("page.admin_event.details.heading")}
+          />
+
+          <EventTablesSection eventId={eventState.data.id} />
+        </>
       )}
     </VStack>
   );

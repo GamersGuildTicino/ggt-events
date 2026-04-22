@@ -15,6 +15,12 @@ const enGB = {
   "error.events.parse_one": "Event data is invalid.",
   "error.events.update": "Unable to update event.",
 
+  "error.event_tables.create": "Unable to create table.",
+  "error.event_tables.delete": "Unable to delete table.",
+  "error.event_tables.fetch_many": "Unable to load tables.",
+  "error.event_tables.parse_many": "Tables data is invalid.",
+  "error.event_tables.update": "Unable to update table.",
+
   "error.game_systems.create": "Unable to create game system.",
   "error.game_systems.delete": "Unable to delete game system.",
   "error.game_systems.fetch_many": "Unable to load game systems.",
@@ -30,6 +36,11 @@ const enGB = {
   "form.event_details.starts_at_time.label": "Time",
   "form.event_details.title.label": "Title",
   "form.event_details.visibility.label": "Visibility",
+
+  "form.event_table.game_system.label": "Game system",
+  "form.event_table.max_players.label": "Max players",
+  "form.event_table.min_players.label": "Min players",
+  "form.event_table.title.label": "Title",
 
   "form.game_system.description.label": "Description",
   "form.game_system.image_url.label": "Image URL",
@@ -61,6 +72,23 @@ const enGB = {
   "page.admin_event.heading": "Manage event",
   "page.admin_event.save": "Save changes",
   "page.admin_event.saved": "Event saved.",
+  "page.admin_event.tables.cancel": "Cancel",
+  "page.admin_event.tables.create": "Add table",
+  "page.admin_event.tables.delete": "Delete",
+  "page.admin_event.tables.delete.confirm":
+    'Delete "{0}"? This cannot be undone.',
+  "page.admin_event.tables.edit": "Edit",
+  "page.admin_event.tables.empty": "No tables yet.",
+  "page.admin_event.tables.error.generic":
+    "Something went wrong, please try again.",
+  "page.admin_event.tables.error.missing_user":
+    "You must be logged in to create a table.",
+  "page.admin_event.tables.heading": "Tables",
+  "page.admin_event.tables.new": "New table",
+  "page.admin_event.tables.no_game_systems":
+    "Create a game system before adding tables.",
+  "page.admin_event.tables.players": "{0}-{1} players",
+  "page.admin_event.tables.save": "Save changes",
 
   "page.admin_events.breadcrumb.admin": "Dashboard",
   "page.admin_events.breadcrumb.events": "Events",

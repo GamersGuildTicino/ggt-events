@@ -15,6 +15,12 @@ const itCH = {
   "error.events.parse_one": "I dati dell'evento non sono validi.",
   "error.events.update": "Impossibile aggiornare l'evento.",
 
+  "error.event_tables.create": "Impossibile creare il tavolo.",
+  "error.event_tables.delete": "Impossibile eliminare il tavolo.",
+  "error.event_tables.fetch_many": "Impossibile caricare i tavoli.",
+  "error.event_tables.parse_many": "I dati dei tavoli non sono validi.",
+  "error.event_tables.update": "Impossibile aggiornare il tavolo.",
+
   "error.game_systems.create": "Impossibile creare il sistema di gioco.",
   "error.game_systems.delete": "Impossibile eliminare il sistema di gioco.",
   "error.game_systems.fetch_many": "Impossibile caricare i sistemi di gioco.",
@@ -32,6 +38,11 @@ const itCH = {
   "form.event_details.starts_at_time.label": "Ora",
   "form.event_details.title.label": "Titolo",
   "form.event_details.visibility.label": "Visibilità",
+
+  "form.event_table.game_system.label": "Sistema di gioco",
+  "form.event_table.max_players.label": "Giocatori max",
+  "form.event_table.min_players.label": "Giocatori min",
+  "form.event_table.title.label": "Titolo",
 
   "form.game_system.description.label": "Descrizione",
   "form.game_system.image_url.label": "URL immagine",
@@ -65,6 +76,23 @@ const itCH = {
   "page.admin_event.heading": "Gestisci evento",
   "page.admin_event.save": "Salva modifiche",
   "page.admin_event.saved": "Evento salvato.",
+  "page.admin_event.tables.cancel": "Annulla",
+  "page.admin_event.tables.create": "Aggiungi tavolo",
+  "page.admin_event.tables.delete": "Elimina",
+  "page.admin_event.tables.delete.confirm":
+    'Eliminare "{0}"? Questa azione non può essere annullata.',
+  "page.admin_event.tables.edit": "Modifica",
+  "page.admin_event.tables.empty": "Nessun tavolo.",
+  "page.admin_event.tables.error.generic":
+    "Qualcosa è andato storto, per favore prova di nuovo.",
+  "page.admin_event.tables.error.missing_user":
+    "Devi essere registrato per creare un tavolo.",
+  "page.admin_event.tables.heading": "Tavoli",
+  "page.admin_event.tables.new": "Nuovo tavolo",
+  "page.admin_event.tables.no_game_systems":
+    "Crea un sistema di gioco prima di aggiungere tavoli.",
+  "page.admin_event.tables.players": "{0}-{1} giocatori",
+  "page.admin_event.tables.save": "Salva modifiche",
 
   "page.admin_events.breadcrumb.admin": "Panoramica",
   "page.admin_events.breadcrumb.events": "Eventi",
