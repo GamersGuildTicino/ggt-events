@@ -7,6 +7,22 @@ const enGB = {
   "enum.event_visibility.public": "Public",
   "enum.event_visibility.restricted": "Restricted",
 
+  "error.events.create": "Unable to create event.",
+  "error.events.delete": "Unable to delete event.",
+  "error.events.fetch_many": "Unable to load events.",
+  "error.events.fetch_one": "Unable to load event.",
+  "error.events.parse_many": "Events data is invalid.",
+  "error.events.parse_one": "Event data is invalid.",
+  "error.events.update": "Unable to update event.",
+
+  "error.game_systems.create": "Unable to create game system.",
+  "error.game_systems.delete": "Unable to delete game system.",
+  "error.game_systems.fetch_many": "Unable to load game systems.",
+  "error.game_systems.fetch_one": "Unable to load game system.",
+  "error.game_systems.parse_many": "Game systems data is invalid.",
+  "error.game_systems.parse_one": "Game system data is invalid.",
+  "error.game_systems.update": "Unable to update game system.",
+
   "form.event_details.location_address.label": "Address",
   "form.event_details.location_name.label": "Location",
   "form.event_details.registrations_open": "Registrations open",

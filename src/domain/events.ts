@@ -95,7 +95,7 @@ export async function createEvent(event: Omit<Event, "createdAt" | "id">) {
     visibility: event.visibility,
   });
 
-  return error?.message ?? "";
+  return error ? "error.events.create" : "";
 }
 
 //------------------------------------------------------------------------------
@@ -104,7 +104,7 @@ export async function createEvent(event: Omit<Event, "createdAt" | "id">) {
 
 export async function deleteEvent(eventId: Event["id"]) {
   const { error } = await supabase.from("events").delete().eq("id", eventId);
-  return error?.message ?? "";
+  return error ? "error.events.delete" : "";
 }
 
 //------------------------------------------------------------------------------
@@ -120,10 +120,10 @@ export async function fetchEvent(
     .eq("id", eventId)
     .single();
 
-  if (error) return failure(error.message);
+  if (error) return failure("error.events.fetch_one");
 
   const event = eventFromRowSchema.safeParse(data);
-  if (event.error) return failure("Failed to parse event");
+  if (event.error) return failure("error.events.parse_one");
 
   return success(event.data);
 }
@@ -140,10 +140,10 @@ export async function fetchEvents(): Promise<
     .select("*")
     .order("starts_at", { ascending: false });
 
-  if (error) return failure(error.message);
+  if (error) return failure("error.events.fetch_many");
 
   const events = z.array(eventFromRowSchema).safeParse(data);
-  if (events.error) return failure("Failed to parse events");
+  if (events.error) return failure("error.events.parse_many");
 
   return success(events.data);
 }
@@ -167,5 +167,5 @@ export async function updateEvent(
     })
     .eq("id", event.id);
 
-  return error?.message ?? "";
+  return error ? "error.events.update" : "";
 }

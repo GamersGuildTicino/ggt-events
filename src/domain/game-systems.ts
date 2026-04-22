@@ -69,7 +69,7 @@ export async function createGameSystem(
     name: gameSystem.name,
   });
 
-  return error?.message ?? "";
+  return error ? "error.game_systems.create" : "";
 }
 
 //------------------------------------------------------------------------------
@@ -82,7 +82,7 @@ export async function deleteGameSystem(gameSystemId: GameSystem["id"]) {
     .delete()
     .eq("id", gameSystemId);
 
-  return error?.message ?? "";
+  return error ? "error.game_systems.delete" : "";
 }
 
 //------------------------------------------------------------------------------
@@ -98,10 +98,10 @@ export async function fetchGameSystem(
     .eq("id", gameSystemId)
     .single();
 
-  if (error) return failure(error.message);
+  if (error) return failure("error.game_systems.fetch_one");
 
   const gameSystem = gameSystemFromRowSchema.safeParse(data);
-  if (gameSystem.error) return failure("Failed to parse game system");
+  if (gameSystem.error) return failure("error.game_systems.parse_one");
 
   return success(gameSystem.data);
 }
@@ -118,10 +118,10 @@ export async function fetchGameSystems(): Promise<
     .select("*")
     .order("name", { ascending: true });
 
-  if (error) return failure(error.message);
+  if (error) return failure("error.game_systems.fetch_many");
 
   const gameSystems = z.array(gameSystemFromRowSchema).safeParse(data);
-  if (gameSystems.error) return failure("Failed to parse game systems");
+  if (gameSystems.error) return failure("error.game_systems.parse_many");
 
   return success(gameSystems.data);
 }
@@ -143,5 +143,5 @@ export async function updateGameSystem(
     })
     .eq("id", gameSystem.id);
 
-  return error?.message ?? "";
+  return error ? "error.game_systems.update" : "";
 }

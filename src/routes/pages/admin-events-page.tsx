@@ -88,7 +88,7 @@ export default function AdminEventsPage() {
 
       {deleteError && (
         <Alert.Root status="error">
-          <Alert.Description>{deleteError}</Alert.Description>
+          <Alert.Description>{t(deleteError)}</Alert.Description>
         </Alert.Root>
       )}
 

@@ -103,7 +103,7 @@ export default function AdminGameSystemsPage() {
 
       {deleteError && (
         <Alert.Root status="error">
-          <Alert.Description>{deleteError}</Alert.Description>
+          <Alert.Description>{t(deleteError)}</Alert.Description>
         </Alert.Root>
       )}
 

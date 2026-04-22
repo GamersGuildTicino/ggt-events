@@ -7,6 +7,24 @@ const itCH = {
   "enum.event_visibility.public": "Pubblica",
   "enum.event_visibility.restricted": "Ristretta",
 
+  "error.events.create": "Impossibile creare l'evento.",
+  "error.events.delete": "Impossibile eliminare l'evento.",
+  "error.events.fetch_many": "Impossibile caricare gli eventi.",
+  "error.events.fetch_one": "Impossibile caricare l'evento.",
+  "error.events.parse_many": "I dati degli eventi non sono validi.",
+  "error.events.parse_one": "I dati dell'evento non sono validi.",
+  "error.events.update": "Impossibile aggiornare l'evento.",
+
+  "error.game_systems.create": "Impossibile creare il sistema di gioco.",
+  "error.game_systems.delete": "Impossibile eliminare il sistema di gioco.",
+  "error.game_systems.fetch_many": "Impossibile caricare i sistemi di gioco.",
+  "error.game_systems.fetch_one": "Impossibile caricare il sistema di gioco.",
+  "error.game_systems.parse_many":
+    "I dati dei sistemi di gioco non sono validi.",
+  "error.game_systems.parse_one":
+    "I dati del sistema di gioco non sono validi.",
+  "error.game_systems.update": "Impossibile aggiornare il sistema di gioco.",
+
   "form.event_details.location_address.label": "Indirizzo",
   "form.event_details.location_name.label": "Luogo",
   "form.event_details.registrations_open": "Registrazioni aperte",
