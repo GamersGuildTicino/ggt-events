@@ -77,6 +77,9 @@ const enGB = {
   "page.admin_game_system.breadcrumb.admin": "Dashboard",
   "page.admin_game_system.breadcrumb.game_system": "Manage game system",
   "page.admin_game_system.breadcrumb.game_systems": "Game systems",
+  "page.admin_game_system.error.generic":
+    "Something went wrong, please try again.",
+  "page.admin_game_system.error.missing_game_system": "Missing game system id.",
   "page.admin_game_system.heading": "Manage game system",
   "page.admin_game_system.save": "Save changes",
   "page.admin_game_system.saved": "Game system saved.",
@@ -95,6 +98,8 @@ const enGB = {
   "page.admin_game_systems_new.create": "Create",
   "page.admin_game_systems_new.error.generic":
     "Something went wrong, please try again.",
+  "page.admin_game_systems_new.error.missing_user":
+    "You must be logged in to create a new game system.",
   "page.admin_game_systems_new.heading": "Create game system",
 
   "page.admin_forgot_password.back_to_login": "Back to login",

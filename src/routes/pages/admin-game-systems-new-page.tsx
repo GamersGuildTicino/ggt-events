@@ -1,6 +1,8 @@
 import { Alert, Button, Heading, VStack } from "@chakra-ui/react";
 import { useState } from "react";
 import { Link as RouterLink, useNavigate } from "react-router";
+import { useAuth } from "~/auth/use-auth";
+import { createGameSystem } from "~/domain/game-systems";
 import useI18n from "~/i18n/use-i18n";
 import {
   type AsyncState,
@@ -20,13 +22,22 @@ import GameSystemForm, {
 
 export default function AdminGameSystemsNewPage() {
   const { t } = useI18n();
+  const { user } = useAuth();
   const navigate = useNavigate();
   const [createState, setCreateState] = useState<AsyncState>(initial());
 
-  const handleCreateGameSystem = (value: GameSystemFormValue) => {
+  const handleCreateGameSystem = async (value: GameSystemFormValue) => {
     try {
+      if (user === null)
+        return setCreateState(
+          failure("page.admin_game_systems_new.error.missing_user"),
+        );
+
       setCreateState(loading());
-      console.log("create game system", value);
+
+      const error = await createGameSystem({ createdBy: user.id, ...value });
+      if (error) return setCreateState(failure(error));
+
       setCreateState(success(undefined));
       navigate("/admin/game-systems");
     } catch (e) {
@@ -56,7 +67,7 @@ export default function AdminGameSystemsNewPage() {
       <GameSystemForm
         actions={
           <>
-            <Button size="sm" type="submit">
+            <Button loading={createState.isLoading} size="sm" type="submit">
               {t("page.admin_game_systems_new.create")}
             </Button>
 

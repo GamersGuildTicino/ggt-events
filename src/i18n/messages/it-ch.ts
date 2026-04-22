@@ -80,6 +80,10 @@ const itCH = {
   "page.admin_game_system.breadcrumb.admin": "Panoramica",
   "page.admin_game_system.breadcrumb.game_system": "Gestisci sistema di gioco",
   "page.admin_game_system.breadcrumb.game_systems": "Sistemi di gioco",
+  "page.admin_game_system.error.generic":
+    "Qualcosa è andato storto, per favore prova di nuovo.",
+  "page.admin_game_system.error.missing_game_system":
+    "ID sistema di gioco mancante.",
   "page.admin_game_system.heading": "Gestisci sistema di gioco",
   "page.admin_game_system.save": "Salva modifiche",
   "page.admin_game_system.saved": "Sistema di gioco salvato.",
@@ -99,6 +103,8 @@ const itCH = {
   "page.admin_game_systems_new.create": "Crea",
   "page.admin_game_systems_new.error.generic":
     "Qualcosa è andato storto, per favore prova di nuovo.",
+  "page.admin_game_systems_new.error.missing_user":
+    "Devi essere registrato per creare un nuovo sistema di gioco.",
   "page.admin_game_systems_new.heading": "Crea sistema di gioco",
 
   "page.admin_forgot_password.back_to_login": "Torna al login",
