@@ -10,6 +10,7 @@ create table public.event_tables (
   description text not null default '',
   game_master_name text not null,
   experience_level public.event_table_experience_level not null default 'unspecified',
+  language public.event_table_language not null default 'italian',
   min_players integer not null,
   max_players integer not null,
   created_by uuid not null references auth.users (id),
