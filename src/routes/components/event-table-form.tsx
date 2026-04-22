@@ -64,74 +64,51 @@ export default function EventTableForm({
       onSubmit={handleSubmit}
       w="full"
     >
-      <Field.Root disabled={disabled} required>
-        <Field.Label>
-          {t("form.event_table.title.label")}
-          <Field.RequiredIndicator />
-        </Field.Label>
-        <Input
-          defaultValue={initialValue?.title}
-          name="title"
-          pattern="\s*\S.*"
-          size="sm"
-        />
-      </Field.Root>
+      <HStack w="full">
+        <Field.Root disabled={disabled} required>
+          <Field.Label>
+            {t("form.event_table.title.label")}
+            <Field.RequiredIndicator />
+          </Field.Label>
+          <Input
+            defaultValue={initialValue?.title}
+            name="title"
+            pattern="\s*\S.*"
+            size="sm"
+          />
+        </Field.Root>
 
-      <Field.Root disabled={disabled}>
-        <Field.Label>{t("form.event_table.description.label")}</Field.Label>
-        <Textarea
-          defaultValue={initialValue?.description}
-          name="description"
-          size="sm"
-        />
-      </Field.Root>
-
-      <Field.Root disabled={disabled} required>
-        <Field.Label>
-          {t("form.event_table.time_slot.label")}
-          <Field.RequiredIndicator />
-        </Field.Label>
-        <SelectEnum<string>
-          defaultValue={initialValue?.timeSlotId ?? timeSlots[0]?.id}
-          name="time-slot-id"
-          options={timeSlots.map((timeSlot) => ({
-            label: formatSlot(timeSlot, locale),
-            value: timeSlot.id,
-          }))}
-          size="sm"
-        />
-      </Field.Root>
-
-      <Field.Root disabled={disabled} required>
-        <Field.Label>
-          {t("form.event_table.game_system.label")}
-          <Field.RequiredIndicator />
-        </Field.Label>
-        <SelectEnum<string>
-          defaultValue={initialValue?.gameSystemId ?? gameSystems[0]?.id}
-          name="game-system-id"
-          options={gameSystems.map((gameSystem) => ({
-            label: gameSystem.name,
-            value: gameSystem.id,
-          }))}
-          size="sm"
-        />
-      </Field.Root>
-
-      <Field.Root disabled={disabled} required>
-        <Field.Label>
-          {t("form.event_table.game_master_name.label")}
-          <Field.RequiredIndicator />
-        </Field.Label>
-        <Input
-          defaultValue={initialValue?.gameMasterName}
-          name="game-master-name"
-          pattern="\s*\S.*"
-          size="sm"
-        />
-      </Field.Root>
+        <Field.Root disabled={disabled} required>
+          <Field.Label>
+            {t("form.event_table.game_system.label")}
+            <Field.RequiredIndicator />
+          </Field.Label>
+          <SelectEnum<string>
+            defaultValue={initialValue?.gameSystemId ?? gameSystems[0]?.id}
+            name="game-system-id"
+            options={gameSystems.map((gameSystem) => ({
+              label: gameSystem.name,
+              value: gameSystem.id,
+            }))}
+            size="sm"
+          />
+        </Field.Root>
+      </HStack>
 
       <HStack w="full">
+        <Field.Root disabled={disabled} required>
+          <Field.Label>
+            {t("form.event_table.game_master_name.label")}
+            <Field.RequiredIndicator />
+          </Field.Label>
+          <Input
+            defaultValue={initialValue?.gameMasterName}
+            name="game-master-name"
+            pattern="\s*\S.*"
+            size="sm"
+          />
+        </Field.Root>
+
         <Field.Root disabled={disabled} required>
           <Field.Label>
             {t("form.event_table.min_players.label")}
@@ -160,6 +137,31 @@ export default function EventTableForm({
           />
         </Field.Root>
       </HStack>
+
+      <Field.Root disabled={disabled} required>
+        <Field.Label>
+          {t("form.event_table.time_slot.label")}
+          <Field.RequiredIndicator />
+        </Field.Label>
+        <SelectEnum<string>
+          defaultValue={initialValue?.timeSlotId ?? timeSlots[0]?.id}
+          name="time-slot-id"
+          options={timeSlots.map((timeSlot) => ({
+            label: formatSlot(timeSlot, locale),
+            value: timeSlot.id,
+          }))}
+          size="sm"
+        />
+      </Field.Root>
+
+      <Field.Root disabled={disabled}>
+        <Field.Label>{t("form.event_table.description.label")}</Field.Label>
+        <Textarea
+          defaultValue={initialValue?.description}
+          name="description"
+          size="sm"
+        />
+      </Field.Root>
 
       {message}
 
