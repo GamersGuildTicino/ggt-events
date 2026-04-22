@@ -70,6 +70,7 @@ const enGB = {
   "form.event_table.language.label": "Language",
   "form.event_table.max_players.label": "Max players",
   "form.event_table.min_players.label": "Min players",
+  "form.event_table.notes.label": "Notes",
   "form.event_table.time_slot.label": "Time slot",
   "form.event_table.title.label": "Title",
 
@@ -118,14 +119,15 @@ const enGB = {
   "page.admin_event.tables.error.missing_user":
     "You must be logged in to create a table.",
   "page.admin_event.tables.game_master": "Master: {0}",
-  "page.admin_event.tables.hide_description": "Hide description",
+  "page.admin_event.tables.hide_description": "Hide details",
   "page.admin_event.tables.new": "New table",
   "page.admin_event.tables.no_game_systems":
     "Create a game system before adding tables.",
   "page.admin_event.tables.no_time_slots":
     "Create a time slot before adding tables.",
+  "page.admin_event.tables.notes": "Notes",
   "page.admin_event.tables.save": "Save changes",
-  "page.admin_event.tables.show_description": "Show description",
+  "page.admin_event.tables.show_description": "Show details",
   "page.admin_event.tables.time_slot": "Time slot: {0}",
   "page.admin_event.time_slots.cancel": "Cancel",
   "page.admin_event.time_slots.create": "Add time slot",
@@ -230,6 +232,7 @@ const enGB = {
   "page.event.tables.empty": "No tables yet.",
   "page.event.tables.game_master": "Game Master: {0}",
   "page.event.tables.heading": "Tables",
+  "page.event.tables.notes": "Notes",
   "page.event.tables.seats": "Seats",
 
   "page.home.about.card_1.description":

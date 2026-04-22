@@ -73,6 +73,7 @@ const itCH = {
   "form.event_table.language.label": "Lingua",
   "form.event_table.max_players.label": "Giocatori max",
   "form.event_table.min_players.label": "Giocatori min",
+  "form.event_table.notes.label": "Note",
   "form.event_table.time_slot.label": "Fascia oraria",
   "form.event_table.title.label": "Titolo",
 
@@ -123,14 +124,15 @@ const itCH = {
   "page.admin_event.tables.error.missing_user":
     "Devi essere registrato per creare un tavolo.",
   "page.admin_event.tables.game_master": "Master: {0}",
-  "page.admin_event.tables.hide_description": "Nascondi descrizione",
+  "page.admin_event.tables.hide_description": "Nascondi dettagli",
   "page.admin_event.tables.new": "Nuovo tavolo",
   "page.admin_event.tables.no_game_systems":
     "Crea un sistema di gioco prima di aggiungere tavoli.",
   "page.admin_event.tables.no_time_slots":
     "Crea una fascia oraria prima di aggiungere tavoli.",
+  "page.admin_event.tables.notes": "Note",
   "page.admin_event.tables.save": "Salva modifiche",
-  "page.admin_event.tables.show_description": "Mostra descrizione",
+  "page.admin_event.tables.show_description": "Mostra dettagli",
   "page.admin_event.tables.time_slot": "Fascia oraria: {0}",
   "page.admin_event.time_slots.cancel": "Annulla",
   "page.admin_event.time_slots.create": "Aggiungi fascia oraria",
@@ -238,6 +240,7 @@ const itCH = {
   "page.event.tables.empty": "Nessun tavolo.",
   "page.event.tables.game_master": "Game Master: {0}",
   "page.event.tables.heading": "Tavoli",
+  "page.event.tables.notes": "Note",
   "page.event.tables.seats": "Posti",
 
   "page.home.about.card_1.description":

@@ -425,6 +425,17 @@ function EventTableCard({
               {eventTable.description}
             </Text>
           )}
+
+          {eventTable.notes && (
+            <VStack align="flex-start" gap={1}>
+              <Text fontSize="xs" fontWeight="bold">
+                {t("page.event.tables.notes")}
+              </Text>
+              <Text color="fg.muted" fontSize="sm" whiteSpace="pre-line">
+                {eventTable.notes}
+              </Text>
+            </VStack>
+          )}
         </VStack>
 
         <Separator />

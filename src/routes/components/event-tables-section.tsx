@@ -299,9 +299,10 @@ function EventTableCard({
   const timeSlot = timeSlots.find(
     (timeSlot) => timeSlot.id === eventTable.timeSlotId,
   );
-  const [descriptionVisible, setDescriptionVisible] = useState(false);
-  const showDescription = () => setDescriptionVisible(true);
-  const hideDescription = () => setDescriptionVisible(false);
+  const [detailsVisible, setDetailsVisible] = useState(false);
+  const showDetails = () => setDetailsVisible(true);
+  const hideDetails = () => setDetailsVisible(false);
+  const hasDetails = Boolean(eventTable.description || eventTable.notes);
 
   return (
     <Card.Root>
@@ -374,18 +375,16 @@ function EventTableCard({
                   </Button>
                 </HStack>
 
-                {eventTable.description && (
+                {hasDetails && (
                   <Button
                     h="auto"
                     minW={0}
-                    onClick={
-                      descriptionVisible ? hideDescription : showDescription
-                    }
+                    onClick={detailsVisible ? hideDetails : showDetails}
                     p={0}
                     size="xs"
                     variant="plain"
                   >
-                    {descriptionVisible ?
+                    {detailsVisible ?
                       t("page.admin_event.tables.hide_description")
                     : t("page.admin_event.tables.show_description")}
                   </Button>
@@ -393,10 +392,24 @@ function EventTableCard({
               </VStack>
             </HStack>
 
-            {descriptionVisible && (
-              <Text color="fg.muted" fontSize="sm" whiteSpace="pre-line">
-                {eventTable.description}
-              </Text>
+            {detailsVisible && (
+              <VStack align="flex-start" gap={2}>
+                {eventTable.description && (
+                  <Text color="fg.muted" fontSize="sm" whiteSpace="pre-line">
+                    {eventTable.description}
+                  </Text>
+                )}
+                {eventTable.notes && (
+                  <VStack align="flex-start" gap={1}>
+                    <Text fontSize="xs" fontWeight="bold">
+                      {t("page.admin_event.tables.notes")}
+                    </Text>
+                    <Text color="fg.muted" fontSize="sm" whiteSpace="pre-line">
+                      {eventTable.notes}
+                    </Text>
+                  </VStack>
+                )}
+              </VStack>
             )}
           </VStack>
         }

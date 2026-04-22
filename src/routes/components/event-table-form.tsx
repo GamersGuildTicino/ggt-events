@@ -28,6 +28,7 @@ export type EventTableFormValue = Pick<
   | "language"
   | "maxPlayers"
   | "minPlayers"
+  | "notes"
   | "timeSlotId"
   | "title"
 >;
@@ -203,6 +204,11 @@ export default function EventTableForm({
         />
       </Field.Root>
 
+      <Field.Root disabled={disabled}>
+        <Field.Label>{t("form.event_table.notes.label")}</Field.Label>
+        <Textarea defaultValue={initialValue?.notes} name="notes" size="sm" />
+      </Field.Root>
+
       {message}
 
       <HStack>{actions}</HStack>
@@ -227,6 +233,7 @@ function eventTableFormValueFromForm(form: HTMLFormElement) {
     language: getString("language") as EventTableLanguage,
     maxPlayers: getNumber("max-players"),
     minPlayers: getNumber("min-players"),
+    notes: getString("notes"),
     timeSlotId: getString("time-slot-id"),
     title: getString("title"),
   };
