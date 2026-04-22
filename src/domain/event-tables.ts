@@ -14,6 +14,7 @@ import {
 export const eventTableSchema = z.object({
   createdAt: z.date(),
   createdBy: z.uuid(),
+  description: z.string(),
   eventId: z.uuid(),
   gameMasterName: z.string(),
   gameSystemId: z.uuid(),
@@ -33,6 +34,7 @@ export type EventTable = z.infer<typeof eventTableSchema>;
 export const eventTableRowSchema = z.object({
   created_at: z.string(),
   created_by: z.uuid(),
+  description: z.string(),
   event_id: z.uuid(),
   game_master_name: z.string(),
   game_system_id: z.uuid(),
@@ -53,6 +55,7 @@ export const eventTableFromRowSchema = eventTableRowSchema.transform(
   (row): EventTable => ({
     createdAt: new Date(row.created_at),
     createdBy: row.created_by,
+    description: row.description,
     eventId: row.event_id,
     gameMasterName: row.game_master_name,
     gameSystemId: row.game_system_id,
@@ -73,6 +76,7 @@ export async function createEventTable(
 ) {
   const { error } = await supabase.from("event_tables").insert({
     created_by: eventTable.createdBy,
+    description: eventTable.description,
     event_id: eventTable.eventId,
     game_master_name: eventTable.gameMasterName,
     game_system_id: eventTable.gameSystemId,
@@ -132,6 +136,7 @@ export async function updateEventTable(
   const { error } = await supabase
     .from("event_tables")
     .update({
+      description: eventTable.description,
       game_master_name: eventTable.gameMasterName,
       game_system_id: eventTable.gameSystemId,
       max_players: eventTable.maxPlayers,

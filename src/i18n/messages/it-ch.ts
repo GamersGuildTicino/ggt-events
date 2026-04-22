@@ -44,6 +44,7 @@ const itCH = {
   "form.event_details.title.label": "Titolo",
   "form.event_details.visibility.label": "Visibilità",
 
+  "form.event_table.description.label": "Descrizione",
   "form.event_table.game_master_name.label": "Game master",
   "form.event_table.game_system.label": "Sistema di gioco",
   "form.event_table.max_players.label": "Giocatori max",

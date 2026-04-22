@@ -330,6 +330,9 @@ function EventTableCard({
           <Text color="fg.muted" fontSize="sm">
             {ti("page.event.tables.game_master", eventTable.gameMasterName)}
           </Text>
+          {eventTable.description && (
+            <Text fontSize="sm">{eventTable.description}</Text>
+          )}
         </VStack>
 
         <Separator />

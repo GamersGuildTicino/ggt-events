@@ -42,6 +42,7 @@ const enGB = {
   "form.event_details.title.label": "Title",
   "form.event_details.visibility.label": "Visibility",
 
+  "form.event_table.description.label": "Description",
   "form.event_table.game_master_name.label": "Game master",
   "form.event_table.game_system.label": "Game system",
   "form.event_table.max_players.label": "Max players",

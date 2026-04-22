@@ -319,6 +319,11 @@ function EventTableCard({
                   ti,
                 })}
               </Text>
+              {eventTable.description && (
+                <Text color="fg.muted" fontSize="sm">
+                  {eventTable.description}
+                </Text>
+              )}
             </VStack>
 
             <HStack gap={2}>

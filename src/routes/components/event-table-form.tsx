@@ -1,4 +1,4 @@
-import { Field, HStack, Input } from "@chakra-ui/react";
+import { Field, HStack, Input, Textarea } from "@chakra-ui/react";
 import type { ReactNode } from "react";
 import type { EventTable } from "~/domain/event-tables";
 import type { GameSystem } from "~/domain/game-systems";
@@ -12,7 +12,12 @@ import SelectEnum from "~/ui/select-enum";
 
 export type EventTableFormValue = Pick<
   EventTable,
-  "gameMasterName" | "gameSystemId" | "maxPlayers" | "minPlayers" | "title"
+  | "description"
+  | "gameMasterName"
+  | "gameSystemId"
+  | "maxPlayers"
+  | "minPlayers"
+  | "title"
 >;
 
 //------------------------------------------------------------------------------
@@ -64,6 +69,15 @@ export default function EventTableForm({
           defaultValue={initialValue?.title}
           name="title"
           pattern="\s*\S.*"
+          size="sm"
+        />
+      </Field.Root>
+
+      <Field.Root disabled={disabled}>
+        <Field.Label>{t("form.event_table.description.label")}</Field.Label>
+        <Textarea
+          defaultValue={initialValue?.description}
+          name="description"
           size="sm"
         />
       </Field.Root>
@@ -144,6 +158,7 @@ function eventTableFormValueFromForm(form: HTMLFormElement) {
   const getNumber = (key: string) => Number(formData.get(key));
 
   return {
+    description: getString("description"),
     gameMasterName: getString("game-master-name"),
     gameSystemId: getString("game-system-id"),
     maxPlayers: getNumber("max-players"),
