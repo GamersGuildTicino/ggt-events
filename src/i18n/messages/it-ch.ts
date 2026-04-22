@@ -1,4 +1,6 @@
 const itCH = {
+  "common.toggle_theme": "Cambia tema",
+
   "enum.event_visibility.private": "Privata",
   "enum.event_visibility.public": "Pubblica",
   "enum.event_visibility.restricted": "Ristretta",

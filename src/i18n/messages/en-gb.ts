@@ -1,4 +1,6 @@
 const enGB = {
+  "common.toggle_theme": "Toggle theme",
+
   "enum.event_visibility.private": "Private",
   "enum.event_visibility.public": "Public",
   "enum.event_visibility.restricted": "Restricted",
