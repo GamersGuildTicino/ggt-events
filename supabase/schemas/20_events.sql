@@ -5,14 +5,19 @@
 create table public.events (
   id uuid primary key default gen_random_uuid(),
   title text not null,
-  starts_at timestamptz not null,
   location_name text not null,
   location_address text not null,
   registrations_open boolean not null default false,
   visibility public.event_visibility not null default 'private',
   created_by uuid not null references auth.users (id),
-  created_at timestamptz not null default now()
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
 );
+
+create trigger set_events_updated_at
+before update on public.events
+for each row
+execute function public.set_updated_at();
 
 alter table public.events enable row level security;
 

@@ -4,7 +4,7 @@
 
 create table public.event_tables (
   id uuid primary key default gen_random_uuid(),
-  event_id uuid not null references public.events (id) on delete cascade,
+  time_slot_id uuid not null references public.event_time_slots (id) on delete cascade,
   game_system_id uuid not null references public.game_systems (id) on delete restrict,
   title text not null,
   description text not null default '',
@@ -43,8 +43,9 @@ to anon, authenticated
 using (
   exists (
     select 1
-    from public.events
-    where events.id = event_tables.event_id
+    from public.event_time_slots
+    join public.events on events.id = event_time_slots.event_id
+    where event_time_slots.id = event_tables.time_slot_id
       and events.visibility in ('public', 'restricted')
   )
 );
