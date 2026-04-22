@@ -109,6 +109,7 @@ const enGB = {
     "Create a time slot before adding tables.",
   "page.admin_event.tables.save": "Save changes",
   "page.admin_event.tables.show_description": "Show description",
+  "page.admin_event.tables.time_slot": "Time slot: {0}",
   "page.admin_event.time_slots.cancel": "Cancel",
   "page.admin_event.time_slots.create": "Add time slot",
   "page.admin_event.time_slots.delete": "Delete",

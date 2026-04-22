@@ -114,6 +114,7 @@ const itCH = {
     "Crea una fascia oraria prima di aggiungere tavoli.",
   "page.admin_event.tables.save": "Salva modifiche",
   "page.admin_event.tables.show_description": "Mostra descrizione",
+  "page.admin_event.tables.time_slot": "Fascia oraria: {0}",
   "page.admin_event.time_slots.cancel": "Annulla",
   "page.admin_event.time_slots.create": "Aggiungi fascia oraria",
   "page.admin_event.time_slots.delete": "Elimina",

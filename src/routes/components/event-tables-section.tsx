@@ -289,7 +289,10 @@ function EventTableCard({
   timeSlots: EventTimeSlot[];
   updateState: AsyncState;
 }) {
-  const { t, ti } = useI18n();
+  const { locale, t, ti } = useI18n();
+  const timeSlot = timeSlots.find(
+    (timeSlot) => timeSlot.id === eventTable.timeSlotId,
+  );
   const [descriptionVisible, setDescriptionVisible] = useState(false);
   const showDescription = () => setDescriptionVisible(true);
   const hideDescription = () => setDescriptionVisible(false);
@@ -323,7 +326,7 @@ function EventTableCard({
             timeSlots={timeSlots}
           />
         : <VStack align="stretch" gap={2}>
-            <HStack align="flex-start" justify="space-between" w="full">
+            <HStack align="stretch" justify="space-between" w="full">
               <VStack align="flex-start" gap={0}>
                 <Heading size="md">{eventTable.title}</Heading>
 
@@ -336,9 +339,17 @@ function EventTableCard({
                     eventTable.gameMasterName,
                   )}
                 </Text>
+                {timeSlot && (
+                  <Text fontSize="sm">
+                    {ti(
+                      "page.admin_event.tables.time_slot",
+                      formatSlot(timeSlot, locale),
+                    )}
+                  </Text>
+                )}
               </VStack>
 
-              <VStack align="flex-end">
+              <VStack align="flex-end" justify="space-between">
                 <HStack gap={2}>
                   <Button onClick={onEdit} size="xs" variant="outline">
                     {t("page.admin_event.tables.edit")}
@@ -383,4 +394,33 @@ function EventTableCard({
       </Card.Body>
     </Card.Root>
   );
+}
+
+//------------------------------------------------------------------------------
+// Format Slot
+//------------------------------------------------------------------------------
+
+function formatSlot(timeSlot: EventTimeSlot, locale: string) {
+  return `${formatDateTime(timeSlot.startsAt, locale)}-${formatTime(timeSlot.endsAt, locale)}`;
+}
+
+//------------------------------------------------------------------------------
+// Format Date Time
+//------------------------------------------------------------------------------
+
+function formatDateTime(date: Date, locale: string) {
+  return new Intl.DateTimeFormat(locale, {
+    dateStyle: "medium",
+    timeStyle: "short",
+  }).format(date);
+}
+
+//------------------------------------------------------------------------------
+// Format Time
+//------------------------------------------------------------------------------
+
+function formatTime(date: Date, locale: string) {
+  return new Intl.DateTimeFormat(locale, {
+    timeStyle: "short",
+  }).format(date);
 }
