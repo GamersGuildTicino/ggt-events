@@ -171,14 +171,35 @@ const enGB = {
   "page.event.tables.heading": "Tables",
   "page.event.tables.players": "{0}-{1} players",
 
-  "page.home.description":
-    "Monthly live TTRPG events for players and game masters.",
+  "page.home.about.card_1.description":
+    "One-shot adventures and short campaigns, with tables for different tastes and experience levels.",
+  "page.home.about.card_1.title": "Monthly events",
+  "page.home.about.card_2.description":
+    "Choose a table, meet the game master, and play with a small group in person.",
+  "page.home.about.card_2.title": "Live tables",
+  "page.home.about.card_3.description":
+    "New players, curious visitors, and experienced adventurers are all welcome.",
+  "page.home.about.card_3.title": "Open community",
+  "page.home.about.description":
+    "Gamers Guild Ticino brings people together around shared stories, dice, and live tabletop role-playing games.",
+  "page.home.about.heading": "Play stories together",
+  "page.home.events.description":
+    "Pick an event, browse the available tables, and reserve your seat when registrations are open.",
   "page.home.events.empty": "No upcoming events.",
   "page.home.events.heading": "Upcoming events",
   "page.home.events.open": "View event",
   "page.home.events.registrations_closed": "Registrations closed",
   "page.home.events.registrations_open": "Registrations open",
   "page.home.heading": "Gamers Guild Ticino",
+  "page.home.hero.about": "About the association",
+  "page.home.hero.card.description":
+    "Every event hosts multiple tables, each with its own game, tone, and game master.",
+  "page.home.hero.card.heading": "Find your next table",
+  "page.home.hero.card.label": "Live tabletop role-playing",
+  "page.home.hero.description":
+    "Monthly live TTRPG events in Ticino for players, game masters, and anyone curious about role-playing games.",
+  "page.home.hero.events": "See upcoming events",
+  "page.home.hero.eyebrow": "TTRPG events in Ticino",
 
   "page.not_found.heading": "Page Not Found",
 } as const;

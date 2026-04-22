@@ -178,14 +178,35 @@ const itCH = {
   "page.event.tables.heading": "Tavoli",
   "page.event.tables.players": "{0}-{1} giocatori",
 
-  "page.home.description":
-    "Eventi mensili di giochi di ruolo dal vivo per giocatori e game master.",
+  "page.home.about.card_1.description":
+    "Avventure autoconclusive e brevi campagne, con tavoli per gusti ed esperienze diverse.",
+  "page.home.about.card_1.title": "Eventi mensili",
+  "page.home.about.card_2.description":
+    "Scegli un tavolo, conosci il game master e gioca dal vivo con un piccolo gruppo.",
+  "page.home.about.card_2.title": "Tavoli dal vivo",
+  "page.home.about.card_3.description":
+    "Nuovi giocatori, persone curiose e avventurieri esperti sono tutti benvenuti.",
+  "page.home.about.card_3.title": "Comunità aperta",
+  "page.home.about.description":
+    "Gamers Guild Ticino riunisce persone attorno a storie condivise, dadi e giochi di ruolo dal vivo.",
+  "page.home.about.heading": "Giocare storie insieme",
+  "page.home.events.description":
+    "Scegli un evento, consulta i tavoli disponibili e riserva il tuo posto quando le registrazioni sono aperte.",
   "page.home.events.empty": "Nessun evento in programma.",
   "page.home.events.heading": "Prossimi eventi",
   "page.home.events.open": "Vedi evento",
   "page.home.events.registrations_closed": "Registrazioni chiuse",
   "page.home.events.registrations_open": "Registrazioni aperte",
   "page.home.heading": "Gamers Guild Ticino",
+  "page.home.hero.about": "Scopri l'associazione",
+  "page.home.hero.card.description":
+    "Ogni evento ospita più tavoli, ognuno con il proprio gioco, tono e game master.",
+  "page.home.hero.card.heading": "Trova il tuo prossimo tavolo",
+  "page.home.hero.card.label": "Giochi di ruolo dal vivo",
+  "page.home.hero.description":
+    "Eventi mensili di giochi di ruolo dal vivo in Ticino per giocatori, game master e persone curiose.",
+  "page.home.hero.events": "Vedi prossimi eventi",
+  "page.home.hero.eyebrow": "Eventi GDR in Ticino",
 
   "page.not_found.heading": "Pagina Non Trovata",
 } as const;
