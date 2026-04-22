@@ -31,6 +31,7 @@ const itCH = {
     "I dati del sistema di gioco non sono validi.",
   "error.game_systems.update": "Impossibile aggiornare il sistema di gioco.",
 
+  "form.event_details.heading": "Dettagli",
   "form.event_details.location_address.label": "Indirizzo",
   "form.event_details.location_name.label": "Luogo",
   "form.event_details.registrations_open": "Registrazioni aperte",
@@ -69,7 +70,6 @@ const itCH = {
   "page.admin_event.breadcrumb.admin": "Panoramica",
   "page.admin_event.breadcrumb.event": "Gestisci evento",
   "page.admin_event.breadcrumb.events": "Eventi",
-  "page.admin_event.details.heading": "Dettagli evento",
   "page.admin_event.error.generic":
     "Qualcosa è andato storto, per favore prova di nuovo.",
   "page.admin_event.error.missing_event": "ID evento mancante.",
@@ -87,7 +87,6 @@ const itCH = {
     "Qualcosa è andato storto, per favore prova di nuovo.",
   "page.admin_event.tables.error.missing_user":
     "Devi essere registrato per creare un tavolo.",
-  "page.admin_event.tables.heading": "Tavoli",
   "page.admin_event.tables.new": "Nuovo tavolo",
   "page.admin_event.tables.no_game_systems":
     "Crea un sistema di gioco prima di aggiungere tavoli.",
@@ -115,7 +114,6 @@ const itCH = {
   "page.admin_events_new.breadcrumb.new": "Nuovo evento",
   "page.admin_events_new.cancel": "Annulla",
   "page.admin_events_new.create": "Crea",
-  "page.admin_events_new.details.heading": "Dettagli evento",
   "page.admin_events_new.error.generic":
     "Qualcosa è andato storto, per favore prova di nuovo.",
   "page.admin_events_new.error.missing_user":

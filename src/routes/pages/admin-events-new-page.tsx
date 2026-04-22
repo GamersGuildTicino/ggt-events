@@ -100,7 +100,6 @@ export default function AdminEventsNewPage() {
           : undefined
         }
         onSubmit={handleCreateEvent}
-        title={t("page.admin_events_new.details.heading")}
       />
     </VStack>
   );

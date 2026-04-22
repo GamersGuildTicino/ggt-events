@@ -3,6 +3,7 @@ import {
   Button,
   HStack,
   Heading,
+  SimpleGrid,
   Spinner,
   VStack,
 } from "@chakra-ui/react";
@@ -94,7 +95,11 @@ export default function AdminEventPage() {
       )}
 
       {eventState.isSuccess && (
-        <>
+        <SimpleGrid
+          alignItems="flex-start"
+          columns={{ base: 1, xl: 2 }}
+          gap={4}
+        >
           <EventDetailsForm
             actions={
               <HStack>
@@ -129,11 +134,10 @@ export default function AdminEventPage() {
               </>
             }
             onSubmit={handleUpdateEvent}
-            title={t("page.admin_event.details.heading")}
           />
 
           <EventTablesSection eventId={eventState.data.id} />
-        </>
+        </SimpleGrid>
       )}
     </VStack>
   );

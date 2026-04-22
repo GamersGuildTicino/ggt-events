@@ -1,4 +1,5 @@
 import {
+  Card,
   type DateValue,
   Field,
   HStack,
@@ -45,7 +46,6 @@ export type EventDetailsFormProps = {
     value: EventDetailsFormValue,
     e: React.SubmitEvent<HTMLFormElement>,
   ) => void;
-  title: string;
 };
 
 export default function EventDetailsForm({
@@ -54,125 +54,127 @@ export default function EventDetailsForm({
   initialValue,
   message,
   onSubmit,
-  title,
 }: EventDetailsFormProps) {
   const { t } = useI18n();
   const eventVisibilityOptions = useEventVisibilityOptions();
-
   const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
     onSubmit(eventDetailsFormValueFromForm(e.currentTarget), e);
   };
 
   return (
-    <Form
-      alignItems="flex-start"
-      display="flex"
-      flexDirection="column"
-      gap={3}
-      justifyContent="center"
-      onSubmit={handleSubmit}
-      w="full"
-    >
-      <Heading size="xl">{title}</Heading>
-
-      <Field.Root disabled={disabled} required>
-        <Field.Label>
-          {t("form.event_details.title.label")}
-          <Field.RequiredIndicator />
-        </Field.Label>
-        <Input
-          defaultValue={initialValue?.title}
-          name="title"
-          pattern="\s*\S.*"
-          size="sm"
-        />
-      </Field.Root>
-
-      <HStack w="full">
-        <Field.Root disabled={disabled} required>
-          <Field.Label>
-            {t("form.event_details.starts_at_date.label")}
-            <Field.RequiredIndicator />
-          </Field.Label>
-          <DatePicker
-            defaultValue={initialValue?.startsAt}
-            format={formatDate}
-            locale="en-CA" // This allows using - in the input field
-            name="starts-at-date"
-            parse={parseDate}
-            placeholder="yyyy-mm-dd"
-            size="sm"
-          />
-        </Field.Root>
-
-        <Field.Root disabled={disabled} required>
-          <Field.Label>
-            {t("form.event_details.starts_at_time.label")}
-            <Field.RequiredIndicator />
-          </Field.Label>
-          <Input
-            defaultValue={
-              initialValue ? formatTime(initialValue.startsAt) : undefined
-            }
-            name="starts-at-time"
-            size="sm"
-            type="time"
-          />
-        </Field.Root>
-      </HStack>
-
-      <Field.Root disabled={disabled} required>
-        <Field.Label>
-          {t("form.event_details.location_name.label")}
-          <Field.RequiredIndicator />
-        </Field.Label>
-        <Input
-          defaultValue={initialValue?.locationName}
-          name="location-name"
-          pattern="\s*\S.*"
-          size="sm"
-        />
-      </Field.Root>
-
-      <Field.Root disabled={disabled}>
-        <Field.Label>
-          {t("form.event_details.location_address.label")}
-        </Field.Label>
-        <Input
-          defaultValue={initialValue?.locationAddress}
-          name="location-address"
-          size="sm"
-        />
-      </Field.Root>
-
-      <Field.Root disabled={disabled} required>
-        <Field.Label>
-          {t("form.event_details.visibility.label")}
-          <Field.RequiredIndicator />
-        </Field.Label>
-        <SelectEnum<EventVisibility>
-          defaultValue={initialValue?.visibility ?? "public"}
-          name="visibility"
-          options={eventVisibilityOptions}
-          size="sm"
-        />
-      </Field.Root>
-
-      <Field.Root disabled={disabled} my={2}>
-        <Checkbox
-          defaultChecked={initialValue?.registrationsOpen}
-          name="registrations-open"
-          size="sm"
+    <Card.Root>
+      <Card.Body>
+        <Form
+          alignItems="flex-start"
+          display="flex"
+          flexDirection="column"
+          gap={3}
+          justifyContent="center"
+          onSubmit={handleSubmit}
+          w="full"
         >
-          {t("form.event_details.registrations_open")}
-        </Checkbox>
-      </Field.Root>
+          <Heading size="md">{t("form.event_details.heading")}</Heading>
 
-      {message}
+          <Field.Root disabled={disabled} required>
+            <Field.Label>
+              {t("form.event_details.title.label")}
+              <Field.RequiredIndicator />
+            </Field.Label>
+            <Input
+              defaultValue={initialValue?.title}
+              name="title"
+              pattern="\s*\S.*"
+              size="sm"
+            />
+          </Field.Root>
 
-      {actions}
-    </Form>
+          <HStack w="full">
+            <Field.Root disabled={disabled} required>
+              <Field.Label>
+                {t("form.event_details.starts_at_date.label")}
+                <Field.RequiredIndicator />
+              </Field.Label>
+              <DatePicker
+                defaultValue={initialValue?.startsAt}
+                format={formatDate}
+                locale="en-CA" // This allows using - in the input field
+                name="starts-at-date"
+                parse={parseDate}
+                placeholder="yyyy-mm-dd"
+                size="sm"
+              />
+            </Field.Root>
+
+            <Field.Root disabled={disabled} required>
+              <Field.Label>
+                {t("form.event_details.starts_at_time.label")}
+                <Field.RequiredIndicator />
+              </Field.Label>
+              <Input
+                defaultValue={
+                  initialValue ? formatTime(initialValue.startsAt) : undefined
+                }
+                name="starts-at-time"
+                size="sm"
+                type="time"
+              />
+            </Field.Root>
+          </HStack>
+
+          <Field.Root disabled={disabled} required>
+            <Field.Label>
+              {t("form.event_details.location_name.label")}
+              <Field.RequiredIndicator />
+            </Field.Label>
+            <Input
+              defaultValue={initialValue?.locationName}
+              name="location-name"
+              pattern="\s*\S.*"
+              size="sm"
+            />
+          </Field.Root>
+
+          <Field.Root disabled={disabled}>
+            <Field.Label>
+              {t("form.event_details.location_address.label")}
+            </Field.Label>
+            <Input
+              defaultValue={initialValue?.locationAddress}
+              name="location-address"
+              size="sm"
+            />
+          </Field.Root>
+
+          <Field.Root disabled={disabled} required>
+            <Field.Label>
+              {t("form.event_details.visibility.label")}
+              <Field.RequiredIndicator />
+            </Field.Label>
+            <SelectEnum<EventVisibility>
+              defaultValue={initialValue?.visibility ?? "public"}
+              name="visibility"
+              options={eventVisibilityOptions}
+              size="sm"
+            />
+          </Field.Root>
+
+          <Field.Root disabled={disabled} my={2}>
+            <Checkbox
+              defaultChecked={initialValue?.registrationsOpen}
+              name="registrations-open"
+              size="sm"
+            >
+              {t("form.event_details.registrations_open")}
+            </Checkbox>
+          </Field.Root>
+
+          {message}
+
+          {actions}
+        </Form>
+      </Card.Body>
+    </Card.Root>
   );
 }
 

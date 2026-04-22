@@ -149,94 +149,104 @@ export default function EventTablesSection({
   };
 
   return (
-    <VStack align="stretch" gap={3} pt={4} w="full">
-      <Heading size="xl">{t("page.admin_event.tables.heading")}</Heading>
-
-      {gameSystemsState.isLoading && <Spinner />}
-
-      {gameSystemsState.hasError && (
-        <Alert.Root status="error">
-          <Alert.Description>{t(gameSystemsState.error)}</Alert.Description>
-        </Alert.Root>
-      )}
-
-      {gameSystemsState.isSuccess && gameSystemsState.data.length === 0 && (
-        <Text color="fg.muted">
-          {t("page.admin_event.tables.no_game_systems")}
-        </Text>
-      )}
-
-      {gameSystemsState.isSuccess && gameSystemsState.data.length > 0 && (
-        <Card.Root>
-          <Card.Body gap={3}>
+    <VStack align="stretch" gap={4} w="full">
+      <Card.Root>
+        <Card.Body>
+          <VStack align="stretch" gap={3} w="full">
             <Heading size="md">{t("page.admin_event.tables.new")}</Heading>
-            <EventTableForm
-              actions={
-                <Button loading={createState.isLoading} size="sm" type="submit">
-                  {t("page.admin_event.tables.create")}
-                </Button>
-              }
-              disabled={createState.isLoading}
-              gameSystems={gameSystemsState.data}
-              message={
-                createState.hasError ?
-                  <Alert.Root status="error">
-                    <Alert.Description>
-                      {t(createState.error)}
-                    </Alert.Description>
-                  </Alert.Root>
-                : undefined
-              }
-              onSubmit={handleCreateEventTable}
-            />
-          </Card.Body>
-        </Card.Root>
-      )}
 
-      {eventTablesState.isLoading && <Spinner />}
+            {gameSystemsState.isLoading && <Spinner />}
 
-      {eventTablesState.hasError && (
-        <Alert.Root status="error">
-          <Alert.Description>{t(eventTablesState.error)}</Alert.Description>
-        </Alert.Root>
-      )}
+            {gameSystemsState.hasError && (
+              <Alert.Root status="error">
+                <Alert.Description>
+                  {t(gameSystemsState.error)}
+                </Alert.Description>
+              </Alert.Root>
+            )}
 
-      {deleteError && (
-        <Alert.Root status="error">
-          <Alert.Description>{t(deleteError)}</Alert.Description>
-        </Alert.Root>
-      )}
+            {gameSystemsState.isSuccess &&
+              gameSystemsState.data.length === 0 && (
+                <Text color="fg.muted">
+                  {t("page.admin_event.tables.no_game_systems")}
+                </Text>
+              )}
 
-      {eventTablesState.isSuccess && eventTablesState.data.length === 0 && (
-        <Text color="fg.muted">{t("page.admin_event.tables.empty")}</Text>
-      )}
+            {gameSystemsState.isSuccess && gameSystemsState.data.length > 0 && (
+              <EventTableForm
+                actions={
+                  <Button
+                    loading={createState.isLoading}
+                    size="sm"
+                    type="submit"
+                  >
+                    {t("page.admin_event.tables.create")}
+                  </Button>
+                }
+                disabled={createState.isLoading}
+                gameSystems={gameSystemsState.data}
+                message={
+                  createState.hasError ?
+                    <Alert.Root status="error">
+                      <Alert.Description>
+                        {t(createState.error)}
+                      </Alert.Description>
+                    </Alert.Root>
+                  : undefined
+                }
+                onSubmit={handleCreateEventTable}
+              />
+            )}
+          </VStack>
+        </Card.Body>
+      </Card.Root>
 
-      {eventTablesState.isSuccess && eventTablesState.data.length > 0 && (
-        <VStack align="stretch" gap={3}>
-          {eventTablesState.data.map((eventTable) => (
-            <EventTableCard
-              deleting={deletingEventTableId === eventTable.id}
-              editing={editingEventTableId === eventTable.id}
-              eventTable={eventTable}
-              gameSystemName={
-                gameSystemById.get(eventTable.gameSystemId)?.name ?? ""
-              }
-              gameSystems={
-                gameSystemsState.isSuccess ? gameSystemsState.data : []
-              }
-              key={eventTable.id}
-              onCancelEdit={() => setEditingEventTableId(null)}
-              onDelete={handleDeleteEventTable}
-              onEdit={() => {
-                setUpdateState(initial());
-                setEditingEventTableId(eventTable.id);
-              }}
-              onUpdate={handleUpdateEventTable}
-              updateState={updateState}
-            />
-          ))}
-        </VStack>
-      )}
+      <VStack align="stretch" gap={3} w="full">
+        {eventTablesState.isLoading && <Spinner />}
+
+        {eventTablesState.hasError && (
+          <Alert.Root status="error">
+            <Alert.Description>{t(eventTablesState.error)}</Alert.Description>
+          </Alert.Root>
+        )}
+
+        {deleteError && (
+          <Alert.Root status="error">
+            <Alert.Description>{t(deleteError)}</Alert.Description>
+          </Alert.Root>
+        )}
+
+        {eventTablesState.isSuccess && eventTablesState.data.length === 0 && (
+          <Text color="fg.muted">{t("page.admin_event.tables.empty")}</Text>
+        )}
+
+        {eventTablesState.isSuccess && eventTablesState.data.length > 0 && (
+          <VStack align="stretch" gap={3}>
+            {eventTablesState.data.map((eventTable) => (
+              <EventTableCard
+                deleting={deletingEventTableId === eventTable.id}
+                editing={editingEventTableId === eventTable.id}
+                eventTable={eventTable}
+                gameSystemName={
+                  gameSystemById.get(eventTable.gameSystemId)?.name ?? ""
+                }
+                gameSystems={
+                  gameSystemsState.isSuccess ? gameSystemsState.data : []
+                }
+                key={eventTable.id}
+                onCancelEdit={() => setEditingEventTableId(null)}
+                onDelete={handleDeleteEventTable}
+                onEdit={() => {
+                  setUpdateState(initial());
+                  setEditingEventTableId(eventTable.id);
+                }}
+                onUpdate={handleUpdateEventTable}
+                updateState={updateState}
+              />
+            ))}
+          </VStack>
+        )}
+      </VStack>
     </VStack>
   );
 }

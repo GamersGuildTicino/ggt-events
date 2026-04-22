@@ -42,7 +42,7 @@ export default function AdminLayout() {
       </HStack>
 
       <Center px={8} py={4} w="full">
-        <Flex maxW="40em" w="full">
+        <Flex maxW="72em" w="full">
           <Outlet />
         </Flex>
       </Center>

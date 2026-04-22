@@ -29,6 +29,7 @@ const enGB = {
   "error.game_systems.parse_one": "Game system data is invalid.",
   "error.game_systems.update": "Unable to update game system.",
 
+  "form.event_details.heading": "Details",
   "form.event_details.location_address.label": "Address",
   "form.event_details.location_name.label": "Location",
   "form.event_details.registrations_open": "Registrations open",
@@ -66,7 +67,6 @@ const enGB = {
   "page.admin_event.breadcrumb.admin": "Dashboard",
   "page.admin_event.breadcrumb.event": "Manage event",
   "page.admin_event.breadcrumb.events": "Events",
-  "page.admin_event.details.heading": "Event details",
   "page.admin_event.error.generic": "Something went wrong, please try again.",
   "page.admin_event.error.missing_event": "Missing event id.",
   "page.admin_event.heading": "Manage event",
@@ -83,7 +83,6 @@ const enGB = {
     "Something went wrong, please try again.",
   "page.admin_event.tables.error.missing_user":
     "You must be logged in to create a table.",
-  "page.admin_event.tables.heading": "Tables",
   "page.admin_event.tables.new": "New table",
   "page.admin_event.tables.no_game_systems":
     "Create a game system before adding tables.",
@@ -110,7 +109,6 @@ const enGB = {
   "page.admin_events_new.breadcrumb.new": "New event",
   "page.admin_events_new.cancel": "Cancel",
   "page.admin_events_new.create": "Create",
-  "page.admin_events_new.details.heading": "Event details",
   "page.admin_events_new.error.generic":
     "Something went wrong, please try again.",
   "page.admin_events_new.error.missing_user":
