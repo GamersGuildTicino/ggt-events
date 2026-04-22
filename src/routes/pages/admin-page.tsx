@@ -28,7 +28,7 @@ export default function AdminPage() {
           <Card.Body gap={4}>
             <VStack align="flex-start" gap={2}>
               <Heading size="md">{t("page.admin.events.heading")}</Heading>
-              <Text color="fg.muted" fontSize="sm">
+              <Text color="fg.muted" fontSize="sm" lineHeight={1.2}>
                 {t("page.admin.events.description")}
               </Text>
             </VStack>
@@ -46,13 +46,31 @@ export default function AdminPage() {
               <Heading size="md">
                 {t("page.admin.create_event.heading")}
               </Heading>
-              <Text color="fg.muted" fontSize="sm">
+              <Text color="fg.muted" fontSize="sm" lineHeight={1.2}>
                 {t("page.admin.create_event.description")}
               </Text>
             </VStack>
             <Button asChild size="sm" variant="outline">
               <RouterLink to="/admin/events/new">
                 {t("page.admin.create_event.open")}
+              </RouterLink>
+            </Button>
+          </Card.Body>
+        </Card.Root>
+
+        <Card.Root>
+          <Card.Body gap={4}>
+            <VStack align="flex-start" gap={2}>
+              <Heading size="md">
+                {t("page.admin.game_systems.heading")}
+              </Heading>
+              <Text color="fg.muted" fontSize="sm" lineHeight={1.2}>
+                {t("page.admin.game_systems.description")}
+              </Text>
+            </VStack>
+            <Button asChild size="sm" variant="outline">
+              <RouterLink to="/admin/game-systems">
+                {t("page.admin.game_systems.open")}
               </RouterLink>
             </Button>
           </Card.Body>

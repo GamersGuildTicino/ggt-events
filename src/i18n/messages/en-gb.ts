@@ -25,6 +25,10 @@ const enGB = {
   "page.admin.events.description": "View and manage existing events.",
   "page.admin.events.heading": "Events",
   "page.admin.events.open": "Open events",
+  "page.admin.game_systems.description":
+    "Manage reusable game systems for event tables.",
+  "page.admin.game_systems.heading": "Game systems",
+  "page.admin.game_systems.open": "Open game systems",
   "page.admin.heading": "Dashboard",
 
   "page.admin_event.back_to_events": "Back to events",
@@ -64,6 +68,25 @@ const enGB = {
   "page.admin_events_new.error.missing_user":
     "You must be logged in to create a new event.",
   "page.admin_events_new.heading": "Create new event",
+
+  "page.admin_game_system.back_to_game_systems": "Back to game systems",
+  "page.admin_game_system.breadcrumb.admin": "Dashboard",
+  "page.admin_game_system.breadcrumb.game_system": "Manage game system",
+  "page.admin_game_system.breadcrumb.game_systems": "Game systems",
+  "page.admin_game_system.heading": "Manage game system",
+
+  "page.admin_game_systems.breadcrumb.admin": "Dashboard",
+  "page.admin_game_systems.breadcrumb.game_systems": "Game systems",
+  "page.admin_game_systems.description":
+    "Create and maintain the game systems used by event tables.",
+  "page.admin_game_systems.heading": "Game systems",
+  "page.admin_game_systems.new": "New game system",
+
+  "page.admin_game_systems_new.back_to_game_systems": "Back to game systems",
+  "page.admin_game_systems_new.breadcrumb.admin": "Dashboard",
+  "page.admin_game_systems_new.breadcrumb.game_systems": "Game systems",
+  "page.admin_game_systems_new.breadcrumb.new": "New game system",
+  "page.admin_game_systems_new.heading": "Create game system",
 
   "page.admin_forgot_password.back_to_login": "Back to login",
   "page.admin_forgot_password.confirmation":

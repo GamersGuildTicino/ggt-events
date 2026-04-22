@@ -26,6 +26,15 @@ const AdminEventsNewPage = lazy(
   () => import("./routes/pages/admin-events-new-page"),
 );
 const AdminEventPage = lazy(() => import("./routes/pages/admin-event-page"));
+const AdminGameSystemsPage = lazy(
+  () => import("./routes/pages/admin-game-systems-page"),
+);
+const AdminGameSystemsNewPage = lazy(
+  () => import("./routes/pages/admin-game-systems-new-page"),
+);
+const AdminGameSystemPage = lazy(
+  () => import("./routes/pages/admin-game-system-page"),
+);
 const NotFoundPage = lazy(() => import("./routes/pages/not-found-page"));
 
 //------------------------------------------------------------------------------
@@ -57,6 +66,9 @@ export const router = createBrowserRouter([
               { lazy: AdminEventsPage, path: "events" },
               { lazy: AdminEventsNewPage, path: "events/new" },
               { lazy: AdminEventPage, path: "events/:eventId" },
+              { lazy: AdminGameSystemsPage, path: "game-systems" },
+              { lazy: AdminGameSystemsNewPage, path: "game-systems/new" },
+              { lazy: AdminGameSystemPage, path: "game-systems/:gameSystemId" },
             ],
             element: <AdminLayout />,
           },

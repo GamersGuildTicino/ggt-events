@@ -26,6 +26,10 @@ const itCH = {
     "Visualizza e gestisci gli eventi esistenti.",
   "page.admin.events.heading": "Eventi",
   "page.admin.events.open": "Apri eventi",
+  "page.admin.game_systems.description":
+    "Gestisci i sistemi di gioco riutilizzabili per i tavoli.",
+  "page.admin.game_systems.heading": "Sistemi di gioco",
+  "page.admin.game_systems.open": "Apri sistemi di gioco",
   "page.admin.heading": "Panoramica",
 
   "page.admin_event.back_to_events": "Torna agli eventi",
@@ -67,6 +71,26 @@ const itCH = {
   "page.admin_events_new.error.missing_user":
     "Devi essere registrato per creare un nuovo evento.",
   "page.admin_events_new.heading": "Crea nuovo evento",
+
+  "page.admin_game_system.back_to_game_systems": "Torna ai sistemi di gioco",
+  "page.admin_game_system.breadcrumb.admin": "Panoramica",
+  "page.admin_game_system.breadcrumb.game_system": "Gestisci sistema di gioco",
+  "page.admin_game_system.breadcrumb.game_systems": "Sistemi di gioco",
+  "page.admin_game_system.heading": "Gestisci sistema di gioco",
+
+  "page.admin_game_systems.breadcrumb.admin": "Panoramica",
+  "page.admin_game_systems.breadcrumb.game_systems": "Sistemi di gioco",
+  "page.admin_game_systems.description":
+    "Crea e gestisci i sistemi di gioco usati dai tavoli.",
+  "page.admin_game_systems.heading": "Sistemi di gioco",
+  "page.admin_game_systems.new": "Nuovo sistema di gioco",
+
+  "page.admin_game_systems_new.back_to_game_systems":
+    "Torna ai sistemi di gioco",
+  "page.admin_game_systems_new.breadcrumb.admin": "Panoramica",
+  "page.admin_game_systems_new.breadcrumb.game_systems": "Sistemi di gioco",
+  "page.admin_game_systems_new.breadcrumb.new": "Nuovo sistema di gioco",
+  "page.admin_game_systems_new.heading": "Crea sistema di gioco",
 
   "page.admin_forgot_password.back_to_login": "Torna al login",
   "page.admin_forgot_password.confirmation":
