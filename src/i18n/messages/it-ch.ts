@@ -17,6 +17,14 @@ const itCH = {
   "enum.event_table_experience_level.novice": "Principiante",
   "enum.event_table_experience_level.unspecified": "Non specificato",
 
+  "enum.event_table_language.english": "Inglese",
+  "enum.event_table_language.french": "Francese",
+  "enum.event_table_language.german": "Tedesco",
+  "enum.event_table_language.italian": "Italiano",
+  "enum.event_table_language.portuguese": "Portoghese",
+  "enum.event_table_language.spanish": "Spagnolo",
+  "enum.event_table_language.unspecified": "Non specificato",
+
   "error.events.create": "Impossibile creare l'evento.",
   "error.events.delete": "Impossibile eliminare l'evento.",
   "error.events.fetch_many": "Impossibile caricare gli eventi.",
@@ -62,6 +70,7 @@ const itCH = {
   "form.event_table.experience_level.label": "Esperienza",
   "form.event_table.game_master_name.label": "Game master",
   "form.event_table.game_system.label": "Sistema di gioco",
+  "form.event_table.language.label": "Lingua",
   "form.event_table.max_players.label": "Giocatori max",
   "form.event_table.min_players.label": "Giocatori min",
   "form.event_table.time_slot.label": "Fascia oraria",

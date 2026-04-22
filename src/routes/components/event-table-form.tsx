@@ -4,6 +4,10 @@ import {
   type EventTableExperienceLevel,
   useEventTableExperienceLevelOptions,
 } from "~/domain/enums/event-table-experience-level";
+import {
+  type EventTableLanguage,
+  useEventTableLanguageOptions,
+} from "~/domain/enums/event-table-language";
 import type { EventTable } from "~/domain/event-tables";
 import type { EventTimeSlot } from "~/domain/event-time-slots";
 import type { GameSystem } from "~/domain/game-systems";
@@ -21,6 +25,7 @@ export type EventTableFormValue = Pick<
   | "experienceLevel"
   | "gameMasterName"
   | "gameSystemId"
+  | "language"
   | "maxPlayers"
   | "minPlayers"
   | "timeSlotId"
@@ -55,6 +60,7 @@ export default function EventTableForm({
 }: EventTableFormProps) {
   const { locale, t } = useI18n();
   const experienceLevelOptions = useEventTableExperienceLevelOptions();
+  const languageOptions = useEventTableLanguageOptions();
 
   const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -160,18 +166,33 @@ export default function EventTableForm({
         />
       </Field.Root>
 
-      <Field.Root disabled={disabled} required>
-        <Field.Label>
-          {t("form.event_table.experience_level.label")}
-          <Field.RequiredIndicator />
-        </Field.Label>
-        <SelectEnum<EventTableExperienceLevel>
-          defaultValue={initialValue?.experienceLevel ?? "unspecified"}
-          name="experience-level"
-          options={experienceLevelOptions}
-          size="sm"
-        />
-      </Field.Root>
+      <HStack w="full">
+        <Field.Root disabled={disabled} required>
+          <Field.Label>
+            {t("form.event_table.experience_level.label")}
+            <Field.RequiredIndicator />
+          </Field.Label>
+          <SelectEnum<EventTableExperienceLevel>
+            defaultValue={initialValue?.experienceLevel ?? "unspecified"}
+            name="experience-level"
+            options={experienceLevelOptions}
+            size="sm"
+          />
+        </Field.Root>
+
+        <Field.Root disabled={disabled} required>
+          <Field.Label>
+            {t("form.event_table.language.label")}
+            <Field.RequiredIndicator />
+          </Field.Label>
+          <SelectEnum<EventTableLanguage>
+            defaultValue={initialValue?.language ?? "italian"}
+            name="language"
+            options={languageOptions}
+            size="sm"
+          />
+        </Field.Root>
+      </HStack>
 
       <Field.Root disabled={disabled}>
         <Field.Label>{t("form.event_table.description.label")}</Field.Label>
@@ -203,6 +224,7 @@ function eventTableFormValueFromForm(form: HTMLFormElement) {
     experienceLevel: getString("experience-level") as EventTableExperienceLevel,
     gameMasterName: getString("game-master-name"),
     gameSystemId: getString("game-system-id"),
+    language: getString("language") as EventTableLanguage,
     maxPlayers: getNumber("max-players"),
     minPlayers: getNumber("min-players"),
     timeSlotId: getString("time-slot-id"),

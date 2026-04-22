@@ -7,6 +7,7 @@ import {
   success,
 } from "~/utils/async-state";
 import { eventTableExperienceLevelSchema } from "./enums/event-table-experience-level";
+import { eventTableLanguageSchema } from "./enums/event-table-language";
 
 //------------------------------------------------------------------------------
 // Event Table
@@ -20,6 +21,7 @@ export const eventTableSchema = z.object({
   gameMasterName: z.string(),
   gameSystemId: z.uuid(),
   id: z.uuid(),
+  language: eventTableLanguageSchema,
   maxPlayers: z.number().int(),
   minPlayers: z.number().int(),
   timeSlotId: z.uuid(),
@@ -41,6 +43,7 @@ export const eventTableRowSchema = z.object({
   game_master_name: z.string(),
   game_system_id: z.uuid(),
   id: z.uuid(),
+  language: eventTableLanguageSchema,
   max_players: z.number().int(),
   min_players: z.number().int(),
   time_slot_id: z.uuid(),
@@ -63,6 +66,7 @@ export const eventTableFromRowSchema = eventTableRowSchema.transform(
     gameMasterName: row.game_master_name,
     gameSystemId: row.game_system_id,
     id: row.id,
+    language: row.language,
     maxPlayers: row.max_players,
     minPlayers: row.min_players,
     timeSlotId: row.time_slot_id,
@@ -84,6 +88,7 @@ export async function createEventTable(
     experience_level: eventTable.experienceLevel,
     game_master_name: eventTable.gameMasterName,
     game_system_id: eventTable.gameSystemId,
+    language: eventTable.language,
     max_players: eventTable.maxPlayers,
     min_players: eventTable.minPlayers,
     time_slot_id: eventTable.timeSlotId,
@@ -142,6 +147,7 @@ export async function updateEventTable(
       experience_level: eventTable.experienceLevel,
       game_master_name: eventTable.gameMasterName,
       game_system_id: eventTable.gameSystemId,
+      language: eventTable.language,
       max_players: eventTable.maxPlayers,
       min_players: eventTable.minPlayers,
       time_slot_id: eventTable.timeSlotId,

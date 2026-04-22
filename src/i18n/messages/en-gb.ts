@@ -17,6 +17,14 @@ const enGB = {
   "enum.event_table_experience_level.novice": "Novice",
   "enum.event_table_experience_level.unspecified": "Unspecified",
 
+  "enum.event_table_language.english": "English",
+  "enum.event_table_language.french": "French",
+  "enum.event_table_language.german": "German",
+  "enum.event_table_language.italian": "Italian",
+  "enum.event_table_language.portuguese": "Portuguese",
+  "enum.event_table_language.spanish": "Spanish",
+  "enum.event_table_language.unspecified": "Unspecified",
+
   "error.events.create": "Unable to create event.",
   "error.events.delete": "Unable to delete event.",
   "error.events.fetch_many": "Unable to load events.",
@@ -59,6 +67,7 @@ const enGB = {
   "form.event_table.experience_level.label": "Experience level",
   "form.event_table.game_master_name.label": "Game master",
   "form.event_table.game_system.label": "Game system",
+  "form.event_table.language.label": "Language",
   "form.event_table.max_players.label": "Max players",
   "form.event_table.min_players.label": "Min players",
   "form.event_table.time_slot.label": "Time slot",

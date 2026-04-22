@@ -19,6 +19,7 @@ import {
   type EventTableExperienceLevel,
   experienceLevelColorPalette,
 } from "~/domain/enums/event-table-experience-level";
+import type { EventTableLanguage } from "~/domain/enums/event-table-language";
 import { type EventTable, fetchEventTables } from "~/domain/event-tables";
 import {
   type EventTimeSlot,
@@ -395,7 +396,7 @@ function EventTableCard({
 
   return (
     <Card.Root
-      _hover={{ borderColor: "orange.400", transform: "translateY(-2px)" }}
+      _hover={{ borderColor: "blue.400", transform: "translateY(-2px)" }}
       transition="border-color 160ms ease, transform 160ms ease"
     >
       <Card.Body gap={4}>
@@ -409,10 +410,13 @@ function EventTableCard({
             </VStack>
 
             <VStack align="flex-end" gap={1}>
-              <Badge colorPalette="orange">{gameSystemName}</Badge>
-              <ExperienceLevelBadge
-                experienceLevel={eventTable.experienceLevel}
-              />
+              <Badge colorPalette="gray">{gameSystemName}</Badge>
+              <HStack gap={1}>
+                <ExperienceLevelBadge
+                  experienceLevel={eventTable.experienceLevel}
+                />
+                <LanguageBadge language={eventTable.language} />
+              </HStack>
             </VStack>
           </HStack>
 
@@ -461,6 +465,21 @@ function ExperienceLevelBadge({
   return (
     <Badge colorPalette={experienceLevelColorPalette(experienceLevel)}>
       {t(`enum.event_table_experience_level.${experienceLevel}`)}
+    </Badge>
+  );
+}
+
+//------------------------------------------------------------------------------
+// Language Badge
+//------------------------------------------------------------------------------
+
+function LanguageBadge({ language }: { language: EventTableLanguage }) {
+  const { t } = useI18n();
+  if (language === "italian" || language === "unspecified") return null;
+
+  return (
+    <Badge colorPalette="pink">
+      {t(`enum.event_table_language.${language}`)}
     </Badge>
   );
 }
