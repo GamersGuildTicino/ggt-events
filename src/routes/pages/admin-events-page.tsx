@@ -10,9 +10,10 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link as RouterLink } from "react-router";
 import { type Event, fetchEvents } from "~/domain/events";
+import { useAsyncEffect } from "~/hooks/use-async-effect";
 import useI18n from "~/i18n/use-i18n";
 import { type AsyncState, initial, loading } from "~/utils/async-state";
 import AdminBreadcrumb from "../components/admin-breadcrumb";
@@ -26,21 +27,11 @@ export default function AdminEventsPage() {
   const [eventsState, setEventsState] =
     useState<AsyncState<Event[]>>(initial());
 
-  useEffect(() => {
-    let active = true;
-
-    const loadEvents = async () => {
-      setEventsState(loading());
-      const events = await fetchEvents();
-      if (!active) return;
-      setEventsState(events);
-    };
-
-    void loadEvents();
-
-    return () => {
-      active = false;
-    };
+  useAsyncEffect(async (isActive) => {
+    setEventsState(loading());
+    const events = await fetchEvents();
+    if (!isActive()) return;
+    setEventsState(events);
   }, []);
 
   return (
