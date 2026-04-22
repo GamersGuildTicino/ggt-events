@@ -45,6 +45,7 @@ const enGB = {
   "form.event_table.title.label": "Title",
 
   "form.game_system.description.label": "Description",
+  "form.game_system.heading": "Details",
   "form.game_system.image_url.label": "Image URL",
   "form.game_system.name.label": "Name",
 

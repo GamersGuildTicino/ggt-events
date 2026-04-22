@@ -47,6 +47,7 @@ const itCH = {
   "form.event_table.title.label": "Titolo",
 
   "form.game_system.description.label": "Descrizione",
+  "form.game_system.heading": "Dettagli",
   "form.game_system.image_url.label": "URL immagine",
   "form.game_system.name.label": "Nome",
 
