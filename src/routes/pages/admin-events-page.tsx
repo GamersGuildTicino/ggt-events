@@ -17,6 +17,7 @@ import { useAsyncEffect } from "~/hooks/use-async-effect";
 import useI18n from "~/i18n/use-i18n";
 import { type AsyncState, initial, loading } from "~/utils/async-state";
 import AdminBreadcrumb from "../components/admin-breadcrumb";
+import AdminContentColumns from "../components/admin-content-columns";
 
 //------------------------------------------------------------------------------
 // Admin Events Page
@@ -97,7 +98,7 @@ export default function AdminEventsPage() {
       )}
 
       {eventsState.isSuccess && eventsState.data.length > 0 && (
-        <VStack align="stretch" gap={3}>
+        <AdminContentColumns>
           {eventsState.data.map((event) => (
             <EventCard
               deleting={deletingEventId === event.id}
@@ -107,7 +108,7 @@ export default function AdminEventsPage() {
               onDelete={handleDeleteEvent}
             />
           ))}
-        </VStack>
+        </AdminContentColumns>
       )}
     </VStack>
   );

@@ -13,6 +13,7 @@ import {
   success,
 } from "~/utils/async-state";
 import AdminBreadcrumb from "../components/admin-breadcrumb";
+import AdminContentColumns from "../components/admin-content-columns";
 import EventDetailsForm, {
   type EventDetailsFormValue,
 } from "../components/event-details-form";
@@ -73,34 +74,38 @@ export default function AdminEventsNewPage() {
 
       <Heading size="3xl">{t("page.admin_events_new.heading")}</Heading>
 
-      <EventDetailsForm
-        actions={
-          <HStack>
-            <Button
-              loading={createEventState.isLoading}
-              size="sm"
-              type="submit"
-            >
-              {t("page.admin_events_new.create")}
-            </Button>
+      <AdminContentColumns maxColumns={2}>
+        <EventDetailsForm
+          actions={
+            <HStack>
+              <Button
+                loading={createEventState.isLoading}
+                size="sm"
+                type="submit"
+              >
+                {t("page.admin_events_new.create")}
+              </Button>
 
-            <Button asChild size="sm" variant="outline">
-              <RouterLink to="/admin/events">
-                {t("page.admin_events_new.cancel")}
-              </RouterLink>
-            </Button>
-          </HStack>
-        }
-        disabled={createEventState.isLoading}
-        message={
-          createEventState.hasError ?
-            <Alert.Root status="error">
-              <Alert.Description>{t(createEventState.error)}</Alert.Description>
-            </Alert.Root>
-          : undefined
-        }
-        onSubmit={handleCreateEvent}
-      />
+              <Button asChild size="sm" variant="outline">
+                <RouterLink to="/admin/events">
+                  {t("page.admin_events_new.cancel")}
+                </RouterLink>
+              </Button>
+            </HStack>
+          }
+          disabled={createEventState.isLoading}
+          message={
+            createEventState.hasError ?
+              <Alert.Root status="error">
+                <Alert.Description>
+                  {t(createEventState.error)}
+                </Alert.Description>
+              </Alert.Root>
+            : undefined
+          }
+          onSubmit={handleCreateEvent}
+        />
+      </AdminContentColumns>
     </VStack>
   );
 }

@@ -1,13 +1,7 @@
-import {
-  Button,
-  Card,
-  Heading,
-  SimpleGrid,
-  Text,
-  VStack,
-} from "@chakra-ui/react";
+import { Button, Card, Heading, Text, VStack } from "@chakra-ui/react";
 import { Link as RouterLink } from "react-router";
 import useI18n from "~/i18n/use-i18n";
+import AdminContentColumns from "../components/admin-content-columns";
 
 //------------------------------------------------------------------------------
 // Admin Page
@@ -23,7 +17,7 @@ export default function AdminPage() {
         <Text color="fg.muted">{t("page.admin.description")}</Text>
       </VStack>
 
-      <SimpleGrid columns={{ base: 1, md: 2 }} gap={4}>
+      <AdminContentColumns maxColumns={3}>
         <Card.Root>
           <Card.Body gap={4}>
             <VStack align="flex-start" gap={2}>
@@ -75,7 +69,7 @@ export default function AdminPage() {
             </Button>
           </Card.Body>
         </Card.Root>
-      </SimpleGrid>
+      </AdminContentColumns>
     </VStack>
   );
 }

@@ -16,6 +16,7 @@ import {
   success,
 } from "~/utils/async-state";
 import AdminBreadcrumb from "../components/admin-breadcrumb";
+import AdminContentColumns from "../components/admin-content-columns";
 import GameSystemForm, {
   type GameSystemFormValue,
 } from "../components/game-system-form";
@@ -96,41 +97,43 @@ export default function AdminGameSystemPage() {
       )}
 
       {gameSystemState.isSuccess && (
-        <GameSystemForm
-          actions={
-            <>
-              <Button loading={saveState.isLoading} size="sm" type="submit">
-                {t("page.admin_game_system.save")}
-              </Button>
+        <AdminContentColumns maxColumns={2}>
+          <GameSystemForm
+            actions={
+              <>
+                <Button loading={saveState.isLoading} size="sm" type="submit">
+                  {t("page.admin_game_system.save")}
+                </Button>
 
-              <Button asChild size="sm" variant="outline">
-                <RouterLink to="/admin/game-systems">
-                  {t("page.admin_game_system.back_to_game_systems")}
-                </RouterLink>
-              </Button>
-            </>
-          }
-          disabled={saveState.isLoading}
-          initialValue={gameSystemState.data}
-          message={
-            <>
-              {saveState.hasError && (
-                <Alert.Root status="error">
-                  <Alert.Description>{t(saveState.error)}</Alert.Description>
-                </Alert.Root>
-              )}
+                <Button asChild size="sm" variant="outline">
+                  <RouterLink to="/admin/game-systems">
+                    {t("page.admin_game_system.back_to_game_systems")}
+                  </RouterLink>
+                </Button>
+              </>
+            }
+            disabled={saveState.isLoading}
+            initialValue={gameSystemState.data}
+            message={
+              <>
+                {saveState.hasError && (
+                  <Alert.Root status="error">
+                    <Alert.Description>{t(saveState.error)}</Alert.Description>
+                  </Alert.Root>
+                )}
 
-              {saveState.isSuccess && (
-                <Alert.Root status="success">
-                  <Alert.Description>
-                    {t("page.admin_game_system.saved")}
-                  </Alert.Description>
-                </Alert.Root>
-              )}
-            </>
-          }
-          onSubmit={handleUpdateGameSystem}
-        />
+                {saveState.isSuccess && (
+                  <Alert.Root status="success">
+                    <Alert.Description>
+                      {t("page.admin_game_system.saved")}
+                    </Alert.Description>
+                  </Alert.Root>
+                )}
+              </>
+            }
+            onSubmit={handleUpdateGameSystem}
+          />
+        </AdminContentColumns>
       )}
     </VStack>
   );

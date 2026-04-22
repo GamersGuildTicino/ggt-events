@@ -12,6 +12,7 @@ import {
   success,
 } from "~/utils/async-state";
 import AdminBreadcrumb from "../components/admin-breadcrumb";
+import AdminContentColumns from "../components/admin-content-columns";
 import GameSystemForm, {
   type GameSystemFormValue,
 } from "../components/game-system-form";
@@ -64,30 +65,32 @@ export default function AdminGameSystemsNewPage() {
 
       <Heading size="3xl">{t("page.admin_game_systems_new.heading")}</Heading>
 
-      <GameSystemForm
-        actions={
-          <>
-            <Button loading={createState.isLoading} size="sm" type="submit">
-              {t("page.admin_game_systems_new.create")}
-            </Button>
+      <AdminContentColumns maxColumns={2}>
+        <GameSystemForm
+          actions={
+            <>
+              <Button loading={createState.isLoading} size="sm" type="submit">
+                {t("page.admin_game_systems_new.create")}
+              </Button>
 
-            <Button asChild size="sm" variant="outline">
-              <RouterLink to="/admin/game-systems">
-                {t("page.admin_game_systems_new.back_to_game_systems")}
-              </RouterLink>
-            </Button>
-          </>
-        }
-        disabled={createState.isLoading}
-        message={
-          createState.hasError ?
-            <Alert.Root status="error">
-              <Alert.Description>{t(createState.error)}</Alert.Description>
-            </Alert.Root>
-          : undefined
-        }
-        onSubmit={handleCreateGameSystem}
-      />
+              <Button asChild size="sm" variant="outline">
+                <RouterLink to="/admin/game-systems">
+                  {t("page.admin_game_systems_new.back_to_game_systems")}
+                </RouterLink>
+              </Button>
+            </>
+          }
+          disabled={createState.isLoading}
+          message={
+            createState.hasError ?
+              <Alert.Root status="error">
+                <Alert.Description>{t(createState.error)}</Alert.Description>
+              </Alert.Root>
+            : undefined
+          }
+          onSubmit={handleCreateGameSystem}
+        />
+      </AdminContentColumns>
     </VStack>
   );
 }

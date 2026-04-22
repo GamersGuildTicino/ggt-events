@@ -3,7 +3,6 @@ import {
   Button,
   HStack,
   Heading,
-  SimpleGrid,
   Spinner,
   VStack,
 } from "@chakra-ui/react";
@@ -20,6 +19,7 @@ import {
   success,
 } from "~/utils/async-state";
 import AdminBreadcrumb from "../components/admin-breadcrumb";
+import AdminContentColumns from "../components/admin-content-columns";
 import EventDetailsForm, {
   type EventDetailsFormValue,
 } from "../components/event-details-form";
@@ -95,11 +95,7 @@ export default function AdminEventPage() {
       )}
 
       {eventState.isSuccess && (
-        <SimpleGrid
-          alignItems="flex-start"
-          columns={{ base: 1, xl: 2 }}
-          gap={4}
-        >
+        <AdminContentColumns>
           <EventDetailsForm
             actions={
               <HStack>
@@ -137,7 +133,7 @@ export default function AdminEventPage() {
           />
 
           <EventTablesSection eventId={eventState.data.id} />
-        </SimpleGrid>
+        </AdminContentColumns>
       )}
     </VStack>
   );

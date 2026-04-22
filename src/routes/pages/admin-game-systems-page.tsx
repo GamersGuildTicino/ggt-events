@@ -20,6 +20,7 @@ import { useAsyncEffect } from "~/hooks/use-async-effect";
 import useI18n from "~/i18n/use-i18n";
 import { type AsyncState, initial, loading } from "~/utils/async-state";
 import AdminBreadcrumb from "../components/admin-breadcrumb";
+import AdminContentColumns from "../components/admin-content-columns";
 
 //------------------------------------------------------------------------------
 // Admin Game Systems Page
@@ -112,7 +113,7 @@ export default function AdminGameSystemsPage() {
       )}
 
       {gameSystemsState.isSuccess && gameSystemsState.data.length > 0 && (
-        <VStack align="stretch" gap={3}>
+        <AdminContentColumns maxColumns={3}>
           {gameSystemsState.data.map((gameSystem) => (
             <GameSystemCard
               deleting={deletingGameSystemId === gameSystem.id}
@@ -121,7 +122,7 @@ export default function AdminGameSystemsPage() {
               onDelete={handleDeleteGameSystem}
             />
           ))}
-        </VStack>
+        </AdminContentColumns>
       )}
     </VStack>
   );
