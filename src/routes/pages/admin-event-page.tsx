@@ -1,6 +1,7 @@
 import {
   Alert,
   Button,
+  Grid,
   HStack,
   Heading,
   Spinner,
@@ -23,7 +24,6 @@ import {
   success,
 } from "~/utils/async-state";
 import AdminBreadcrumb from "../components/admin-breadcrumb";
-import AdminContentColumns from "../components/admin-content-columns";
 import EventDetailsForm, {
   type EventDetailsFormValue,
 } from "../components/event-details-form";
@@ -125,65 +125,76 @@ export default function AdminEventPage() {
       )}
 
       {eventState.isSuccess && (
-        <AdminContentColumns>
-          <EventDetailsForm
-            actions={
-              <HStack>
-                <Button loading={saveState.isLoading} size="sm" type="submit">
-                  {t("page.admin_event.save")}
-                </Button>
+        <Grid
+          alignItems="flex-start"
+          gap={4}
+          templateColumns={{ base: "1fr", xl: "minmax(0, 1fr) minmax(0, 1fr)" }}
+          w="full"
+        >
+          <VStack align="stretch" gap={4}>
+            <EventDetailsForm
+              actions={
+                <HStack>
+                  <Button loading={saveState.isLoading} size="sm" type="submit">
+                    {t("page.admin_event.save")}
+                  </Button>
 
-                <Button asChild size="sm" variant="outline">
-                  <RouterLink to="/admin/events">
-                    {t("page.admin_event.back_to_events")}
-                  </RouterLink>
-                </Button>
-              </HStack>
-            }
-            disabled={saveState.isLoading}
-            initialValue={eventState.data}
-            message={
-              <>
-                {saveState.hasError && (
-                  <Alert.Root status="error">
-                    <Alert.Description>{t(saveState.error)}</Alert.Description>
-                  </Alert.Root>
-                )}
+                  <Button asChild size="sm" variant="outline">
+                    <RouterLink to="/admin/events">
+                      {t("page.admin_event.back_to_events")}
+                    </RouterLink>
+                  </Button>
+                </HStack>
+              }
+              disabled={saveState.isLoading}
+              initialValue={eventState.data}
+              message={
+                <>
+                  {saveState.hasError && (
+                    <Alert.Root status="error">
+                      <Alert.Description>
+                        {t(saveState.error)}
+                      </Alert.Description>
+                    </Alert.Root>
+                  )}
 
-                {saveState.isSuccess && (
-                  <Alert.Root status="success">
-                    <Alert.Description>
-                      {t("page.admin_event.saved")}
-                    </Alert.Description>
-                  </Alert.Root>
-                )}
-              </>
-            }
-            onSubmit={handleUpdateEvent}
-          />
-
-          <EventTimeSlotsSection
-            eventId={eventState.data.id}
-            onChange={loadTimeSlots}
-          />
-
-          {eventTimeSlotsState.isLoading && <Spinner />}
-
-          {eventTimeSlotsState.hasError && (
-            <Alert.Root status="error">
-              <Alert.Description>
-                {t(eventTimeSlotsState.error)}
-              </Alert.Description>
-            </Alert.Root>
-          )}
-
-          {eventTimeSlotsState.isSuccess && (
-            <EventTablesSection
-              eventId={eventState.data.id}
-              timeSlots={eventTimeSlotsState.data}
+                  {saveState.isSuccess && (
+                    <Alert.Root status="success">
+                      <Alert.Description>
+                        {t("page.admin_event.saved")}
+                      </Alert.Description>
+                    </Alert.Root>
+                  )}
+                </>
+              }
+              onSubmit={handleUpdateEvent}
             />
-          )}
-        </AdminContentColumns>
+
+            <EventTimeSlotsSection
+              eventId={eventState.data.id}
+              onChange={loadTimeSlots}
+            />
+          </VStack>
+
+          <VStack align="stretch" gap={4} minW={0}>
+            {eventTimeSlotsState.isLoading && <Spinner />}
+
+            {eventTimeSlotsState.hasError && (
+              <Alert.Root status="error">
+                <Alert.Description>
+                  {t(eventTimeSlotsState.error)}
+                </Alert.Description>
+              </Alert.Root>
+            )}
+
+            {eventTimeSlotsState.isSuccess && (
+              <EventTablesSection
+                eventId={eventState.data.id}
+                timeSlots={eventTimeSlotsState.data}
+              />
+            )}
+          </VStack>
+        </Grid>
       )}
     </VStack>
   );

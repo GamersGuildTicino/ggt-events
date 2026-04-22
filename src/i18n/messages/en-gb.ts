@@ -121,7 +121,6 @@ const enGB = {
     "Something went wrong, please try again.",
   "page.admin_event.time_slots.error.missing_user":
     "You must be logged in to create a time slot.",
-  "page.admin_event.time_slots.existing": "Existing time slots",
   "page.admin_event.time_slots.new": "New time slot",
   "page.admin_event.time_slots.save": "Save changes",
 

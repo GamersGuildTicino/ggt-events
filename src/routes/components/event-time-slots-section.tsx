@@ -166,8 +166,6 @@ export default function EventTimeSlotsSection({
       </Card.Root>
 
       <VStack align="stretch" gap={3}>
-        <Heading size="md">{t("page.admin_event.time_slots.existing")}</Heading>
-
         {timeSlotsState.isLoading && <Spinner />}
 
         {timeSlotsState.hasError && (

@@ -126,7 +126,6 @@ const itCH = {
     "Qualcosa è andato storto, per favore prova di nuovo.",
   "page.admin_event.time_slots.error.missing_user":
     "Devi essere registrato per creare una fascia oraria.",
-  "page.admin_event.time_slots.existing": "Fasce orarie esistenti",
   "page.admin_event.time_slots.new": "Nuova fascia oraria",
   "page.admin_event.time_slots.save": "Salva modifiche",
 
