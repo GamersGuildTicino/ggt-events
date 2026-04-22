@@ -12,7 +12,7 @@ import {
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { Link as RouterLink } from "react-router";
-import { type Event, fetchEvents } from "~/domain/events";
+import { type Event, deleteEvent, fetchEvents } from "~/domain/events";
 import { useAsyncEffect } from "~/hooks/use-async-effect";
 import useI18n from "~/i18n/use-i18n";
 import { type AsyncState, initial, loading } from "~/utils/async-state";
@@ -23,9 +23,19 @@ import AdminBreadcrumb from "../components/admin-breadcrumb";
 //------------------------------------------------------------------------------
 
 export default function AdminEventsPage() {
-  const { locale, t } = useI18n();
+  const { locale, t, ti } = useI18n();
+  const [deleteError, setDeleteError] = useState("");
+  const [deletingEventId, setDeletingEventId] = useState<Event["id"] | null>(
+    null,
+  );
   const [eventsState, setEventsState] =
     useState<AsyncState<Event[]>>(initial());
+
+  const loadEvents = async () => {
+    setEventsState(loading());
+    const events = await fetchEvents();
+    setEventsState(events);
+  };
 
   useAsyncEffect(async (isActive) => {
     setEventsState(loading());
@@ -33,6 +43,20 @@ export default function AdminEventsPage() {
     if (!isActive()) return;
     setEventsState(events);
   }, []);
+
+  const handleDeleteEvent = async (event: Event) => {
+    const message = ti("page.admin_events.delete.confirm", event.title);
+    const confirmed = window.confirm(message);
+    if (!confirmed) return;
+
+    setDeleteError("");
+    setDeletingEventId(event.id);
+    const error = await deleteEvent(event.id);
+    setDeletingEventId(null);
+
+    if (error) return setDeleteError(error);
+    await loadEvents();
+  };
 
   return (
     <VStack align="stretch" gap={3} w="full">
@@ -62,6 +86,12 @@ export default function AdminEventsPage() {
         </Alert.Root>
       )}
 
+      {deleteError && (
+        <Alert.Root status="error">
+          <Alert.Description>{deleteError}</Alert.Description>
+        </Alert.Root>
+      )}
+
       {eventsState.isSuccess && eventsState.data.length === 0 && (
         <Text color="fg.muted">{t("page.admin_events.empty")}</Text>
       )}
@@ -69,7 +99,13 @@ export default function AdminEventsPage() {
       {eventsState.isSuccess && eventsState.data.length > 0 && (
         <VStack align="stretch" gap={3}>
           {eventsState.data.map((event) => (
-            <EventCard event={event} key={event.id} locale={locale} />
+            <EventCard
+              deleting={deletingEventId === event.id}
+              event={event}
+              key={event.id}
+              locale={locale}
+              onDelete={handleDeleteEvent}
+            />
           ))}
         </VStack>
       )}
@@ -81,7 +117,17 @@ export default function AdminEventsPage() {
 // Event Card
 //------------------------------------------------------------------------------
 
-function EventCard({ event, locale }: { event: Event; locale: string }) {
+function EventCard({
+  deleting,
+  event,
+  locale,
+  onDelete,
+}: {
+  deleting: boolean;
+  event: Event;
+  locale: string;
+  onDelete: (event: Event) => void;
+}) {
   const { t } = useI18n();
 
   return (
@@ -111,6 +157,22 @@ function EventCard({ event, locale }: { event: Event; locale: string }) {
                 t("page.admin_events.registrations_open")
               : t("page.admin_events.registrations_closed")}
             </Badge>
+            <HStack gap={2} pt={2}>
+              <Button asChild size="xs" variant="outline">
+                <RouterLink to={`/admin/events/${event.id}`}>
+                  {t("page.admin_events.manage")}
+                </RouterLink>
+              </Button>
+              <Button
+                colorPalette="red"
+                loading={deleting}
+                onClick={() => onDelete(event)}
+                size="xs"
+                variant="outline"
+              >
+                {t("page.admin_events.delete")}
+              </Button>
+            </HStack>
           </VStack>
         </HStack>
       </Card.Body>

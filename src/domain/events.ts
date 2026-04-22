@@ -99,6 +99,15 @@ export async function createEvent(event: Omit<Event, "createdAt" | "id">) {
 }
 
 //------------------------------------------------------------------------------
+// Delete Event
+//------------------------------------------------------------------------------
+
+export async function deleteEvent(eventId: Event["id"]) {
+  const { error } = await supabase.from("events").delete().eq("id", eventId);
+  return error?.message ?? "";
+}
+
+//------------------------------------------------------------------------------
 // Fetch Events
 //------------------------------------------------------------------------------
 

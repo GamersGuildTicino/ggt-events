@@ -21,10 +21,13 @@ const enGB = {
 
   "page.admin_events.breadcrumb.admin": "Dashboard",
   "page.admin_events.breadcrumb.events": "Events",
+  "page.admin_events.delete": "Delete",
+  "page.admin_events.delete.confirm": 'Delete "{0}"? This cannot be undone.',
   "page.admin_events.empty": "No events yet.",
   "page.admin_events.error": "Unable to load events.",
   "page.admin_events.heading": "Events",
   "page.admin_events.location": "Location",
+  "page.admin_events.manage": "Manage",
   "page.admin_events.new": "New event",
   "page.admin_events.registrations_closed": "Registrations closed",
   "page.admin_events.registrations_open": "Registrations open",
