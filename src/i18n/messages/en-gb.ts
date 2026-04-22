@@ -15,6 +15,10 @@ const enGB = {
   "form.event_details.title.label": "Title",
   "form.event_details.visibility.label": "Visibility",
 
+  "form.game_system.description.label": "Description",
+  "form.game_system.image_url.label": "Image URL",
+  "form.game_system.name.label": "Name",
+
   "locale.en-GB": "English",
   "locale.it-CH": "Italiano",
 
@@ -74,6 +78,8 @@ const enGB = {
   "page.admin_game_system.breadcrumb.game_system": "Manage game system",
   "page.admin_game_system.breadcrumb.game_systems": "Game systems",
   "page.admin_game_system.heading": "Manage game system",
+  "page.admin_game_system.save": "Save changes",
+  "page.admin_game_system.saved": "Game system saved.",
 
   "page.admin_game_systems.breadcrumb.admin": "Dashboard",
   "page.admin_game_systems.breadcrumb.game_systems": "Game systems",
@@ -86,6 +92,9 @@ const enGB = {
   "page.admin_game_systems_new.breadcrumb.admin": "Dashboard",
   "page.admin_game_systems_new.breadcrumb.game_systems": "Game systems",
   "page.admin_game_systems_new.breadcrumb.new": "New game system",
+  "page.admin_game_systems_new.create": "Create",
+  "page.admin_game_systems_new.error.generic":
+    "Something went wrong, please try again.",
   "page.admin_game_systems_new.heading": "Create game system",
 
   "page.admin_forgot_password.back_to_login": "Back to login",

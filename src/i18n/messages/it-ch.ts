@@ -15,6 +15,10 @@ const itCH = {
   "form.event_details.title.label": "Titolo",
   "form.event_details.visibility.label": "Visibilità",
 
+  "form.game_system.description.label": "Descrizione",
+  "form.game_system.image_url.label": "URL immagine",
+  "form.game_system.name.label": "Nome",
+
   "locale.en-GB": "English",
   "locale.it-CH": "Italiano",
 
@@ -77,6 +81,8 @@ const itCH = {
   "page.admin_game_system.breadcrumb.game_system": "Gestisci sistema di gioco",
   "page.admin_game_system.breadcrumb.game_systems": "Sistemi di gioco",
   "page.admin_game_system.heading": "Gestisci sistema di gioco",
+  "page.admin_game_system.save": "Salva modifiche",
+  "page.admin_game_system.saved": "Sistema di gioco salvato.",
 
   "page.admin_game_systems.breadcrumb.admin": "Panoramica",
   "page.admin_game_systems.breadcrumb.game_systems": "Sistemi di gioco",
@@ -90,6 +96,9 @@ const itCH = {
   "page.admin_game_systems_new.breadcrumb.admin": "Panoramica",
   "page.admin_game_systems_new.breadcrumb.game_systems": "Sistemi di gioco",
   "page.admin_game_systems_new.breadcrumb.new": "Nuovo sistema di gioco",
+  "page.admin_game_systems_new.create": "Crea",
+  "page.admin_game_systems_new.error.generic":
+    "Qualcosa è andato storto, per favore prova di nuovo.",
   "page.admin_game_systems_new.heading": "Crea sistema di gioco",
 
   "page.admin_forgot_password.back_to_login": "Torna al login",
