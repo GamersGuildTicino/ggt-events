@@ -6,6 +6,7 @@ import {
   failure,
   success,
 } from "~/utils/async-state";
+import { eventTableExperienceLevelSchema } from "./enums/event-table-experience-level";
 
 //------------------------------------------------------------------------------
 // Event Table
@@ -15,6 +16,7 @@ export const eventTableSchema = z.object({
   createdAt: z.date(),
   createdBy: z.uuid(),
   description: z.string(),
+  experienceLevel: eventTableExperienceLevelSchema,
   gameMasterName: z.string(),
   gameSystemId: z.uuid(),
   id: z.uuid(),
@@ -35,6 +37,7 @@ export const eventTableRowSchema = z.object({
   created_at: z.string(),
   created_by: z.uuid(),
   description: z.string(),
+  experience_level: eventTableExperienceLevelSchema,
   game_master_name: z.string(),
   game_system_id: z.uuid(),
   id: z.uuid(),
@@ -56,6 +59,7 @@ export const eventTableFromRowSchema = eventTableRowSchema.transform(
     createdAt: new Date(row.created_at),
     createdBy: row.created_by,
     description: row.description,
+    experienceLevel: row.experience_level,
     gameMasterName: row.game_master_name,
     gameSystemId: row.game_system_id,
     id: row.id,
@@ -77,6 +81,7 @@ export async function createEventTable(
   const { error } = await supabase.from("event_tables").insert({
     created_by: eventTable.createdBy,
     description: eventTable.description,
+    experience_level: eventTable.experienceLevel,
     game_master_name: eventTable.gameMasterName,
     game_system_id: eventTable.gameSystemId,
     max_players: eventTable.maxPlayers,
@@ -134,6 +139,7 @@ export async function updateEventTable(
     .from("event_tables")
     .update({
       description: eventTable.description,
+      experience_level: eventTable.experienceLevel,
       game_master_name: eventTable.gameMasterName,
       game_system_id: eventTable.gameSystemId,
       max_players: eventTable.maxPlayers,

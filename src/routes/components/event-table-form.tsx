@@ -1,5 +1,9 @@
 import { Field, HStack, Input, Textarea } from "@chakra-ui/react";
 import type { ReactNode } from "react";
+import {
+  type EventTableExperienceLevel,
+  useEventTableExperienceLevelOptions,
+} from "~/domain/enums/event-table-experience-level";
 import type { EventTable } from "~/domain/event-tables";
 import type { EventTimeSlot } from "~/domain/event-time-slots";
 import type { GameSystem } from "~/domain/game-systems";
@@ -14,6 +18,7 @@ import SelectEnum from "~/ui/select-enum";
 export type EventTableFormValue = Pick<
   EventTable,
   | "description"
+  | "experienceLevel"
   | "gameMasterName"
   | "gameSystemId"
   | "maxPlayers"
@@ -49,6 +54,7 @@ export default function EventTableForm({
   timeSlots,
 }: EventTableFormProps) {
   const { locale, t } = useI18n();
+  const experienceLevelOptions = useEventTableExperienceLevelOptions();
 
   const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -154,6 +160,19 @@ export default function EventTableForm({
         />
       </Field.Root>
 
+      <Field.Root disabled={disabled} required>
+        <Field.Label>
+          {t("form.event_table.experience_level.label")}
+          <Field.RequiredIndicator />
+        </Field.Label>
+        <SelectEnum<EventTableExperienceLevel>
+          defaultValue={initialValue?.experienceLevel ?? "unspecified"}
+          name="experience-level"
+          options={experienceLevelOptions}
+          size="sm"
+        />
+      </Field.Root>
+
       <Field.Root disabled={disabled}>
         <Field.Label>{t("form.event_table.description.label")}</Field.Label>
         <Textarea
@@ -181,6 +200,7 @@ function eventTableFormValueFromForm(form: HTMLFormElement) {
 
   return {
     description: getString("description"),
+    experienceLevel: getString("experience-level") as EventTableExperienceLevel,
     gameMasterName: getString("game-master-name"),
     gameSystemId: getString("game-system-id"),
     maxPlayers: getNumber("max-players"),

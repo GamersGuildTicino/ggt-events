@@ -15,6 +15,10 @@ import {
 import { ChevronLeft } from "lucide-react";
 import { useMemo, useState } from "react";
 import { Link as RouterLink, useParams } from "react-router";
+import {
+  type EventTableExperienceLevel,
+  experienceLevelColorPalette,
+} from "~/domain/enums/event-table-experience-level";
 import { type EventTable, fetchEventTables } from "~/domain/event-tables";
 import {
   type EventTimeSlot,
@@ -397,12 +401,21 @@ function EventTableCard({
       <Card.Body gap={4}>
         <VStack align="flex-start" gap={2}>
           <HStack align="flex-start" justify="space-between" w="full">
-            <Heading size="lg">{eventTable.title}</Heading>
-            <Badge colorPalette="orange">{gameSystemName}</Badge>
+            <VStack align="flex-start" gap={1}>
+              <Heading size="lg">{eventTable.title}</Heading>
+              <Text color="fg.muted" fontSize="sm">
+                {ti("page.event.tables.game_master", eventTable.gameMasterName)}
+              </Text>
+            </VStack>
+
+            <VStack align="flex-end" gap={1}>
+              <Badge colorPalette="orange">{gameSystemName}</Badge>
+              <ExperienceLevelBadge
+                experienceLevel={eventTable.experienceLevel}
+              />
+            </VStack>
           </HStack>
-          <Text color="fg.muted" fontSize="sm">
-            {ti("page.event.tables.game_master", eventTable.gameMasterName)}
-          </Text>
+
           {eventTable.description && (
             <Text fontSize="sm" whiteSpace="pre-line">
               {eventTable.description}
@@ -430,6 +443,25 @@ function EventTableCard({
         </HStack>
       </Card.Body>
     </Card.Root>
+  );
+}
+
+//------------------------------------------------------------------------------
+// Experience Level Badge
+//------------------------------------------------------------------------------
+
+function ExperienceLevelBadge({
+  experienceLevel,
+}: {
+  experienceLevel: EventTableExperienceLevel;
+}) {
+  const { t } = useI18n();
+  if (experienceLevel === "unspecified") return null;
+
+  return (
+    <Badge colorPalette={experienceLevelColorPalette(experienceLevel)}>
+      {t(`enum.event_table_experience_level.${experienceLevel}`)}
+    </Badge>
   );
 }
 

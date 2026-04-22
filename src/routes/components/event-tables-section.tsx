@@ -1,5 +1,6 @@
 import {
   Alert,
+  Badge,
   Button,
   Card,
   HStack,
@@ -10,6 +11,10 @@ import {
 } from "@chakra-ui/react";
 import { useMemo, useState } from "react";
 import { useAuth } from "~/auth/use-auth";
+import {
+  type EventTableExperienceLevel,
+  experienceLevelColorPalette,
+} from "~/domain/enums/event-table-experience-level";
 import {
   type EventTable,
   createEventTable,
@@ -331,14 +336,16 @@ function EventTableCard({
                 <Heading size="md">{eventTable.title}</Heading>
 
                 <Text color="fg.muted" fontSize="sm">
-                  {`${gameSystemName} (${formatPlayerCount({ ...eventTable, t, ti })})`}
+                  {`${gameSystemName} (${eventTable.gameMasterName})`}
                 </Text>
-                <Text fontSize="sm">
-                  {ti(
-                    "page.admin_event.tables.game_master",
-                    eventTable.gameMasterName,
-                  )}
-                </Text>
+                <HStack gap={2}>
+                  <Text fontSize="sm">
+                    {`${formatPlayerCount({ ...eventTable, t, ti })}`}
+                  </Text>
+                  <ExperienceLevelBadge
+                    experienceLevel={eventTable.experienceLevel}
+                  />
+                </HStack>
                 {timeSlot && (
                   <Text fontSize="sm">
                     {ti(
@@ -393,6 +400,28 @@ function EventTableCard({
         }
       </Card.Body>
     </Card.Root>
+  );
+}
+
+//------------------------------------------------------------------------------
+// Experience Level Badge
+//------------------------------------------------------------------------------
+
+function ExperienceLevelBadge({
+  experienceLevel,
+}: {
+  experienceLevel: EventTableExperienceLevel;
+}) {
+  const { t } = useI18n();
+  if (experienceLevel === "unspecified") return null;
+
+  return (
+    <Badge
+      colorPalette={experienceLevelColorPalette(experienceLevel)}
+      size="sm"
+    >
+      {t(`enum.event_table_experience_level.${experienceLevel}`)}
+    </Badge>
   );
 }
 

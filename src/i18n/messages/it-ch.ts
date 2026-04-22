@@ -10,6 +10,13 @@ const itCH = {
   "enum.event_visibility.public": "Pubblica",
   "enum.event_visibility.restricted": "Ristretta",
 
+  "enum.event_table_experience_level.any": "Qualsiasi esperienza",
+  "enum.event_table_experience_level.expert": "Esperto",
+  "enum.event_table_experience_level.first_time": "Prima esperienza",
+  "enum.event_table_experience_level.intermediate": "Intermedio",
+  "enum.event_table_experience_level.novice": "Principiante",
+  "enum.event_table_experience_level.unspecified": "Non specificato",
+
   "error.events.create": "Impossibile creare l'evento.",
   "error.events.delete": "Impossibile eliminare l'evento.",
   "error.events.fetch_many": "Impossibile caricare gli eventi.",
@@ -52,6 +59,7 @@ const itCH = {
   "form.event_details.visibility.label": "Visibilità",
 
   "form.event_table.description.label": "Descrizione",
+  "form.event_table.experience_level.label": "Esperienza",
   "form.event_table.game_master_name.label": "Game master",
   "form.event_table.game_system.label": "Sistema di gioco",
   "form.event_table.max_players.label": "Giocatori max",

@@ -10,6 +10,13 @@ const enGB = {
   "enum.event_visibility.public": "Public",
   "enum.event_visibility.restricted": "Restricted",
 
+  "enum.event_table_experience_level.any": "Any experience",
+  "enum.event_table_experience_level.expert": "Expert",
+  "enum.event_table_experience_level.first_time": "First-time friendly",
+  "enum.event_table_experience_level.intermediate": "Intermediate",
+  "enum.event_table_experience_level.novice": "Novice",
+  "enum.event_table_experience_level.unspecified": "Unspecified",
+
   "error.events.create": "Unable to create event.",
   "error.events.delete": "Unable to delete event.",
   "error.events.fetch_many": "Unable to load events.",
@@ -49,6 +56,7 @@ const enGB = {
   "form.event_details.visibility.label": "Visibility",
 
   "form.event_table.description.label": "Description",
+  "form.event_table.experience_level.label": "Experience level",
   "form.event_table.game_master_name.label": "Game master",
   "form.event_table.game_system.label": "Game system",
   "form.event_table.max_players.label": "Max players",
