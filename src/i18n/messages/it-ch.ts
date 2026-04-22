@@ -83,7 +83,6 @@ const itCH = {
   "page.admin_event.tables.delete.confirm":
     'Eliminare "{0}"? Questa azione non può essere annullata.',
   "page.admin_event.tables.edit": "Modifica",
-  "page.admin_event.tables.empty": "Nessun tavolo.",
   "page.admin_event.tables.error.generic":
     "Qualcosa è andato storto, per favore prova di nuovo.",
   "page.admin_event.tables.error.missing_user":

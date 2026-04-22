@@ -79,7 +79,6 @@ const enGB = {
   "page.admin_event.tables.delete.confirm":
     'Delete "{0}"? This cannot be undone.',
   "page.admin_event.tables.edit": "Edit",
-  "page.admin_event.tables.empty": "No tables yet.",
   "page.admin_event.tables.error.generic":
     "Something went wrong, please try again.",
   "page.admin_event.tables.error.missing_user":

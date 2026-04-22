@@ -216,10 +216,6 @@ export default function EventTablesSection({
           </Alert.Root>
         )}
 
-        {eventTablesState.isSuccess && eventTablesState.data.length === 0 && (
-          <Text color="fg.muted">{t("page.admin_event.tables.empty")}</Text>
-        )}
-
         {eventTablesState.isSuccess && eventTablesState.data.length > 0 && (
           <VStack align="stretch" gap={3}>
             {eventTablesState.data.map((eventTable) => (
