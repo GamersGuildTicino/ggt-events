@@ -163,6 +163,23 @@ const enGB = {
   "page.admin_login.password.label": "Password",
   "page.admin_login.sign_in": "Sign In",
 
+  "page.event.back_to_home": "Back to home",
+  "page.event.error.missing": "Missing event id.",
+  "page.event.registrations_closed": "Registrations closed",
+  "page.event.registrations_open": "Registrations open",
+  "page.event.tables.empty": "No tables yet.",
+  "page.event.tables.heading": "Tables",
+  "page.event.tables.players": "{0}-{1} players",
+
+  "page.home.description":
+    "Monthly live TTRPG events for players and game masters.",
+  "page.home.events.empty": "No upcoming events.",
+  "page.home.events.heading": "Upcoming events",
+  "page.home.events.open": "View event",
+  "page.home.events.registrations_closed": "Registrations closed",
+  "page.home.events.registrations_open": "Registrations open",
+  "page.home.heading": "Gamers Guild Ticino",
+
   "page.not_found.heading": "Page Not Found",
 } as const;
 

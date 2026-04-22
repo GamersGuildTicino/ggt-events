@@ -170,6 +170,23 @@ const itCH = {
   "page.admin_login.password.label": "Password",
   "page.admin_login.sign_in": "Login",
 
+  "page.event.back_to_home": "Torna alla home",
+  "page.event.error.missing": "ID evento mancante.",
+  "page.event.registrations_closed": "Registrazioni chiuse",
+  "page.event.registrations_open": "Registrazioni aperte",
+  "page.event.tables.empty": "Nessun tavolo.",
+  "page.event.tables.heading": "Tavoli",
+  "page.event.tables.players": "{0}-{1} giocatori",
+
+  "page.home.description":
+    "Eventi mensili di giochi di ruolo dal vivo per giocatori e game master.",
+  "page.home.events.empty": "Nessun evento in programma.",
+  "page.home.events.heading": "Prossimi eventi",
+  "page.home.events.open": "Vedi evento",
+  "page.home.events.registrations_closed": "Registrazioni chiuse",
+  "page.home.events.registrations_open": "Registrazioni aperte",
+  "page.home.heading": "Gamers Guild Ticino",
+
   "page.not_found.heading": "Pagina Non Trovata",
 } as const;
 

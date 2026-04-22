@@ -129,6 +129,28 @@ export async function fetchEvent(
 }
 
 //------------------------------------------------------------------------------
+// Fetch Public Event
+//------------------------------------------------------------------------------
+
+export async function fetchPublicEvent(
+  eventId: Event["id"],
+): Promise<AsyncStateSuccess<Event> | AsyncStateFailure> {
+  const { data, error } = await supabase
+    .from("events")
+    .select("*")
+    .eq("id", eventId)
+    .in("visibility", ["public", "restricted"])
+    .single();
+
+  if (error) return failure("error.events.fetch_one");
+
+  const event = eventFromRowSchema.safeParse(data);
+  if (event.error) return failure("error.events.parse_one");
+
+  return success(event.data);
+}
+
+//------------------------------------------------------------------------------
 // Fetch Events
 //------------------------------------------------------------------------------
 
@@ -139,6 +161,28 @@ export async function fetchEvents(): Promise<
     .from("events")
     .select("*")
     .order("starts_at", { ascending: false });
+
+  if (error) return failure("error.events.fetch_many");
+
+  const events = z.array(eventFromRowSchema).safeParse(data);
+  if (events.error) return failure("error.events.parse_many");
+
+  return success(events.data);
+}
+
+//------------------------------------------------------------------------------
+// Fetch Public Events
+//------------------------------------------------------------------------------
+
+export async function fetchPublicEvents(): Promise<
+  AsyncStateSuccess<Event[]> | AsyncStateFailure
+> {
+  const { data, error } = await supabase
+    .from("events")
+    .select("*")
+    .eq("visibility", "public")
+    .gte("starts_at", new Date().toISOString())
+    .order("starts_at", { ascending: true });
 
   if (error) return failure("error.events.fetch_many");
 

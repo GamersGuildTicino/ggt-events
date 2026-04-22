@@ -1,4 +1,4 @@
-import { VStack } from "@chakra-ui/react";
+import { Center, Flex, VStack } from "@chakra-ui/react";
 import { Outlet } from "react-router";
 
 //------------------------------------------------------------------------------
@@ -8,7 +8,11 @@ import { Outlet } from "react-router";
 export default function PublicLayout() {
   return (
     <VStack minH="100vh">
-      <Outlet />
+      <Center px={8} py={8} w="full">
+        <Flex maxW="72em" w="full">
+          <Outlet />
+        </Flex>
+      </Center>
     </VStack>
   );
 }
