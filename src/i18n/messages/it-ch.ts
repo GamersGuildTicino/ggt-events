@@ -7,6 +7,14 @@ const itCH = {
   "enum.event_visibility.public": "Pubblica",
   "enum.event_visibility.restricted": "Ristretta",
 
+  "form.event_details.location_address.label": "Indirizzo",
+  "form.event_details.location_name.label": "Luogo",
+  "form.event_details.registrations_open": "Registrazioni aperte",
+  "form.event_details.starts_at_date.label": "Data",
+  "form.event_details.starts_at_time.label": "Ora",
+  "form.event_details.title.label": "Titolo",
+  "form.event_details.visibility.label": "Visibilità",
+
   "locale.en-GB": "English",
   "locale.it-CH": "Italiano",
 
@@ -29,15 +37,8 @@ const itCH = {
     "Qualcosa è andato storto, per favore prova di nuovo.",
   "page.admin_event.error.missing_event": "ID evento mancante.",
   "page.admin_event.heading": "Gestisci evento",
-  "page.admin_event.location_address.label": "Indirizzo",
-  "page.admin_event.location_name.label": "Luogo",
-  "page.admin_event.registrations_open": "Registrazioni aperte",
   "page.admin_event.save": "Salva modifiche",
   "page.admin_event.saved": "Evento salvato.",
-  "page.admin_event.starts_at_date.label": "Data",
-  "page.admin_event.starts_at_time.label": "Ora",
-  "page.admin_event.title.label": "Titolo",
-  "page.admin_event.visibility.label": "Visibilità",
 
   "page.admin_events.breadcrumb.admin": "Panoramica",
   "page.admin_events.breadcrumb.events": "Eventi",
@@ -60,18 +61,12 @@ const itCH = {
   "page.admin_events_new.breadcrumb.new": "Nuovo evento",
   "page.admin_events_new.cancel": "Annulla",
   "page.admin_events_new.create": "Crea",
+  "page.admin_events_new.details.heading": "Dettagli evento",
   "page.admin_events_new.error.generic":
     "Qualcosa è andato storto, per favore prova di nuovo.",
   "page.admin_events_new.error.missing_user":
     "Devi essere registrato per creare un nuovo evento.",
   "page.admin_events_new.heading": "Crea nuovo evento",
-  "page.admin_events_new.location_address.label": "Indirizzo",
-  "page.admin_events_new.location_name.label": "Luogo",
-  "page.admin_events_new.registrations_open": "Registrazioni aperte",
-  "page.admin_events_new.starts_at_date.label": "Data",
-  "page.admin_events_new.starts_at_time.label": "Ora",
-  "page.admin_events_new.title.label": "Titolo",
-  "page.admin_events_new.visibility.label": "Visibilità",
 
   "page.admin_forgot_password.back_to_login": "Torna al login",
   "page.admin_forgot_password.confirmation":

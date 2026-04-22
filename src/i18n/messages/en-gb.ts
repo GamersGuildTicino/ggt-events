@@ -7,6 +7,14 @@ const enGB = {
   "enum.event_visibility.public": "Public",
   "enum.event_visibility.restricted": "Restricted",
 
+  "form.event_details.location_address.label": "Address",
+  "form.event_details.location_name.label": "Location",
+  "form.event_details.registrations_open": "Registrations open",
+  "form.event_details.starts_at_date.label": "Date",
+  "form.event_details.starts_at_time.label": "Time",
+  "form.event_details.title.label": "Title",
+  "form.event_details.visibility.label": "Visibility",
+
   "locale.en-GB": "English",
   "locale.it-CH": "Italiano",
 
@@ -27,15 +35,8 @@ const enGB = {
   "page.admin_event.error.generic": "Something went wrong, please try again.",
   "page.admin_event.error.missing_event": "Missing event id.",
   "page.admin_event.heading": "Manage event",
-  "page.admin_event.location_address.label": "Address",
-  "page.admin_event.location_name.label": "Location",
-  "page.admin_event.registrations_open": "Registrations open",
   "page.admin_event.save": "Save changes",
   "page.admin_event.saved": "Event saved.",
-  "page.admin_event.starts_at_date.label": "Date",
-  "page.admin_event.starts_at_time.label": "Time",
-  "page.admin_event.title.label": "Title",
-  "page.admin_event.visibility.label": "Visibility",
 
   "page.admin_events.breadcrumb.admin": "Dashboard",
   "page.admin_events.breadcrumb.events": "Events",
@@ -57,18 +58,12 @@ const enGB = {
   "page.admin_events_new.breadcrumb.new": "New event",
   "page.admin_events_new.cancel": "Cancel",
   "page.admin_events_new.create": "Create",
+  "page.admin_events_new.details.heading": "Event details",
   "page.admin_events_new.error.generic":
     "Something went wrong, please try again.",
   "page.admin_events_new.error.missing_user":
     "You must be logged in to create a new event.",
   "page.admin_events_new.heading": "Create new event",
-  "page.admin_events_new.location_address.label": "Address",
-  "page.admin_events_new.location_name.label": "Location",
-  "page.admin_events_new.registrations_open": "Registrations open",
-  "page.admin_events_new.starts_at_date.label": "Date",
-  "page.admin_events_new.starts_at_time.label": "Time",
-  "page.admin_events_new.title.label": "Title",
-  "page.admin_events_new.visibility.label": "Visibility",
 
   "page.admin_forgot_password.back_to_login": "Back to login",
   "page.admin_forgot_password.confirmation":
