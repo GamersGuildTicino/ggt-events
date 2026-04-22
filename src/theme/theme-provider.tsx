@@ -1,9 +1,7 @@
-"use client";
-
 import { ChakraProvider, ClientOnly, defaultSystem } from "@chakra-ui/react";
 import { ThemeProvider as NextThemesThemeProvider } from "next-themes";
-import type { ReactNode } from "react";
-import useTheme from "./use-theme";
+import { type ReactNode } from "react";
+import { useTheme } from "./theme";
 
 //------------------------------------------------------------------------------
 // Theme Provider

@@ -1,9 +1,14 @@
 const itCH = {
+  "common.locale": "Lingua",
+  "common.sign_out": "Esci",
   "common.toggle_theme": "Cambia tema",
 
   "enum.event_visibility.private": "Privata",
   "enum.event_visibility.public": "Pubblica",
   "enum.event_visibility.restricted": "Ristretta",
+
+  "locale.en-GB": "English",
+  "locale.it-CH": "Italiano",
 
   "page.admin.create_event.description": "Prepara un nuovo evento.",
   "page.admin.create_event.heading": "Crea evento",

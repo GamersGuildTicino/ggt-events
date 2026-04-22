@@ -1,9 +1,14 @@
 const enGB = {
+  "common.locale": "Language",
+  "common.sign_out": "Sign out",
   "common.toggle_theme": "Toggle theme",
 
   "enum.event_visibility.private": "Private",
   "enum.event_visibility.public": "Public",
   "enum.event_visibility.restricted": "Restricted",
+
+  "locale.en-GB": "English",
+  "locale.it-CH": "Italiano",
 
   "page.admin.create_event.description": "Prepare a new event.",
   "page.admin.create_event.heading": "Create event",

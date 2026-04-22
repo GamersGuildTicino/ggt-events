@@ -1,7 +1,8 @@
 import { MoonIcon, SunIcon } from "lucide-react";
+import { useCallback } from "react";
 import useI18n from "~/i18n/use-i18n";
 import IconButton from "~/ui/icon-button";
-import useTheme from "./use-theme";
+import { useTheme } from "./theme";
 
 //------------------------------------------------------------------------------
 // Theme Button
@@ -9,7 +10,11 @@ import useTheme from "./use-theme";
 
 export default function ThemeButton() {
   const { t } = useI18n();
-  const [theme, _setColorMode, toggleTheme] = useTheme();
+  const [theme, setTheme] = useTheme();
+
+  const toggleTheme = useCallback(() => {
+    setTheme((prev) => (prev === "dark" ? "light" : "dark"));
+  }, [setTheme]);
 
   return (
     <IconButton
