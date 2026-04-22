@@ -144,20 +144,13 @@ function GameSystemCard({
 
   return (
     <Card.Root>
-      <Card.Body>
-        <HStack align="flex-start" justify="space-between">
-          <VStack align="flex-start" gap={1}>
-            <Link asChild fontWeight="medium">
-              <RouterLink to={`/admin/game-systems/${gameSystem.id}`}>
-                {gameSystem.name}
-              </RouterLink>
-            </Link>
-            {gameSystem.description && (
-              <Text color="fg.muted" fontSize="sm">
-                {gameSystem.description}
-              </Text>
-            )}
-          </VStack>
+      <Card.Body py={3}>
+        <HStack justify="space-between">
+          <Link asChild fontWeight="medium">
+            <RouterLink to={`/admin/game-systems/${gameSystem.id}`}>
+              {gameSystem.name}
+            </RouterLink>
+          </Link>
 
           <HStack gap={2}>
             <Button asChild size="xs" variant="outline">
