@@ -1,4 +1,4 @@
-import { Button, HStack, Text, VStack } from "@chakra-ui/react";
+import { Button, Center, Flex, HStack, Text, VStack } from "@chakra-ui/react";
 import { Outlet } from "react-router";
 import { useAuth } from "~/auth/use-auth";
 import { signOut } from "~/lib/supabase";
@@ -21,7 +21,11 @@ export default function AdminLayout() {
         </Button>
       </HStack>
 
-      <Outlet />
+      <Center px={8} py={4} w="full">
+        <Flex maxW="40em" w="full">
+          <Outlet />
+        </Flex>
+      </Center>
     </VStack>
   );
 }

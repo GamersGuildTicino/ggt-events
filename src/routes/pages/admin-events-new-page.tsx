@@ -6,7 +6,6 @@ import {
   HStack,
   Heading,
   Input,
-  VStack,
 } from "@chakra-ui/react";
 import { CalendarDate } from "@internationalized/date";
 import { useCallback, useState } from "react";
@@ -93,115 +92,114 @@ export default function AdminEventsNewPage() {
 
   return (
     <Form
+      alignItems="flex-start"
       display="flex"
+      flexDirection="column"
+      gap={3}
       justifyContent="center"
       onSubmit={handleCreateEvent}
-      px={8}
-      py={4}
       w="full"
     >
-      <VStack align="flex-start" gap={3} maxW="40em" w="full">
-        <AdminBreadcrumb
-          items={[
-            {
-              label: t("page.admin_events_new.breadcrumb.admin"),
-              to: "/admin",
-            },
-            {
-              label: t("page.admin_events_new.breadcrumb.events"),
-              to: "/admin/events",
-            },
-            { label: t("page.admin_events_new.breadcrumb.new") },
-          ]}
-        />
+      <AdminBreadcrumb
+        items={[
+          {
+            label: t("page.admin_events_new.breadcrumb.admin"),
+            to: "/admin",
+          },
+          {
+            label: t("page.admin_events_new.breadcrumb.events"),
+            to: "/admin/events",
+          },
+          { label: t("page.admin_events_new.breadcrumb.new") },
+        ]}
+      />
 
-        <Heading size="3xl">{t("page.admin_events_new.heading")}</Heading>
+      <Heading size="3xl">{t("page.admin_events_new.heading")}</Heading>
 
+      <Field.Root disabled={createEventState.isLoading} required>
+        <Field.Label>
+          {t("page.admin_events_new.title.label")}
+          <Field.RequiredIndicator />
+        </Field.Label>
+        <Input name="title" pattern="\s*\S.*" size="sm" />
+      </Field.Root>
+
+      <HStack w="full">
         <Field.Root disabled={createEventState.isLoading} required>
           <Field.Label>
-            {t("page.admin_events_new.title.label")}
+            {t("page.admin_events_new.starts_at_date.label")}
             <Field.RequiredIndicator />
           </Field.Label>
-          <Input name="title" pattern="\s*\S.*" size="sm" />
-        </Field.Root>
-
-        <HStack w="full">
-          <Field.Root disabled={createEventState.isLoading} required>
-            <Field.Label>
-              {t("page.admin_events_new.starts_at_date.label")}
-              <Field.RequiredIndicator />
-            </Field.Label>
-            <DatePicker
-              format={formatDate}
-              locale="en-CA" // This allows using - in the input field
-              name="starts-at-date"
-              parse={parseDate}
-              placeholder="yyyy-mm-dd"
-              size="sm"
-            />
-          </Field.Root>
-
-          <Field.Root disabled={createEventState.isLoading} required>
-            <Field.Label>
-              {t("page.admin_events_new.starts_at_time.label")}
-              <Field.RequiredIndicator />
-            </Field.Label>
-            <Input name="starts-at-time" size="sm" type="time" />
-          </Field.Root>
-        </HStack>
-
-        <Field.Root disabled={createEventState.isLoading} required>
-          <Field.Label>
-            {t("page.admin_events_new.location_name.label")}
-            <Field.RequiredIndicator />
-          </Field.Label>
-          <Input name="location-name" pattern="\s*\S.*" size="sm" />
-        </Field.Root>
-
-        <Field.Root disabled={createEventState.isLoading}>
-          <Field.Label>
-            {t("page.admin_events_new.location_address.label")}
-          </Field.Label>
-          <Input name="location-address" size="sm" />
-        </Field.Root>
-
-        <Field.Root disabled={createEventState.isLoading} required>
-          <Field.Label>
-            {t("page.admin_events_new.visibility.label")}
-            <Field.RequiredIndicator />
-          </Field.Label>
-          <SelectEnum<EventVisibility>
-            defaultValue="public"
-            name="visibility"
-            options={eventVisibilityOptions}
+          <DatePicker
+            format={formatDate}
+            locale="en-CA" // This allows using - in the input field
+            name="starts-at-date"
+            parse={parseDate}
+            placeholder="yyyy-mm-dd"
             size="sm"
           />
         </Field.Root>
 
-        <Field.Root disabled={createEventState.isLoading}>
-          <Checkbox name="registrations-open" size="sm">
-            {t("page.admin_events_new.registrations_open")}
-          </Checkbox>
+        <Field.Root disabled={createEventState.isLoading} required>
+          <Field.Label>
+            {t("page.admin_events_new.starts_at_time.label")}
+            <Field.RequiredIndicator />
+          </Field.Label>
+          <Input name="starts-at-time" size="sm" type="time" />
         </Field.Root>
+      </HStack>
 
-        {createEventState.hasError && (
-          <Alert.Root status="error">
-            <Alert.Description>{t(createEventState.error)}</Alert.Description>
-          </Alert.Root>
-        )}
+      <Field.Root disabled={createEventState.isLoading} required>
+        <Field.Label>
+          {t("page.admin_events_new.location_name.label")}
+          <Field.RequiredIndicator />
+        </Field.Label>
+        <Input name="location-name" pattern="\s*\S.*" size="sm" />
+      </Field.Root>
 
-        <HStack>
-          <Button loading={createEventState.isLoading} size="sm" type="submit">
-            {t("page.admin_events_new.create")}
-          </Button>
+      <Field.Root disabled={createEventState.isLoading}>
+        <Field.Label>
+          {t("page.admin_events_new.location_address.label")}
+        </Field.Label>
+        <Input name="location-address" size="sm" />
+      </Field.Root>
 
-          <Button asChild size="sm" variant="outline">
-            <RouterLink to="/admin/events">
-              {t("page.admin_events_new.cancel")}
-            </RouterLink>
-          </Button>
-        </HStack>
-      </VStack>
+      <Field.Root disabled={createEventState.isLoading} required>
+        <Field.Label>
+          {t("page.admin_events_new.visibility.label")}
+          <Field.RequiredIndicator />
+        </Field.Label>
+        <SelectEnum<EventVisibility>
+          defaultValue="public"
+          name="visibility"
+          options={eventVisibilityOptions}
+          size="sm"
+        />
+      </Field.Root>
+
+      <Field.Root disabled={createEventState.isLoading} my={2}>
+        <Checkbox name="registrations-open" size="sm">
+          {t("page.admin_events_new.registrations_open")}
+        </Checkbox>
+      </Field.Root>
+
+      {createEventState.hasError && (
+        <Alert.Root status="error">
+          <Alert.Description>{t(createEventState.error)}</Alert.Description>
+        </Alert.Root>
+      )}
+
+      <HStack>
+        <Button loading={createEventState.isLoading} size="sm" type="submit">
+          {t("page.admin_events_new.create")}
+        </Button>
+
+        <Button asChild size="sm" variant="outline">
+          <RouterLink to="/admin/events">
+            {t("page.admin_events_new.cancel")}
+          </RouterLink>
+        </Button>
+      </HStack>
     </Form>
   );
 }

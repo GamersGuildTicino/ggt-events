@@ -3,7 +3,6 @@ import {
   Badge,
   Button,
   Card,
-  Center,
   HStack,
   Heading,
   Link,
@@ -45,47 +44,45 @@ export default function AdminEventsPage() {
   }, []);
 
   return (
-    <Center px={8} py={4} w="full">
-      <VStack align="stretch" gap={3} maxW="40em" mx="auto" w="full">
-        <AdminBreadcrumb
-          items={[
-            { label: t("page.admin_events.breadcrumb.admin"), to: "/admin" },
-            { label: t("page.admin_events.breadcrumb.events") },
-          ]}
-        />
+    <VStack align="stretch" gap={3} w="full">
+      <AdminBreadcrumb
+        items={[
+          { label: t("page.admin_events.breadcrumb.admin"), to: "/admin" },
+          { label: t("page.admin_events.breadcrumb.events") },
+        ]}
+      />
 
-        <HStack justify="space-between">
-          <Heading size="3xl">{t("page.admin_events.heading")}</Heading>
-          <Button asChild size="xs">
-            <RouterLink to="/admin/events/new">
-              {t("page.admin_events.new")}
-            </RouterLink>
-          </Button>
-        </HStack>
+      <HStack justify="space-between">
+        <Heading size="3xl">{t("page.admin_events.heading")}</Heading>
+        <Button asChild size="xs">
+          <RouterLink to="/admin/events/new">
+            {t("page.admin_events.new")}
+          </RouterLink>
+        </Button>
+      </HStack>
 
-        {eventsState.isLoading && <Spinner />}
+      {eventsState.isLoading && <Spinner />}
 
-        {eventsState.hasError && (
-          <Alert.Root status="error">
-            <Alert.Description>
-              {eventsState.error || t("page.admin_events.error")}
-            </Alert.Description>
-          </Alert.Root>
-        )}
+      {eventsState.hasError && (
+        <Alert.Root status="error">
+          <Alert.Description>
+            {eventsState.error || t("page.admin_events.error")}
+          </Alert.Description>
+        </Alert.Root>
+      )}
 
-        {eventsState.isSuccess && eventsState.data.length === 0 && (
-          <Text color="fg.muted">{t("page.admin_events.empty")}</Text>
-        )}
+      {eventsState.isSuccess && eventsState.data.length === 0 && (
+        <Text color="fg.muted">{t("page.admin_events.empty")}</Text>
+      )}
 
-        {eventsState.isSuccess && eventsState.data.length > 0 && (
-          <VStack align="stretch" gap={3}>
-            {eventsState.data.map((event) => (
-              <EventCard event={event} key={event.id} locale={locale} />
-            ))}
-          </VStack>
-        )}
-      </VStack>
-    </Center>
+      {eventsState.isSuccess && eventsState.data.length > 0 && (
+        <VStack align="stretch" gap={3}>
+          {eventsState.data.map((event) => (
+            <EventCard event={event} key={event.id} locale={locale} />
+          ))}
+        </VStack>
+      )}
+    </VStack>
   );
 }
 
