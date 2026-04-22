@@ -108,6 +108,27 @@ export async function deleteEvent(eventId: Event["id"]) {
 }
 
 //------------------------------------------------------------------------------
+// Fetch Event
+//------------------------------------------------------------------------------
+
+export async function fetchEvent(
+  eventId: Event["id"],
+): Promise<AsyncStateSuccess<Event> | AsyncStateFailure> {
+  const { data, error } = await supabase
+    .from("events")
+    .select("*")
+    .eq("id", eventId)
+    .single();
+
+  if (error) return failure(error.message);
+
+  const event = eventFromRowSchema.safeParse(data);
+  if (event.error) return failure("Failed to parse event");
+
+  return success(event.data);
+}
+
+//------------------------------------------------------------------------------
 // Fetch Events
 //------------------------------------------------------------------------------
 
@@ -125,4 +146,26 @@ export async function fetchEvents(): Promise<
   if (events.error) return failure("Failed to parse events");
 
   return success(events.data);
+}
+
+//------------------------------------------------------------------------------
+// Update Event
+//------------------------------------------------------------------------------
+
+export async function updateEvent(
+  event: Pick<Event, "id"> & Omit<Event, "createdAt" | "createdBy" | "id">,
+) {
+  const { error } = await supabase
+    .from("events")
+    .update({
+      location_address: event.locationAddress,
+      location_name: event.locationName,
+      registrations_open: event.registrationsOpen,
+      starts_at: event.startsAt.toISOString(),
+      title: event.title,
+      visibility: event.visibility,
+    })
+    .eq("id", event.id);
+
+  return error?.message ?? "";
 }
