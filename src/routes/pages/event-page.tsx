@@ -1,19 +1,26 @@
 import {
   Alert,
   Badge,
+  Box,
   Button,
   Card,
+  Grid,
+  HStack,
   Heading,
+  Separator,
   Spinner,
   Text,
   VStack,
 } from "@chakra-ui/react";
+import { ChevronLeft } from "lucide-react";
 import { useMemo, useState } from "react";
 import { Link as RouterLink, useParams } from "react-router";
 import { type EventTable, fetchEventTables } from "~/domain/event-tables";
 import { type Event, fetchPublicEvent } from "~/domain/events";
 import { type GameSystem, fetchGameSystems } from "~/domain/game-systems";
+import { formatPlayerCount } from "~/domain/players";
 import { useAsyncEffect } from "~/hooks/use-async-effect";
+import LocaleSelect from "~/i18n/locale-select";
 import useI18n from "~/i18n/use-i18n";
 import {
   type AsyncState,
@@ -29,7 +36,7 @@ import AdminContentColumns from "../components/admin-content-columns";
 
 export default function EventPage() {
   const { eventId } = useParams();
-  const { locale, t } = useI18n();
+  const { t } = useI18n();
   const [eventState, setEventState] = useState<AsyncState<Event>>(initial());
   const [eventTablesState, setEventTablesState] =
     useState<AsyncState<EventTable[]>>(initial());
@@ -77,9 +84,15 @@ export default function EventPage() {
 
   return (
     <VStack align="stretch" gap={6} w="full">
-      <Button alignSelf="flex-start" asChild size="sm" variant="outline">
-        <RouterLink to="/">{t("page.event.back_to_home")}</RouterLink>
-      </Button>
+      <HStack justify="space-between" w="full">
+        <Button asChild size="sm" variant="ghost">
+          <RouterLink to="/">
+            <ChevronLeft />
+            {t("page.event.back_to_home")}
+          </RouterLink>
+        </Button>
+        <LocaleSelect />
+      </HStack>
 
       {eventState.isLoading && <Spinner />}
 
@@ -91,71 +104,184 @@ export default function EventPage() {
 
       {eventState.isSuccess && (
         <>
-          <VStack align="flex-start" gap={3}>
-            <Heading size="3xl">{eventState.data.title}</Heading>
+          <EventHero event={eventState.data} />
 
-            <Badge
-              colorPalette={
-                eventState.data.registrationsOpen ? "green" : "gray"
-              }
-            >
-              {eventState.data.registrationsOpen ?
-                t("page.event.registrations_open")
-              : t("page.event.registrations_closed")}
-            </Badge>
-
-            <Text color="fg.muted">
-              {formatDateTime(eventState.data.startsAt, locale)}
-            </Text>
-
-            <Text>
-              {[eventState.data.locationName, eventState.data.locationAddress]
-                .filter(Boolean)
-                .join(", ")}
-            </Text>
-          </VStack>
-
-          <VStack align="stretch" gap={3}>
-            <Heading size="xl">{t("page.event.tables.heading")}</Heading>
-
-            {eventTablesState.isLoading && <Spinner />}
-
-            {eventTablesState.hasError && (
-              <Alert.Root status="error">
-                <Alert.Description>
-                  {t(eventTablesState.error)}
-                </Alert.Description>
-              </Alert.Root>
-            )}
-
-            {gameSystemsState.hasError && (
-              <Alert.Root status="error">
-                <Alert.Description>
-                  {t(gameSystemsState.error)}
-                </Alert.Description>
-              </Alert.Root>
-            )}
-
-            {eventTablesState.isSuccess &&
-              eventTablesState.data.length === 0 && (
-                <Text color="fg.muted">{t("page.event.tables.empty")}</Text>
-              )}
-
-            {eventTablesState.isSuccess && eventTablesState.data.length > 0 && (
-              <AdminContentColumns>
-                {eventTablesState.data.map((eventTable) => (
-                  <EventTableCard
-                    eventTable={eventTable}
-                    gameSystemName={
-                      gameSystemById.get(eventTable.gameSystemId)?.name ?? ""
-                    }
-                    key={eventTable.id}
-                  />
-                ))}
-              </AdminContentColumns>
-            )}
-          </VStack>
+          <TablesSection
+            event={eventState.data}
+            eventTablesState={eventTablesState}
+            gameSystemById={gameSystemById}
+            gameSystemsState={gameSystemsState}
+          />
         </>
+      )}
+    </VStack>
+  );
+}
+
+//------------------------------------------------------------------------------
+// Event Hero
+//------------------------------------------------------------------------------
+
+function EventHero({ event }: { event: Event }) {
+  const { locale, t } = useI18n();
+
+  return (
+    <Box
+      bg="linear-gradient(135deg, #231a12 0%, #69311f 54%, #d58331 100%)"
+      borderRadius="3xl"
+      color="white"
+      overflow="hidden"
+      position="relative"
+      px={{ base: 6, md: 10 }}
+      py={{ base: 8, md: 12 }}
+    >
+      <Box
+        bg="whiteAlpha.200"
+        borderRadius="full"
+        h="16rem"
+        position="absolute"
+        right="-5rem"
+        top="-6rem"
+        w="16rem"
+      />
+
+      <Grid
+        alignItems="stretch"
+        gap={6}
+        position="relative"
+        templateColumns={{ base: "1fr", lg: "1.2fr 0.8fr" }}
+      >
+        <VStack align="flex-start" gap={5} justify="center">
+          <Badge
+            bg={event.registrationsOpen ? "green.500" : "whiteAlpha.300"}
+            color="white"
+            rounded="full"
+          >
+            {event.registrationsOpen ?
+              t("page.event.registrations_open")
+            : t("page.event.registrations_closed")}
+          </Badge>
+
+          <VStack align="flex-start" gap={3}>
+            <Heading
+              fontSize={{ base: "4xl", md: "5xl" }}
+              letterSpacing="-0.05em"
+              lineHeight={1}
+            >
+              {event.title}
+            </Heading>
+            <Text color="whiteAlpha.900" fontSize="lg" maxW="34em">
+              {event.registrationsOpen ?
+                t("page.event.hero.registration_open")
+              : t("page.event.hero.registration_closed")}
+            </Text>
+          </VStack>
+        </VStack>
+
+        <Card.Root
+          bg="blackAlpha.300"
+          borderColor="whiteAlpha.300"
+          color="white"
+        >
+          <Card.Body gap={4}>
+            <DetailRow
+              label={t("page.event.details.date")}
+              value={formatDate(event.startsAt, locale)}
+            />
+            <DetailRow
+              label={t("page.event.details.time")}
+              value={formatTime(event.startsAt, locale)}
+            />
+            <DetailRow
+              label={t("page.event.details.location")}
+              value={event.locationName}
+            />
+            {event.locationAddress && (
+              <DetailRow
+                label={t("page.event.details.address")}
+                value={event.locationAddress}
+              />
+            )}
+          </Card.Body>
+        </Card.Root>
+      </Grid>
+    </Box>
+  );
+}
+
+//------------------------------------------------------------------------------
+// Detail Row
+//------------------------------------------------------------------------------
+
+function DetailRow({ label, value }: { label: string; value: string }) {
+  return (
+    <VStack align="flex-start" gap={1}>
+      <Text color="orange.100" fontSize="xs" fontWeight="bold">
+        {label}
+      </Text>
+      <Text fontSize="md" fontWeight="semibold">
+        {value}
+      </Text>
+    </VStack>
+  );
+}
+
+//------------------------------------------------------------------------------
+// Tables Section
+//------------------------------------------------------------------------------
+
+function TablesSection({
+  event,
+  eventTablesState,
+  gameSystemById,
+  gameSystemsState,
+}: {
+  event: Event;
+  eventTablesState: AsyncState<EventTable[]>;
+  gameSystemById: Map<string, GameSystem>;
+  gameSystemsState: AsyncState<GameSystem[]>;
+}) {
+  const { t } = useI18n();
+
+  return (
+    <VStack align="stretch" gap={4}>
+      <Heading size="2xl">{t("page.event.tables.heading")}</Heading>
+
+      {eventTablesState.isLoading && <Spinner />}
+
+      {eventTablesState.hasError && (
+        <Alert.Root status="error">
+          <Alert.Description>{t(eventTablesState.error)}</Alert.Description>
+        </Alert.Root>
+      )}
+
+      {gameSystemsState.hasError && (
+        <Alert.Root status="error">
+          <Alert.Description>{t(gameSystemsState.error)}</Alert.Description>
+        </Alert.Root>
+      )}
+
+      {eventTablesState.isSuccess && eventTablesState.data.length === 0 && (
+        <Card.Root borderStyle="dashed">
+          <Card.Body>
+            <Text color="fg.muted">{t("page.event.tables.empty")}</Text>
+          </Card.Body>
+        </Card.Root>
+      )}
+
+      {eventTablesState.isSuccess && eventTablesState.data.length > 0 && (
+        <AdminContentColumns minColumnWidth="22rem">
+          {eventTablesState.data.map((eventTable) => (
+            <EventTableCard
+              eventTable={eventTable}
+              gameSystemName={
+                gameSystemById.get(eventTable.gameSystemId)?.name ?? ""
+              }
+              key={eventTable.id}
+              registrationsOpen={event.registrationsOpen}
+            />
+          ))}
+        </AdminContentColumns>
       )}
     </VStack>
   );
@@ -168,39 +294,84 @@ export default function EventPage() {
 function EventTableCard({
   eventTable,
   gameSystemName,
+  registrationsOpen,
 }: {
   eventTable: EventTable;
   gameSystemName: string;
+  registrationsOpen: boolean;
 }) {
-  const { ti } = useI18n();
+  const { t, ti } = useI18n();
 
   return (
-    <Card.Root>
-      <Card.Body gap={2}>
-        <Heading size="md">{eventTable.title}</Heading>
-        <Text color="fg.muted" fontSize="sm">
-          {gameSystemName}
-        </Text>
-        <Text fontSize="sm">{eventTable.gameMasterName}</Text>
-        <Text fontSize="sm">
-          {ti(
-            "page.event.tables.players",
-            String(eventTable.minPlayers),
-            String(eventTable.maxPlayers),
-          )}
-        </Text>
+    <Card.Root
+      _hover={{ borderColor: "orange.400", transform: "translateY(-2px)" }}
+      transition="border-color 160ms ease, transform 160ms ease"
+    >
+      <Card.Body gap={4}>
+        <VStack align="flex-start" gap={2}>
+          <HStack align="flex-start" justify="space-between" w="full">
+            <Heading size="lg">{eventTable.title}</Heading>
+            <Badge colorPalette="orange">{gameSystemName}</Badge>
+          </HStack>
+          <Text color="fg.muted" fontSize="sm">
+            {ti("page.event.tables.game_master", eventTable.gameMasterName)}
+          </Text>
+        </VStack>
+
+        <Separator />
+
+        <HStack justify="space-between">
+          <VStack align="flex-start" gap={0}>
+            <Text color="fg.muted" fontSize="xs" fontWeight="bold">
+              {t("page.event.tables.seats")}
+            </Text>
+            <Text fontWeight="semibold">
+              {formatPlayerCount({
+                maxPlayers: eventTable.maxPlayers,
+                minPlayers: eventTable.minPlayers,
+                t,
+                ti,
+              })}
+            </Text>
+          </VStack>
+
+          <Button disabled={!registrationsOpen} size="sm">
+            {registrationsOpen ?
+              t("page.event.tables.choose")
+            : t("page.event.tables.closed")}
+          </Button>
+        </HStack>
       </Card.Body>
     </Card.Root>
   );
 }
 
 //------------------------------------------------------------------------------
-// Format Date Time
+// Format Date
 //------------------------------------------------------------------------------
 
-function formatDateTime(date: Date, locale: string) {
+function formatDate(date: Date, locale: string) {
+  const value = new Intl.DateTimeFormat(locale, {
+    dateStyle: "full",
+  }).format(date);
+
+  return capitalize(value);
+}
+
+//------------------------------------------------------------------------------
+// Format Time
+//------------------------------------------------------------------------------
+
+function formatTime(date: Date, locale: string) {
   return new Intl.DateTimeFormat(locale, {
-    dateStyle: "long",
     timeStyle: "short",
   }).format(date);
+}
+
+//------------------------------------------------------------------------------
+// Capitalize
+//------------------------------------------------------------------------------
+
+function capitalize(value: string) {
+  return value.charAt(0).toLocaleUpperCase() + value.slice(1);
 }

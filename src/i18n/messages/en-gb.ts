@@ -1,5 +1,8 @@
 const enGB = {
   "common.locale": "Language",
+  "common.players.count": "{0} players",
+  "common.players.one": "1 player",
+  "common.players.range": "{0}-{1} players",
   "common.sign_out": "Sign out",
   "common.toggle_theme": "Toggle theme",
 
@@ -88,7 +91,6 @@ const enGB = {
   "page.admin_event.tables.new": "New table",
   "page.admin_event.tables.no_game_systems":
     "Create a game system before adding tables.",
-  "page.admin_event.tables.players": "{0}-{1} players",
   "page.admin_event.tables.save": "Save changes",
 
   "page.admin_events.breadcrumb.admin": "Dashboard",
@@ -164,12 +166,23 @@ const enGB = {
   "page.admin_login.sign_in": "Sign In",
 
   "page.event.back_to_home": "Back to home",
+  "page.event.details.address": "Address",
+  "page.event.details.date": "Date",
+  "page.event.details.location": "Location",
+  "page.event.details.time": "Time",
   "page.event.error.missing": "Missing event id.",
+  "page.event.hero.registration_closed":
+    "Registrations are not open right now. You can still browse the available tables.",
+  "page.event.hero.registration_open":
+    "Browse the available tables and choose the adventure you want to join.",
   "page.event.registrations_closed": "Registrations closed",
   "page.event.registrations_open": "Registrations open",
+  "page.event.tables.choose": "Choose table",
+  "page.event.tables.closed": "Closed",
   "page.event.tables.empty": "No tables yet.",
+  "page.event.tables.game_master": "Game Master: {0}",
   "page.event.tables.heading": "Tables",
-  "page.event.tables.players": "{0}-{1} players",
+  "page.event.tables.seats": "Seats",
 
   "page.home.about.card_1.description":
     "One-shot adventures and short campaigns, with tables for different tastes and experience levels.",

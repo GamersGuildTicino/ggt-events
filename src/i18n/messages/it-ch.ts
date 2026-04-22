@@ -1,5 +1,8 @@
 const itCH = {
   "common.locale": "Lingua",
+  "common.players.count": "{0} giocatori",
+  "common.players.one": "1 giocatore",
+  "common.players.range": "{0}-{1} giocatori",
   "common.sign_out": "Esci",
   "common.toggle_theme": "Cambia tema",
 
@@ -92,7 +95,6 @@ const itCH = {
   "page.admin_event.tables.new": "Nuovo tavolo",
   "page.admin_event.tables.no_game_systems":
     "Crea un sistema di gioco prima di aggiungere tavoli.",
-  "page.admin_event.tables.players": "{0}-{1} giocatori",
   "page.admin_event.tables.save": "Salva modifiche",
 
   "page.admin_events.breadcrumb.admin": "Panoramica",
@@ -171,12 +173,23 @@ const itCH = {
   "page.admin_login.sign_in": "Login",
 
   "page.event.back_to_home": "Torna alla home",
+  "page.event.details.address": "Indirizzo",
+  "page.event.details.date": "Data",
+  "page.event.details.location": "Luogo",
+  "page.event.details.time": "Ora",
   "page.event.error.missing": "ID evento mancante.",
+  "page.event.hero.registration_closed":
+    "Le registrazioni non sono aperte al momento. Puoi comunque consultare i tavoli disponibili.",
+  "page.event.hero.registration_open":
+    "Consulta i tavoli disponibili e scegli l'avventura a cui vuoi partecipare.",
   "page.event.registrations_closed": "Registrazioni chiuse",
   "page.event.registrations_open": "Registrazioni aperte",
+  "page.event.tables.choose": "Scegli tavolo",
+  "page.event.tables.closed": "Chiuso",
   "page.event.tables.empty": "Nessun tavolo.",
+  "page.event.tables.game_master": "Game Master: {0}",
   "page.event.tables.heading": "Tavoli",
-  "page.event.tables.players": "{0}-{1} giocatori",
+  "page.event.tables.seats": "Posti",
 
   "page.home.about.card_1.description":
     "Avventure autoconclusive e brevi campagne, con tavoli per gusti ed esperienze diverse.",

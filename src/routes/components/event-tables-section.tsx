@@ -19,6 +19,7 @@ import {
 } from "~/domain/event-tables";
 import type { Event } from "~/domain/events";
 import { type GameSystem, fetchGameSystems } from "~/domain/game-systems";
+import { formatPlayerCount } from "~/domain/players";
 import { useAsyncEffect } from "~/hooks/use-async-effect";
 import useI18n from "~/i18n/use-i18n";
 import {
@@ -311,11 +312,12 @@ function EventTableCard({
               </Text>
               <Text fontSize="sm">
                 {`${eventTable.gameMasterName}, `}
-                {ti(
-                  "page.admin_event.tables.players",
-                  String(eventTable.minPlayers),
-                  String(eventTable.maxPlayers),
-                )}
+                {formatPlayerCount({
+                  maxPlayers: eventTable.maxPlayers,
+                  minPlayers: eventTable.minPlayers,
+                  t,
+                  ti,
+                })}
               </Text>
             </VStack>
 

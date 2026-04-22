@@ -17,11 +17,11 @@ export default function LocaleSelect() {
   return (
     <SelectEnum<Locale>
       aria-label={t("common.locale")}
-      minW="6em"
       onValueChange={setLocale}
       options={localeOptions}
       size="sm"
       value={locale}
+      w="6em"
     />
   );
 }
