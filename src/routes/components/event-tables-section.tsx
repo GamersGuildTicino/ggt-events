@@ -309,8 +309,8 @@ function EventTableCard({
               <Text color="fg.muted" fontSize="sm">
                 {gameSystemName}
               </Text>
-              <Text fontSize="sm">{eventTable.gameMasterName}</Text>
               <Text fontSize="sm">
+                {`${eventTable.gameMasterName}, `}
                 {ti(
                   "page.admin_event.tables.players",
                   String(eventTable.minPlayers),
