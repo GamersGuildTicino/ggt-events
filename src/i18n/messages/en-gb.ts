@@ -3,7 +3,7 @@ const enGB = {
   "enum.event_visibility.public": "Public",
   "enum.event_visibility.restricted": "Restricted",
 
-  "page.admin.create_event.description": "Prepare a new monthly event.",
+  "page.admin.create_event.description": "Prepare a new event.",
   "page.admin.create_event.heading": "Create event",
   "page.admin.create_event.open": "New event",
   "page.admin.description": "Manage events and registrations for GGT.",

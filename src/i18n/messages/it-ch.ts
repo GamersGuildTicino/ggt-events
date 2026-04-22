@@ -3,7 +3,7 @@ const itCH = {
   "enum.event_visibility.public": "Pubblica",
   "enum.event_visibility.restricted": "Ristretta",
 
-  "page.admin.create_event.description": "Prepara un nuovo evento mensile.",
+  "page.admin.create_event.description": "Prepara un nuovo evento.",
   "page.admin.create_event.heading": "Crea evento",
   "page.admin.create_event.open": "Nuovo evento",
   "page.admin.description": "Gestisci eventi e registrazioni per GGT.",
