@@ -12,7 +12,7 @@ import SelectEnum from "~/ui/select-enum";
 
 export type EventTableFormValue = Pick<
   EventTable,
-  "gameSystemId" | "maxPlayers" | "minPlayers" | "title"
+  "gameMasterName" | "gameSystemId" | "maxPlayers" | "minPlayers" | "title"
 >;
 
 //------------------------------------------------------------------------------
@@ -84,6 +84,19 @@ export default function EventTableForm({
         />
       </Field.Root>
 
+      <Field.Root disabled={disabled} required>
+        <Field.Label>
+          {t("form.event_table.game_master_name.label")}
+          <Field.RequiredIndicator />
+        </Field.Label>
+        <Input
+          defaultValue={initialValue?.gameMasterName}
+          name="game-master-name"
+          pattern="\s*\S.*"
+          size="sm"
+        />
+      </Field.Root>
+
       <HStack w="full">
         <Field.Root disabled={disabled} required>
           <Field.Label>
@@ -131,6 +144,7 @@ function eventTableFormValueFromForm(form: HTMLFormElement) {
   const getNumber = (key: string) => Number(formData.get(key));
 
   return {
+    gameMasterName: getString("game-master-name"),
     gameSystemId: getString("game-system-id"),
     maxPlayers: getNumber("max-players"),
     minPlayers: getNumber("min-players"),

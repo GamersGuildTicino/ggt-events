@@ -313,6 +313,7 @@ function EventTableCard({
               <Text color="fg.muted" fontSize="sm">
                 {gameSystemName}
               </Text>
+              <Text fontSize="sm">{eventTable.gameMasterName}</Text>
               <Text fontSize="sm">
                 {ti(
                   "page.admin_event.tables.players",
