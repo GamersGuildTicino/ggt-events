@@ -91,7 +91,7 @@ export default function EventTableForm({
             <Field.RequiredIndicator />
           </Field.Label>
           <Input
-            defaultValue={initialValue?.minPlayers ?? 0}
+            defaultValue={initialValue?.minPlayers ?? 3}
             min={0}
             name="min-players"
             size="sm"
@@ -105,7 +105,7 @@ export default function EventTableForm({
             <Field.RequiredIndicator />
           </Field.Label>
           <Input
-            defaultValue={initialValue?.maxPlayers ?? 1}
+            defaultValue={initialValue?.maxPlayers ?? 5}
             min={0}
             name="max-players"
             size="sm"
