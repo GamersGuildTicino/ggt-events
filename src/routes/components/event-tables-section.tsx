@@ -304,9 +304,27 @@ function EventTableCard({
             }
             onSubmit={(value) => onUpdate(eventTable, value)}
           />
-        : <HStack align="flex-start" justify="space-between">
-            <VStack align="flex-start" gap={1}>
+        : <VStack align="stretch" gap={2}>
+            <HStack align="flex-start" justify="space-between" w="full">
               <Heading size="md">{eventTable.title}</Heading>
+
+              <HStack gap={2}>
+                <Button onClick={onEdit} size="xs" variant="outline">
+                  {t("page.admin_event.tables.edit")}
+                </Button>
+                <Button
+                  colorPalette="red"
+                  loading={deleting}
+                  onClick={() => onDelete(eventTable)}
+                  size="xs"
+                  variant="outline"
+                >
+                  {t("page.admin_event.tables.delete")}
+                </Button>
+              </HStack>
+            </HStack>
+
+            <VStack align="flex-start" gap={1}>
               <Text color="fg.muted" fontSize="sm">
                 {gameSystemName}
               </Text>
@@ -325,22 +343,7 @@ function EventTableCard({
                 </Text>
               )}
             </VStack>
-
-            <HStack gap={2}>
-              <Button onClick={onEdit} size="xs" variant="outline">
-                {t("page.admin_event.tables.edit")}
-              </Button>
-              <Button
-                colorPalette="red"
-                loading={deleting}
-                onClick={() => onDelete(eventTable)}
-                size="xs"
-                variant="outline"
-              >
-                {t("page.admin_event.tables.delete")}
-              </Button>
-            </HStack>
-          </HStack>
+          </VStack>
         }
       </Card.Body>
     </Card.Root>
