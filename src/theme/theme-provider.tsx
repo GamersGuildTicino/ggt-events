@@ -1,7 +1,28 @@
-import { ChakraProvider, ClientOnly, defaultSystem } from "@chakra-ui/react";
+import {
+  ChakraProvider,
+  ClientOnly,
+  createSystem,
+  defaultConfig,
+} from "@chakra-ui/react";
 import { ThemeProvider as NextThemesThemeProvider } from "next-themes";
 import { type ReactNode } from "react";
 import { useTheme } from "./theme";
+
+//------------------------------------------------------------------------------
+// System
+//------------------------------------------------------------------------------
+
+const system = createSystem(defaultConfig, {
+  theme: {
+    recipes: {
+      text: {
+        base: {
+          lineHeight: 1.2,
+        },
+      },
+    },
+  },
+});
 
 //------------------------------------------------------------------------------
 // Theme Provider
@@ -15,7 +36,7 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
   const [theme] = useTheme();
 
   return (
-    <ChakraProvider value={defaultSystem}>
+    <ChakraProvider value={system}>
       <NextThemesThemeProvider
         attribute="class"
         disableTransitionOnChange

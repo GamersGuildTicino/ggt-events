@@ -28,7 +28,7 @@ export default function AdminPage() {
           <Card.Body gap={4}>
             <VStack align="flex-start" gap={2}>
               <Heading size="md">{t("page.admin.events.heading")}</Heading>
-              <Text color="fg.muted" fontSize="sm" lineHeight={1.2}>
+              <Text color="fg.muted" fontSize="sm">
                 {t("page.admin.events.description")}
               </Text>
             </VStack>
@@ -46,7 +46,7 @@ export default function AdminPage() {
               <Heading size="md">
                 {t("page.admin.create_event.heading")}
               </Heading>
-              <Text color="fg.muted" fontSize="sm" lineHeight={1.2}>
+              <Text color="fg.muted" fontSize="sm">
                 {t("page.admin.create_event.description")}
               </Text>
             </VStack>
@@ -64,7 +64,7 @@ export default function AdminPage() {
               <Heading size="md">
                 {t("page.admin.game_systems.heading")}
               </Heading>
-              <Text color="fg.muted" fontSize="sm" lineHeight={1.2}>
+              <Text color="fg.muted" fontSize="sm">
                 {t("page.admin.game_systems.description")}
               </Text>
             </VStack>
