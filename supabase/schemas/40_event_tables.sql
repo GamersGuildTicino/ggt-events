@@ -9,6 +9,7 @@ create table public.event_tables (
   title text not null,
   description text not null default '',
   game_master_name text not null,
+  experience_level public.event_table_experience_level not null default 'unspecified',
   min_players integer not null,
   max_players integer not null,
   created_by uuid not null references auth.users (id),
