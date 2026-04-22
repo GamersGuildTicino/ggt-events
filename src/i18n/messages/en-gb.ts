@@ -22,7 +22,8 @@ const enGB = {
   "error.event_tables.update": "Unable to update table.",
 
   "error.game_systems.create": "Unable to create game system.",
-  "error.game_systems.delete": "Unable to delete game system.",
+  "error.game_systems.delete":
+    "Unable to delete game system, maybe some tables are using it.",
   "error.game_systems.fetch_many": "Unable to load game systems.",
   "error.game_systems.fetch_one": "Unable to load game system.",
   "error.game_systems.parse_many": "Game systems data is invalid.",

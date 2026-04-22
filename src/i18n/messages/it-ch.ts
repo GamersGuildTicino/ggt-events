@@ -22,7 +22,8 @@ const itCH = {
   "error.event_tables.update": "Impossibile aggiornare il tavolo.",
 
   "error.game_systems.create": "Impossibile creare il sistema di gioco.",
-  "error.game_systems.delete": "Impossibile eliminare il sistema di gioco.",
+  "error.game_systems.delete":
+    "Impossibile eliminare il sistema di gioco, forse alcuni tavoli lo stanno usando.",
   "error.game_systems.fetch_many": "Impossibile caricare i sistemi di gioco.",
   "error.game_systems.fetch_one": "Impossibile caricare il sistema di gioco.",
   "error.game_systems.parse_many":
