@@ -100,12 +100,15 @@ const enGB = {
     "Something went wrong, please try again.",
   "page.admin_event.tables.error.missing_user":
     "You must be logged in to create a table.",
+  "page.admin_event.tables.game_master": "Master: {0}",
+  "page.admin_event.tables.hide_description": "Hide description",
   "page.admin_event.tables.new": "New table",
   "page.admin_event.tables.no_game_systems":
     "Create a game system before adding tables.",
   "page.admin_event.tables.no_time_slots":
     "Create a time slot before adding tables.",
   "page.admin_event.tables.save": "Save changes",
+  "page.admin_event.tables.show_description": "Show description",
   "page.admin_event.time_slots.cancel": "Cancel",
   "page.admin_event.time_slots.create": "Add time slot",
   "page.admin_event.time_slots.delete": "Delete",

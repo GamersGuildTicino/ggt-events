@@ -290,10 +290,13 @@ function EventTableCard({
   updateState: AsyncState;
 }) {
   const { t, ti } = useI18n();
+  const [descriptionVisible, setDescriptionVisible] = useState(false);
+  const showDescription = () => setDescriptionVisible(true);
+  const hideDescription = () => setDescriptionVisible(false);
 
   return (
     <Card.Root>
-      <Card.Body gap={3} whiteSpace="pre-line">
+      <Card.Body gap={3}>
         {editing ?
           <EventTableForm
             actions={
@@ -321,43 +324,60 @@ function EventTableCard({
           />
         : <VStack align="stretch" gap={2}>
             <HStack align="flex-start" justify="space-between" w="full">
-              <Heading size="md">{eventTable.title}</Heading>
+              <VStack align="flex-start" gap={0}>
+                <Heading size="md">{eventTable.title}</Heading>
 
-              <HStack gap={2}>
-                <Button onClick={onEdit} size="xs" variant="outline">
-                  {t("page.admin_event.tables.edit")}
-                </Button>
-                <Button
-                  colorPalette="red"
-                  loading={deleting}
-                  onClick={() => onDelete(eventTable)}
-                  size="xs"
-                  variant="outline"
-                >
-                  {t("page.admin_event.tables.delete")}
-                </Button>
-              </HStack>
+                <Text color="fg.muted" fontSize="sm">
+                  {`${gameSystemName} (${formatPlayerCount({ ...eventTable, t, ti })})`}
+                </Text>
+                <Text fontSize="sm">
+                  {ti(
+                    "page.admin_event.tables.game_master",
+                    eventTable.gameMasterName,
+                  )}
+                </Text>
+              </VStack>
+
+              <VStack align="flex-end">
+                <HStack gap={2}>
+                  <Button onClick={onEdit} size="xs" variant="outline">
+                    {t("page.admin_event.tables.edit")}
+                  </Button>
+                  <Button
+                    colorPalette="red"
+                    loading={deleting}
+                    onClick={() => onDelete(eventTable)}
+                    size="xs"
+                    variant="outline"
+                  >
+                    {t("page.admin_event.tables.delete")}
+                  </Button>
+                </HStack>
+
+                {eventTable.description && (
+                  <Button
+                    h="auto"
+                    minW={0}
+                    onClick={
+                      descriptionVisible ? hideDescription : showDescription
+                    }
+                    p={0}
+                    size="xs"
+                    variant="plain"
+                  >
+                    {descriptionVisible ?
+                      t("page.admin_event.tables.hide_description")
+                    : t("page.admin_event.tables.show_description")}
+                  </Button>
+                )}
+              </VStack>
             </HStack>
 
-            <VStack align="flex-start" gap={1}>
-              <Text color="fg.muted" fontSize="sm">
-                {gameSystemName}
+            {descriptionVisible && (
+              <Text color="fg.muted" fontSize="sm" whiteSpace="pre-line">
+                {eventTable.description}
               </Text>
-              <Text fontSize="sm">
-                {`${eventTable.gameMasterName}, `}
-                {formatPlayerCount({
-                  maxPlayers: eventTable.maxPlayers,
-                  minPlayers: eventTable.minPlayers,
-                  t,
-                  ti,
-                })}
-              </Text>
-              {eventTable.description && (
-                <Text color="fg.muted" fontSize="sm">
-                  {eventTable.description}
-                </Text>
-              )}
-            </VStack>
+            )}
           </VStack>
         }
       </Card.Body>

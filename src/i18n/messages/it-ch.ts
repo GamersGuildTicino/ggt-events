@@ -105,12 +105,15 @@ const itCH = {
     "Qualcosa è andato storto, per favore prova di nuovo.",
   "page.admin_event.tables.error.missing_user":
     "Devi essere registrato per creare un tavolo.",
+  "page.admin_event.tables.game_master": "Master: {0}",
+  "page.admin_event.tables.hide_description": "Nascondi descrizione",
   "page.admin_event.tables.new": "Nuovo tavolo",
   "page.admin_event.tables.no_game_systems":
     "Crea un sistema di gioco prima di aggiungere tavoli.",
   "page.admin_event.tables.no_time_slots":
     "Crea una fascia oraria prima di aggiungere tavoli.",
   "page.admin_event.tables.save": "Salva modifiche",
+  "page.admin_event.tables.show_description": "Mostra descrizione",
   "page.admin_event.time_slots.cancel": "Annulla",
   "page.admin_event.time_slots.create": "Aggiungi fascia oraria",
   "page.admin_event.time_slots.delete": "Elimina",
