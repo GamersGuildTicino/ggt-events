@@ -127,7 +127,7 @@ function EventHero({ event }: { event: Event }) {
 
   return (
     <Box
-      bg="linear-gradient(135deg, #231a12 0%, #69311f 54%, #d58331 100%)"
+      bg="linear-gradient(135deg, #121826 0%, #233a5f 52%, #3d7f89 100%)"
       borderRadius="3xl"
       color="white"
       overflow="hidden"
@@ -136,13 +136,27 @@ function EventHero({ event }: { event: Event }) {
       py={{ base: 8, md: 12 }}
     >
       <Box
-        bg="whiteAlpha.200"
+        bg="cyan.300"
         borderRadius="full"
+        filter="blur(24px)"
         h="16rem"
+        opacity={0.22}
         position="absolute"
         right="-5rem"
         top="-6rem"
         w="16rem"
+      />
+      <Box
+        borderColor="whiteAlpha.300"
+        borderRadius="2xl"
+        borderWidth="1px"
+        bottom="-5rem"
+        h="14rem"
+        left="-4rem"
+        opacity={0.4}
+        position="absolute"
+        transform="rotate(-12deg)"
+        w="14rem"
       />
 
       <Grid
@@ -179,7 +193,7 @@ function EventHero({ event }: { event: Event }) {
         </VStack>
 
         <Card.Root
-          bg="blackAlpha.300"
+          bg="whiteAlpha.200"
           borderColor="whiteAlpha.300"
           color="white"
         >
@@ -216,7 +230,7 @@ function EventHero({ event }: { event: Event }) {
 function DetailRow({ label, value }: { label: string; value: string }) {
   return (
     <VStack align="flex-start" gap={1}>
-      <Text color="orange.100" fontSize="xs" fontWeight="bold">
+      <Text color="cyan.100" fontSize="xs" fontWeight="bold">
         {label}
       </Text>
       <Text fontSize="md" fontWeight="semibold">
