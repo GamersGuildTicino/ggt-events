@@ -90,6 +90,9 @@ const itCH = {
 
   "page.admin_game_systems.breadcrumb.admin": "Panoramica",
   "page.admin_game_systems.breadcrumb.game_systems": "Sistemi di gioco",
+  "page.admin_game_systems.delete": "Elimina",
+  "page.admin_game_systems.delete.confirm":
+    'Eliminare "{0}"? Questa azione non può essere annullata.',
   "page.admin_game_systems.description":
     "Crea e gestisci i sistemi di gioco usati dai tavoli.",
   "page.admin_game_systems.empty": "Nessun sistema di gioco.",

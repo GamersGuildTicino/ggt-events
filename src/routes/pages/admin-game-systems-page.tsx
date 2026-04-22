@@ -11,7 +11,11 @@ import {
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { Link as RouterLink } from "react-router";
-import { type GameSystem, fetchGameSystems } from "~/domain/game-systems";
+import {
+  type GameSystem,
+  deleteGameSystem,
+  fetchGameSystems,
+} from "~/domain/game-systems";
 import { useAsyncEffect } from "~/hooks/use-async-effect";
 import useI18n from "~/i18n/use-i18n";
 import { type AsyncState, initial, loading } from "~/utils/async-state";
@@ -22,9 +26,19 @@ import AdminBreadcrumb from "../components/admin-breadcrumb";
 //------------------------------------------------------------------------------
 
 export default function AdminGameSystemsPage() {
-  const { t } = useI18n();
+  const { t, ti } = useI18n();
+  const [deleteError, setDeleteError] = useState("");
+  const [deletingGameSystemId, setDeletingGameSystemId] = useState<
+    GameSystem["id"] | null
+  >(null);
   const [gameSystemsState, setGameSystemsState] =
     useState<AsyncState<GameSystem[]>>(initial());
+
+  const loadGameSystems = async () => {
+    setGameSystemsState(loading());
+    const gameSystems = await fetchGameSystems();
+    setGameSystemsState(gameSystems);
+  };
 
   useAsyncEffect(async (isActive) => {
     setGameSystemsState(loading());
@@ -32,6 +46,23 @@ export default function AdminGameSystemsPage() {
     if (!isActive()) return;
     setGameSystemsState(gameSystems);
   }, []);
+
+  const handleDeleteGameSystem = async (gameSystem: GameSystem) => {
+    const message = ti(
+      "page.admin_game_systems.delete.confirm",
+      gameSystem.name,
+    );
+    const confirmed = window.confirm(message);
+    if (!confirmed) return;
+
+    setDeleteError("");
+    setDeletingGameSystemId(gameSystem.id);
+    const error = await deleteGameSystem(gameSystem.id);
+    setDeletingGameSystemId(null);
+
+    if (error) return setDeleteError(error);
+    await loadGameSystems();
+  };
 
   return (
     <VStack align="stretch" gap={3} w="full">
@@ -70,6 +101,12 @@ export default function AdminGameSystemsPage() {
         </Alert.Root>
       )}
 
+      {deleteError && (
+        <Alert.Root status="error">
+          <Alert.Description>{deleteError}</Alert.Description>
+        </Alert.Root>
+      )}
+
       {gameSystemsState.isSuccess && gameSystemsState.data.length === 0 && (
         <Text color="fg.muted">{t("page.admin_game_systems.empty")}</Text>
       )}
@@ -77,7 +114,12 @@ export default function AdminGameSystemsPage() {
       {gameSystemsState.isSuccess && gameSystemsState.data.length > 0 && (
         <VStack align="stretch" gap={3}>
           {gameSystemsState.data.map((gameSystem) => (
-            <GameSystemCard gameSystem={gameSystem} key={gameSystem.id} />
+            <GameSystemCard
+              deleting={deletingGameSystemId === gameSystem.id}
+              gameSystem={gameSystem}
+              key={gameSystem.id}
+              onDelete={handleDeleteGameSystem}
+            />
           ))}
         </VStack>
       )}
@@ -89,7 +131,15 @@ export default function AdminGameSystemsPage() {
 // Game System Card
 //------------------------------------------------------------------------------
 
-function GameSystemCard({ gameSystem }: { gameSystem: GameSystem }) {
+function GameSystemCard({
+  deleting,
+  gameSystem,
+  onDelete,
+}: {
+  deleting: boolean;
+  gameSystem: GameSystem;
+  onDelete: (gameSystem: GameSystem) => void;
+}) {
   const { t } = useI18n();
 
   return (
@@ -109,11 +159,22 @@ function GameSystemCard({ gameSystem }: { gameSystem: GameSystem }) {
             )}
           </VStack>
 
-          <Button asChild size="xs" variant="outline">
-            <RouterLink to={`/admin/game-systems/${gameSystem.id}`}>
-              {t("page.admin_game_systems.manage")}
-            </RouterLink>
-          </Button>
+          <HStack gap={2}>
+            <Button asChild size="xs" variant="outline">
+              <RouterLink to={`/admin/game-systems/${gameSystem.id}`}>
+                {t("page.admin_game_systems.manage")}
+              </RouterLink>
+            </Button>
+            <Button
+              colorPalette="red"
+              loading={deleting}
+              onClick={() => onDelete(gameSystem)}
+              size="xs"
+              variant="outline"
+            >
+              {t("page.admin_game_systems.delete")}
+            </Button>
+          </HStack>
         </HStack>
       </Card.Body>
     </Card.Root>

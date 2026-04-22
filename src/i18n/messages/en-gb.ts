@@ -86,6 +86,9 @@ const enGB = {
 
   "page.admin_game_systems.breadcrumb.admin": "Dashboard",
   "page.admin_game_systems.breadcrumb.game_systems": "Game systems",
+  "page.admin_game_systems.delete": "Delete",
+  "page.admin_game_systems.delete.confirm":
+    'Delete "{0}"? This cannot be undone.',
   "page.admin_game_systems.description":
     "Create and maintain the game systems used by event tables.",
   "page.admin_game_systems.empty": "No game systems yet.",

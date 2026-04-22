@@ -73,6 +73,19 @@ export async function createGameSystem(
 }
 
 //------------------------------------------------------------------------------
+// Delete Game System
+//------------------------------------------------------------------------------
+
+export async function deleteGameSystem(gameSystemId: GameSystem["id"]) {
+  const { error } = await supabase
+    .from("game_systems")
+    .delete()
+    .eq("id", gameSystemId);
+
+  return error?.message ?? "";
+}
+
+//------------------------------------------------------------------------------
 // Fetch Game System
 //------------------------------------------------------------------------------
 
