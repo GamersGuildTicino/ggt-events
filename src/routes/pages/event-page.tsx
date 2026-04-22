@@ -299,6 +299,9 @@ function TablesSection({
     }
     return result;
   }, [eventTablesState]);
+  const showSlotDate =
+    eventTimeSlotsState.isSuccess &&
+    spansMultipleDays(eventTimeSlotsState.data);
 
   return (
     <VStack align="stretch" gap={4}>
@@ -343,7 +346,11 @@ function TablesSection({
 
               return (
                 <VStack align="stretch" gap={3} key={timeSlot.id}>
-                  <Heading size="md">{formatSlot(timeSlot, locale)}</Heading>
+                  {eventTimeSlotsState.data.length > 1 && (
+                    <Heading size="md">
+                      {formatSlot(timeSlot, locale, showSlotDate)}
+                    </Heading>
+                  )}
 
                   <AdminContentColumns minColumnWidth="22rem">
                     {tables.map((eventTable) => (
@@ -469,14 +476,33 @@ function formatTime(date: Date, locale: string) {
 // Format Slot
 //------------------------------------------------------------------------------
 
-function formatSlot(timeSlot: EventTimeSlot, locale: string) {
+function formatSlot(
+  timeSlot: EventTimeSlot,
+  locale: string,
+  showDate: boolean,
+) {
+  const time = `${formatTime(timeSlot.startsAt, locale)}-${formatTime(timeSlot.endsAt, locale)}`;
+  if (!showDate) return time;
+
   const date = capitalize(
     new Intl.DateTimeFormat(locale, { dateStyle: "full" }).format(
       timeSlot.startsAt,
     ),
   );
 
-  return `${date}, ${formatTime(timeSlot.startsAt, locale)}-${formatTime(timeSlot.endsAt, locale)}`;
+  return `${date}, ${time}`;
+}
+
+//------------------------------------------------------------------------------
+// Spans Multiple Days
+//------------------------------------------------------------------------------
+
+function spansMultipleDays(timeSlots: EventTimeSlot[]) {
+  const firstDate = timeSlots[0]?.startsAt.toDateString();
+  if (!firstDate) return false;
+  return timeSlots.some(
+    (timeSlot) => timeSlot.startsAt.toDateString() !== firstDate,
+  );
 }
 
 //------------------------------------------------------------------------------
