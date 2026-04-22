@@ -92,7 +92,10 @@ const itCH = {
   "page.admin_game_systems.breadcrumb.game_systems": "Sistemi di gioco",
   "page.admin_game_systems.description":
     "Crea e gestisci i sistemi di gioco usati dai tavoli.",
+  "page.admin_game_systems.empty": "Nessun sistema di gioco.",
+  "page.admin_game_systems.error": "Impossibile caricare i sistemi di gioco.",
   "page.admin_game_systems.heading": "Sistemi di gioco",
+  "page.admin_game_systems.manage": "Gestisci",
   "page.admin_game_systems.new": "Nuovo sistema di gioco",
 
   "page.admin_game_systems_new.back_to_game_systems":

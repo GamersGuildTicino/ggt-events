@@ -94,6 +94,26 @@ export async function fetchGameSystem(
 }
 
 //------------------------------------------------------------------------------
+// Fetch Game Systems
+//------------------------------------------------------------------------------
+
+export async function fetchGameSystems(): Promise<
+  AsyncStateSuccess<GameSystem[]> | AsyncStateFailure
+> {
+  const { data, error } = await supabase
+    .from("game_systems")
+    .select("*")
+    .order("name", { ascending: true });
+
+  if (error) return failure(error.message);
+
+  const gameSystems = z.array(gameSystemFromRowSchema).safeParse(data);
+  if (gameSystems.error) return failure("Failed to parse game systems");
+
+  return success(gameSystems.data);
+}
+
+//------------------------------------------------------------------------------
 // Update Game System
 //------------------------------------------------------------------------------
 

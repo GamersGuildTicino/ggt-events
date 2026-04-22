@@ -88,7 +88,10 @@ const enGB = {
   "page.admin_game_systems.breadcrumb.game_systems": "Game systems",
   "page.admin_game_systems.description":
     "Create and maintain the game systems used by event tables.",
+  "page.admin_game_systems.empty": "No game systems yet.",
+  "page.admin_game_systems.error": "Unable to load game systems.",
   "page.admin_game_systems.heading": "Game systems",
+  "page.admin_game_systems.manage": "Manage",
   "page.admin_game_systems.new": "New game system",
 
   "page.admin_game_systems_new.back_to_game_systems": "Back to game systems",
