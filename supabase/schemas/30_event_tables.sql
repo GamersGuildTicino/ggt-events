@@ -7,6 +7,7 @@ create table public.event_tables (
   event_id uuid not null references public.events (id) on delete cascade,
   game_system_id uuid not null references public.game_systems (id) on delete restrict,
   title text not null,
+  game_master_name text not null,
   min_players integer not null,
   max_players integer not null,
   created_by uuid not null references auth.users (id),
