@@ -3,6 +3,16 @@ const itCH = {
   "enum.event_visibility.public": "Pubblica",
   "enum.event_visibility.restricted": "Ristretta",
 
+  "page.admin.create_event.description": "Prepara un nuovo evento mensile.",
+  "page.admin.create_event.heading": "Crea evento",
+  "page.admin.create_event.open": "Nuovo evento",
+  "page.admin.description": "Gestisci eventi e registrazioni per GGT.",
+  "page.admin.events.description":
+    "Visualizza e gestisci gli eventi esistenti.",
+  "page.admin.events.heading": "Eventi",
+  "page.admin.events.open": "Apri eventi",
+  "page.admin.heading": "Panoramica",
+
   "page.admin_events.breadcrumb.admin": "Panoramica",
   "page.admin_events.breadcrumb.events": "Eventi",
   "page.admin_events.empty": "Nessun evento.",
