@@ -186,7 +186,7 @@ function Intro() {
     <VStack align="stretch" gap={5} id="about">
       <VStack align="flex-start" gap={2}>
         <Heading size="2xl">{t("page.home.about.heading")}</Heading>
-        <Text color="fg.muted" fontSize="lg" maxW="44em">
+        <Text color="fg.muted" fontSize="lg">
           {t("page.home.about.description")}
         </Text>
       </VStack>
