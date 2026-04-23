@@ -4,9 +4,11 @@ import {
   Box,
   Button,
   Card,
+  Field,
   Grid,
   HStack,
   Heading,
+  Input,
   Separator,
   Spinner,
   Text,
@@ -20,6 +22,7 @@ import {
   experienceLevelColorPalette,
 } from "~/domain/enums/event-table-experience-level";
 import type { EventTableLanguage } from "~/domain/enums/event-table-language";
+import { registerForEventTable } from "~/domain/event-registrations";
 import { type EventTable, fetchEventTables } from "~/domain/event-tables";
 import {
   type EventTimeSlot,
@@ -36,6 +39,7 @@ import {
   failure,
   initial,
   loading,
+  success,
 } from "~/utils/async-state";
 import AdminContentColumns from "../components/admin-content-columns";
 
@@ -393,6 +397,7 @@ function EventTableCard({
   registrationsOpen: boolean;
 }) {
   const { t, ti } = useI18n();
+  const [registrationVisible, setRegistrationVisible] = useState(false);
 
   return (
     <Card.Root
@@ -450,14 +455,133 @@ function EventTableCard({
             </Text>
           </VStack>
 
-          <Button disabled={!registrationsOpen} size="sm">
+          <Button
+            disabled={!registrationsOpen}
+            onClick={() => setRegistrationVisible(true)}
+            size="sm"
+          >
             {registrationsOpen ?
               t("page.event.tables.choose")
             : t("page.event.tables.closed")}
           </Button>
         </HStack>
+
+        <RegistrationSection
+          eventTableId={eventTable.id}
+          onCancel={() => setRegistrationVisible(false)}
+          onSuccess={() => setRegistrationVisible(false)}
+          registrationsOpen={registrationsOpen}
+          visible={registrationVisible}
+        />
       </Card.Body>
     </Card.Root>
+  );
+}
+
+//------------------------------------------------------------------------------
+// Registration Section
+//------------------------------------------------------------------------------
+
+function RegistrationSection({
+  eventTableId,
+  onCancel,
+  onSuccess,
+  registrationsOpen,
+  visible,
+}: {
+  eventTableId: EventTable["id"];
+  onCancel: () => void;
+  onSuccess: () => void;
+  registrationsOpen: boolean;
+  visible: boolean;
+}) {
+  const { t } = useI18n();
+  const [registrationState, setRegistrationState] =
+    useState<AsyncState>(initial());
+
+  if (!registrationsOpen) return null;
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const form = e.currentTarget;
+
+    const formData = new FormData(form);
+    const playerName = String(formData.get("player-name") ?? "").trim();
+    const email = String(formData.get("email") ?? "").trim();
+
+    setRegistrationState(loading());
+
+    const error = await registerForEventTable({
+      email,
+      eventTableId,
+      playerName,
+    });
+
+    if (error) return setRegistrationState(failure(error));
+
+    form.reset();
+    setRegistrationState(success(undefined));
+    onSuccess();
+  };
+
+  return (
+    <VStack align="stretch" gap={3}>
+      {registrationState.isSuccess && (
+        <Alert.Root status="success">
+          <Alert.Description>
+            {t("page.event.registration.success")}
+          </Alert.Description>
+        </Alert.Root>
+      )}
+
+      {visible && (
+        <form onSubmit={handleSubmit}>
+          <VStack align="stretch" gap={3}>
+            <Field.Root required>
+              <Field.Label>
+                {t("page.event.registration.name")}
+                <Field.RequiredIndicator />
+              </Field.Label>
+              <Input name="player-name" pattern="\s*\S.*" size="sm" />
+            </Field.Root>
+
+            <Field.Root required>
+              <Field.Label>
+                {t("page.event.registration.email")}
+                <Field.RequiredIndicator />
+              </Field.Label>
+              <Input name="email" size="sm" type="email" />
+            </Field.Root>
+
+            {registrationState.hasError && (
+              <Alert.Root status="error">
+                <Alert.Description>
+                  {t(registrationState.error)}
+                </Alert.Description>
+              </Alert.Root>
+            )}
+
+            <HStack>
+              <Button
+                loading={registrationState.isLoading}
+                size="sm"
+                type="submit"
+              >
+                {t("page.event.registration.submit")}
+              </Button>
+              <Button
+                onClick={onCancel}
+                size="sm"
+                type="button"
+                variant="outline"
+              >
+                {t("page.event.registration.cancel")}
+              </Button>
+            </HStack>
+          </VStack>
+        </form>
+      )}
+    </VStack>
   );
 }
 

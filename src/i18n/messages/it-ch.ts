@@ -39,6 +39,18 @@ const itCH = {
   "error.event_tables.parse_many": "I dati dei tavoli non sono validi.",
   "error.event_tables.update": "Impossibile aggiornare il tavolo.",
 
+  "error.event_registrations.already_registered_same_table":
+    "Questo indirizzo email è già registrato per questo tavolo.",
+  "error.event_registrations.create":
+    "Impossibile completare la registrazione.",
+  "error.event_registrations.invalid_email":
+    "Inserisci un indirizzo email valido.",
+  "error.event_registrations.registrations_closed":
+    "Le registrazioni per questo evento sono chiuse.",
+  "error.event_registrations.slot_conflict":
+    "Questo indirizzo email è già registrato per un'altra fascia oraria sovrapposta.",
+  "error.event_registrations.table_full": "Questo tavolo è già al completo.",
+
   "error.event_time_slots.create": "Impossibile creare la fascia oraria.",
   "error.event_time_slots.delete": "Impossibile eliminare la fascia oraria.",
   "error.event_time_slots.fetch_many": "Impossibile caricare le fasce orarie.",
@@ -233,9 +245,16 @@ const itCH = {
     "Le registrazioni non sono aperte al momento. Puoi comunque consultare i tavoli disponibili.",
   "page.event.hero.registration_open":
     "Consulta i tavoli disponibili e scegli l'avventura a cui vuoi partecipare.",
+  "page.event.registration.cancel": "Annulla",
+  "page.event.registration.email": "Email",
+  "page.event.registration.name": "Nome",
+  "page.event.registration.open": "Registrati",
+  "page.event.registration.submit": "Conferma registrazione",
+  "page.event.registration.success":
+    "Registrazione completata. Una mail di conferma è stata inviata.",
   "page.event.registrations_closed": "Registrazioni chiuse",
   "page.event.registrations_open": "Registrazioni aperte",
-  "page.event.tables.choose": "Scegli tavolo",
+  "page.event.tables.choose": "Registrati",
   "page.event.tables.closed": "Chiuso",
   "page.event.tables.empty": "Nessun tavolo.",
   "page.event.tables.game_master": "Game Master: {0}",

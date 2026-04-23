@@ -39,6 +39,17 @@ const enGB = {
   "error.event_tables.parse_many": "Tables data is invalid.",
   "error.event_tables.update": "Unable to update table.",
 
+  "error.event_registrations.already_registered_same_table":
+    "This email is already registered for this table.",
+  "error.event_registrations.create": "Unable to complete the registration.",
+  "error.event_registrations.invalid_email":
+    "Please enter a valid email address.",
+  "error.event_registrations.registrations_closed":
+    "Registrations are closed for this event.",
+  "error.event_registrations.slot_conflict":
+    "This email is already registered for another overlapping time slot.",
+  "error.event_registrations.table_full": "This table is already full.",
+
   "error.event_time_slots.create": "Unable to create time slot.",
   "error.event_time_slots.delete": "Unable to delete time slot.",
   "error.event_time_slots.fetch_many": "Unable to load time slots.",
@@ -225,9 +236,16 @@ const enGB = {
     "Registrations are not open right now. You can still browse the available tables.",
   "page.event.hero.registration_open":
     "Browse the available tables and choose the adventure you want to join.",
+  "page.event.registration.cancel": "Cancel",
+  "page.event.registration.email": "Email",
+  "page.event.registration.name": "Name",
+  "page.event.registration.open": "Register",
+  "page.event.registration.submit": "Confirm registration",
+  "page.event.registration.success":
+    "Registration completed. A confirmation email has been sent.",
   "page.event.registrations_closed": "Registrations closed",
   "page.event.registrations_open": "Registrations open",
-  "page.event.tables.choose": "Choose table",
+  "page.event.tables.choose": "Register",
   "page.event.tables.closed": "Closed",
   "page.event.tables.empty": "No tables yet.",
   "page.event.tables.game_master": "Game Master: {0}",
