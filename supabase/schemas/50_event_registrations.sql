@@ -147,6 +147,40 @@ grant execute on function public.register_for_event_table(uuid, text, text) to a
 grant execute on function public.register_for_event_table(uuid, text, text) to authenticated;
 
 --------------------------------------------------------------------------------
+-- Delete Event Registration
+--------------------------------------------------------------------------------
+
+create or replace function public.delete_event_registration(
+  p_registration_id uuid
+)
+returns public.event_registrations
+language plpgsql
+security definer
+set search_path = public
+as $$
+declare
+  v_registration public.event_registrations;
+begin
+  if auth.uid() is null or not public.is_admin() then
+    raise exception using message = 'forbidden';
+  end if;
+
+  delete from public.event_registrations
+  where id = p_registration_id
+  returning *
+  into v_registration;
+
+  if not found then
+    raise exception using message = 'event_registration_not_found';
+  end if;
+
+  return v_registration;
+end;
+$$;
+
+grant execute on function public.delete_event_registration(uuid) to authenticated;
+
+--------------------------------------------------------------------------------
 -- Fetch Public Event Tables
 --------------------------------------------------------------------------------
 
