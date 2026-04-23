@@ -42,8 +42,11 @@ const enGB = {
   "error.event_registrations.already_registered_same_table":
     "This email is already registered for this table.",
   "error.event_registrations.create": "Unable to complete the registration.",
+  "error.event_registrations.delete": "Unable to remove the registration.",
+  "error.event_registrations.fetch_many": "Unable to load registrations.",
   "error.event_registrations.invalid_email":
     "Please enter a valid email address.",
+  "error.event_registrations.parse_many": "Registrations data is invalid.",
   "error.event_registrations.registrations_closed":
     "Registrations are closed for this event.",
   "error.event_registrations.slot_conflict":
@@ -139,6 +142,18 @@ const enGB = {
   "page.admin_event.tables.no_time_slots":
     "Create a time slot before adding tables.",
   "page.admin_event.tables.notes": "Notes",
+  "page.admin_event.tables.registrations.add": "Add",
+  "page.admin_event.tables.registrations.added": "Player added.",
+  "page.admin_event.tables.registrations.confirm_add": "Confirm add",
+  "page.admin_event.tables.registrations.delete": "Remove",
+  "page.admin_event.tables.registrations.delete.confirm":
+    'Remove "{0}" from this table?',
+  "page.admin_event.tables.registrations.email": "Email",
+  "page.admin_event.tables.registrations.empty": "No registered players yet.",
+  "page.admin_event.tables.registrations.heading": "Registrations ({0}/{1})",
+  "page.admin_event.tables.registrations.hide": "Hide registrations",
+  "page.admin_event.tables.registrations.player_name": "Name",
+  "page.admin_event.tables.registrations.show": "Show registrations",
   "page.admin_event.tables.save": "Save changes",
   "page.admin_event.tables.show_description": "Show details",
   "page.admin_event.tables.time_slot": "Time slot: {0}",

@@ -43,8 +43,13 @@ const itCH = {
     "Questo indirizzo email è già registrato per questo tavolo.",
   "error.event_registrations.create":
     "Impossibile completare la registrazione.",
+  "error.event_registrations.delete": "Impossibile rimuovere la registrazione.",
+  "error.event_registrations.fetch_many":
+    "Impossibile caricare le registrazioni.",
   "error.event_registrations.invalid_email":
     "Inserisci un indirizzo email valido.",
+  "error.event_registrations.parse_many":
+    "I dati delle registrazioni non sono validi.",
   "error.event_registrations.registrations_closed":
     "Le registrazioni per questo evento sono chiuse.",
   "error.event_registrations.slot_conflict":
@@ -145,6 +150,18 @@ const itCH = {
   "page.admin_event.tables.no_time_slots":
     "Crea una fascia oraria prima di aggiungere tavoli.",
   "page.admin_event.tables.notes": "Note",
+  "page.admin_event.tables.registrations.add": "Aggiungi",
+  "page.admin_event.tables.registrations.added": "Giocatore aggiunto.",
+  "page.admin_event.tables.registrations.confirm_add": "Conferma aggiunta",
+  "page.admin_event.tables.registrations.delete": "Rimuovi",
+  "page.admin_event.tables.registrations.delete.confirm":
+    'Rimuovere "{0}" da questo tavolo?',
+  "page.admin_event.tables.registrations.email": "Email",
+  "page.admin_event.tables.registrations.empty": "Nessun giocatore registrato.",
+  "page.admin_event.tables.registrations.heading": "Registrazioni ({0}/{1})",
+  "page.admin_event.tables.registrations.hide": "Nascondi registrazioni",
+  "page.admin_event.tables.registrations.player_name": "Nome",
+  "page.admin_event.tables.registrations.show": "Mostra registrazioni",
   "page.admin_event.tables.save": "Salva modifiche",
   "page.admin_event.tables.show_description": "Mostra dettagli",
   "page.admin_event.tables.time_slot": "Fascia oraria: {0}",
