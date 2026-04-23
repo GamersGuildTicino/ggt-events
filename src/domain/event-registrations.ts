@@ -38,6 +38,8 @@ export async function registerForEventTable({
       return "error.event_registrations.slot_conflict";
     case "table_full":
       return "error.event_registrations.table_full";
+    case "time_slot_closed":
+      return "error.event_registrations.time_slot_closed";
     default:
       return "error.event_registrations.create";
   }

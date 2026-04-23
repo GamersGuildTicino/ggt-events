@@ -49,6 +49,8 @@ const enGB = {
   "error.event_registrations.slot_conflict":
     "This email is already registered for another overlapping time slot.",
   "error.event_registrations.table_full": "This table is already full.",
+  "error.event_registrations.time_slot_closed":
+    "This time slot is no longer open for registration.",
 
   "error.event_time_slots.create": "Unable to create time slot.",
   "error.event_time_slots.delete": "Unable to delete time slot.",

@@ -371,6 +371,7 @@ function TablesSection({
                         }
                         key={eventTable.id}
                         registrationsOpen={event.registrationsOpen}
+                        timeSlot={timeSlot}
                       />
                     ))}
                   </AdminContentColumns>
@@ -391,13 +392,16 @@ function EventTableCard({
   eventTable,
   gameSystemName,
   registrationsOpen,
+  timeSlot,
 }: {
   eventTable: EventTable;
   gameSystemName: string;
   registrationsOpen: boolean;
+  timeSlot: EventTimeSlot;
 }) {
   const { t, ti } = useI18n();
   const [registrationVisible, setRegistrationVisible] = useState(false);
+  const canRegister = registrationsOpen && !isPastTimeSlot(timeSlot);
 
   return (
     <Card.Root
@@ -456,11 +460,11 @@ function EventTableCard({
           </VStack>
 
           <Button
-            disabled={!registrationsOpen}
+            disabled={!canRegister}
             onClick={() => setRegistrationVisible(true)}
             size="sm"
           >
-            {registrationsOpen ?
+            {canRegister ?
               t("page.event.tables.choose")
             : t("page.event.tables.closed")}
           </Button>
@@ -470,7 +474,7 @@ function EventTableCard({
           eventTableId={eventTable.id}
           onCancel={() => setRegistrationVisible(false)}
           onSuccess={() => setRegistrationVisible(false)}
-          registrationsOpen={registrationsOpen}
+          registrationsOpen={canRegister}
           visible={registrationVisible}
         />
       </Card.Body>
@@ -689,6 +693,14 @@ function spansMultipleDays(timeSlots: EventTimeSlot[]) {
   return timeSlots.some(
     (timeSlot) => timeSlot.startsAt.toDateString() !== firstDate,
   );
+}
+
+//------------------------------------------------------------------------------
+// Is Past Time Slot
+//------------------------------------------------------------------------------
+
+function isPastTimeSlot(timeSlot: EventTimeSlot) {
+  return timeSlot.endsAt <= new Date();
 }
 
 //------------------------------------------------------------------------------

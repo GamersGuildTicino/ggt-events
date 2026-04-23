@@ -50,6 +50,8 @@ const itCH = {
   "error.event_registrations.slot_conflict":
     "Questo indirizzo email è già registrato per un'altra fascia oraria sovrapposta.",
   "error.event_registrations.table_full": "Questo tavolo è già al completo.",
+  "error.event_registrations.time_slot_closed":
+    "Questa fascia oraria non è più aperta alle registrazioni.",
 
   "error.event_time_slots.create": "Impossibile creare la fascia oraria.",
   "error.event_time_slots.delete": "Impossibile eliminare la fascia oraria.",
