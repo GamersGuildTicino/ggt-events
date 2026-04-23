@@ -15,6 +15,7 @@ import { Link as RouterLink } from "react-router";
 import {
   type EventTimeSlot,
   fetchEventTimeSlots,
+  isEventOver,
 } from "~/domain/event-time-slots";
 import { type Event, deleteEvent, fetchEvents } from "~/domain/events";
 import { useAsyncEffect } from "~/hooks/use-async-effect";
@@ -159,6 +160,15 @@ function EventCard({
   timeSlots: EventTimeSlot[];
 }) {
   const { t } = useI18n();
+  const eventOver = isEventOver(timeSlots);
+  const registrationStatus =
+    eventOver ? t("page.admin_events.event_over")
+    : event.registrationsOpen ? t("page.admin_events.registrations_open")
+    : t("page.admin_events.registrations_closed");
+  const registrationColor =
+    eventOver ? "orange"
+    : event.registrationsOpen ? "green"
+    : "gray";
 
   return (
     <Card.Root>
@@ -182,11 +192,7 @@ function EventCard({
 
           <VStack align="flex-end" gap={2}>
             <Badge>{t(`enum.event_visibility.${event.visibility}`)}</Badge>
-            <Badge colorPalette={event.registrationsOpen ? "green" : "gray"}>
-              {event.registrationsOpen ?
-                t("page.admin_events.registrations_open")
-              : t("page.admin_events.registrations_closed")}
-            </Badge>
+            <Badge colorPalette={registrationColor}>{registrationStatus}</Badge>
             <HStack gap={2} pt={2}>
               <Button asChild size="xs" variant="outline">
                 <RouterLink to={`/admin/events/${event.id}`}>

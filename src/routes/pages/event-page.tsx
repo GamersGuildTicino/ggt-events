@@ -30,6 +30,7 @@ import {
 import {
   type EventTimeSlot,
   fetchEventTimeSlots,
+  isEventOver,
 } from "~/domain/event-time-slots";
 import { type Event, fetchPublicEvent } from "~/domain/events";
 import { type GameSystem, fetchGameSystems } from "~/domain/game-systems";
@@ -166,6 +167,19 @@ function EventHero({
   timeSlots: EventTimeSlot[];
 }) {
   const { locale, t } = useI18n();
+  const eventOver = isEventOver(timeSlots);
+  const statusColor =
+    eventOver ? "orange.500"
+    : event.registrationsOpen ? "green.500"
+    : "whiteAlpha.300";
+  const statusLabel =
+    eventOver ? t("page.event.event_over")
+    : event.registrationsOpen ? t("page.event.registrations_open")
+    : t("page.event.registrations_closed");
+  const statusDescription =
+    eventOver ? t("page.event.hero.event_over")
+    : event.registrationsOpen ? t("page.event.hero.registration_open")
+    : t("page.event.hero.registration_closed");
 
   return (
     <Box
@@ -208,14 +222,8 @@ function EventHero({
         templateColumns={{ base: "1fr", lg: "1.2fr 0.8fr" }}
       >
         <VStack align="flex-start" gap={5} justify="center">
-          <Badge
-            bg={event.registrationsOpen ? "green.500" : "whiteAlpha.300"}
-            color="white"
-            rounded="full"
-          >
-            {event.registrationsOpen ?
-              t("page.event.registrations_open")
-            : t("page.event.registrations_closed")}
+          <Badge bg={statusColor} color="white" rounded="full">
+            {statusLabel}
           </Badge>
 
           <VStack align="flex-start" gap={3}>
@@ -227,9 +235,7 @@ function EventHero({
               {event.title}
             </Heading>
             <Text color="whiteAlpha.900" fontSize="lg" maxW="34em">
-              {event.registrationsOpen ?
-                t("page.event.hero.registration_open")
-              : t("page.event.hero.registration_closed")}
+              {statusDescription}
             </Text>
           </VStack>
         </VStack>

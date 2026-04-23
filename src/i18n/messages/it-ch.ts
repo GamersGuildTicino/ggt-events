@@ -129,6 +129,9 @@ const itCH = {
   "page.admin_event.error.generic":
     "Qualcosa è andato storto, per favore prova di nuovo.",
   "page.admin_event.error.missing_event": "ID evento mancante.",
+  "page.admin_event.event_over": "Evento concluso",
+  "page.admin_event.event_over_notice":
+    "Tutte le fasce orarie sono nel passato. Le registrazioni pubbliche non sono piu disponibili.",
   "page.admin_event.heading": "Gestisci evento",
   "page.admin_event.save": "Salva modifiche",
   "page.admin_event.saved": "Evento salvato.",
@@ -186,6 +189,7 @@ const itCH = {
     'Eliminare "{0}"? Questa azione non può essere annullata.',
   "page.admin_events.empty": "Nessun evento.",
   "page.admin_events.error": "Impossibile caricare gli eventi.",
+  "page.admin_events.event_over": "Evento concluso",
   "page.admin_events.heading": "Eventi",
   "page.admin_events.location": "Luogo",
   "page.admin_events.manage": "Gestisci",
@@ -260,6 +264,9 @@ const itCH = {
   "page.event.details.location": "Luogo",
   "page.event.details.time": "Ora",
   "page.event.error.missing": "ID evento mancante.",
+  "page.event.event_over": "Evento concluso",
+  "page.event.hero.event_over":
+    "Questo evento è già terminato. Puoi comunque consultare i tavoli che ne facevano parte.",
   "page.event.hero.registration_closed":
     "Le registrazioni non sono aperte al momento. Puoi comunque consultare i tavoli disponibili.",
   "page.event.hero.registration_open":

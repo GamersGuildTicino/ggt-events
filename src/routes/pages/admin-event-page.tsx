@@ -1,5 +1,6 @@
 import {
   Alert,
+  Badge,
   Button,
   Grid,
   HStack,
@@ -12,6 +13,7 @@ import { Link as RouterLink, useParams } from "react-router";
 import {
   type EventTimeSlot,
   fetchEventTimeSlots,
+  isEventOver,
 } from "~/domain/event-time-slots";
 import { type Event, fetchEvent, updateEvent } from "~/domain/events";
 import { useAsyncEffect } from "~/hooks/use-async-effect";
@@ -114,7 +116,16 @@ export default function AdminEventPage() {
         ]}
       />
 
-      <Heading size="3xl">{t("page.admin_event.heading")}</Heading>
+      <HStack align="center" justify="space-between">
+        <Heading size="3xl">{t("page.admin_event.heading")}</Heading>
+
+        {eventTimeSlotsState.isSuccess &&
+          isEventOver(eventTimeSlotsState.data) && (
+            <Badge colorPalette="orange" size="lg">
+              {t("page.admin_event.event_over")}
+            </Badge>
+          )}
+      </HStack>
 
       {eventState.isLoading && <Spinner />}
 
@@ -186,6 +197,15 @@ export default function AdminEventPage() {
                 </Alert.Description>
               </Alert.Root>
             )}
+
+            {eventTimeSlotsState.isSuccess &&
+              isEventOver(eventTimeSlotsState.data) && (
+                <Alert.Root status="warning">
+                  <Alert.Description>
+                    {t("page.admin_event.event_over_notice")}
+                  </Alert.Description>
+                </Alert.Root>
+              )}
 
             {eventTimeSlotsState.isSuccess && (
               <EventTablesSection

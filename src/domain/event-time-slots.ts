@@ -130,3 +130,14 @@ export async function updateEventTimeSlot(
 
   return error ? "error.event_time_slots.update" : "";
 }
+
+//------------------------------------------------------------------------------
+// Is Event Over
+//------------------------------------------------------------------------------
+
+export function isEventOver(eventTimeSlots: EventTimeSlot[]) {
+  return (
+    eventTimeSlots.length > 0 &&
+    eventTimeSlots.every((eventTimeSlot) => eventTimeSlot.endsAt < new Date())
+  );
+}

@@ -121,6 +121,9 @@ const enGB = {
   "page.admin_event.breadcrumb.events": "Events",
   "page.admin_event.error.generic": "Something went wrong, please try again.",
   "page.admin_event.error.missing_event": "Missing event id.",
+  "page.admin_event.event_over": "Event over",
+  "page.admin_event.event_over_notice":
+    "All time slots are in the past. Public registrations are no longer available.",
   "page.admin_event.heading": "Manage event",
   "page.admin_event.save": "Save changes",
   "page.admin_event.saved": "Event saved.",
@@ -177,6 +180,7 @@ const enGB = {
   "page.admin_events.delete.confirm": 'Delete "{0}"? This cannot be undone.',
   "page.admin_events.empty": "No events yet.",
   "page.admin_events.error": "Unable to load events.",
+  "page.admin_events.event_over": "Event over",
   "page.admin_events.heading": "Events",
   "page.admin_events.location": "Location",
   "page.admin_events.manage": "Manage",
@@ -249,6 +253,9 @@ const enGB = {
   "page.event.details.location": "Location",
   "page.event.details.time": "Time",
   "page.event.error.missing": "Missing event id.",
+  "page.event.event_over": "Event over",
+  "page.event.hero.event_over":
+    "This event has already ended. You can still browse the tables that were part of it.",
   "page.event.hero.registration_closed":
     "Registrations are not open right now. You can still browse the available tables.",
   "page.event.hero.registration_open":
