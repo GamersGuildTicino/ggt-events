@@ -53,10 +53,9 @@ export const eventRegistrationFromRowSchema =
 export async function deleteEventRegistration(
   registrationId: EventRegistration["id"],
 ) {
-  const { error } = await supabase
-    .from("event_registrations")
-    .delete()
-    .eq("id", registrationId);
+  const { error } = await supabase.rpc("delete_event_registration", {
+    p_registration_id: registrationId,
+  });
 
   return error ? "error.event_registrations.delete" : "";
 }
