@@ -247,6 +247,8 @@ const enGB = {
     "Registration completed. A confirmation email has been sent.",
   "page.event.registrations_closed": "Registrations closed",
   "page.event.registrations_open": "Registrations open",
+  "page.event.tables.available_seats/*": "{0} seats left",
+  "page.event.tables.available_seats/1": "{0} seat left",
   "page.event.tables.choose": "Register",
   "page.event.tables.closed": "Closed",
   "page.event.tables.empty": "No tables yet.",

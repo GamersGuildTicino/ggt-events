@@ -23,7 +23,10 @@ import {
 } from "~/domain/enums/event-table-experience-level";
 import type { EventTableLanguage } from "~/domain/enums/event-table-language";
 import { registerForEventTable } from "~/domain/event-registrations";
-import { type EventTable, fetchEventTables } from "~/domain/event-tables";
+import {
+  type PublicEventTable,
+  fetchPublicEventTables,
+} from "~/domain/event-tables";
 import {
   type EventTimeSlot,
   fetchEventTimeSlots,
@@ -52,7 +55,7 @@ export default function EventPage() {
   const { t } = useI18n();
   const [eventState, setEventState] = useState<AsyncState<Event>>(initial());
   const [eventTablesState, setEventTablesState] =
-    useState<AsyncState<EventTable[]>>(initial());
+    useState<AsyncState<PublicEventTable[]>>(initial());
   const [eventTimeSlotsState, setEventTimeSlotsState] =
     useState<AsyncState<EventTimeSlot[]>>(initial());
   const [gameSystemsState, setGameSystemsState] =
@@ -95,7 +98,7 @@ export default function EventPage() {
       if (!eventId) return;
 
       setEventTablesState(loading());
-      const eventTables = await fetchEventTables(eventId);
+      const eventTables = await fetchPublicEventTables(eventId);
       if (!isActive()) return;
       setEventTablesState(eventTables);
     },
@@ -291,16 +294,17 @@ function TablesSection({
   gameSystemsState,
 }: {
   event: Event;
-  eventTablesState: AsyncState<EventTable[]>;
+  eventTablesState: AsyncState<PublicEventTable[]>;
   eventTimeSlotsState: AsyncState<EventTimeSlot[]>;
   gameSystemById: Map<string, GameSystem>;
   gameSystemsState: AsyncState<GameSystem[]>;
 }) {
   const { locale, t } = useI18n();
   const tablesBySlotId = useMemo(() => {
-    if (!eventTablesState.isSuccess) return new Map<string, EventTable[]>();
+    if (!eventTablesState.isSuccess)
+      return new Map<string, PublicEventTable[]>();
 
-    const result = new Map<string, EventTable[]>();
+    const result = new Map<string, PublicEventTable[]>();
     for (const eventTable of eventTablesState.data) {
       const tables = result.get(eventTable.timeSlotId) ?? [];
       tables.push(eventTable);
@@ -394,14 +398,18 @@ function EventTableCard({
   registrationsOpen,
   timeSlot,
 }: {
-  eventTable: EventTable;
+  eventTable: PublicEventTable;
   gameSystemName: string;
   registrationsOpen: boolean;
   timeSlot: EventTimeSlot;
 }) {
-  const { t, ti } = useI18n();
+  const { t, ti, tpi } = useI18n();
   const [registrationVisible, setRegistrationVisible] = useState(false);
   const canRegister = registrationsOpen && !isPastTimeSlot(timeSlot);
+  const availableSeats = Math.max(
+    0,
+    eventTable.maxPlayers - eventTable.registrationCount,
+  );
 
   return (
     <Card.Root
@@ -451,11 +459,22 @@ function EventTableCard({
 
         <HStack justify="space-between">
           <VStack align="flex-start" gap={0}>
-            <Text color="fg.muted" fontSize="xs" fontWeight="bold">
-              {t("page.event.tables.seats")}
-            </Text>
             <Text fontWeight="semibold">
               {formatPlayerCount({ ...eventTable, t, ti })}
+            </Text>
+            <Text
+              color={seatAvailabilityColor(
+                availableSeats,
+                eventTable.maxPlayers,
+              )}
+              fontSize="sm"
+              fontWeight="medium"
+            >
+              {tpi(
+                "page.event.tables.available_seats",
+                availableSeats,
+                String(availableSeats),
+              )}
             </Text>
           </VStack>
 
@@ -493,7 +512,7 @@ function RegistrationSection({
   registrationsOpen,
   visible,
 }: {
-  eventTableId: EventTable["id"];
+  eventTableId: PublicEventTable["id"];
   onCancel: () => void;
   onSuccess: () => void;
   registrationsOpen: boolean;
@@ -504,6 +523,8 @@ function RegistrationSection({
     useState<AsyncState>(initial());
 
   if (!registrationsOpen) return null;
+  if (!visible && !registrationState.isSuccess && !registrationState.hasError)
+    return null;
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -701,6 +722,17 @@ function spansMultipleDays(timeSlots: EventTimeSlot[]) {
 
 function isPastTimeSlot(timeSlot: EventTimeSlot) {
   return timeSlot.endsAt <= new Date();
+}
+
+//------------------------------------------------------------------------------
+// Seat Availability Color
+//------------------------------------------------------------------------------
+
+function seatAvailabilityColor(availableSeats: number, maxPlayers: number) {
+  if (availableSeats === 0) return "red.600";
+  if (availableSeats <= Math.max(2, Math.ceil(maxPlayers / 4)))
+    return "orange.600";
+  return "green.600";
 }
 
 //------------------------------------------------------------------------------

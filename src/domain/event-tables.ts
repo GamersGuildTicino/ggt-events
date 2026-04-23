@@ -32,6 +32,12 @@ export const eventTableSchema = z.object({
 
 export type EventTable = z.infer<typeof eventTableSchema>;
 
+export const publicEventTableSchema = eventTableSchema.extend({
+  registrationCount: z.number().int(),
+});
+
+export type PublicEventTable = z.infer<typeof publicEventTableSchema>;
+
 //------------------------------------------------------------------------------
 // Event Table Row
 //------------------------------------------------------------------------------
@@ -55,6 +61,12 @@ export const eventTableRowSchema = z.object({
 
 export type EventTableRow = z.infer<typeof eventTableRowSchema>;
 
+export const publicEventTableRowSchema = eventTableRowSchema.extend({
+  registration_count: z.number().int(),
+});
+
+export type PublicEventTableRow = z.infer<typeof publicEventTableRowSchema>;
+
 //------------------------------------------------------------------------------
 // Event Table From Row
 //------------------------------------------------------------------------------
@@ -77,6 +89,27 @@ export const eventTableFromRowSchema = eventTableRowSchema.transform(
     updatedAt: new Date(row.updated_at),
   }),
 );
+
+export const publicEventTableFromRowSchema =
+  publicEventTableRowSchema.transform(
+    (row): PublicEventTable => ({
+      createdAt: new Date(row.created_at),
+      createdBy: row.created_by,
+      description: row.description,
+      experienceLevel: row.experience_level,
+      gameMasterName: row.game_master_name,
+      gameSystemId: row.game_system_id,
+      id: row.id,
+      language: row.language,
+      maxPlayers: row.max_players,
+      minPlayers: row.min_players,
+      notes: row.notes,
+      registrationCount: row.registration_count,
+      timeSlotId: row.time_slot_id,
+      title: row.title,
+      updatedAt: new Date(row.updated_at),
+    }),
+  );
 
 //------------------------------------------------------------------------------
 // Create Event Table
@@ -131,6 +164,25 @@ export async function fetchEventTables(
   if (error) return failure("error.event_tables.fetch_many");
 
   const eventTables = z.array(eventTableFromRowSchema).safeParse(data);
+  if (eventTables.error) return failure("error.event_tables.parse_many");
+
+  return success(eventTables.data);
+}
+
+//------------------------------------------------------------------------------
+// Fetch Public Event Tables
+//------------------------------------------------------------------------------
+
+export async function fetchPublicEventTables(
+  eventId: string,
+): Promise<AsyncStateSuccess<PublicEventTable[]> | AsyncStateFailure> {
+  const { data, error } = await supabase.rpc("fetch_public_event_tables", {
+    p_event_id: eventId,
+  });
+
+  if (error) return failure("error.event_tables.fetch_many");
+
+  const eventTables = z.array(publicEventTableFromRowSchema).safeParse(data);
   if (eventTables.error) return failure("error.event_tables.parse_many");
 
   return success(eventTables.data);

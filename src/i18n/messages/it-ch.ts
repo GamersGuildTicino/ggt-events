@@ -256,6 +256,8 @@ const itCH = {
     "Registrazione completata. Una mail di conferma è stata inviata.",
   "page.event.registrations_closed": "Registrazioni chiuse",
   "page.event.registrations_open": "Registrazioni aperte",
+  "page.event.tables.available_seats/*": "{0} posti liberi",
+  "page.event.tables.available_seats/1": "{0} posto libero",
   "page.event.tables.choose": "Registrati",
   "page.event.tables.closed": "Chiuso",
   "page.event.tables.empty": "Nessun tavolo.",
