@@ -10,7 +10,7 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { Link as RouterLink } from "react-router";
 import {
   type EventTimeSlot,
@@ -39,6 +39,29 @@ export default function AdminEventsPage() {
   const [timeSlotsByEventId, setTimeSlotsByEventId] = useState<
     Record<Event["id"], EventTimeSlot[]>
   >({});
+  const sortedEvents = useMemo(() => {
+    if (!eventsState.isSuccess) return [];
+
+    return [...eventsState.data].sort((a, b) => {
+      const aTimeSlots = timeSlotsByEventId[a.id] ?? [];
+      const bTimeSlots = timeSlotsByEventId[b.id] ?? [];
+      const aHasTimeSlots = aTimeSlots.length > 0;
+      const bHasTimeSlots = bTimeSlots.length > 0;
+
+      if (!aHasTimeSlots && !bHasTimeSlots) return 0;
+      if (!aHasTimeSlots) return -1;
+      if (!bHasTimeSlots) return 1;
+
+      const aLatestStartsAt = Math.max(
+        ...aTimeSlots.map((timeSlot) => timeSlot.startsAt.getTime()),
+      );
+      const bLatestStartsAt = Math.max(
+        ...bTimeSlots.map((timeSlot) => timeSlot.startsAt.getTime()),
+      );
+
+      return bLatestStartsAt - aLatestStartsAt;
+    });
+  }, [eventsState, timeSlotsByEventId]);
 
   const loadEvents = async () => {
     setEventsState(loading());
@@ -124,9 +147,9 @@ export default function AdminEventsPage() {
         <Text color="fg.muted">{t("page.admin_events.empty")}</Text>
       )}
 
-      {eventsState.isSuccess && eventsState.data.length > 0 && (
+      {eventsState.isSuccess && sortedEvents.length > 0 && (
         <AdminContentColumns>
-          {eventsState.data.map((event) => (
+          {sortedEvents.map((event) => (
             <EventCard
               deleting={deletingEventId === event.id}
               event={event}
