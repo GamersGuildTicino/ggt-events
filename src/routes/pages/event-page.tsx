@@ -524,7 +524,7 @@ function RegistrationSection({
   registrationsOpen: boolean;
   visible: boolean;
 }) {
-  const { t } = useI18n();
+  const { locale, t } = useI18n();
   const [registrationState, setRegistrationState] =
     useState<AsyncState>(initial());
 
@@ -545,6 +545,7 @@ function RegistrationSection({
     const error = await registerForEventTable({
       email,
       eventTableId,
+      locale,
       playerName,
     });
 

@@ -60,7 +60,7 @@ export default function EventTablesSection({
   eventId,
   timeSlots,
 }: EventTablesSectionProps) {
-  const { t, ti } = useI18n();
+  const { locale, t, ti } = useI18n();
   const { user } = useAuth();
   const [createState, setCreateState] = useState<AsyncState>(initial());
   const [deleteError, setDeleteError] = useState("");
@@ -210,6 +210,7 @@ export default function EventTablesSection({
     const error = await registerForEventTable({
       email: value.email,
       eventTableId,
+      locale,
       playerName: value.playerName,
     });
 

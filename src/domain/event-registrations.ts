@@ -1,4 +1,5 @@
 import { z } from "zod";
+import type { Locale } from "~/i18n/locale";
 import { supabase } from "~/lib/supabase";
 import {
   type AsyncStateFailure,
@@ -24,6 +25,7 @@ export type EventRegistration = z.infer<typeof eventRegistrationSchema>;
 export type EventRegistrationInput = {
   email: string;
   eventTableId: string;
+  locale: Locale;
   playerName: string;
 };
 
@@ -91,11 +93,13 @@ export async function fetchEventRegistrations(
 export async function registerForEventTable({
   email,
   eventTableId,
+  locale,
   playerName,
 }: EventRegistrationInput) {
   const { error } = await supabase.rpc("register_for_event_table", {
     p_email: email,
     p_event_table_id: eventTableId,
+    p_locale: locale,
     p_player_name: playerName,
   });
 
