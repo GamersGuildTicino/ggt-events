@@ -41,42 +41,48 @@ const NotFoundPage = lazy(() => import("./routes/pages/not-found-page"));
 // Router
 //------------------------------------------------------------------------------
 
-export const router = createBrowserRouter([
-  {
-    children: [
-      { index: true, lazy: HomePage },
-      { lazy: EventPage, path: "events/:eventId" },
-    ],
-    element: <PublicLayout />,
-  },
-  {
-    children: [
-      {
-        children: [
-          { lazy: AdminForgotPasswordPage, path: "forgot-password" },
-          { lazy: AdminLoginPage, path: "login" },
-        ],
-        element: <AdminAuthLayout />,
-      },
-      {
-        children: [
-          {
-            children: [
-              { index: true, lazy: AdminPage },
-              { lazy: AdminEventsPage, path: "events" },
-              { lazy: AdminEventsNewPage, path: "events/new" },
-              { lazy: AdminEventPage, path: "events/:eventId" },
-              { lazy: AdminGameSystemsPage, path: "game-systems" },
-              { lazy: AdminGameSystemsNewPage, path: "game-systems/new" },
-              { lazy: AdminGameSystemPage, path: "game-systems/:gameSystemId" },
-            ],
-            element: <AdminLayout />,
-          },
-        ],
-        element: <AdminProtectedLayout />,
-      },
-    ],
-    path: "admin",
-  },
-  { lazy: NotFoundPage, path: "*" },
-]);
+export const router = createBrowserRouter(
+  [
+    {
+      children: [
+        { index: true, lazy: HomePage },
+        { lazy: EventPage, path: "events/:eventId" },
+      ],
+      element: <PublicLayout />,
+    },
+    {
+      children: [
+        {
+          children: [
+            { lazy: AdminForgotPasswordPage, path: "forgot-password" },
+            { lazy: AdminLoginPage, path: "login" },
+          ],
+          element: <AdminAuthLayout />,
+        },
+        {
+          children: [
+            {
+              children: [
+                { index: true, lazy: AdminPage },
+                { lazy: AdminEventsPage, path: "events" },
+                { lazy: AdminEventsNewPage, path: "events/new" },
+                { lazy: AdminEventPage, path: "events/:eventId" },
+                { lazy: AdminGameSystemsPage, path: "game-systems" },
+                { lazy: AdminGameSystemsNewPage, path: "game-systems/new" },
+                {
+                  lazy: AdminGameSystemPage,
+                  path: "game-systems/:gameSystemId",
+                },
+              ],
+              element: <AdminLayout />,
+            },
+          ],
+          element: <AdminProtectedLayout />,
+        },
+      ],
+      path: "admin",
+    },
+    { lazy: NotFoundPage, path: "*" },
+  ],
+  { basename: import.meta.env.BASE_URL },
+);
