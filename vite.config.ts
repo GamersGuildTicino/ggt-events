@@ -4,8 +4,8 @@ import react, { reactCompilerPreset } from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
 
 // https://vite.dev/config/
-export default defineConfig({
-  base: "/",
+export default defineConfig(({ command }) => ({
+  base: command === "serve" ? "/" : "/ggt-events/",
   build: {
     rollupOptions: {
       output: {
@@ -31,4 +31,4 @@ export default defineConfig({
       "~": path.resolve(__dirname, "./src"),
     },
   },
-});
+}));

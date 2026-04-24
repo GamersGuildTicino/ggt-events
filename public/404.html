@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Gamers Guild Ticino</title>
+    <script>
+      (function (location) {
+        const basePath = "/ggt-events/";
+        const baseSegments = basePath
+          .replace(/^\/|\/$/g, "")
+          .split("/")
+          .filter(Boolean);
+        const routePath = location.pathname
+          .split("/")
+          .slice(baseSegments.length + 1)
+          .join("/")
+          .replace(/&/g, "~and~");
+        const search =
+          location.search ?
+            "&" + location.search.slice(1).replace(/&/g, "~and~")
+          : "";
+
+        location.replace(
+          `${location.origin}${basePath}?/${routePath}${search}${location.hash}`,
+        );
+      })(window.location);
+    </script>
+  </head>
+  <body></body>
+</html>
