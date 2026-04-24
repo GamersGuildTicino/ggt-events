@@ -247,6 +247,20 @@ const enGB = {
   "page.admin_login.password.label": "Password",
   "page.admin_login.sign_in": "Sign In",
 
+  "page.admin_reset_password.back_to_login": "Back to login",
+  "page.admin_reset_password.confirm_password.label": "Confirm password",
+  "page.admin_reset_password.error.generic":
+    "Unable to update the password. Please try again.",
+  "page.admin_reset_password.error.invalid_link":
+    "This recovery link is invalid or has expired.",
+  "page.admin_reset_password.error.password_mismatch":
+    "The passwords do not match.",
+  "page.admin_reset_password.heading": "Choose a new password",
+  "page.admin_reset_password.password.label": "New password",
+  "page.admin_reset_password.submit": "Update password",
+  "page.admin_reset_password.success":
+    "Password updated. Redirecting to login.",
+
   "page.event.back_to_home": "Back to home",
   "page.event.details.address": "Address",
   "page.event.details.date": "Date",

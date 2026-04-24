@@ -258,6 +258,20 @@ const itCH = {
   "page.admin_login.password.label": "Password",
   "page.admin_login.sign_in": "Login",
 
+  "page.admin_reset_password.back_to_login": "Torna al login",
+  "page.admin_reset_password.confirm_password.label": "Conferma password",
+  "page.admin_reset_password.error.generic":
+    "Impossibile aggiornare la password. Per favore prova di nuovo.",
+  "page.admin_reset_password.error.invalid_link":
+    "Questo link di recupero non è valido o è scaduto.",
+  "page.admin_reset_password.error.password_mismatch":
+    "Le password non coincidono.",
+  "page.admin_reset_password.heading": "Scegli una nuova password",
+  "page.admin_reset_password.password.label": "Nuova password",
+  "page.admin_reset_password.submit": "Aggiorna password",
+  "page.admin_reset_password.success":
+    "Password aggiornata. Reindirizzamento al login.",
+
   "page.event.back_to_home": "Torna alla home",
   "page.event.details.address": "Indirizzo",
   "page.event.details.date": "Data",

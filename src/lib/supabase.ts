@@ -32,7 +32,14 @@ export function onAuthStateChange(
 //------------------------------------------------------------------------------
 
 export async function resetPasswordForEmail(email: string) {
-  const { error } = await supabase.auth.resetPasswordForEmail(email);
+  const redirectTo = new URL(
+    `${import.meta.env.BASE_URL}admin/reset-password`,
+    window.location.origin,
+  ).toString();
+
+  const { error } = await supabase.auth.resetPasswordForEmail(email, {
+    redirectTo,
+  });
   return error?.message ?? "";
 }
 
@@ -51,5 +58,14 @@ export async function signInWithPassword(email: string, password: string) {
 
 export async function signOut() {
   const { error } = await supabase.auth.signOut();
+  return error?.message ?? "";
+}
+
+//------------------------------------------------------------------------------
+// Update Password
+//------------------------------------------------------------------------------
+
+export async function updatePassword(password: string) {
+  const { error } = await supabase.auth.updateUser({ password });
   return error?.message ?? "";
 }

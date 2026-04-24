@@ -20,6 +20,9 @@ const AdminForgotPasswordPage = lazy(
   () => import("./routes/pages/admin-forgot-password-page"),
 );
 const AdminLoginPage = lazy(() => import("./routes/pages/admin-login-page"));
+const AdminResetPasswordPage = lazy(
+  () => import("./routes/pages/admin-reset-password-page"),
+);
 const AdminPage = lazy(() => import("./routes/pages/admin-page"));
 const AdminEventsPage = lazy(() => import("./routes/pages/admin-events-page"));
 const AdminEventsNewPage = lazy(
@@ -52,6 +55,7 @@ export const router = createBrowserRouter(
     },
     {
       children: [
+        { lazy: AdminResetPasswordPage, path: "reset-password" },
         {
           children: [
             { lazy: AdminForgotPasswordPage, path: "forgot-password" },
