@@ -7,6 +7,7 @@ create table public.event_registrations (
   event_table_id uuid not null references public.event_tables (id) on delete cascade,
   player_name text not null,
   email text not null,
+  locale text not null default 'en-GB',
   created_at timestamptz not null default now(),
 
   constraint event_registrations_player_name_not_blank
@@ -15,11 +16,127 @@ create table public.event_registrations (
     check (email = lower(btrim(email))),
   constraint event_registrations_email_not_blank
     check (email <> ''),
+  constraint event_registrations_locale_valid
+    check (locale in ('en-GB', 'it-CH')),
   constraint event_registrations_table_email_unique
     unique (event_table_id, email)
 );
 
 alter table public.event_registrations enable row level security;
+
+--------------------------------------------------------------------------------
+-- Send Registration Email
+--------------------------------------------------------------------------------
+
+create or replace function public.send_registration_email(
+  p_type text,
+  p_registration public.event_registrations
+)
+returns bigint
+language plpgsql
+security definer
+set search_path = public
+as $$
+declare
+  v_event public.events;
+  v_event_table public.event_tables;
+  v_request_id bigint;
+  v_time_slot public.event_time_slots;
+  v_function_secret text;
+  v_headers jsonb;
+  v_project_url text;
+begin
+  if p_type not in ('registration-confirmed', 'registration-removed') then
+    raise exception using message = 'invalid_email_type';
+  end if;
+
+  select *
+  into v_event_table
+  from public.event_tables
+  where id = p_registration.event_table_id;
+
+  if not found then
+    return null;
+  end if;
+
+  select *
+  into v_time_slot
+  from public.event_time_slots
+  where id = v_event_table.time_slot_id;
+
+  if not found then
+    return null;
+  end if;
+
+  select *
+  into v_event
+  from public.events
+  where id = v_time_slot.event_id;
+
+  if not found then
+    return null;
+  end if;
+
+  select decrypted_secret
+  into v_project_url
+  from vault.decrypted_secrets
+  where name = 'project_url';
+
+  if v_project_url is null then
+    return null;
+  end if;
+
+  v_headers := jsonb_build_object(
+    'Authorization',
+      'Bearer ' || (
+        select decrypted_secret
+        from vault.decrypted_secrets
+        where name = 'anon_key'
+      ),
+    'Content-Type',
+      'application/json'
+  );
+
+  select decrypted_secret
+  into v_function_secret
+  from vault.decrypted_secrets
+  where name = 'transactional_email_secret';
+
+  if v_function_secret is not null then
+    v_headers :=
+      v_headers || jsonb_build_object('x-transactional-email-secret', v_function_secret);
+  end if;
+
+  select net.http_post(
+    url := v_project_url || '/functions/v1/send-transactional-email',
+    headers := v_headers,
+    body := jsonb_build_object(
+      'event', jsonb_build_object(
+        'locationAddress', v_event.location_address,
+        'locationName', v_event.location_name,
+        'title', v_event.title
+      ),
+      'registration', jsonb_build_object(
+        'email', p_registration.email,
+        'playerName', p_registration.player_name
+      ),
+      'locale', p_registration.locale,
+      'table', jsonb_build_object(
+        'gameMasterName', v_event_table.game_master_name,
+        'title', v_event_table.title
+      ),
+      'timeSlot', jsonb_build_object(
+        'endsAt', v_time_slot.ends_at,
+        'startsAt', v_time_slot.starts_at
+      ),
+      'type', p_type
+    )
+  )
+  into v_request_id;
+
+  return v_request_id;
+end;
+$$;
 
 --------------------------------------------------------------------------------
 -- Register For Event Table
@@ -28,7 +145,8 @@ alter table public.event_registrations enable row level security;
 create or replace function public.register_for_event_table(
   p_event_table_id uuid,
   p_player_name text,
-  p_email text
+  p_email text,
+  p_locale text default 'en-GB'
 )
 returns public.event_registrations
 language plpgsql
@@ -38,6 +156,7 @@ as $$
 declare
   v_event public.events;
   v_event_table public.event_tables;
+  v_locale text;
   v_registration public.event_registrations;
   v_registration_count integer;
   v_time_slot public.event_time_slots;
@@ -46,6 +165,7 @@ declare
 begin
   v_player_name := btrim(coalesce(p_player_name, ''));
   v_email := lower(btrim(coalesce(p_email, '')));
+  v_locale := coalesce(p_locale, 'en-GB');
 
   if v_player_name = '' then
     raise exception using message = 'invalid_name';
@@ -53,6 +173,10 @@ begin
 
   if v_email = '' or v_email !~ '^[^@\s]+@[^@\s]+\.[^@\s]+$' then
     raise exception using message = 'invalid_email';
+  end if;
+
+  if v_locale not in ('en-GB', 'it-CH') then
+    raise exception using message = 'invalid_locale';
   end if;
 
   perform pg_advisory_xact_lock(hashtextextended(v_email, 0));
@@ -126,15 +250,22 @@ begin
   insert into public.event_registrations (
     event_table_id,
     player_name,
-    email
+    email,
+    locale
   )
   values (
     v_event_table.id,
     v_player_name,
-    v_email
+    v_email,
+    v_locale
   )
   returning *
   into v_registration;
+
+  perform public.send_registration_email(
+    'registration-confirmed',
+    v_registration
+  );
 
   return v_registration;
 exception
@@ -143,8 +274,8 @@ exception
 end;
 $$;
 
-grant execute on function public.register_for_event_table(uuid, text, text) to anon;
-grant execute on function public.register_for_event_table(uuid, text, text) to authenticated;
+grant execute on function public.register_for_event_table(uuid, text, text, text) to anon;
+grant execute on function public.register_for_event_table(uuid, text, text, text) to authenticated;
 
 --------------------------------------------------------------------------------
 -- Delete Event Registration
@@ -173,6 +304,11 @@ begin
   if not found then
     raise exception using message = 'event_registration_not_found';
   end if;
+
+  perform public.send_registration_email(
+    'registration-removed',
+    v_registration
+  );
 
   return v_registration;
 end;
@@ -245,24 +381,5 @@ grant execute on function public.fetch_public_event_tables(uuid) to authenticate
 create policy "admins can view registrations"
 on public.event_registrations
 for select
-to authenticated
-using (public.is_admin());
-
-create policy "admins can insert registrations"
-on public.event_registrations
-for insert
-to authenticated
-with check (public.is_admin());
-
-create policy "admins can update registrations"
-on public.event_registrations
-for update
-to authenticated
-using (public.is_admin())
-with check (public.is_admin());
-
-create policy "admins can delete registrations"
-on public.event_registrations
-for delete
 to authenticated
 using (public.is_admin());
