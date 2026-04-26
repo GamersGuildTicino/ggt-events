@@ -47,7 +47,7 @@ export default function EventRegistrationSection({
   if (!registrationsOpen) return null;
   if (!visible && !registrationState.hasError) return null;
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const submit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const form = e.currentTarget;
 
@@ -77,7 +77,7 @@ export default function EventRegistrationSection({
     <Card.Footer bg="bg.panel" borderRadius="md" borderWidth="1px" pt={4}>
       <VStack align="stretch" gap={3} w="full">
         {visible && (
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={submit}>
             <VStack align="stretch" gap={3}>
               <Field.Root required>
                 <Field.Label>

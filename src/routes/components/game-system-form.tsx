@@ -44,7 +44,7 @@ export default function GameSystemForm({
 }: GameSystemFormProps) {
   const { t } = useI18n();
 
-  const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
+  const submit = (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
     onSubmit(gameSystemFormValueFromForm(e.currentTarget), e);
   };
@@ -58,7 +58,7 @@ export default function GameSystemForm({
           flexDirection="column"
           gap={3}
           justifyContent="center"
-          onSubmit={handleSubmit}
+          onSubmit={submit}
           w="full"
         >
           <Heading size="md">{t("form.game_system.heading")}</Heading>

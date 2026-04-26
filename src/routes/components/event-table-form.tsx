@@ -64,7 +64,7 @@ export default function EventTableForm({
   const experienceLevelOptions = useEventTableExperienceLevelOptions();
   const languageOptions = useEventTableLanguageOptions();
 
-  const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
+  const submit = (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
     onSubmit(eventTableFormValueFromForm(e.currentTarget), e);
   };
@@ -75,7 +75,7 @@ export default function EventTableForm({
       display="flex"
       flexDirection="column"
       gap={3}
-      onSubmit={handleSubmit}
+      onSubmit={submit}
       w="full"
     >
       <HStack w="full">

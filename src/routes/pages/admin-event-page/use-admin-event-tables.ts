@@ -118,7 +118,7 @@ export default function useAdminEventTables(
     setGameSystemsState(gameSystems);
   }, []);
 
-  const handleCreateEventTable = async (
+  const createAdminEventTable = async (
     value: EventTableFormValue,
     e: React.SubmitEvent<HTMLFormElement>,
   ) => {
@@ -148,7 +148,7 @@ export default function useAdminEventTables(
     }
   };
 
-  const handleUpdateEventTable = async (
+  const updateAdminEventTable = async (
     eventTable: EventTable,
     value: EventTableFormValue,
   ) => {
@@ -168,7 +168,7 @@ export default function useAdminEventTables(
     }
   };
 
-  const handleDeleteEventTable = async (
+  const deleteAdminEventTable = async (
     eventTable: EventTable,
     confirm: boolean,
   ) => {
@@ -183,7 +183,7 @@ export default function useAdminEventTables(
     await loadEventTables();
   };
 
-  const handleCreateRegistration = async (
+  const createAdminEventRegistration = async (
     eventTableId: EventTable["id"],
     value: EventTableRegistrationFormValue,
   ) => {
@@ -202,7 +202,7 @@ export default function useAdminEventTables(
     return "";
   };
 
-  const handleDeleteRegistration = async (
+  const deleteAdminEventRegistration = async (
     registrationId: EventRegistration["id"],
   ) => {
     const error = await deleteEventRegistration(registrationId);
@@ -214,8 +214,12 @@ export default function useAdminEventTables(
   };
 
   return {
+    createAdminEventRegistration,
+    createAdminEventTable,
     createFormKey,
     createState,
+    deleteAdminEventRegistration,
+    deleteAdminEventTable,
     deleteError,
     deletingEventTableId,
     editingEventTableId,
@@ -223,15 +227,11 @@ export default function useAdminEventTables(
     eventTablesState,
     gameSystemById,
     gameSystemsState,
-    handleCreateEventTable,
-    handleCreateRegistration,
-    handleDeleteEventTable,
-    handleDeleteRegistration,
-    handleUpdateEventTable,
     registrationsByTableId,
     setDeleteError,
     setEditingEventTableId,
     setUpdateState,
+    updateAdminEventTable,
     updateState,
   };
 }

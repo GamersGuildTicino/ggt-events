@@ -16,37 +16,37 @@ import AdminEventTableCard from "./admin-event-table-card";
 import useAdminEventTables from "./use-admin-event-tables";
 
 //------------------------------------------------------------------------------
-// Event Tables Section
+// Admin Event Tables Section
 //------------------------------------------------------------------------------
 
-export type EventTablesSectionProps = {
+export type AdminEventTablesSectionProps = {
   eventId: Event["id"];
   timeSlots: EventTimeSlot[];
 };
 
-export default function EventTablesSection({
+export default function AdminEventTablesSection({
   eventId,
   timeSlots,
-}: EventTablesSectionProps) {
+}: AdminEventTablesSectionProps) {
   const { locale, t, ti } = useI18n();
   const {
     createFormKey,
     createState,
+    createAdminEventRegistration,
+    createAdminEventTable,
     deleteError,
+    deleteAdminEventRegistration,
+    deleteAdminEventTable,
     deletingEventTableId,
     editingEventTableId,
     eventRegistrationsState,
     eventTablesState,
     gameSystemById,
     gameSystemsState,
-    handleCreateEventTable,
-    handleCreateRegistration,
-    handleDeleteEventTable,
-    handleDeleteRegistration,
-    handleUpdateEventTable,
     registrationsByTableId,
     setEditingEventTableId,
     setUpdateState,
+    updateAdminEventTable,
     updateState,
   } = useAdminEventTables(eventId, locale);
 
@@ -110,7 +110,7 @@ export default function EventTablesSection({
                       </Alert.Root>
                     : undefined
                   }
-                  onSubmit={handleCreateEventTable}
+                  onSubmit={createAdminEventTable}
                   timeSlots={timeSlots}
                 />
               )}
@@ -148,21 +148,21 @@ export default function EventTablesSection({
                 }
                 key={eventTable.id}
                 onCancelEdit={() => setEditingEventTableId(null)}
-                onCreateRegistration={handleCreateRegistration}
+                onCreateRegistration={createAdminEventRegistration}
                 onDelete={(targetEventTable) =>
-                  void handleDeleteEventTable(
+                  void deleteAdminEventTable(
                     targetEventTable,
                     confirmDeleteEventTable(targetEventTable.title),
                   )
                 }
                 onDeleteRegistration={(registration) =>
-                  handleDeleteRegistration(registration.id)
+                  deleteAdminEventRegistration(registration.id)
                 }
                 onEdit={() => {
                   setUpdateState(initial());
                   setEditingEventTableId(eventTable.id);
                 }}
-                onUpdate={handleUpdateEventTable}
+                onUpdate={updateAdminEventTable}
                 registrations={registrationsByTableId.get(eventTable.id) ?? []}
                 registrationsState={eventRegistrationsState}
                 timeSlots={timeSlots}

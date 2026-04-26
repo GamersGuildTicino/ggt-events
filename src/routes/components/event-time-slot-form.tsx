@@ -36,7 +36,7 @@ export default function EventTimeSlotForm({
 }: EventTimeSlotFormProps) {
   const { t } = useI18n();
 
-  const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
+  const submit = (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
     onSubmit(eventTimeSlotFormValueFromForm(e.currentTarget), e);
   };
@@ -47,7 +47,7 @@ export default function EventTimeSlotForm({
       display="flex"
       flexDirection="column"
       gap={3}
-      onSubmit={handleSubmit}
+      onSubmit={submit}
       w="full"
     >
       <Field.Root disabled={disabled} required>

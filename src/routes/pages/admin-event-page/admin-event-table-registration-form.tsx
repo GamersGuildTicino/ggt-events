@@ -26,7 +26,7 @@ export default function AdminEventTableRegistrationForm({
 }: AdminEventTableRegistrationFormProps) {
   const { t } = useI18n();
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const submit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const form = e.currentTarget;
     const formData = new FormData(e.currentTarget);
@@ -42,7 +42,7 @@ export default function AdminEventTableRegistrationForm({
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={submit}>
       <HStack align="flex-end">
         <Field.Root required>
           <Input

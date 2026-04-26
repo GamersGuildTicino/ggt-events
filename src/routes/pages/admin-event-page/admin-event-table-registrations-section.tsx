@@ -54,9 +54,7 @@ export default function AdminEventTableRegistrationsSection({
   >(null);
   const [registrationsVisible, setRegistrationsVisible] = useState(false);
 
-  const handleCreateRegistration = async (
-    value: EventTableRegistrationFormValue,
-  ) => {
+  const createRegistration = async (value: EventTableRegistrationFormValue) => {
     setCreateRegistrationState(loading());
     const error = await onCreateRegistration(eventTable.id, value);
     if (error) return setCreateRegistrationState(failure(error));
@@ -65,7 +63,7 @@ export default function AdminEventTableRegistrationsSection({
     return "";
   };
 
-  const handleDeleteRegistration = async (registration: EventRegistration) => {
+  const deleteRegistration = async (registration: EventRegistration) => {
     const message = ti(
       "page.admin_event.tables.registrations.delete.confirm",
       registration.playerName,
@@ -160,7 +158,7 @@ export default function AdminEventTableRegistrationsSection({
                 <Button
                   colorPalette="red"
                   loading={deletingRegistrationId === registration.id}
-                  onClick={() => handleDeleteRegistration(registration)}
+                  onClick={() => deleteRegistration(registration)}
                   size="xs"
                   variant="outline"
                 >
@@ -171,7 +169,7 @@ export default function AdminEventTableRegistrationsSection({
 
           {!registrationsState.hasError && hasFreeSeats && (
             <AdminEventTableRegistrationForm
-              onSubmit={handleCreateRegistration}
+              onSubmit={createRegistration}
               submitting={createRegistrationState.isLoading}
             />
           )}

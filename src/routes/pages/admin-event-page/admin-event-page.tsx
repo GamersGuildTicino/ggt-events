@@ -26,8 +26,8 @@ import EventDetailsForm, {
 } from "../../components/event-details-form";
 import AdminEventPageHeadingActions from "./admin-event-page-heading-actions";
 import AdminEventPageSaveMessage from "./admin-event-page-save-message";
-import EventTablesSection from "./event-tables-section";
-import EventTimeSlotsSection from "./event-time-slots-section";
+import AdminEventTablesSection from "./admin-event-tables-section";
+import AdminEventTimeSlotsSection from "./admin-event-time-slots-section";
 import useAdminEvent from "./use-admin-event";
 import useAdminEventEmails from "./use-admin-event-emails";
 import useAdminEventTimeSlots from "./use-admin-event-time-slots";
@@ -44,11 +44,22 @@ export default function AdminEventPage() {
   const [emailError, setEmailError] = useState("");
   const [saveState, setSaveState] = useState<AsyncState>(initial());
   const { eventState, setEventState } = useAdminEvent(eventId);
-  const { eventTimeSlotsState, loadTimeSlots } =
-    useAdminEventTimeSlots(eventId);
+  const {
+    createState,
+    createAdminEventTimeSlot,
+    deleteError,
+    deleteAdminEventTimeSlot,
+    deletingTimeSlotId,
+    editingTimeSlotId,
+    eventTimeSlotsState,
+    setEditingTimeSlotId,
+    setUpdateState,
+    updateAdminEventTimeSlot,
+    updateState,
+  } = useAdminEventTimeSlots(eventId);
   const { eventEmailsState, eventHasEmails } = useAdminEventEmails(eventId);
 
-  const handleUpdateEvent = useCallback(
+  const updateAdminEvent = useCallback(
     async (eventDetails: EventDetailsFormValue) => {
       if (!eventState.isSuccess) return;
 
@@ -69,7 +80,7 @@ export default function AdminEventPage() {
     [eventState, setEventState],
   );
 
-  const handleCopyEmails = async () => {
+  const copyAdminEventEmails = async () => {
     if (!eventState.isSuccess || !eventEmailsState.isSuccess) return;
 
     setCopyError("");
@@ -83,7 +94,7 @@ export default function AdminEventPage() {
     }
   };
 
-  const handleComposeEmail = () => {
+  const composeAdminEventEmail = () => {
     if (!eventState.isSuccess || !eventEmailsState.isSuccess) return;
 
     setEmailError("");
@@ -121,8 +132,8 @@ export default function AdminEventPage() {
         {eventTimeSlotsState.isSuccess && eventState.isSuccess && (
           <AdminEventPageHeadingActions
             eventHasEmails={eventHasEmails}
-            onComposeEmail={handleComposeEmail}
-            onCopyEmails={handleCopyEmails}
+            onComposeEmail={composeAdminEventEmail}
+            onCopyEmails={copyAdminEventEmails}
             timeSlots={eventTimeSlotsState.data}
           />
         )}
@@ -181,12 +192,21 @@ export default function AdminEventPage() {
               disabled={saveState.isLoading}
               initialValue={eventState.data}
               message={<AdminEventPageSaveMessage saveState={saveState} />}
-              onSubmit={handleUpdateEvent}
+              onSubmit={updateAdminEvent}
             />
 
-            <EventTimeSlotsSection
-              eventId={eventState.data.id}
-              onChange={loadTimeSlots}
+            <AdminEventTimeSlotsSection
+              createAdminEventTimeSlot={createAdminEventTimeSlot}
+              createState={createState}
+              deleteAdminEventTimeSlot={deleteAdminEventTimeSlot}
+              deleteError={deleteError}
+              deletingTimeSlotId={deletingTimeSlotId}
+              editingTimeSlotId={editingTimeSlotId}
+              eventTimeSlotsState={eventTimeSlotsState}
+              setEditingTimeSlotId={setEditingTimeSlotId}
+              setUpdateState={setUpdateState}
+              updateAdminEventTimeSlot={updateAdminEventTimeSlot}
+              updateState={updateState}
             />
           </VStack>
 
@@ -212,7 +232,7 @@ export default function AdminEventPage() {
 
             {eventTimeSlotsState.isSuccess &&
               eventTimeSlotsState.data.length > 0 && (
-                <EventTablesSection
+                <AdminEventTablesSection
                   eventId={eventState.data.id}
                   timeSlots={eventTimeSlotsState.data}
                 />
