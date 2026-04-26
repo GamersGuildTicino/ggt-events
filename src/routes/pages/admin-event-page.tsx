@@ -5,11 +5,16 @@ import {
   Grid,
   HStack,
   Heading,
+  Menu as ChakraMenu,
+  Portal,
   Spinner,
   VStack,
 } from "@chakra-ui/react";
-import { useCallback, useState } from "react";
+import { EllipsisVertical } from "lucide-react";
+import { useCallback, useMemo, useState } from "react";
 import { Link as RouterLink, useParams } from "react-router";
+import { fetchEventRegistrations } from "~/domain/event-registrations";
+import { fetchEventTables } from "~/domain/event-tables";
 import {
   type EventTimeSlot,
   fetchEventTimeSlots,
@@ -18,6 +23,7 @@ import {
 import { type Event, fetchEvent, updateEvent } from "~/domain/events";
 import { useAsyncEffect } from "~/hooks/use-async-effect";
 import useI18n from "~/i18n/use-i18n";
+import IconButton from "~/ui/icon-button";
 import {
   type AsyncState,
   failure,
@@ -38,11 +44,19 @@ import EventTimeSlotsSection from "../components/event-time-slots-section";
 
 export default function AdminEventPage() {
   const { eventId } = useParams();
-  const { t } = useI18n();
+  const { t, ti } = useI18n();
+  const [copyError, setCopyError] = useState("");
+  const [copied, setCopied] = useState(false);
   const [eventState, setEventState] = useState<AsyncState<Event>>(initial());
+  const [eventEmailsState, setEventEmailsState] =
+    useState<AsyncState<string[]>>(initial());
   const [eventTimeSlotsState, setEventTimeSlotsState] =
     useState<AsyncState<EventTimeSlot[]>>(initial());
   const [saveState, setSaveState] = useState<AsyncState>(initial());
+  const eventHasEmails = useMemo(
+    () => eventEmailsState.isSuccess && eventEmailsState.data.length > 0,
+    [eventEmailsState],
+  );
 
   const loadTimeSlots = useCallback(async () => {
     if (!eventId) return;
@@ -81,6 +95,35 @@ export default function AdminEventPage() {
     [eventId],
   );
 
+  useAsyncEffect(
+    async (isActive) => {
+      if (!eventId)
+        return setEventEmailsState(
+          failure("page.admin_event.error.missing_event"),
+        );
+
+      setEventEmailsState(loading());
+
+      const eventTables = await fetchEventTables(eventId);
+      if (!isActive()) return;
+      if (!eventTables.isSuccess)
+        return setEventEmailsState(failure(eventTables.error));
+
+      const registrations = await fetchEventRegistrations(
+        eventTables.data.map((eventTable) => eventTable.id),
+      );
+      if (!isActive()) return;
+      if (!registrations.isSuccess)
+        return setEventEmailsState(failure(registrations.error));
+
+      const emails = [
+        ...new Set(registrations.data.map((row) => row.email)),
+      ].sort((a, b) => a.localeCompare(b));
+      setEventEmailsState(success(emails));
+    },
+    [eventId],
+  );
+
   const handleUpdateEvent = useCallback(
     async (eventDetails: EventDetailsFormValue) => {
       if (!eventState.isSuccess) return;
@@ -103,6 +146,20 @@ export default function AdminEventPage() {
     [eventState],
   );
 
+  const handleCopyEmails = async () => {
+    if (!eventState.isSuccess || !eventEmailsState.isSuccess) return;
+
+    setCopyError("");
+
+    try {
+      await navigator.clipboard.writeText(eventEmailsState.data.join(", "));
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 2000);
+    } catch {
+      setCopyError("page.admin_events.copy_emails_error");
+    }
+  };
+
   return (
     <VStack align="stretch" gap={3} w="full">
       <AdminBreadcrumb
@@ -119,12 +176,38 @@ export default function AdminEventPage() {
       <HStack align="center" justify="space-between">
         <Heading size="3xl">{t("page.admin_event.heading")}</Heading>
 
-        {eventTimeSlotsState.isSuccess &&
-          isEventOver(eventTimeSlotsState.data) && (
-            <Badge colorPalette="orange" size="lg">
-              {t("page.admin_event.event_over")}
-            </Badge>
-          )}
+        <HStack>
+          {eventTimeSlotsState.isSuccess &&
+            isEventOver(eventTimeSlotsState.data) && (
+              <Badge colorPalette="orange" size="lg">
+                {t("page.admin_event.event_over")}
+              </Badge>
+            )}
+
+          <ChakraMenu.Root positioning={{ placement: "bottom-end" }}>
+            <ChakraMenu.Trigger asChild>
+              <IconButton
+                Icon={EllipsisVertical}
+                aria-label={t("page.admin_events.more")}
+                size="sm"
+                variant="ghost"
+              />
+            </ChakraMenu.Trigger>
+            <Portal>
+              <ChakraMenu.Positioner>
+                <ChakraMenu.Content minW="12rem">
+                  <ChakraMenu.Item
+                    disabled={!eventHasEmails}
+                    onClick={handleCopyEmails}
+                    value="copy-emails"
+                  >
+                    {t("page.admin_events.copy_emails")}
+                  </ChakraMenu.Item>
+                </ChakraMenu.Content>
+              </ChakraMenu.Positioner>
+            </Portal>
+          </ChakraMenu.Root>
+        </HStack>
       </HStack>
 
       {eventState.isLoading && <Spinner />}
@@ -132,6 +215,20 @@ export default function AdminEventPage() {
       {eventState.hasError && (
         <Alert.Root status="error">
           <Alert.Description>{t(eventState.error)}</Alert.Description>
+        </Alert.Root>
+      )}
+
+      {copyError && (
+        <Alert.Root status="error">
+          <Alert.Description>{t(copyError)}</Alert.Description>
+        </Alert.Root>
+      )}
+
+      {copied && eventState.isSuccess && (
+        <Alert.Root status="success">
+          <Alert.Description>
+            {ti("page.admin_events.copy_emails_success", eventState.data.title)}
+          </Alert.Description>
         </Alert.Root>
       )}
 
