@@ -18,8 +18,8 @@ create table public.event_registrations (
     check (email <> ''),
   constraint event_registrations_locale_valid
     check (locale in ('en-GB', 'it-CH')),
-  constraint event_registrations_table_email_unique
-    unique (event_table_id, email)
+  constraint event_registrations_table_email_player_name_unique
+    unique (event_table_id, email, player_name)
 );
 
 alter table public.event_registrations enable row level security;
@@ -179,7 +179,9 @@ begin
     raise exception using message = 'invalid_locale';
   end if;
 
-  perform pg_advisory_xact_lock(hashtextextended(v_email, 0));
+  perform pg_advisory_xact_lock(
+    hashtextextended(v_email || E'\n' || v_player_name, 0)
+  );
 
   select *
   into v_event_table
@@ -222,6 +224,7 @@ begin
     from public.event_registrations
     where event_table_id = v_event_table.id
       and email = v_email
+      and player_name = v_player_name
   ) then
     raise exception using message = 'already_registered_same_table';
   end if;
@@ -232,6 +235,7 @@ begin
     join public.event_tables tables on tables.id = registrations.event_table_id
     join public.event_time_slots slots on slots.id = tables.time_slot_id
     where registrations.email = v_email
+      and registrations.player_name = v_player_name
       and slots.starts_at < v_time_slot.ends_at
       and slots.ends_at > v_time_slot.starts_at
   ) then
