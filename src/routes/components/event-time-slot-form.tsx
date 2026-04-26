@@ -1,6 +1,7 @@
 import { type DateValue, Field, HStack, Input } from "@chakra-ui/react";
 import { CalendarDate } from "@internationalized/date";
 import type { ReactNode } from "react";
+import { useCallback } from "react";
 import type { EventTimeSlot } from "~/domain/event-time-slots";
 import useI18n from "~/i18n/use-i18n";
 import DatePicker from "~/ui/date-picker";
@@ -36,10 +37,13 @@ export default function EventTimeSlotForm({
 }: EventTimeSlotFormProps) {
   const { t } = useI18n();
 
-  const submit = (e: React.SubmitEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    onSubmit(eventTimeSlotFormValueFromForm(e.currentTarget), e);
-  };
+  const submitEventTimeSlotForm = useCallback(
+    (e: React.SubmitEvent<HTMLFormElement>) => {
+      e.preventDefault();
+      onSubmit(eventTimeSlotFormValueFromForm(e.currentTarget), e);
+    },
+    [onSubmit],
+  );
 
   return (
     <Form
@@ -47,7 +51,7 @@ export default function EventTimeSlotForm({
       display="flex"
       flexDirection="column"
       gap={3}
-      onSubmit={submit}
+      onSubmit={submitEventTimeSlotForm}
       w="full"
     >
       <Field.Root disabled={disabled} required>

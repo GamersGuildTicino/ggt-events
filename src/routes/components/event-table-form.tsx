@@ -1,5 +1,6 @@
 import { Field, HStack, Input, Textarea } from "@chakra-ui/react";
 import type { ReactNode } from "react";
+import { useCallback } from "react";
 import {
   type EventTableExperienceLevel,
   useEventTableExperienceLevelOptions,
@@ -64,10 +65,13 @@ export default function EventTableForm({
   const experienceLevelOptions = useEventTableExperienceLevelOptions();
   const languageOptions = useEventTableLanguageOptions();
 
-  const submit = (e: React.SubmitEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    onSubmit(eventTableFormValueFromForm(e.currentTarget), e);
-  };
+  const submitEventTableForm = useCallback(
+    (e: React.SubmitEvent<HTMLFormElement>) => {
+      e.preventDefault();
+      onSubmit(eventTableFormValueFromForm(e.currentTarget), e);
+    },
+    [onSubmit],
+  );
 
   return (
     <Form
@@ -75,7 +79,7 @@ export default function EventTableForm({
       display="flex"
       flexDirection="column"
       gap={3}
-      onSubmit={submit}
+      onSubmit={submitEventTableForm}
       w="full"
     >
       <HStack w="full">

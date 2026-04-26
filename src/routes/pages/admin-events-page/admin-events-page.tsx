@@ -6,6 +6,7 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
+import { useCallback } from "react";
 import { Link as RouterLink } from "react-router";
 import useI18n from "~/i18n/use-i18n";
 import AdminBreadcrumb from "../../components/admin-breadcrumb";
@@ -33,8 +34,30 @@ export default function AdminEventsPage() {
     timeSlotsByEventId,
   } = useAdminEvents(locale);
 
-  const confirmDeleteEvent = (eventTitle: string) =>
-    window.confirm(ti("page.admin_events.delete.confirm", eventTitle));
+  const confirmAdminEventDelete = useCallback(
+    (eventTitle: string) =>
+      window.confirm(ti("page.admin_events.delete.confirm", eventTitle)),
+    [ti],
+  );
+
+  const composeAdminEventEmailForCard = useCallback(
+    (targetEvent: Parameters<typeof composeAdminEventEmail>[0]) =>
+      composeAdminEventEmail(
+        targetEvent,
+        ti("page.admin_events.compose_email_body", targetEvent.title),
+        ti("page.admin_events.compose_email_subject", targetEvent.title),
+      ),
+    [composeAdminEventEmail, ti],
+  );
+
+  const deleteAdminEventForCard = useCallback(
+    (targetEvent: Parameters<typeof deleteAdminEvent>[0]) =>
+      void deleteAdminEvent(
+        targetEvent,
+        confirmAdminEventDelete(targetEvent.title),
+      ),
+    [confirmAdminEventDelete, deleteAdminEvent],
+  );
 
   return (
     <VStack align="stretch" gap={3} w="full">
@@ -101,23 +124,9 @@ export default function AdminEventsPage() {
               event={event}
               key={event.id}
               locale={locale}
-              onComposeEmail={(targetEvent) =>
-                composeAdminEventEmail(
-                  targetEvent,
-                  ti("page.admin_events.compose_email_body", targetEvent.title),
-                  ti(
-                    "page.admin_events.compose_email_subject",
-                    targetEvent.title,
-                  ),
-                )
-              }
+              onComposeEmail={composeAdminEventEmailForCard}
               onCopyEmails={copyAdminEventEmails}
-              onDelete={(targetEvent) =>
-                void deleteAdminEvent(
-                  targetEvent,
-                  confirmDeleteEvent(targetEvent.title),
-                )
-              }
+              onDelete={deleteAdminEventForCard}
               stats={statsByEventId[event.id]}
               timeSlots={timeSlotsByEventId[event.id] ?? []}
             />

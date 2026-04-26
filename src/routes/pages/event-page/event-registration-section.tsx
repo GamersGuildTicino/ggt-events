@@ -8,7 +8,7 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { registerForEventTable } from "~/domain/event-registrations";
 import type { PublicEventTable } from "~/domain/event-tables";
 import useI18n from "~/i18n/use-i18n";
@@ -44,40 +44,43 @@ export default function EventRegistrationSection({
   const [registrationState, setRegistrationState] =
     useState<AsyncState>(initial());
 
+  const registerToEventTable = useCallback(
+    async (e: React.SubmitEvent<HTMLFormElement>) => {
+      e.preventDefault();
+      const form = e.currentTarget;
+
+      const formData = new FormData(form);
+      const playerName = String(formData.get("player-name") ?? "").trim();
+      const email = String(formData.get("email") ?? "").trim();
+      const phoneNumber = String(formData.get("phone-number") ?? "").trim();
+
+      setRegistrationState(loading());
+
+      const error = await registerForEventTable({
+        email,
+        eventTableId,
+        locale,
+        phoneNumber,
+        playerName,
+      });
+
+      if (error) return setRegistrationState(failure(error));
+
+      form.reset();
+      setRegistrationState(success(undefined));
+      onSuccess();
+    },
+    [eventTableId, locale, onSuccess],
+  );
+
   if (!registrationsOpen) return null;
   if (!visible && !registrationState.hasError) return null;
-
-  const submit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const form = e.currentTarget;
-
-    const formData = new FormData(form);
-    const playerName = String(formData.get("player-name") ?? "").trim();
-    const email = String(formData.get("email") ?? "").trim();
-    const phoneNumber = String(formData.get("phone-number") ?? "").trim();
-
-    setRegistrationState(loading());
-
-    const error = await registerForEventTable({
-      email,
-      eventTableId,
-      locale,
-      phoneNumber,
-      playerName,
-    });
-
-    if (error) return setRegistrationState(failure(error));
-
-    form.reset();
-    setRegistrationState(success(undefined));
-    onSuccess();
-  };
 
   return (
     <Card.Footer bg="bg.panel" borderRadius="md" borderWidth="1px" pt={4}>
       <VStack align="stretch" gap={3} w="full">
         {visible && (
-          <form onSubmit={submit}>
+          <form onSubmit={registerToEventTable}>
             <VStack align="stretch" gap={3}>
               <Field.Root required>
                 <Field.Label>

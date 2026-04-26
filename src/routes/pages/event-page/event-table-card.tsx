@@ -9,7 +9,7 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import type { PublicEventTable } from "~/domain/event-tables";
 import type { EventTimeSlot } from "~/domain/event-time-slots";
 import { formatPlayerCount } from "~/domain/players";
@@ -50,10 +50,25 @@ export default function EventTableCard({
   const hasDetails = Boolean(eventTable.description || eventTable.notes);
   const imageUrl = eventTable.imageUrl || gameSystemImageUrl;
 
-  const toggleRegistration = () => {
+  const toggleEventRegistration = useCallback(() => {
     setRegistrationSucceeded(false);
-    setRegistrationVisible(!registrationVisible);
-  };
+    setRegistrationVisible(
+      (currentRegistrationVisible) => !currentRegistrationVisible,
+    );
+  }, []);
+
+  const toggleEventTableDetails = useCallback(() => {
+    setDetailsVisible((currentDetailsVisible) => !currentDetailsVisible);
+  }, []);
+
+  const hideEventRegistration = useCallback(() => {
+    setRegistrationVisible(false);
+  }, []);
+
+  const completeEventRegistration = useCallback(() => {
+    setRegistrationSucceeded(true);
+    setRegistrationVisible(false);
+  }, []);
 
   return (
     <Card.Root
@@ -97,7 +112,7 @@ export default function EventTableCard({
               display={{ base: "inline-flex", md: "none" }}
               h="auto"
               minW={0}
-              onClick={() => setDetailsVisible(!detailsVisible)}
+              onClick={toggleEventTableDetails}
               p={0}
               size="xs"
               variant="plain"
@@ -161,7 +176,7 @@ export default function EventTableCard({
 
           <Button
             disabled={!canRegister}
-            onClick={toggleRegistration}
+            onClick={toggleEventRegistration}
             size="sm"
           >
             {!canRegister ?
@@ -182,11 +197,8 @@ export default function EventTableCard({
 
         <EventRegistrationSection
           eventTableId={eventTable.id}
-          onCancel={() => setRegistrationVisible(false)}
-          onSuccess={() => {
-            setRegistrationSucceeded(true);
-            setRegistrationVisible(false);
-          }}
+          onCancel={hideEventRegistration}
+          onSuccess={completeEventRegistration}
           registrationsOpen={canRegister}
           visible={registrationVisible}
         />

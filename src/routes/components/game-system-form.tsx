@@ -7,6 +7,7 @@ import {
   Textarea,
 } from "@chakra-ui/react";
 import type { ReactNode } from "react";
+import { useCallback } from "react";
 import useI18n from "~/i18n/use-i18n";
 import Form from "~/ui/form";
 
@@ -44,10 +45,13 @@ export default function GameSystemForm({
 }: GameSystemFormProps) {
   const { t } = useI18n();
 
-  const submit = (e: React.SubmitEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    onSubmit(gameSystemFormValueFromForm(e.currentTarget), e);
-  };
+  const submitGameSystemForm = useCallback(
+    (e: React.SubmitEvent<HTMLFormElement>) => {
+      e.preventDefault();
+      onSubmit(gameSystemFormValueFromForm(e.currentTarget), e);
+    },
+    [onSubmit],
+  );
 
   return (
     <Card.Root>
@@ -58,7 +62,7 @@ export default function GameSystemForm({
           flexDirection="column"
           gap={3}
           justifyContent="center"
-          onSubmit={submit}
+          onSubmit={submitGameSystemForm}
           w="full"
         >
           <Heading size="md">{t("form.game_system.heading")}</Heading>

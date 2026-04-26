@@ -9,6 +9,8 @@ This file captures local project conventions that should survive across Codex se
 - Each exported function should have its own `//------------------------------------------------------------------------------` section separator.
 - Use long, descriptive names for page-local or admin-only components when that improves clarity.
 - Shorten names only after a component becomes genuinely generic and shared.
+- When splitting a component into sub-components, keep sibling chunks at the same conceptual level aligned.
+- If one branch of a conditional/render section is extracted into a sub-component, the other sibling branches at that same level should usually be extracted too, even if they are small.
 
 ## File Size
 
@@ -47,6 +49,10 @@ This file captures local project conventions that should survive across Codex se
 - Generalize and shorten names only when reuse is real.
 - The one-exported-function-per-file rule applies mainly to React components and hooks.
 - Helper extraction is contextual: one-liners can stay inline, but larger helpers should usually move to their own file.
+- For component callback props, prefer the `on...` prefix rather than `handle...`.
+- In general, avoid the `handle...` prefix for local variables and functions too.
+- Do not keep `handle...` only to avoid name collisions with imported domain functions; rename the imported function or use a more specific local name instead.
+- Do not use vague local function names like `submit`; name functions after what they actually do.
 
 ## Data And Domain
 
@@ -65,6 +71,17 @@ This file captures local project conventions that should survive across Codex se
 - There is no optimistic update policy yet.
 - Prefer consistency for loading/error UX.
 - Some alerts may eventually become toast messages, but alert normalization can happen later.
+- Prefer `React.SubmitEvent`, `React.InputEvent`, or `React.ChangeEvent` as appropriate.
+- Avoid `React.FormEvent`.
+
+## React
+
+- Functions defined inside components should be wrapped in `useCallback`.
+
+## Formatting
+
+- Check the repo linting/formatting rules before making style assumptions.
+- Keep component attributes and props sorted alphabetically.
 
 ## Dates And Times
 

@@ -80,7 +80,7 @@ export default function AdminEventPage() {
     [eventState, setEventState],
   );
 
-  const copyAdminEventEmails = async () => {
+  const copyAdminEventEmails = useCallback(async () => {
     if (!eventState.isSuccess || !eventEmailsState.isSuccess) return;
 
     setCopyError("");
@@ -92,9 +92,9 @@ export default function AdminEventPage() {
     } catch {
       setCopyError("page.admin_events.copy_emails_error");
     }
-  };
+  }, [eventEmailsState, eventState]);
 
-  const composeAdminEventEmail = () => {
+  const composeAdminEventEmail = useCallback(() => {
     if (!eventState.isSuccess || !eventEmailsState.isSuccess) return;
 
     setEmailError("");
@@ -111,7 +111,7 @@ export default function AdminEventPage() {
     } catch {
       setEmailError("page.admin_events.compose_email_error");
     }
-  };
+  }, [eventEmailsState, eventState, ti]);
 
   return (
     <VStack align="stretch" gap={3} w="full">

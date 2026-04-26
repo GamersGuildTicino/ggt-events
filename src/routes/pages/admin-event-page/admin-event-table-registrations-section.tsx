@@ -7,7 +7,7 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import type { EventRegistration } from "~/domain/event-registrations";
 import type { EventTable } from "~/domain/event-tables";
 import useI18n from "~/i18n/use-i18n";
@@ -54,28 +54,40 @@ export default function AdminEventTableRegistrationsSection({
   >(null);
   const [registrationsVisible, setRegistrationsVisible] = useState(false);
 
-  const createRegistration = async (value: EventTableRegistrationFormValue) => {
-    setCreateRegistrationState(loading());
-    const error = await onCreateRegistration(eventTable.id, value);
-    if (error) return setCreateRegistrationState(failure(error));
+  const createAdminEventRegistration = useCallback(
+    async (value: EventTableRegistrationFormValue) => {
+      setCreateRegistrationState(loading());
+      const error = await onCreateRegistration(eventTable.id, value);
+      if (error) return setCreateRegistrationState(failure(error));
 
-    setCreateRegistrationState(success(undefined));
-    return "";
-  };
+      setCreateRegistrationState(success(undefined));
+      return "";
+    },
+    [eventTable.id, onCreateRegistration],
+  );
 
-  const deleteRegistration = async (registration: EventRegistration) => {
-    const message = ti(
-      "page.admin_event.tables.registrations.delete.confirm",
-      registration.playerName,
+  const deleteAdminEventRegistration = useCallback(
+    async (registration: EventRegistration) => {
+      const message = ti(
+        "page.admin_event.tables.registrations.delete.confirm",
+        registration.playerName,
+      );
+      const confirmed = window.confirm(message);
+      if (!confirmed) return;
+
+      setDeletingRegistrationId(registration.id);
+      const error = await onDeleteRegistration(registration);
+      setDeletingRegistrationId(null);
+      if (error) setCreateRegistrationState(failure(error));
+    },
+    [onDeleteRegistration, ti],
+  );
+
+  const toggleAdminEventRegistrations = useCallback(() => {
+    setRegistrationsVisible(
+      (currentRegistrationsVisible) => !currentRegistrationsVisible,
     );
-    const confirmed = window.confirm(message);
-    if (!confirmed) return;
-
-    setDeletingRegistrationId(registration.id);
-    const error = await onDeleteRegistration(registration);
-    setDeletingRegistrationId(null);
-    if (error) setCreateRegistrationState(failure(error));
-  };
+  }, []);
 
   return (
     <VStack align="stretch" gap={3}>
@@ -91,7 +103,7 @@ export default function AdminEventTableRegistrationsSection({
         <Button
           h="auto"
           minW={0}
-          onClick={() => setRegistrationsVisible(!registrationsVisible)}
+          onClick={toggleAdminEventRegistrations}
           p={0}
           size="xs"
           variant="plain"
@@ -158,7 +170,7 @@ export default function AdminEventTableRegistrationsSection({
                 <Button
                   colorPalette="red"
                   loading={deletingRegistrationId === registration.id}
-                  onClick={() => deleteRegistration(registration)}
+                  onClick={() => deleteAdminEventRegistration(registration)}
                   size="xs"
                   variant="outline"
                 >
@@ -169,7 +181,7 @@ export default function AdminEventTableRegistrationsSection({
 
           {!registrationsState.hasError && hasFreeSeats && (
             <AdminEventTableRegistrationForm
-              onSubmit={createRegistration}
+              onSubmit={createAdminEventRegistration}
               submitting={createRegistrationState.isLoading}
             />
           )}

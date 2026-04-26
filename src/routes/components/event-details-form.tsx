@@ -1,5 +1,6 @@
 import { Card, Field, Heading, Input } from "@chakra-ui/react";
 import type { ReactNode } from "react";
+import { useCallback } from "react";
 import {
   type EventVisibility,
   useEventVisibilityOptions,
@@ -47,10 +48,13 @@ export default function EventDetailsForm({
 }: EventDetailsFormProps) {
   const { t } = useI18n();
   const eventVisibilityOptions = useEventVisibilityOptions();
-  const submit = (e: React.SubmitEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    onSubmit(eventDetailsFormValueFromForm(e.currentTarget), e);
-  };
+  const submitEventDetailsForm = useCallback(
+    (e: React.SubmitEvent<HTMLFormElement>) => {
+      e.preventDefault();
+      onSubmit(eventDetailsFormValueFromForm(e.currentTarget), e);
+    },
+    [onSubmit],
+  );
 
   return (
     <Card.Root>
@@ -61,7 +65,7 @@ export default function EventDetailsForm({
           flexDirection="column"
           gap={3}
           justifyContent="center"
-          onSubmit={submit}
+          onSubmit={submitEventDetailsForm}
           w="full"
         >
           <Heading size="md">{t("form.event_details.heading")}</Heading>

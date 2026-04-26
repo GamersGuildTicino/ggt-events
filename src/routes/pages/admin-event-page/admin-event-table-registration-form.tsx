@@ -1,4 +1,5 @@
 import { Button, Field, HStack, Input } from "@chakra-ui/react";
+import { useCallback } from "react";
 import useI18n from "~/i18n/use-i18n";
 
 //------------------------------------------------------------------------------
@@ -26,23 +27,26 @@ export default function AdminEventTableRegistrationForm({
 }: AdminEventTableRegistrationFormProps) {
   const { t } = useI18n();
 
-  const submit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const form = e.currentTarget;
-    const formData = new FormData(e.currentTarget);
+  const createAdminEventTableRegistration = useCallback(
+    async (e: React.SubmitEvent<HTMLFormElement>) => {
+      e.preventDefault();
+      const form = e.currentTarget;
+      const formData = new FormData(e.currentTarget);
 
-    const error = await onSubmit({
-      email: String(formData.get("email") ?? "").trim(),
-      phoneNumber: String(formData.get("phone-number") ?? "").trim(),
-      playerName: String(formData.get("player-name") ?? "").trim(),
-    });
+      const error = await onSubmit({
+        email: String(formData.get("email") ?? "").trim(),
+        phoneNumber: String(formData.get("phone-number") ?? "").trim(),
+        playerName: String(formData.get("player-name") ?? "").trim(),
+      });
 
-    if (error) return;
-    form.reset();
-  };
+      if (error) return;
+      form.reset();
+    },
+    [onSubmit],
+  );
 
   return (
-    <form onSubmit={submit}>
+    <form onSubmit={createAdminEventTableRegistration}>
       <HStack align="flex-end">
         <Field.Root required>
           <Input

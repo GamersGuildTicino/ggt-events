@@ -7,6 +7,7 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
+import { useCallback } from "react";
 import type { EventTimeSlot } from "~/domain/event-time-slots";
 import useI18n from "~/i18n/use-i18n";
 import EventTimeSlotForm from "../../components/event-time-slot-form";
@@ -61,13 +62,16 @@ export default function AdminEventTimeSlotsSection({
 }: AdminEventTimeSlotsSectionProps) {
   const { locale, t, ti } = useI18n();
 
-  const confirmDeleteTimeSlot = (timeSlot: EventTimeSlot) =>
-    window.confirm(
-      ti(
-        "page.admin_event.time_slots.delete.confirm",
-        formatAdminEventTimeSlot(timeSlot, locale),
+  const confirmAdminEventTimeSlotDelete = useCallback(
+    (timeSlot: EventTimeSlot) =>
+      window.confirm(
+        ti(
+          "page.admin_event.time_slots.delete.confirm",
+          formatAdminEventTimeSlot(timeSlot, locale),
+        ),
       ),
-    );
+    [locale, ti],
+  );
 
   return (
     <VStack align="stretch" gap={4} w="full">
@@ -132,7 +136,7 @@ export default function AdminEventTimeSlotsSection({
               onDelete={(targetTimeSlot) =>
                 void deleteAdminEventTimeSlot(
                   targetTimeSlot.id,
-                  confirmDeleteTimeSlot(targetTimeSlot),
+                  confirmAdminEventTimeSlotDelete(targetTimeSlot),
                 )
               }
               onEdit={() => setEditingTimeSlotId(timeSlot.id)}
