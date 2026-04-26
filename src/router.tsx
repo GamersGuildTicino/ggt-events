@@ -16,6 +16,9 @@ const lazy =
 
 const HomePage = lazy(() => import("./routes/pages/home-page"));
 const EventPage = lazy(() => import("./routes/pages/event-page"));
+const TermsAndConditionsPage = lazy(
+  () => import("./routes/pages/terms-and-conditions-page"),
+);
 const AdminForgotPasswordPage = lazy(
   () => import("./routes/pages/admin-forgot-password-page"),
 );
@@ -50,6 +53,7 @@ export const router = createBrowserRouter(
       children: [
         { index: true, lazy: HomePage },
         { lazy: EventPage, path: "events/:eventId" },
+        { lazy: TermsAndConditionsPage, path: "terms-and-conditions" },
       ],
       element: <PublicLayout />,
     },

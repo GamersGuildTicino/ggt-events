@@ -343,6 +343,7 @@ const itCH = {
   "page.home.hero.eyebrow": "Eventi GDR in Ticino",
 
   "page.not_found.heading": "Pagina Non Trovata",
+  "page.terms_and_conditions.heading": "Termini e condizioni",
 } as const;
 
 export default itCH;

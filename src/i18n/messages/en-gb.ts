@@ -332,6 +332,7 @@ const enGB = {
   "page.home.hero.eyebrow": "TTRPG events in Ticino",
 
   "page.not_found.heading": "Page Not Found",
+  "page.terms_and_conditions.heading": "Terms & Conditions",
 } as const;
 
 export default enGB;
