@@ -31,6 +31,7 @@ import {
   loading,
   success,
 } from "~/utils/async-state";
+import { createMailtoUrl } from "~/utils/mailto";
 import AdminBreadcrumb from "../components/admin-breadcrumb";
 import EventDetailsForm, {
   type EventDetailsFormValue,
@@ -47,6 +48,7 @@ export default function AdminEventPage() {
   const { t, ti } = useI18n();
   const [copyError, setCopyError] = useState("");
   const [copied, setCopied] = useState(false);
+  const [emailError, setEmailError] = useState("");
   const [eventState, setEventState] = useState<AsyncState<Event>>(initial());
   const [eventEmailsState, setEventEmailsState] =
     useState<AsyncState<string[]>>(initial());
@@ -160,6 +162,25 @@ export default function AdminEventPage() {
     }
   };
 
+  const handleComposeEmail = () => {
+    if (!eventState.isSuccess || !eventEmailsState.isSuccess) return;
+
+    setEmailError("");
+
+    try {
+      window.location.href = createMailtoUrl({
+        bcc: eventEmailsState.data,
+        body: ti("page.admin_events.compose_email_body", eventState.data.title),
+        subject: ti(
+          "page.admin_events.compose_email_subject",
+          eventState.data.title,
+        ),
+      });
+    } catch {
+      setEmailError("page.admin_events.compose_email_error");
+    }
+  };
+
   return (
     <VStack align="stretch" gap={3} w="full">
       <AdminBreadcrumb
@@ -198,6 +219,13 @@ export default function AdminEventPage() {
                 <ChakraMenu.Content minW="12rem">
                   <ChakraMenu.Item
                     disabled={!eventHasEmails}
+                    onClick={handleComposeEmail}
+                    value="compose-email"
+                  >
+                    {t("page.admin_events.compose_email")}
+                  </ChakraMenu.Item>
+                  <ChakraMenu.Item
+                    disabled={!eventHasEmails}
                     onClick={handleCopyEmails}
                     value="copy-emails"
                   >
@@ -221,6 +249,12 @@ export default function AdminEventPage() {
       {copyError && (
         <Alert.Root status="error">
           <Alert.Description>{t(copyError)}</Alert.Description>
+        </Alert.Root>
+      )}
+
+      {emailError && (
+        <Alert.Root status="error">
+          <Alert.Description>{t(emailError)}</Alert.Description>
         </Alert.Root>
       )}
 

@@ -27,6 +27,7 @@ import { useAsyncEffect } from "~/hooks/use-async-effect";
 import useI18n from "~/i18n/use-i18n";
 import IconButton from "~/ui/icon-button";
 import { type AsyncState, initial, loading } from "~/utils/async-state";
+import { createMailtoUrl } from "~/utils/mailto";
 import AdminBreadcrumb from "../components/admin-breadcrumb";
 import AdminContentColumns from "../components/admin-content-columns";
 
@@ -47,6 +48,7 @@ export default function AdminEventsPage() {
   const [copyError, setCopyError] = useState("");
   const [copiedEventTitle, setCopiedEventTitle] = useState("");
   const [deleteError, setDeleteError] = useState("");
+  const [emailError, setEmailError] = useState("");
   const [eventsState, setEventsState] =
     useState<AsyncState<Event[]>>(initial());
   const [timeSlotsByEventId, setTimeSlotsByEventId] = useState<
@@ -197,6 +199,23 @@ export default function AdminEventsPage() {
     }
   };
 
+  const handleComposeEmail = (event: Event) => {
+    const emails = statsByEventId[event.id]?.emails ?? [];
+    if (emails.length === 0) return;
+
+    setEmailError("");
+
+    try {
+      window.location.href = createMailtoUrl({
+        bcc: emails,
+        body: ti("page.admin_events.compose_email_body", event.title),
+        subject: ti("page.admin_events.compose_email_subject", event.title),
+      });
+    } catch {
+      setEmailError("page.admin_events.compose_email_error");
+    }
+  };
+
   return (
     <VStack align="stretch" gap={3} w="full">
       <AdminBreadcrumb
@@ -237,6 +256,12 @@ export default function AdminEventsPage() {
         </Alert.Root>
       )}
 
+      {emailError && (
+        <Alert.Root status="error">
+          <Alert.Description>{t(emailError)}</Alert.Description>
+        </Alert.Root>
+      )}
+
       {copiedEventTitle && (
         <Alert.Root status="success">
           <Alert.Description>
@@ -256,6 +281,7 @@ export default function AdminEventsPage() {
               event={event}
               key={event.id}
               locale={locale}
+              onComposeEmail={handleComposeEmail}
               onCopyEmails={handleCopyEmails}
               onDelete={handleDeleteEvent}
               stats={statsByEventId[event.id]}
@@ -275,6 +301,7 @@ export default function AdminEventsPage() {
 function EventCard({
   event,
   locale,
+  onComposeEmail,
   onCopyEmails,
   onDelete,
   stats,
@@ -282,6 +309,7 @@ function EventCard({
 }: {
   event: Event;
   locale: string;
+  onComposeEmail: (event: Event) => void;
   onCopyEmails: (event: Event) => void;
   onDelete: (event: Event) => void;
   stats?: EventSummaryStats;
@@ -355,6 +383,13 @@ function EventCard({
                 <Portal>
                   <ChakraMenu.Positioner>
                     <ChakraMenu.Content minW="12rem">
+                      <ChakraMenu.Item
+                        disabled={!stats || stats.emails.length === 0}
+                        onClick={() => onComposeEmail(event)}
+                        value="compose-email"
+                      >
+                        {t("page.admin_events.compose_email")}
+                      </ChakraMenu.Item>
                       <ChakraMenu.Item
                         disabled={!stats || stats.emails.length === 0}
                         onClick={() => onCopyEmails(event)}

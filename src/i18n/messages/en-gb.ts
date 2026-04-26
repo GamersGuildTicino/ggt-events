@@ -178,6 +178,11 @@ const enGB = {
 
   "page.admin_events.breadcrumb.admin": "Dashboard",
   "page.admin_events.breadcrumb.events": "Events",
+  "page.admin_events.compose_email": "Compose email",
+  "page.admin_events.compose_email_body":
+    'Hello,\n\nThis email is about "{0}".\n\nBest regards,\nGamers Guild Ticino',
+  "page.admin_events.compose_email_error": "Unable to open the email draft.",
+  "page.admin_events.compose_email_subject": 'GGT - "{0}"',
   "page.admin_events.copy_emails": "Copy emails",
   "page.admin_events.copy_emails_error": "Unable to copy emails.",
   "page.admin_events.copy_emails_success": 'Emails copied for "{0}".',

@@ -186,6 +186,12 @@ const itCH = {
 
   "page.admin_events.breadcrumb.admin": "Panoramica",
   "page.admin_events.breadcrumb.events": "Eventi",
+  "page.admin_events.compose_email": "Scrivi email",
+  "page.admin_events.compose_email_body":
+    'Ciao,\n\nquesta email riguarda "{0}".\n\nA presto,\nGamers Guild Ticino',
+  "page.admin_events.compose_email_error":
+    "Impossibile aprire la bozza dell'email.",
+  "page.admin_events.compose_email_subject": 'GGT - "{0}"',
   "page.admin_events.copy_emails": "Copia email",
   "page.admin_events.copy_emails_error": "Impossibile copiare le email.",
   "page.admin_events.copy_emails_success": 'Email copiate per "{0}".',
