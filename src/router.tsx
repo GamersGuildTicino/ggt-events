@@ -15,7 +15,7 @@ const lazy =
   });
 
 const HomePage = lazy(() => import("./routes/pages/home-page"));
-const EventPage = lazy(() => import("./routes/pages/event-page"));
+const EventPage = lazy(() => import("./routes/pages/event-page/event-page"));
 const TermsAndConditionsPage = lazy(
   () => import("./routes/pages/terms-and-conditions-page"),
 );
