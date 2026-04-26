@@ -40,7 +40,7 @@ const itCH = {
   "error.event_tables.update": "Impossibile aggiornare il tavolo.",
 
   "error.event_registrations.already_registered_same_table":
-    "Questo indirizzo email è già registrato per questo tavolo.",
+    "Questo giocatore è già registrato per questo tavolo.",
   "error.event_registrations.create":
     "Impossibile completare la registrazione.",
   "error.event_registrations.delete": "Impossibile rimuovere la registrazione.",
@@ -53,7 +53,7 @@ const itCH = {
   "error.event_registrations.registrations_closed":
     "Le registrazioni per questo evento sono chiuse.",
   "error.event_registrations.slot_conflict":
-    "Questo indirizzo email è già registrato per un'altra fascia oraria sovrapposta.",
+    "Questo giocatore è già registrato per un'altra fascia oraria sovrapposta.",
   "error.event_registrations.table_full": "Questo tavolo è già al completo.",
   "error.event_registrations.time_slot_closed":
     "Questa fascia oraria non è più aperta alle registrazioni.",

@@ -40,7 +40,7 @@ const enGB = {
   "error.event_tables.update": "Unable to update table.",
 
   "error.event_registrations.already_registered_same_table":
-    "This email is already registered for this table.",
+    "This player is already registered for this table.",
   "error.event_registrations.create": "Unable to complete the registration.",
   "error.event_registrations.delete": "Unable to remove the registration.",
   "error.event_registrations.fetch_many": "Unable to load registrations.",
@@ -50,7 +50,7 @@ const enGB = {
   "error.event_registrations.registrations_closed":
     "Registrations are closed for this event.",
   "error.event_registrations.slot_conflict":
-    "This email is already registered for another overlapping time slot.",
+    "This player is already registered for another overlapping time slot.",
   "error.event_registrations.table_full": "This table is already full.",
   "error.event_registrations.time_slot_closed":
     "This time slot is no longer open for registration.",
