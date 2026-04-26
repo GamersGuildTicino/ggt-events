@@ -89,6 +89,7 @@ const itCH = {
   "form.event_table.experience_level.label": "Esperienza",
   "form.event_table.game_master_name.label": "Game master",
   "form.event_table.game_system.label": "Sistema di gioco",
+  "form.event_table.image_url.label": "URL immagine",
   "form.event_table.language.label": "Lingua",
   "form.event_table.max_players.label": "Giocatori max",
   "form.event_table.min_players.label": "Giocatori min",

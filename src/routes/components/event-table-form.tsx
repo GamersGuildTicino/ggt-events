@@ -25,6 +25,7 @@ export type EventTableFormValue = Pick<
   | "experienceLevel"
   | "gameMasterName"
   | "gameSystemId"
+  | "imageUrl"
   | "language"
   | "maxPlayers"
   | "minPlayers"
@@ -205,6 +206,16 @@ export default function EventTableForm({
       </Field.Root>
 
       <Field.Root disabled={disabled}>
+        <Field.Label>{t("form.event_table.image_url.label")}</Field.Label>
+        <Input
+          defaultValue={initialValue?.imageUrl}
+          name="image-url"
+          size="sm"
+          type="url"
+        />
+      </Field.Root>
+
+      <Field.Root disabled={disabled}>
         <Field.Label>{t("form.event_table.notes.label")}</Field.Label>
         <Textarea defaultValue={initialValue?.notes} name="notes" size="sm" />
       </Field.Root>
@@ -230,6 +241,7 @@ function eventTableFormValueFromForm(form: HTMLFormElement) {
     experienceLevel: getString("experience-level") as EventTableExperienceLevel,
     gameMasterName: getString("game-master-name"),
     gameSystemId: getString("game-system-id"),
+    imageUrl: getString("image-url"),
     language: getString("language") as EventTableLanguage,
     maxPlayers: getNumber("max-players"),
     minPlayers: getNumber("min-players"),

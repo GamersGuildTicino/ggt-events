@@ -421,13 +421,14 @@ function EventTableCard({
     0,
     eventTable.maxPlayers - eventTable.registrationCount,
   );
+  const imageUrl = eventTable.imageUrl || gameSystemImageUrl;
 
   return (
     <Card.Root
       _hover={{ borderColor: "blue.400", transform: "translateY(-2px)" }}
       backgroundImage={
-        gameSystemImageUrl ?
-          `linear-gradient(135deg, rgba(255,255,255,0.98) 0%, rgba(255,255,255,0.92) 38%, rgba(255,255,255,0.72) 100%), url(${gameSystemImageUrl})`
+        imageUrl ?
+          `linear-gradient(135deg, rgba(255,255,255,0.98) 0%, rgba(255,255,255,0.92) 38%, rgba(255,255,255,0.72) 100%), url(${imageUrl})`
         : undefined
       }
       backgroundPosition="center"
