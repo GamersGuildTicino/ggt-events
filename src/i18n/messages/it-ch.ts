@@ -304,8 +304,10 @@ const itCH = {
   "page.event.tables.empty": "Nessun tavolo.",
   "page.event.tables.game_master": "Game Master: {0}",
   "page.event.tables.heading": "Tavoli",
+  "page.event.tables.hide_details": "Nascondi dettagli",
   "page.event.tables.notes": "Note",
   "page.event.tables.seats": "Posti",
+  "page.event.tables.show_details": "Mostra dettagli",
 
   "page.home.about.card_1.description":
     "Avventure autoconclusive e brevi campagne, con tavoli per gusti ed esperienze diverse.",

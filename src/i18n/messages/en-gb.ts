@@ -293,8 +293,10 @@ const enGB = {
   "page.event.tables.empty": "No tables yet.",
   "page.event.tables.game_master": "Game Master: {0}",
   "page.event.tables.heading": "Tables",
+  "page.event.tables.hide_details": "Hide details",
   "page.event.tables.notes": "Notes",
   "page.event.tables.seats": "Seats",
+  "page.event.tables.show_details": "Show details",
 
   "page.home.about.card_1.description":
     "One-shot adventures and short campaigns, with tables for different tastes and experience levels.",

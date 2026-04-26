@@ -415,12 +415,14 @@ function EventTableCard({
   timeSlot: EventTimeSlot;
 }) {
   const { t, ti, tpi } = useI18n();
+  const [detailsVisible, setDetailsVisible] = useState(false);
   const [registrationVisible, setRegistrationVisible] = useState(false);
   const canRegister = registrationsOpen && !isPastTimeSlot(timeSlot);
   const availableSeats = Math.max(
     0,
     eventTable.maxPlayers - eventTable.registrationCount,
   );
+  const hasDetails = Boolean(eventTable.description || eventTable.notes);
   const imageUrl = eventTable.imageUrl || gameSystemImageUrl;
 
   return (
@@ -456,22 +458,49 @@ function EventTableCard({
             </VStack>
           </HStack>
 
-          {eventTable.description && (
-            <Text fontSize="sm" whiteSpace="pre-line">
-              {eventTable.description}
-            </Text>
+          {hasDetails && (
+            <Button
+              alignSelf="flex-start"
+              display={{ base: "inline-flex", md: "none" }}
+              h="auto"
+              minW={0}
+              onClick={() => setDetailsVisible(!detailsVisible)}
+              p={0}
+              size="xs"
+              variant="plain"
+            >
+              {detailsVisible ?
+                t("page.event.tables.hide_details")
+              : t("page.event.tables.show_details")}
+            </Button>
           )}
 
-          {eventTable.notes && (
-            <VStack align="flex-start" gap={1}>
-              <Text fontSize="xs" fontWeight="bold">
-                {t("page.event.tables.notes")}
+          <VStack
+            align="flex-start"
+            display={
+              detailsVisible ?
+                { base: "flex", md: "flex" }
+              : { base: "none", md: "flex" }
+            }
+            gap={2}
+          >
+            {eventTable.description && (
+              <Text fontSize="sm" whiteSpace="pre-line">
+                {eventTable.description}
               </Text>
-              <Text color="fg.muted" fontSize="sm" whiteSpace="pre-line">
-                {eventTable.notes}
-              </Text>
-            </VStack>
-          )}
+            )}
+
+            {eventTable.notes && (
+              <VStack align="flex-start" gap={1}>
+                <Text fontSize="xs" fontWeight="bold">
+                  {t("page.event.tables.notes")}
+                </Text>
+                <Text color="fg.muted" fontSize="sm" whiteSpace="pre-line">
+                  {eventTable.notes}
+                </Text>
+              </VStack>
+            )}
+          </VStack>
         </VStack>
 
         <Separator />
