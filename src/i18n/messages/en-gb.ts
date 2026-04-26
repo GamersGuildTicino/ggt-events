@@ -178,6 +178,9 @@ const enGB = {
 
   "page.admin_events.breadcrumb.admin": "Dashboard",
   "page.admin_events.breadcrumb.events": "Events",
+  "page.admin_events.copy_emails": "Copy emails",
+  "page.admin_events.copy_emails_error": "Unable to copy emails.",
+  "page.admin_events.copy_emails_success": 'Emails copied for "{0}".',
   "page.admin_events.delete": "Delete",
   "page.admin_events.delete.confirm": 'Delete "{0}"? This cannot be undone.',
   "page.admin_events.empty": "No events yet.",
@@ -186,6 +189,7 @@ const enGB = {
   "page.admin_events.heading": "Events",
   "page.admin_events.location": "Location",
   "page.admin_events.manage": "Manage",
+  "page.admin_events.more": "More actions",
   "page.admin_events.new": "New event",
   "page.admin_events.registrations_closed": "Registrations closed",
   "page.admin_events.registrations_open": "Registrations open",

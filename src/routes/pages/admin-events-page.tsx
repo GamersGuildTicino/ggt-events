@@ -6,10 +6,13 @@ import {
   HStack,
   Heading,
   Link,
+  Menu as ChakraMenu,
+  Portal,
   Spinner,
   Text,
   VStack,
 } from "@chakra-ui/react";
+import { EllipsisVertical } from "lucide-react";
 import { useMemo, useState } from "react";
 import { Link as RouterLink } from "react-router";
 import { fetchEventRegistrations } from "~/domain/event-registrations";
@@ -22,6 +25,7 @@ import {
 import { type Event, deleteEvent, fetchEvents } from "~/domain/events";
 import { useAsyncEffect } from "~/hooks/use-async-effect";
 import useI18n from "~/i18n/use-i18n";
+import IconButton from "~/ui/icon-button";
 import { type AsyncState, initial, loading } from "~/utils/async-state";
 import AdminBreadcrumb from "../components/admin-breadcrumb";
 import AdminContentColumns from "../components/admin-content-columns";
@@ -31,6 +35,7 @@ import AdminContentColumns from "../components/admin-content-columns";
 //------------------------------------------------------------------------------
 
 type EventSummaryStats = {
+  emails: string[];
   occupiedSeats: number;
   occupiedTables: number;
   totalSeats: number;
@@ -39,10 +44,9 @@ type EventSummaryStats = {
 
 export default function AdminEventsPage() {
   const { locale, t, ti } = useI18n();
+  const [copyError, setCopyError] = useState("");
+  const [copiedEventTitle, setCopiedEventTitle] = useState("");
   const [deleteError, setDeleteError] = useState("");
-  const [deletingEventId, setDeletingEventId] = useState<Event["id"] | null>(
-    null,
-  );
   const [eventsState, setEventsState] =
     useState<AsyncState<Event[]>>(initial());
   const [timeSlotsByEventId, setTimeSlotsByEventId] = useState<
@@ -93,12 +97,14 @@ export default function AdminEventsPage() {
         );
 
         const registrationsByTableId = new Map<string, number>();
+        const emails = new Set<string>();
         if (registrations.isSuccess) {
           for (const registration of registrations.data) {
             registrationsByTableId.set(
               registration.eventTableId,
               (registrationsByTableId.get(registration.eventTableId) ?? 0) + 1,
             );
+            emails.add(registration.email);
           }
         }
 
@@ -117,6 +123,7 @@ export default function AdminEventsPage() {
           event.id,
           {
             stats: {
+              emails: [...emails].sort((a, b) => a.localeCompare(b)),
               occupiedSeats,
               occupiedTables,
               totalSeats,
@@ -165,12 +172,29 @@ export default function AdminEventsPage() {
     if (!confirmed) return;
 
     setDeleteError("");
-    setDeletingEventId(event.id);
     const error = await deleteEvent(event.id);
-    setDeletingEventId(null);
 
     if (error) return setDeleteError(error);
     await loadEvents();
+  };
+
+  const handleCopyEmails = async (event: Event) => {
+    const emails = statsByEventId[event.id]?.emails ?? [];
+    if (emails.length === 0) return;
+
+    setCopyError("");
+
+    try {
+      await navigator.clipboard.writeText(emails.join(", "));
+      setCopiedEventTitle(event.title);
+      window.setTimeout(
+        () =>
+          setCopiedEventTitle((title) => (title === event.title ? "" : title)),
+        2000,
+      );
+    } catch {
+      setCopyError("page.admin_events.copy_emails_error");
+    }
   };
 
   return (
@@ -207,6 +231,20 @@ export default function AdminEventsPage() {
         </Alert.Root>
       )}
 
+      {copyError && (
+        <Alert.Root status="error">
+          <Alert.Description>{t(copyError)}</Alert.Description>
+        </Alert.Root>
+      )}
+
+      {copiedEventTitle && (
+        <Alert.Root status="success">
+          <Alert.Description>
+            {ti("page.admin_events.copy_emails_success", copiedEventTitle)}
+          </Alert.Description>
+        </Alert.Root>
+      )}
+
       {eventsState.isSuccess && eventsState.data.length === 0 && (
         <Text color="fg.muted">{t("page.admin_events.empty")}</Text>
       )}
@@ -215,10 +253,10 @@ export default function AdminEventsPage() {
         <AdminContentColumns>
           {sortedEvents.map((event) => (
             <EventCard
-              deleting={deletingEventId === event.id}
               event={event}
               key={event.id}
               locale={locale}
+              onCopyEmails={handleCopyEmails}
               onDelete={handleDeleteEvent}
               stats={statsByEventId[event.id]}
               timeSlots={timeSlotsByEventId[event.id] ?? []}
@@ -235,16 +273,16 @@ export default function AdminEventsPage() {
 //------------------------------------------------------------------------------
 
 function EventCard({
-  deleting,
   event,
   locale,
+  onCopyEmails,
   onDelete,
   stats,
   timeSlots,
 }: {
-  deleting: boolean;
   event: Event;
   locale: string;
+  onCopyEmails: (event: Event) => void;
   onDelete: (event: Event) => void;
   stats?: EventSummaryStats;
   timeSlots: EventTimeSlot[];
@@ -304,15 +342,38 @@ function EventCard({
                   {t("page.admin_events.manage")}
                 </RouterLink>
               </Button>
-              <Button
-                colorPalette="red"
-                loading={deleting}
-                onClick={() => onDelete(event)}
-                size="xs"
-                variant="outline"
-              >
-                {t("page.admin_events.delete")}
-              </Button>
+
+              <ChakraMenu.Root positioning={{ placement: "bottom-end" }}>
+                <ChakraMenu.Trigger asChild>
+                  <IconButton
+                    Icon={EllipsisVertical}
+                    aria-label={t("page.admin_events.more")}
+                    size="xs"
+                    variant="ghost"
+                  />
+                </ChakraMenu.Trigger>
+                <Portal>
+                  <ChakraMenu.Positioner>
+                    <ChakraMenu.Content minW="12rem">
+                      <ChakraMenu.Item
+                        disabled={!stats || stats.emails.length === 0}
+                        onClick={() => onCopyEmails(event)}
+                        value="copy-emails"
+                      >
+                        {t("page.admin_events.copy_emails")}
+                      </ChakraMenu.Item>
+                      <ChakraMenu.Separator />
+                      <ChakraMenu.Item
+                        color="fg.error"
+                        onClick={() => onDelete(event)}
+                        value="delete"
+                      >
+                        {t("page.admin_events.delete")}
+                      </ChakraMenu.Item>
+                    </ChakraMenu.Content>
+                  </ChakraMenu.Positioner>
+                </Portal>
+              </ChakraMenu.Root>
             </HStack>
           </VStack>
         </HStack>

@@ -186,6 +186,9 @@ const itCH = {
 
   "page.admin_events.breadcrumb.admin": "Panoramica",
   "page.admin_events.breadcrumb.events": "Eventi",
+  "page.admin_events.copy_emails": "Copia email",
+  "page.admin_events.copy_emails_error": "Impossibile copiare le email.",
+  "page.admin_events.copy_emails_success": 'Email copiate per "{0}".',
   "page.admin_events.delete": "Elimina",
   "page.admin_events.delete.confirm":
     'Eliminare "{0}"? Questa azione non può essere annullata.',
@@ -195,6 +198,7 @@ const itCH = {
   "page.admin_events.heading": "Eventi",
   "page.admin_events.location": "Luogo",
   "page.admin_events.manage": "Gestisci",
+  "page.admin_events.more": "Altre azioni",
   "page.admin_events.new": "Nuovo evento",
   "page.admin_events.registrations_closed": "Registrazioni chiuse",
   "page.admin_events.registrations_open": "Registrazioni aperte",
