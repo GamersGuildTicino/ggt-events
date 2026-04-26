@@ -539,6 +539,7 @@ function RegistrationSection({
     const formData = new FormData(form);
     const playerName = String(formData.get("player-name") ?? "").trim();
     const email = String(formData.get("email") ?? "").trim();
+    const phoneNumber = String(formData.get("phone-number") ?? "").trim();
 
     setRegistrationState(loading());
 
@@ -546,6 +547,7 @@ function RegistrationSection({
       email,
       eventTableId,
       locale,
+      phoneNumber,
       playerName,
     });
 
@@ -583,6 +585,13 @@ function RegistrationSection({
                 <Field.RequiredIndicator />
               </Field.Label>
               <Input name="email" size="sm" type="email" />
+            </Field.Root>
+
+            <Field.Root>
+              <Field.Label>
+                {t("page.event.registration.phone_number")}
+              </Field.Label>
+              <Input name="phone-number" size="sm" type="tel" />
             </Field.Root>
 
             {registrationState.hasError && (

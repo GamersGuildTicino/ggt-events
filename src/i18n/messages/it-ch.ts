@@ -163,6 +163,7 @@ const itCH = {
   "page.admin_event.tables.registrations.empty": "Nessun giocatore registrato.",
   "page.admin_event.tables.registrations.heading": "Registrazioni ({0}/{1})",
   "page.admin_event.tables.registrations.hide": "Nascondi registrazioni",
+  "page.admin_event.tables.registrations.phone_number": "Numero di telefono",
   "page.admin_event.tables.registrations.player_name": "Nome",
   "page.admin_event.tables.registrations.show": "Mostra registrazioni",
   "page.admin_event.tables.save": "Salva modifiche",
@@ -289,6 +290,7 @@ const itCH = {
   "page.event.registration.email": "Email",
   "page.event.registration.name": "Nome",
   "page.event.registration.open": "Registrati",
+  "page.event.registration.phone_number": "Numero di telefono",
   "page.event.registration.submit": "Conferma registrazione",
   "page.event.registration.success":
     "Registrazione completata. Una mail di conferma è stata inviata.",

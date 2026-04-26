@@ -211,6 +211,7 @@ export default function EventTablesSection({
       email: value.email,
       eventTableId,
       locale,
+      phoneNumber: value.phoneNumber,
       playerName: value.playerName,
     });
 
@@ -609,6 +610,11 @@ function EventTableCard({
                           <Text color="fg.muted" fontSize="sm">
                             {registration.email}
                           </Text>
+                          {registration.phoneNumber && (
+                            <Text color="fg.muted" fontSize="sm">
+                              {registration.phoneNumber}
+                            </Text>
+                          )}
                         </VStack>
 
                         <Button
@@ -712,6 +718,7 @@ function formatTime(date: Date, locale: string) {
 type RegistrationFormValue = {
   email: string;
   playerName: string;
+  phoneNumber: string;
 };
 
 function RegistrationForm({
@@ -729,6 +736,7 @@ function RegistrationForm({
 
     onSubmit({
       email: String(formData.get("email") ?? "").trim(),
+      phoneNumber: String(formData.get("phone-number") ?? "").trim(),
       playerName: String(formData.get("player-name") ?? "").trim(),
     });
   };
@@ -751,6 +759,17 @@ function RegistrationForm({
             pattern="\s*\S.*"
             placeholder={t("page.admin_event.tables.registrations.player_name")}
             size="xs"
+          />
+        </Field.Root>
+
+        <Field.Root>
+          <Input
+            name="phone-number"
+            placeholder={t(
+              "page.admin_event.tables.registrations.phone_number",
+            )}
+            size="xs"
+            type="tel"
           />
         </Field.Root>
 

@@ -17,6 +17,7 @@ export const eventRegistrationSchema = z.object({
   email: z.string(),
   eventTableId: z.uuid(),
   id: z.uuid(),
+  phoneNumber: z.string(),
   playerName: z.string(),
 });
 
@@ -26,6 +27,7 @@ export type EventRegistrationInput = {
   email: string;
   eventTableId: string;
   locale: Locale;
+  phoneNumber: string;
   playerName: string;
 };
 
@@ -34,6 +36,7 @@ export const eventRegistrationRowSchema = z.object({
   email: z.string(),
   event_table_id: z.uuid(),
   id: z.uuid(),
+  phone_number: z.string(),
   player_name: z.string(),
 });
 
@@ -44,6 +47,7 @@ export const eventRegistrationFromRowSchema =
       email: row.email,
       eventTableId: row.event_table_id,
       id: row.id,
+      phoneNumber: row.phone_number,
       playerName: row.player_name,
     }),
   );
@@ -95,11 +99,13 @@ export async function registerForEventTable({
   eventTableId,
   locale,
   playerName,
+  phoneNumber,
 }: EventRegistrationInput) {
   const { error } = await supabase.rpc("register_for_event_table", {
     p_email: email,
     p_event_table_id: eventTableId,
     p_locale: locale,
+    p_phone_number: phoneNumber,
     p_player_name: playerName,
   });
 

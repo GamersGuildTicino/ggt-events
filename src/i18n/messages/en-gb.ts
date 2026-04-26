@@ -155,6 +155,7 @@ const enGB = {
   "page.admin_event.tables.registrations.empty": "No registered players yet.",
   "page.admin_event.tables.registrations.heading": "Registrations ({0}/{1})",
   "page.admin_event.tables.registrations.hide": "Hide registrations",
+  "page.admin_event.tables.registrations.phone_number": "Phone number",
   "page.admin_event.tables.registrations.player_name": "Name",
   "page.admin_event.tables.registrations.show": "Show registrations",
   "page.admin_event.tables.save": "Save changes",
@@ -278,6 +279,7 @@ const enGB = {
   "page.event.registration.email": "Email",
   "page.event.registration.name": "Name",
   "page.event.registration.open": "Register",
+  "page.event.registration.phone_number": "Phone number",
   "page.event.registration.submit": "Confirm registration",
   "page.event.registration.success":
     "Registration completed. A confirmation email has been sent.",
