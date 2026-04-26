@@ -14,7 +14,7 @@ const lazy =
     Component: (await load()).default,
   });
 
-const HomePage = lazy(() => import("./routes/pages/home-page"));
+const HomePage = lazy(() => import("./routes/pages/home-page/home-page"));
 const EventPage = lazy(() => import("./routes/pages/event-page/event-page"));
 const TermsAndConditionsPage = lazy(
   () => import("./routes/pages/terms-and-conditions-page"),
