@@ -63,6 +63,7 @@ export default function EventTablesSection({
   const { locale, t, ti } = useI18n();
   const { user } = useAuth();
   const [createState, setCreateState] = useState<AsyncState>(initial());
+  const [createFormKey, setCreateFormKey] = useState(0);
   const [deleteError, setDeleteError] = useState("");
   const [deletingEventTableId, setDeletingEventTableId] = useState<
     EventTable["id"] | null
@@ -135,8 +136,13 @@ export default function EventTablesSection({
     setGameSystemsState(gameSystems);
   }, []);
 
-  const handleCreateEventTable = async (value: EventTableFormValue) => {
+  const handleCreateEventTable = async (
+    value: EventTableFormValue,
+    e: React.SubmitEvent<HTMLFormElement>,
+  ) => {
     try {
+      const form = e.currentTarget;
+
       if (user === null)
         return setCreateState(
           failure("page.admin_event.tables.error.missing_user"),
@@ -151,6 +157,8 @@ export default function EventTablesSection({
       if (error) return setCreateState(failure(error));
 
       setCreateState(success(undefined));
+      form.reset();
+      setCreateFormKey((key) => key + 1);
       await loadEventTables();
     } catch (e) {
       console.error(e);
@@ -278,6 +286,7 @@ export default function EventTablesSection({
                   }
                   disabled={createState.isLoading}
                   gameSystems={gameSystemsState.data}
+                  key={createFormKey}
                   message={
                     createState.hasError ?
                       <Alert.Root status="error">
@@ -410,6 +419,7 @@ function EventTableCard({
     if (error) return setCreateRegistrationState(failure(error));
 
     setCreateRegistrationState(success(undefined));
+    return "";
   };
 
   const handleDeleteRegistration = async (registration: EventRegistration) => {
@@ -725,20 +735,24 @@ function RegistrationForm({
   onSubmit,
   submitting,
 }: {
-  onSubmit: (value: RegistrationFormValue) => void;
+  onSubmit: (value: RegistrationFormValue) => Promise<string | void>;
   submitting: boolean;
 }) {
   const { t } = useI18n();
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const form = e.currentTarget;
     const formData = new FormData(e.currentTarget);
 
-    onSubmit({
+    const error = await onSubmit({
       email: String(formData.get("email") ?? "").trim(),
       phoneNumber: String(formData.get("phone-number") ?? "").trim(),
       playerName: String(formData.get("player-name") ?? "").trim(),
     });
+
+    if (error) return;
+    form.reset();
   };
 
   return (
