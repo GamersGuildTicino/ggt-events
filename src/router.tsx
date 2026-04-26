@@ -6,13 +6,63 @@ import AdminProtectedLayout from "./routes/layouts/admin-protected-layout";
 import PublicLayout from "./routes/layouts/public-layout";
 
 //------------------------------------------------------------------------------
+// Lazy Import Recovery
+//------------------------------------------------------------------------------
+
+const dynamicImportReloadKey = "ggt:dynamic-import-reload";
+
+function isDynamicImportFailure(error: unknown) {
+  if (!(error instanceof Error)) return false;
+
+  return (
+    error.message.includes("Failed to fetch dynamically imported module") ||
+    error.message.includes("Importing a module script failed")
+  );
+}
+
+function shouldReloadAfterDynamicImportFailure() {
+  if (typeof window === "undefined") return false;
+  if (!isProductionEnvironment()) return false;
+
+  return window.sessionStorage.getItem(dynamicImportReloadKey) !== "true";
+}
+
+function markDynamicImportReload() {
+  if (typeof window === "undefined") return;
+  window.sessionStorage.setItem(dynamicImportReloadKey, "true");
+}
+
+function clearDynamicImportReloadMark() {
+  if (typeof window === "undefined") return;
+  window.sessionStorage.removeItem(dynamicImportReloadKey);
+}
+
+function isProductionEnvironment() {
+  return !import.meta.env.DEV;
+}
+
+//------------------------------------------------------------------------------
 // Lazy Imports
 //------------------------------------------------------------------------------
 
 const lazy =
-  (load: () => Promise<{ default: React.ComponentType }>) => async () => ({
-    Component: (await load()).default,
-  });
+  (load: () => Promise<{ default: React.ComponentType }>) => async () => {
+    try {
+      const module = await load();
+      clearDynamicImportReloadMark();
+      return { Component: module.default };
+    } catch (error) {
+      if (
+        isDynamicImportFailure(error) &&
+        shouldReloadAfterDynamicImportFailure()
+      ) {
+        markDynamicImportReload();
+        window.location.reload();
+      }
+
+      throw error;
+    }
+  };
 
 const HomePage = lazy(() => import("./routes/pages/home-page/home-page"));
 const EventPage = lazy(() => import("./routes/pages/event-page/event-page"));
