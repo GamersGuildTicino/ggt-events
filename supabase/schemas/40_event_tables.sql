@@ -8,6 +8,7 @@ create table public.event_tables (
   game_system_id uuid not null references public.game_systems (id) on delete restrict,
   title text not null,
   description text not null default '',
+  image_url text not null default '',
   game_master_name text not null,
   experience_level public.event_table_experience_level not null default 'unspecified',
   language public.event_table_language not null default 'italian',
