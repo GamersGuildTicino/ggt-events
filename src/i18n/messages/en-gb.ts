@@ -276,6 +276,8 @@ const enGB = {
     "Registrations are not open right now. You can still browse the available tables.",
   "page.event.hero.registration_open":
     "Browse the available tables and choose the adventure you want to join.",
+  "page.event.registration.accept_terms":
+    "I confirm that I can arrive 15 minutes before the indicated time and attend the session in full. I understand that discriminatory, offensive, racist, or sexist behaviour towards other players may result in disqualification from the event.",
   "page.event.registration.cancel": "Cancel",
   "page.event.registration.email": "Email",
   "page.event.registration.name": "Name",

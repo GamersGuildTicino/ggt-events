@@ -38,6 +38,7 @@ import { formatPlayerCount } from "~/domain/players";
 import { useAsyncEffect } from "~/hooks/use-async-effect";
 import LocaleSelect from "~/i18n/locale-select";
 import useI18n from "~/i18n/use-i18n";
+import Checkbox from "~/ui/checkbox";
 import {
   type AsyncState,
   failure,
@@ -643,6 +644,14 @@ function RegistrationSection({
                   <Input name="phone-number" size="sm" type="tel" />
                 </Field.Root>
               </HStack>
+
+              <Field.Root required>
+                <Checkbox name="accept-terms" required size="sm">
+                  <Text fontSize="sm">
+                    {t("page.event.registration.accept_terms")}
+                  </Text>
+                </Checkbox>
+              </Field.Root>
 
               {registrationState.hasError && (
                 <Alert.Root status="error">

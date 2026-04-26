@@ -287,6 +287,8 @@ const itCH = {
     "Le registrazioni non sono aperte al momento. Puoi comunque consultare i tavoli disponibili.",
   "page.event.hero.registration_open":
     "Consulta i tavoli disponibili e scegli l'avventura a cui vuoi partecipare.",
+  "page.event.registration.accept_terms":
+    "Confermo di poter arrivare 15 minuti prima dell'orario indicato e di seguire la partita per intero. Prendo atto che atteggiamenti discriminatori, offensivi, razzisti o sessisti verso altrə giocatorə possono significare la squalifica dalla serata.",
   "page.event.registration.cancel": "Annulla",
   "page.event.registration.email": "Email",
   "page.event.registration.name": "Nome",
