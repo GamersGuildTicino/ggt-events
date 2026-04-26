@@ -199,6 +199,8 @@ const itCH = {
   "page.admin_events.registrations_closed": "Registrazioni chiuse",
   "page.admin_events.registrations_open": "Registrazioni aperte",
   "page.admin_events.starts_at": "Data",
+  "page.admin_events.stats.seats": "{0}/{1} posti",
+  "page.admin_events.stats.tables": "{0}/{1} tavoli",
   "page.admin_events.visibility": "Visibilità",
 
   "page.admin_events_new.breadcrumb.admin": "Panoramica",

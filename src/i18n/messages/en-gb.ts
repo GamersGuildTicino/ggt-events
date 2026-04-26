@@ -190,6 +190,8 @@ const enGB = {
   "page.admin_events.registrations_closed": "Registrations closed",
   "page.admin_events.registrations_open": "Registrations open",
   "page.admin_events.starts_at": "Date",
+  "page.admin_events.stats.seats": "{0}/{1} seats",
+  "page.admin_events.stats.tables": "{0}/{1} tables",
   "page.admin_events.visibility": "Visibility",
 
   "page.admin_events_new.breadcrumb.admin": "Dashboard",

@@ -12,6 +12,8 @@ import {
 } from "@chakra-ui/react";
 import { useMemo, useState } from "react";
 import { Link as RouterLink } from "react-router";
+import { fetchEventRegistrations } from "~/domain/event-registrations";
+import { fetchEventTables } from "~/domain/event-tables";
 import {
   type EventTimeSlot,
   fetchEventTimeSlots,
@@ -28,6 +30,13 @@ import AdminContentColumns from "../components/admin-content-columns";
 // Admin Events Page
 //------------------------------------------------------------------------------
 
+type EventSummaryStats = {
+  occupiedSeats: number;
+  occupiedTables: number;
+  totalSeats: number;
+  totalTables: number;
+};
+
 export default function AdminEventsPage() {
   const { locale, t, ti } = useI18n();
   const [deleteError, setDeleteError] = useState("");
@@ -38,6 +47,9 @@ export default function AdminEventsPage() {
     useState<AsyncState<Event[]>>(initial());
   const [timeSlotsByEventId, setTimeSlotsByEventId] = useState<
     Record<Event["id"], EventTimeSlot[]>
+  >({});
+  const [statsByEventId, setStatsByEventId] = useState<
+    Record<Event["id"], EventSummaryStats>
   >({});
   const sortedEvents = useMemo(() => {
     if (!eventsState.isSuccess) return [];
@@ -63,19 +75,78 @@ export default function AdminEventsPage() {
     });
   }, [eventsState, timeSlotsByEventId]);
 
+  const loadEventMeta = async (events: Event[]) => {
+    const entries = await Promise.all(
+      events.map(async (event) => {
+        const [timeSlots, eventTables] = await Promise.all([
+          fetchEventTimeSlots(event.id),
+          fetchEventTables(event.id),
+        ]);
+
+        const timeSlotsData = timeSlots.isSuccess ? timeSlots.data : [];
+        if (!eventTables.isSuccess) {
+          return [event.id, { stats: null, timeSlots: timeSlotsData }] as const;
+        }
+
+        const registrations = await fetchEventRegistrations(
+          eventTables.data.map((eventTable) => eventTable.id),
+        );
+
+        const registrationsByTableId = new Map<string, number>();
+        if (registrations.isSuccess) {
+          for (const registration of registrations.data) {
+            registrationsByTableId.set(
+              registration.eventTableId,
+              (registrationsByTableId.get(registration.eventTableId) ?? 0) + 1,
+            );
+          }
+        }
+
+        const occupiedSeats =
+          registrations.isSuccess ? registrations.data.length : 0;
+        const occupiedTables = eventTables.data.filter(
+          (eventTable) => (registrationsByTableId.get(eventTable.id) ?? 0) > 0,
+        ).length;
+        const totalSeats = eventTables.data.reduce(
+          (sum, eventTable) => sum + eventTable.maxPlayers,
+          0,
+        );
+        const totalTables = eventTables.data.length;
+
+        return [
+          event.id,
+          {
+            stats: {
+              occupiedSeats,
+              occupiedTables,
+              totalSeats,
+              totalTables,
+            },
+            timeSlots: timeSlotsData,
+          },
+        ] as const;
+      }),
+    );
+
+    setTimeSlotsByEventId(
+      Object.fromEntries(
+        entries.map(([eventId, data]) => [eventId, data.timeSlots]),
+      ),
+    );
+    setStatsByEventId(
+      Object.fromEntries(
+        entries.flatMap(([eventId, data]) =>
+          data.stats ? [[eventId, data.stats] as const] : [],
+        ),
+      ),
+    );
+  };
+
   const loadEvents = async () => {
     setEventsState(loading());
     const events = await fetchEvents();
     setEventsState(events);
-    if (events.isSuccess) {
-      const entries = await Promise.all(
-        events.data.map(async (event) => {
-          const timeSlots = await fetchEventTimeSlots(event.id);
-          return [event.id, timeSlots.isSuccess ? timeSlots.data : []] as const;
-        }),
-      );
-      setTimeSlotsByEventId(Object.fromEntries(entries));
-    }
+    if (events.isSuccess) await loadEventMeta(events.data);
   };
 
   useAsyncEffect(async (isActive) => {
@@ -83,16 +154,9 @@ export default function AdminEventsPage() {
     const events = await fetchEvents();
     if (!isActive()) return;
     setEventsState(events);
-    if (events.isSuccess) {
-      const entries = await Promise.all(
-        events.data.map(async (event) => {
-          const timeSlots = await fetchEventTimeSlots(event.id);
-          return [event.id, timeSlots.isSuccess ? timeSlots.data : []] as const;
-        }),
-      );
-      if (!isActive()) return;
-      setTimeSlotsByEventId(Object.fromEntries(entries));
-    }
+    if (!events.isSuccess) return;
+    await loadEventMeta(events.data);
+    if (!isActive()) return;
   }, []);
 
   const handleDeleteEvent = async (event: Event) => {
@@ -156,6 +220,7 @@ export default function AdminEventsPage() {
               key={event.id}
               locale={locale}
               onDelete={handleDeleteEvent}
+              stats={statsByEventId[event.id]}
               timeSlots={timeSlotsByEventId[event.id] ?? []}
             />
           ))}
@@ -174,15 +239,17 @@ function EventCard({
   event,
   locale,
   onDelete,
+  stats,
   timeSlots,
 }: {
   deleting: boolean;
   event: Event;
   locale: string;
   onDelete: (event: Event) => void;
+  stats?: EventSummaryStats;
   timeSlots: EventTimeSlot[];
 }) {
-  const { t } = useI18n();
+  const { t, ti } = useI18n();
   const eventOver = isEventOver(timeSlots);
   const registrationStatus =
     eventOver ? t("page.admin_events.event_over")
@@ -211,6 +278,21 @@ function EventCard({
                 .filter(Boolean)
                 .join(", ")}
             </Text>
+            {stats && stats.totalTables > 0 && (
+              <Text color="fg.muted" fontSize="sm">
+                {ti(
+                  "page.admin_events.stats.seats",
+                  String(stats.occupiedSeats),
+                  String(stats.totalSeats),
+                )}
+                {" • "}
+                {ti(
+                  "page.admin_events.stats.tables",
+                  String(stats.occupiedTables),
+                  String(stats.totalTables),
+                )}
+              </Text>
+            )}
           </VStack>
 
           <VStack align="flex-end" gap={2}>
