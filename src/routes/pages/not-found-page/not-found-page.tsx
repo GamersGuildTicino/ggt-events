@@ -1,17 +1,17 @@
 import { VStack } from "@chakra-ui/react";
 import useI18n from "~/i18n/use-i18n";
-import PagePlaceholder from "../components/page-placeholder";
+import PagePlaceholder from "../../components/page-placeholder";
 
 //------------------------------------------------------------------------------
-// Terms And Conditions Page
+// Not Found Page
 //------------------------------------------------------------------------------
 
-export default function TermsAndConditionsPage() {
+export default function NotFoundPage() {
   const i18n = useI18n();
 
   return (
     <VStack minH="100vh">
-      <PagePlaceholder title={i18n.t("page.terms_and_conditions.heading")} />
+      <PagePlaceholder title={i18n.t("page.not_found.heading")} />
     </VStack>
   );
 }

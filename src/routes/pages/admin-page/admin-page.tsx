@@ -1,7 +1,7 @@
 import { Button, Card, Heading, Text, VStack } from "@chakra-ui/react";
 import { Link as RouterLink } from "react-router";
 import useI18n from "~/i18n/use-i18n";
-import AdminContentColumns from "../components/admin-content-columns";
+import AdminContentColumns from "../../components/admin-content-columns";
 
 //------------------------------------------------------------------------------
 // Admin Page

@@ -11,11 +11,11 @@ import {
   loading,
   success,
 } from "~/utils/async-state";
-import AdminBreadcrumb from "../components/admin-breadcrumb";
-import AdminContentColumns from "../components/admin-content-columns";
+import AdminBreadcrumb from "../../components/admin-breadcrumb";
+import AdminContentColumns from "../../components/admin-content-columns";
 import GameSystemForm, {
   type GameSystemFormValue,
-} from "../components/game-system-form";
+} from "../../components/game-system-form";
 
 //------------------------------------------------------------------------------
 // Admin Game Systems New Page

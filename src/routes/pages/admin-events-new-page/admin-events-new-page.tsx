@@ -12,11 +12,11 @@ import {
   loading,
   success,
 } from "~/utils/async-state";
-import AdminBreadcrumb from "../components/admin-breadcrumb";
-import AdminContentColumns from "../components/admin-content-columns";
+import AdminBreadcrumb from "../../components/admin-breadcrumb";
+import AdminContentColumns from "../../components/admin-content-columns";
 import EventDetailsForm, {
   type EventDetailsFormValue,
-} from "../components/event-details-form";
+} from "../../components/event-details-form";
 
 //------------------------------------------------------------------------------
 // Admin Events New Page

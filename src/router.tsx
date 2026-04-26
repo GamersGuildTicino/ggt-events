@@ -17,21 +17,26 @@ const lazy =
 const HomePage = lazy(() => import("./routes/pages/home-page/home-page"));
 const EventPage = lazy(() => import("./routes/pages/event-page/event-page"));
 const TermsAndConditionsPage = lazy(
-  () => import("./routes/pages/terms-and-conditions-page"),
+  () =>
+    import("./routes/pages/terms-and-conditions-page/terms-and-conditions-page"),
 );
 const AdminForgotPasswordPage = lazy(
-  () => import("./routes/pages/admin-forgot-password-page"),
+  () =>
+    import("./routes/pages/admin-forgot-password-page/admin-forgot-password-page"),
 );
-const AdminLoginPage = lazy(() => import("./routes/pages/admin-login-page"));
+const AdminLoginPage = lazy(
+  () => import("./routes/pages/admin-login-page/admin-login-page"),
+);
 const AdminResetPasswordPage = lazy(
-  () => import("./routes/pages/admin-reset-password-page"),
+  () =>
+    import("./routes/pages/admin-reset-password-page/admin-reset-password-page"),
 );
-const AdminPage = lazy(() => import("./routes/pages/admin-page"));
+const AdminPage = lazy(() => import("./routes/pages/admin-page/admin-page"));
 const AdminEventsPage = lazy(
   () => import("./routes/pages/admin-events-page/admin-events-page"),
 );
 const AdminEventsNewPage = lazy(
-  () => import("./routes/pages/admin-events-new-page"),
+  () => import("./routes/pages/admin-events-new-page/admin-events-new-page"),
 );
 const AdminEventPage = lazy(
   () => import("./routes/pages/admin-event-page/admin-event-page"),
@@ -41,12 +46,15 @@ const AdminGameSystemsPage = lazy(
     import("./routes/pages/admin-game-systems-page/admin-game-systems-page"),
 );
 const AdminGameSystemsNewPage = lazy(
-  () => import("./routes/pages/admin-game-systems-new-page"),
+  () =>
+    import("./routes/pages/admin-game-systems-new-page/admin-game-systems-new-page"),
 );
 const AdminGameSystemPage = lazy(
   () => import("./routes/pages/admin-game-system-page/admin-game-system-page"),
 );
-const NotFoundPage = lazy(() => import("./routes/pages/not-found-page"));
+const NotFoundPage = lazy(
+  () => import("./routes/pages/not-found-page/not-found-page"),
+);
 
 //------------------------------------------------------------------------------
 // Router
