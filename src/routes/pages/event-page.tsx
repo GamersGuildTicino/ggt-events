@@ -418,6 +418,7 @@ function EventTableCard({
   const { t, ti, tpi } = useI18n();
   const [detailsVisible, setDetailsVisible] = useState(false);
   const [registrationVisible, setRegistrationVisible] = useState(false);
+  const [registrationSucceeded, setRegistrationSucceeded] = useState(false);
   const canRegister = registrationsOpen && !isPastTimeSlot(timeSlot);
   const availableSeats = Math.max(
     0,
@@ -425,6 +426,11 @@ function EventTableCard({
   );
   const hasDetails = Boolean(eventTable.description || eventTable.notes);
   const imageUrl = eventTable.imageUrl || gameSystemImageUrl;
+
+  const toggleRegistration = () => {
+    setRegistrationSucceeded(false);
+    setRegistrationVisible(!registrationVisible);
+  };
 
   return (
     <Card.Root
@@ -532,7 +538,7 @@ function EventTableCard({
 
           <Button
             disabled={!canRegister}
-            onClick={() => setRegistrationVisible(!registrationVisible)}
+            onClick={toggleRegistration}
             size="sm"
           >
             {!canRegister ?
@@ -543,10 +549,21 @@ function EventTableCard({
           </Button>
         </HStack>
 
+        {registrationSucceeded && (
+          <Alert.Root status="success">
+            <Alert.Description>
+              {t("page.event.registration.success")}
+            </Alert.Description>
+          </Alert.Root>
+        )}
+
         <RegistrationSection
           eventTableId={eventTable.id}
           onCancel={() => setRegistrationVisible(false)}
-          onSuccess={() => setRegistrationVisible(false)}
+          onSuccess={() => {
+            setRegistrationSucceeded(true);
+            setRegistrationVisible(false);
+          }}
           registrationsOpen={canRegister}
           visible={registrationVisible}
         />
@@ -577,8 +594,7 @@ function RegistrationSection({
     useState<AsyncState>(initial());
 
   if (!registrationsOpen) return null;
-  if (!visible && !registrationState.isSuccess && !registrationState.hasError)
-    return null;
+  if (!visible && !registrationState.hasError) return null;
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -609,14 +625,6 @@ function RegistrationSection({
   return (
     <Card.Footer bg="bg.panel" borderRadius="md" borderWidth="1px" pt={4}>
       <VStack align="stretch" gap={3} w="full">
-        {registrationState.isSuccess && (
-          <Alert.Root status="success">
-            <Alert.Description>
-              {t("page.event.registration.success")}
-            </Alert.Description>
-          </Alert.Root>
-        )}
-
         {visible && (
           <form onSubmit={handleSubmit}>
             <VStack align="stretch" gap={3}>
