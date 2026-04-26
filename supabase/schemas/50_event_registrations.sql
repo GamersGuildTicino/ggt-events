@@ -7,6 +7,7 @@ create table public.event_registrations (
   event_table_id uuid not null references public.event_tables (id) on delete cascade,
   player_name text not null,
   email text not null,
+  phone_number text not null default '',
   locale text not null default 'en-GB',
   created_at timestamptz not null default now(),
 
@@ -146,6 +147,7 @@ create or replace function public.register_for_event_table(
   p_event_table_id uuid,
   p_player_name text,
   p_email text,
+  p_phone_number text default '',
   p_locale text default 'en-GB'
 )
 returns public.event_registrations
@@ -161,10 +163,12 @@ declare
   v_registration_count integer;
   v_time_slot public.event_time_slots;
   v_email text;
+  v_phone_number text;
   v_player_name text;
 begin
   v_player_name := btrim(coalesce(p_player_name, ''));
   v_email := lower(btrim(coalesce(p_email, '')));
+  v_phone_number := btrim(coalesce(p_phone_number, ''));
   v_locale := coalesce(p_locale, 'en-GB');
 
   if v_player_name = '' then
@@ -255,12 +259,14 @@ begin
     event_table_id,
     player_name,
     email,
+    phone_number,
     locale
   )
   values (
     v_event_table.id,
     v_player_name,
     v_email,
+    v_phone_number,
     v_locale
   )
   returning *
@@ -278,8 +284,8 @@ exception
 end;
 $$;
 
-grant execute on function public.register_for_event_table(uuid, text, text, text) to anon;
-grant execute on function public.register_for_event_table(uuid, text, text, text) to authenticated;
+grant execute on function public.register_for_event_table(uuid, text, text, text, text) to anon;
+grant execute on function public.register_for_event_table(uuid, text, text, text, text) to authenticated;
 
 --------------------------------------------------------------------------------
 -- Delete Event Registration
