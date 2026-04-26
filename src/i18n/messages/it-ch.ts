@@ -300,6 +300,7 @@ const itCH = {
   "page.event.tables.available_seats/*": "{0} posti liberi",
   "page.event.tables.available_seats/1": "{0} posto libero",
   "page.event.tables.choose": "Registrati",
+  "page.event.tables.close": "Chiudi",
   "page.event.tables.closed": "Chiuso",
   "page.event.tables.empty": "Nessun tavolo.",
   "page.event.tables.game_master": "Game Master: {0}",

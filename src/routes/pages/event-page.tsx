@@ -428,16 +428,19 @@ function EventTableCard({
   return (
     <Card.Root
       _hover={{ borderColor: "blue.400", transform: "translateY(-2px)" }}
-      backgroundImage={
-        imageUrl ?
-          `linear-gradient(135deg, rgba(255,255,255,0.98) 0%, rgba(255,255,255,0.92) 38%, rgba(255,255,255,0.72) 100%), url(${imageUrl})`
-        : undefined
-      }
-      backgroundPosition="center"
-      backgroundSize="cover"
+      overflow="hidden"
       transition="border-color 160ms ease, transform 160ms ease"
     >
-      <Card.Body gap={4}>
+      <Card.Body
+        backgroundImage={
+          imageUrl ?
+            `linear-gradient(135deg, rgba(255,255,255,0.98) 0%, rgba(255,255,255,0.92) 38%, rgba(255,255,255,0.72) 100%), url(${imageUrl})`
+          : undefined
+        }
+        backgroundPosition="center"
+        backgroundSize="cover"
+        gap={4}
+      >
         <VStack align="flex-start" gap={2}>
           <HStack align="flex-start" justify="space-between" w="full">
             <VStack align="flex-start" gap={1}>
@@ -528,12 +531,14 @@ function EventTableCard({
 
           <Button
             disabled={!canRegister}
-            onClick={() => setRegistrationVisible(true)}
+            onClick={() => setRegistrationVisible(!registrationVisible)}
             size="sm"
           >
-            {canRegister ?
-              t("page.event.tables.choose")
-            : t("page.event.tables.closed")}
+            {!canRegister ?
+              t("page.event.tables.closed")
+            : registrationVisible ?
+              t("page.event.tables.close")
+            : t("page.event.tables.choose")}
           </Button>
         </HStack>
 
@@ -601,70 +606,74 @@ function RegistrationSection({
   };
 
   return (
-    <VStack align="stretch" gap={3}>
-      {registrationState.isSuccess && (
-        <Alert.Root status="success">
-          <Alert.Description>
-            {t("page.event.registration.success")}
-          </Alert.Description>
-        </Alert.Root>
-      )}
+    <Card.Footer bg="bg.panel" borderRadius="md" borderWidth="1px" pt={4}>
+      <VStack align="stretch" gap={3} w="full">
+        {registrationState.isSuccess && (
+          <Alert.Root status="success">
+            <Alert.Description>
+              {t("page.event.registration.success")}
+            </Alert.Description>
+          </Alert.Root>
+        )}
 
-      {visible && (
-        <form onSubmit={handleSubmit}>
-          <VStack align="stretch" gap={3}>
-            <Field.Root required>
-              <Field.Label>
-                {t("page.event.registration.name")}
-                <Field.RequiredIndicator />
-              </Field.Label>
-              <Input name="player-name" pattern="\s*\S.*" size="sm" />
-            </Field.Root>
+        {visible && (
+          <form onSubmit={handleSubmit}>
+            <VStack align="stretch" gap={3}>
+              <Field.Root required>
+                <Field.Label>
+                  {t("page.event.registration.email")}
+                  <Field.RequiredIndicator />
+                </Field.Label>
+                <Input name="email" size="sm" type="email" />
+              </Field.Root>
 
-            <Field.Root required>
-              <Field.Label>
-                {t("page.event.registration.email")}
-                <Field.RequiredIndicator />
-              </Field.Label>
-              <Input name="email" size="sm" type="email" />
-            </Field.Root>
+              <HStack align="flex-start" flexWrap="wrap" w="full">
+                <Field.Root flex="1 1 14rem" minW={0} required>
+                  <Field.Label>
+                    {t("page.event.registration.name")}
+                    <Field.RequiredIndicator />
+                  </Field.Label>
+                  <Input name="player-name" pattern="\s*\S.*" size="sm" />
+                </Field.Root>
 
-            <Field.Root>
-              <Field.Label>
-                {t("page.event.registration.phone_number")}
-              </Field.Label>
-              <Input name="phone-number" size="sm" type="tel" />
-            </Field.Root>
+                <Field.Root flex="1 1 12rem" minW={0}>
+                  <Field.Label>
+                    {t("page.event.registration.phone_number")}
+                  </Field.Label>
+                  <Input name="phone-number" size="sm" type="tel" />
+                </Field.Root>
+              </HStack>
 
-            {registrationState.hasError && (
-              <Alert.Root status="error">
-                <Alert.Description>
-                  {t(registrationState.error)}
-                </Alert.Description>
-              </Alert.Root>
-            )}
+              {registrationState.hasError && (
+                <Alert.Root status="error">
+                  <Alert.Description>
+                    {t(registrationState.error)}
+                  </Alert.Description>
+                </Alert.Root>
+              )}
 
-            <HStack>
-              <Button
-                loading={registrationState.isLoading}
-                size="sm"
-                type="submit"
-              >
-                {t("page.event.registration.submit")}
-              </Button>
-              <Button
-                onClick={onCancel}
-                size="sm"
-                type="button"
-                variant="outline"
-              >
-                {t("page.event.registration.cancel")}
-              </Button>
-            </HStack>
-          </VStack>
-        </form>
-      )}
-    </VStack>
+              <HStack>
+                <Button
+                  loading={registrationState.isLoading}
+                  size="sm"
+                  type="submit"
+                >
+                  {t("page.event.registration.submit")}
+                </Button>
+                <Button
+                  onClick={onCancel}
+                  size="sm"
+                  type="button"
+                  variant="outline"
+                >
+                  {t("page.event.registration.cancel")}
+                </Button>
+              </HStack>
+            </VStack>
+          </form>
+        )}
+      </VStack>
+    </Card.Footer>
   );
 }
 

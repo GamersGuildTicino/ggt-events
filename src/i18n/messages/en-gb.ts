@@ -289,6 +289,7 @@ const enGB = {
   "page.event.tables.available_seats/*": "{0} seats left",
   "page.event.tables.available_seats/1": "{0} seat left",
   "page.event.tables.choose": "Register",
+  "page.event.tables.close": "Close",
   "page.event.tables.closed": "Closed",
   "page.event.tables.empty": "No tables yet.",
   "page.event.tables.game_master": "Game Master: {0}",
