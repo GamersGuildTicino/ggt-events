@@ -31,7 +31,9 @@ const AdminEventsPage = lazy(() => import("./routes/pages/admin-events-page"));
 const AdminEventsNewPage = lazy(
   () => import("./routes/pages/admin-events-new-page"),
 );
-const AdminEventPage = lazy(() => import("./routes/pages/admin-event-page"));
+const AdminEventPage = lazy(
+  () => import("./routes/pages/admin-event-page/admin-event-page"),
+);
 const AdminGameSystemsPage = lazy(
   () => import("./routes/pages/admin-game-systems-page"),
 );

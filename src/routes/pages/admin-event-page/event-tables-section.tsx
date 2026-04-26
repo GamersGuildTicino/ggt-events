@@ -45,7 +45,9 @@ import {
   loading,
   success,
 } from "~/utils/async-state";
-import EventTableForm, { type EventTableFormValue } from "./event-table-form";
+import EventTableForm, {
+  type EventTableFormValue,
+} from "../../components/event-table-form";
 
 //------------------------------------------------------------------------------
 // Event Tables Section

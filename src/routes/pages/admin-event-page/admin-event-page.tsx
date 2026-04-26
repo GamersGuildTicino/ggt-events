@@ -1,29 +1,17 @@
 import {
   Alert,
-  Badge,
   Button,
   Grid,
   HStack,
   Heading,
-  Menu as ChakraMenu,
-  Portal,
   Spinner,
   VStack,
 } from "@chakra-ui/react";
-import { EllipsisVertical } from "lucide-react";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useState } from "react";
 import { Link as RouterLink, useParams } from "react-router";
-import { fetchEventRegistrations } from "~/domain/event-registrations";
-import { fetchEventTables } from "~/domain/event-tables";
-import {
-  type EventTimeSlot,
-  fetchEventTimeSlots,
-  isEventOver,
-} from "~/domain/event-time-slots";
-import { type Event, fetchEvent, updateEvent } from "~/domain/events";
-import { useAsyncEffect } from "~/hooks/use-async-effect";
+import { isEventOver } from "~/domain/event-time-slots";
+import { type Event, updateEvent } from "~/domain/events";
 import useI18n from "~/i18n/use-i18n";
-import IconButton from "~/ui/icon-button";
 import {
   type AsyncState,
   failure,
@@ -32,12 +20,17 @@ import {
   success,
 } from "~/utils/async-state";
 import { createMailtoUrl } from "~/utils/mailto";
-import AdminBreadcrumb from "../components/admin-breadcrumb";
+import AdminBreadcrumb from "../../components/admin-breadcrumb";
 import EventDetailsForm, {
   type EventDetailsFormValue,
-} from "../components/event-details-form";
-import EventTablesSection from "../components/event-tables-section";
-import EventTimeSlotsSection from "../components/event-time-slots-section";
+} from "../../components/event-details-form";
+import AdminEventPageHeadingActions from "./admin-event-page-heading-actions";
+import AdminEventPageSaveMessage from "./admin-event-page-save-message";
+import EventTablesSection from "./event-tables-section";
+import EventTimeSlotsSection from "./event-time-slots-section";
+import useAdminEvent from "./use-admin-event";
+import useAdminEventEmails from "./use-admin-event-emails";
+import useAdminEventTimeSlots from "./use-admin-event-time-slots";
 
 //------------------------------------------------------------------------------
 // Admin Event Page
@@ -49,82 +42,11 @@ export default function AdminEventPage() {
   const [copyError, setCopyError] = useState("");
   const [copied, setCopied] = useState(false);
   const [emailError, setEmailError] = useState("");
-  const [eventState, setEventState] = useState<AsyncState<Event>>(initial());
-  const [eventEmailsState, setEventEmailsState] =
-    useState<AsyncState<string[]>>(initial());
-  const [eventTimeSlotsState, setEventTimeSlotsState] =
-    useState<AsyncState<EventTimeSlot[]>>(initial());
   const [saveState, setSaveState] = useState<AsyncState>(initial());
-  const eventHasEmails = useMemo(
-    () => eventEmailsState.isSuccess && eventEmailsState.data.length > 0,
-    [eventEmailsState],
-  );
-
-  const loadTimeSlots = useCallback(async () => {
-    if (!eventId) return;
-    setEventTimeSlotsState(loading());
-    const timeSlots = await fetchEventTimeSlots(eventId);
-    setEventTimeSlotsState(timeSlots);
-  }, [eventId]);
-
-  useAsyncEffect(
-    async (isActive) => {
-      setEventState(loading());
-
-      if (!eventId)
-        return setEventState(failure("page.admin_event.error.missing_event"));
-
-      const event = await fetchEvent(eventId);
-      if (!isActive()) return;
-      setEventState(event);
-    },
-    [eventId],
-  );
-
-  useAsyncEffect(
-    async (isActive) => {
-      setEventTimeSlotsState(loading());
-
-      if (!eventId)
-        return setEventTimeSlotsState(
-          failure("page.admin_event.error.missing_event"),
-        );
-
-      const timeSlots = await fetchEventTimeSlots(eventId);
-      if (!isActive()) return;
-      setEventTimeSlotsState(timeSlots);
-    },
-    [eventId],
-  );
-
-  useAsyncEffect(
-    async (isActive) => {
-      if (!eventId)
-        return setEventEmailsState(
-          failure("page.admin_event.error.missing_event"),
-        );
-
-      setEventEmailsState(loading());
-
-      const eventTables = await fetchEventTables(eventId);
-      if (!isActive()) return;
-      if (!eventTables.isSuccess)
-        return setEventEmailsState(failure(eventTables.error));
-
-      const registrations = await fetchEventRegistrations(
-        eventTables.data.map((eventTable) => eventTable.id),
-      );
-      if (!isActive()) return;
-      if (!registrations.isSuccess)
-        return setEventEmailsState(failure(registrations.error));
-
-      const emails = [
-        ...new Set(registrations.data.map((row) => row.email)),
-      ].sort((a, b) => a.localeCompare(b));
-      setEventEmailsState(success(emails));
-    },
-    [eventId],
-  );
+  const { eventState, setEventState } = useAdminEvent(eventId);
+  const { eventTimeSlotsState, loadTimeSlots } =
+    useAdminEventTimeSlots(eventId);
+  const { eventEmailsState, eventHasEmails } = useAdminEventEmails(eventId);
 
   const handleUpdateEvent = useCallback(
     async (eventDetails: EventDetailsFormValue) => {
@@ -134,7 +56,6 @@ export default function AdminEventPage() {
         setSaveState(loading());
 
         const updatedEvent: Event = { ...eventState.data, ...eventDetails };
-
         const error = await updateEvent(updatedEvent);
         if (error) return setSaveState(failure(error));
 
@@ -145,7 +66,7 @@ export default function AdminEventPage() {
         setSaveState(failure("page.admin_event.error.generic"));
       }
     },
-    [eventState],
+    [eventState, setEventState],
   );
 
   const handleCopyEmails = async () => {
@@ -197,45 +118,14 @@ export default function AdminEventPage() {
       <HStack align="center" justify="space-between">
         <Heading size="3xl">{t("page.admin_event.heading")}</Heading>
 
-        <HStack>
-          {eventTimeSlotsState.isSuccess &&
-            isEventOver(eventTimeSlotsState.data) && (
-              <Badge colorPalette="orange" size="lg">
-                {t("page.admin_event.event_over")}
-              </Badge>
-            )}
-
-          <ChakraMenu.Root positioning={{ placement: "bottom-end" }}>
-            <ChakraMenu.Trigger asChild>
-              <IconButton
-                Icon={EllipsisVertical}
-                aria-label={t("page.admin_events.more")}
-                size="sm"
-                variant="ghost"
-              />
-            </ChakraMenu.Trigger>
-            <Portal>
-              <ChakraMenu.Positioner>
-                <ChakraMenu.Content minW="12rem">
-                  <ChakraMenu.Item
-                    disabled={!eventHasEmails}
-                    onClick={handleComposeEmail}
-                    value="compose-email"
-                  >
-                    {t("page.admin_events.compose_email")}
-                  </ChakraMenu.Item>
-                  <ChakraMenu.Item
-                    disabled={!eventHasEmails}
-                    onClick={handleCopyEmails}
-                    value="copy-emails"
-                  >
-                    {t("page.admin_events.copy_emails")}
-                  </ChakraMenu.Item>
-                </ChakraMenu.Content>
-              </ChakraMenu.Positioner>
-            </Portal>
-          </ChakraMenu.Root>
-        </HStack>
+        {eventTimeSlotsState.isSuccess && eventState.isSuccess && (
+          <AdminEventPageHeadingActions
+            eventHasEmails={eventHasEmails}
+            onComposeEmail={handleComposeEmail}
+            onCopyEmails={handleCopyEmails}
+            timeSlots={eventTimeSlotsState.data}
+          />
+        )}
       </HStack>
 
       {eventState.isLoading && <Spinner />}
@@ -290,25 +180,7 @@ export default function AdminEventPage() {
               }
               disabled={saveState.isLoading}
               initialValue={eventState.data}
-              message={
-                <>
-                  {saveState.hasError && (
-                    <Alert.Root status="error">
-                      <Alert.Description>
-                        {t(saveState.error)}
-                      </Alert.Description>
-                    </Alert.Root>
-                  )}
-
-                  {saveState.isSuccess && (
-                    <Alert.Root status="success">
-                      <Alert.Description>
-                        {t("page.admin_event.saved")}
-                      </Alert.Description>
-                    </Alert.Root>
-                  )}
-                </>
-              }
+              message={<AdminEventPageSaveMessage saveState={saveState} />}
               onSubmit={handleUpdateEvent}
             />
 
@@ -338,12 +210,13 @@ export default function AdminEventPage() {
                 </Alert.Root>
               )}
 
-            {eventTimeSlotsState.isSuccess && (
-              <EventTablesSection
-                eventId={eventState.data.id}
-                timeSlots={eventTimeSlotsState.data}
-              />
-            )}
+            {eventTimeSlotsState.isSuccess &&
+              eventTimeSlotsState.data.length > 0 && (
+                <EventTablesSection
+                  eventId={eventState.data.id}
+                  timeSlots={eventTimeSlotsState.data}
+                />
+              )}
           </VStack>
         </Grid>
       )}

@@ -29,7 +29,7 @@ import {
 } from "~/utils/async-state";
 import EventTimeSlotForm, {
   type EventTimeSlotFormValue,
-} from "./event-time-slot-form";
+} from "../../components/event-time-slot-form";
 
 //------------------------------------------------------------------------------
 // Event Time Slots Section
