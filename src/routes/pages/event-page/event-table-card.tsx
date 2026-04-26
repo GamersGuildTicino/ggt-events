@@ -14,8 +14,8 @@ import type { PublicEventTable } from "~/domain/event-tables";
 import type { EventTimeSlot } from "~/domain/event-time-slots";
 import { formatPlayerCount } from "~/domain/players";
 import useI18n from "~/i18n/use-i18n";
-import EventExperienceLevelBadge from "./event-experience-level-badge";
-import EventLanguageBadge from "./event-language-badge";
+import EventTableExperienceLevelBadge from "../../components/event-table-experience-level-badge";
+import EventTableLanguageBadge from "../../components/event-table-language-badge";
 import { isPastTimeSlot, seatAvailabilityColor } from "./event-page-format";
 import EventRegistrationSection from "./event-registration-section";
 
@@ -83,10 +83,10 @@ export default function EventTableCard({
             <VStack align="flex-end" gap={1}>
               <Badge colorPalette="gray">{gameSystemName}</Badge>
               <HStack gap={1}>
-                <EventExperienceLevelBadge
+                <EventTableExperienceLevelBadge
                   experienceLevel={eventTable.experienceLevel}
                 />
-                <EventLanguageBadge language={eventTable.language} />
+                <EventTableLanguageBadge language={eventTable.language} />
               </HStack>
             </VStack>
           </HStack>

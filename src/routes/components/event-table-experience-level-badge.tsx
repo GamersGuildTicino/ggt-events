@@ -1,4 +1,5 @@
 import { Badge } from "@chakra-ui/react";
+import type { BadgeProps } from "@chakra-ui/react";
 import {
   type EventTableExperienceLevel,
   experienceLevelColorPalette,
@@ -6,21 +7,26 @@ import {
 import useI18n from "~/i18n/use-i18n";
 
 //------------------------------------------------------------------------------
-// Event Experience Level Badge
+// Event Table Experience Level Badge
 //------------------------------------------------------------------------------
 
-type EventExperienceLevelBadgeProps = {
+type EventTableExperienceLevelBadgeProps = {
   experienceLevel: EventTableExperienceLevel;
+  size?: BadgeProps["size"];
 };
 
-export default function EventExperienceLevelBadge({
+export default function EventTableExperienceLevelBadge({
   experienceLevel,
-}: EventExperienceLevelBadgeProps) {
+  size,
+}: EventTableExperienceLevelBadgeProps) {
   const { t } = useI18n();
   if (experienceLevel === "unspecified") return null;
 
   return (
-    <Badge colorPalette={experienceLevelColorPalette(experienceLevel)}>
+    <Badge
+      colorPalette={experienceLevelColorPalette(experienceLevel)}
+      size={size}
+    >
       {t(`enum.event_table_experience_level.${experienceLevel}`)}
     </Badge>
   );
