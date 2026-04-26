@@ -27,7 +27,9 @@ const AdminResetPasswordPage = lazy(
   () => import("./routes/pages/admin-reset-password-page"),
 );
 const AdminPage = lazy(() => import("./routes/pages/admin-page"));
-const AdminEventsPage = lazy(() => import("./routes/pages/admin-events-page"));
+const AdminEventsPage = lazy(
+  () => import("./routes/pages/admin-events-page/admin-events-page"),
+);
 const AdminEventsNewPage = lazy(
   () => import("./routes/pages/admin-events-new-page"),
 );
