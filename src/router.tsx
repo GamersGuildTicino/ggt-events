@@ -44,7 +44,7 @@ const AdminGameSystemsNewPage = lazy(
   () => import("./routes/pages/admin-game-systems-new-page"),
 );
 const AdminGameSystemPage = lazy(
-  () => import("./routes/pages/admin-game-system-page"),
+  () => import("./routes/pages/admin-game-system-page/admin-game-system-page"),
 );
 const NotFoundPage = lazy(() => import("./routes/pages/not-found-page"));
 
