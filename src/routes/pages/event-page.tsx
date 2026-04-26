@@ -375,6 +375,9 @@ function TablesSection({
                     {tables.map((eventTable) => (
                       <EventTableCard
                         eventTable={eventTable}
+                        gameSystemImageUrl={
+                          gameSystemById.get(eventTable.gameSystemId)?.imageUrl
+                        }
                         gameSystemName={
                           gameSystemById.get(eventTable.gameSystemId)?.name ??
                           ""
@@ -400,11 +403,13 @@ function TablesSection({
 
 function EventTableCard({
   eventTable,
+  gameSystemImageUrl,
   gameSystemName,
   registrationsOpen,
   timeSlot,
 }: {
   eventTable: PublicEventTable;
+  gameSystemImageUrl?: string;
   gameSystemName: string;
   registrationsOpen: boolean;
   timeSlot: EventTimeSlot;
@@ -420,6 +425,13 @@ function EventTableCard({
   return (
     <Card.Root
       _hover={{ borderColor: "blue.400", transform: "translateY(-2px)" }}
+      backgroundImage={
+        gameSystemImageUrl ?
+          `linear-gradient(135deg, rgba(255,255,255,0.98) 0%, rgba(255,255,255,0.92) 38%, rgba(255,255,255,0.72) 100%), url(${gameSystemImageUrl})`
+        : undefined
+      }
+      backgroundPosition="center"
+      backgroundSize="cover"
       transition="border-color 160ms ease, transform 160ms ease"
     >
       <Card.Body gap={4}>
