@@ -1,5 +1,5 @@
-import { Alert } from "@chakra-ui/react";
 import useI18n from "~/i18n/use-i18n";
+import AppAlert from "~/ui/app-alert";
 
 //------------------------------------------------------------------------------
 // Home Upcoming Events Error
@@ -14,9 +14,5 @@ export default function HomeUpcomingEventsError({
 }: HomeUpcomingEventsErrorProps) {
   const { t } = useI18n();
 
-  return (
-    <Alert.Root status="error">
-      <Alert.Description>{t(error)}</Alert.Description>
-    </Alert.Root>
-  );
+  return <AppAlert status="error">{t(error)}</AppAlert>;
 }

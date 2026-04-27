@@ -1,5 +1,4 @@
 import {
-  Alert,
   Button,
   Grid,
   HStack,
@@ -12,6 +11,7 @@ import { Link as RouterLink, useParams } from "react-router";
 import { isEventOver } from "~/domain/event-time-slots";
 import { type Event, updateEvent } from "~/domain/events";
 import useI18n from "~/i18n/use-i18n";
+import AppAlert from "~/ui/app-alert";
 import {
   type AsyncState,
   failure,
@@ -142,29 +142,25 @@ export default function AdminEventPage() {
       {eventState.isLoading && <Spinner />}
 
       {eventState.hasError && (
-        <Alert.Root status="error">
-          <Alert.Description>{t(eventState.error)}</Alert.Description>
-        </Alert.Root>
+        <AppAlert status="error">{t(eventState.error)}</AppAlert>
       )}
 
       {copyError && (
-        <Alert.Root status="error">
-          <Alert.Description>{t(copyError)}</Alert.Description>
-        </Alert.Root>
+        <AppAlert dismissible status="error">
+          {t(copyError)}
+        </AppAlert>
       )}
 
       {emailError && (
-        <Alert.Root status="error">
-          <Alert.Description>{t(emailError)}</Alert.Description>
-        </Alert.Root>
+        <AppAlert dismissible status="error">
+          {t(emailError)}
+        </AppAlert>
       )}
 
       {copied && eventState.isSuccess && (
-        <Alert.Root status="success">
-          <Alert.Description>
-            {ti("page.admin_events.copy_emails_success", eventState.data.title)}
-          </Alert.Description>
-        </Alert.Root>
+        <AppAlert dismissible status="success">
+          {ti("page.admin_events.copy_emails_success", eventState.data.title)}
+        </AppAlert>
       )}
 
       {eventState.isSuccess && (
@@ -214,20 +210,14 @@ export default function AdminEventPage() {
             {eventTimeSlotsState.isLoading && <Spinner />}
 
             {eventTimeSlotsState.hasError && (
-              <Alert.Root status="error">
-                <Alert.Description>
-                  {t(eventTimeSlotsState.error)}
-                </Alert.Description>
-              </Alert.Root>
+              <AppAlert status="error">{t(eventTimeSlotsState.error)}</AppAlert>
             )}
 
             {eventTimeSlotsState.isSuccess &&
               isEventOver(eventTimeSlotsState.data) && (
-                <Alert.Root status="warning">
-                  <Alert.Description>
-                    {t("page.admin_event.event_over_notice")}
-                  </Alert.Description>
-                </Alert.Root>
+                <AppAlert status="warning">
+                  {t("page.admin_event.event_over_notice")}
+                </AppAlert>
               )}
 
             {eventTimeSlotsState.isSuccess &&

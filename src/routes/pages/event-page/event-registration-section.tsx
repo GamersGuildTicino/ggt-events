@@ -1,5 +1,4 @@
 import {
-  Alert,
   Button,
   Card,
   Field,
@@ -12,6 +11,7 @@ import { useCallback, useState } from "react";
 import { registerForEventTable } from "~/domain/event-registrations";
 import type { PublicEventTable } from "~/domain/event-tables";
 import useI18n from "~/i18n/use-i18n";
+import AppAlert from "~/ui/app-alert";
 import Checkbox from "~/ui/checkbox";
 import {
   type AsyncState,
@@ -116,11 +116,9 @@ export default function EventRegistrationSection({
               </Field.Root>
 
               {registrationState.hasError && (
-                <Alert.Root status="error">
-                  <Alert.Description>
-                    {t(registrationState.error)}
-                  </Alert.Description>
-                </Alert.Root>
+                <AppAlert dismissible status="error">
+                  {t(registrationState.error)}
+                </AppAlert>
               )}
 
               <HStack>

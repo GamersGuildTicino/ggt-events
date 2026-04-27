@@ -1,8 +1,9 @@
-import { Alert, Button, HStack, Spinner, VStack } from "@chakra-ui/react";
+import { Button, HStack, Spinner, VStack } from "@chakra-ui/react";
 import { ChevronLeft } from "lucide-react";
 import { Link as RouterLink, useParams } from "react-router";
 import LocaleSelect from "~/i18n/locale-select";
 import useI18n from "~/i18n/use-i18n";
+import AppAlert from "~/ui/app-alert";
 import EventHero from "./event-hero";
 import EventTablesSection from "./event-tables-section";
 import useEvent from "./use-event";
@@ -37,9 +38,7 @@ export default function EventPage() {
       {eventState.isLoading && <Spinner />}
 
       {eventState.hasError && (
-        <Alert.Root status="error">
-          <Alert.Description>{t(eventState.error)}</Alert.Description>
-        </Alert.Root>
+        <AppAlert status="error">{t(eventState.error)}</AppAlert>
       )}
 
       {eventState.isSuccess && (

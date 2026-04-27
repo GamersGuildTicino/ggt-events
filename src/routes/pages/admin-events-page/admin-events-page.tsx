@@ -1,14 +1,8 @@
-import {
-  Alert,
-  Button,
-  Heading,
-  Spinner,
-  Text,
-  VStack,
-} from "@chakra-ui/react";
+import { Button, Heading, Spinner, Text, VStack } from "@chakra-ui/react";
 import { useCallback } from "react";
 import { Link as RouterLink } from "react-router";
 import useI18n from "~/i18n/use-i18n";
+import AppAlert from "~/ui/app-alert";
 import AdminBreadcrumb from "../../components/admin-breadcrumb";
 import AdminContentColumns from "../../components/admin-content-columns";
 import AdminEventCard from "./admin-event-card";
@@ -80,37 +74,33 @@ export default function AdminEventsPage() {
       {eventsState.isLoading && <Spinner />}
 
       {eventsState.hasError && (
-        <Alert.Root status="error">
-          <Alert.Description>
-            {eventsState.error || t("page.admin_events.error")}
-          </Alert.Description>
-        </Alert.Root>
+        <AppAlert status="error">
+          {eventsState.error || t("page.admin_events.error")}
+        </AppAlert>
       )}
 
       {deleteError && (
-        <Alert.Root status="error">
-          <Alert.Description>{t(deleteError)}</Alert.Description>
-        </Alert.Root>
+        <AppAlert dismissible status="error">
+          {t(deleteError)}
+        </AppAlert>
       )}
 
       {copyError && (
-        <Alert.Root status="error">
-          <Alert.Description>{t(copyError)}</Alert.Description>
-        </Alert.Root>
+        <AppAlert dismissible status="error">
+          {t(copyError)}
+        </AppAlert>
       )}
 
       {emailError && (
-        <Alert.Root status="error">
-          <Alert.Description>{t(emailError)}</Alert.Description>
-        </Alert.Root>
+        <AppAlert dismissible status="error">
+          {t(emailError)}
+        </AppAlert>
       )}
 
       {copiedEventTitle && (
-        <Alert.Root status="success">
-          <Alert.Description>
-            {ti("page.admin_events.copy_emails_success", copiedEventTitle)}
-          </Alert.Description>
-        </Alert.Root>
+        <AppAlert dismissible status="success">
+          {ti("page.admin_events.copy_emails_success", copiedEventTitle)}
+        </AppAlert>
       )}
 
       {eventsState.isSuccess && eventsState.data.length === 0 && (

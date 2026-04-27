@@ -1,5 +1,5 @@
-import { Alert } from "@chakra-ui/react";
 import useI18n from "~/i18n/use-i18n";
+import AppAlert from "~/ui/app-alert";
 import type { AsyncState } from "~/utils/async-state";
 
 //------------------------------------------------------------------------------
@@ -18,15 +18,15 @@ export default function AdminEventPageSaveMessage({
   return (
     <>
       {saveState.hasError && (
-        <Alert.Root status="error">
-          <Alert.Description>{t(saveState.error)}</Alert.Description>
-        </Alert.Root>
+        <AppAlert dismissible status="error">
+          {t(saveState.error)}
+        </AppAlert>
       )}
 
       {saveState.isSuccess && (
-        <Alert.Root status="success">
-          <Alert.Description>{t("page.admin_event.saved")}</Alert.Description>
-        </Alert.Root>
+        <AppAlert dismissible status="success">
+          {t("page.admin_event.saved")}
+        </AppAlert>
       )}
     </>
   );

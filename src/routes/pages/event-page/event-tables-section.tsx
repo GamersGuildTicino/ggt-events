@@ -1,10 +1,11 @@
-import { Alert, Card, Heading, Spinner, Text, VStack } from "@chakra-ui/react";
+import { Card, Heading, Spinner, Text, VStack } from "@chakra-ui/react";
 import { useMemo } from "react";
 import type { PublicEventTable } from "~/domain/event-tables";
 import type { EventTimeSlot } from "~/domain/event-time-slots";
 import type { Event } from "~/domain/events";
 import type { GameSystem } from "~/domain/game-systems";
 import useI18n from "~/i18n/use-i18n";
+import AppAlert from "~/ui/app-alert";
 import type { AsyncState } from "~/utils/async-state";
 import AdminContentColumns from "../../components/admin-content-columns";
 import { formatSlot, spansMultipleDays } from "./event-page-format";
@@ -54,21 +55,15 @@ export default function EventTablesSection({
       {eventTimeSlotsState.isLoading && <Spinner />}
 
       {eventTablesState.hasError && (
-        <Alert.Root status="error">
-          <Alert.Description>{t(eventTablesState.error)}</Alert.Description>
-        </Alert.Root>
+        <AppAlert status="error">{t(eventTablesState.error)}</AppAlert>
       )}
 
       {gameSystemsState.hasError && (
-        <Alert.Root status="error">
-          <Alert.Description>{t(gameSystemsState.error)}</Alert.Description>
-        </Alert.Root>
+        <AppAlert status="error">{t(gameSystemsState.error)}</AppAlert>
       )}
 
       {eventTimeSlotsState.hasError && (
-        <Alert.Root status="error">
-          <Alert.Description>{t(eventTimeSlotsState.error)}</Alert.Description>
-        </Alert.Root>
+        <AppAlert status="error">{t(eventTimeSlotsState.error)}</AppAlert>
       )}
 
       {eventTablesState.isSuccess && eventTablesState.data.length === 0 && (

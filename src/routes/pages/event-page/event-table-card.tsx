@@ -1,5 +1,4 @@
 import {
-  Alert,
   Badge,
   Button,
   Card,
@@ -14,6 +13,7 @@ import type { PublicEventTable } from "~/domain/event-tables";
 import type { EventTimeSlot } from "~/domain/event-time-slots";
 import { formatPlayerCount } from "~/domain/players";
 import useI18n from "~/i18n/use-i18n";
+import AppAlert from "~/ui/app-alert";
 import EventTableExperienceLevelBadge from "../../components/event-table-experience-level-badge";
 import EventTableLanguageBadge from "../../components/event-table-language-badge";
 import { isPastTimeSlot, seatAvailabilityColor } from "./event-page-format";
@@ -188,11 +188,9 @@ export default function EventTableCard({
         </HStack>
 
         {registrationSucceeded && (
-          <Alert.Root status="success">
-            <Alert.Description>
-              {t("page.event.registration.success")}
-            </Alert.Description>
-          </Alert.Root>
+          <AppAlert dismissible status="success">
+            {t("page.event.registration.success")}
+          </AppAlert>
         )}
 
         <EventRegistrationSection
