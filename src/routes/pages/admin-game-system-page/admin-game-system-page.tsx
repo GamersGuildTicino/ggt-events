@@ -1,6 +1,7 @@
-import { Alert, Button, Heading, Spinner, VStack } from "@chakra-ui/react";
+import { Button, Heading, Spinner, VStack } from "@chakra-ui/react";
 import { Link as RouterLink, useParams } from "react-router";
 import useI18n from "~/i18n/use-i18n";
+import AppAlert from "~/ui/app-alert";
 import AdminBreadcrumb from "../../components/admin-breadcrumb";
 import AdminContentColumns from "../../components/admin-content-columns";
 import GameSystemForm from "../../components/game-system-form";
@@ -38,9 +39,7 @@ export default function AdminGameSystemPage() {
       {gameSystemState.isLoading && <Spinner />}
 
       {gameSystemState.hasError && (
-        <Alert.Root status="error">
-          <Alert.Description>{t(gameSystemState.error)}</Alert.Description>
-        </Alert.Root>
+        <AppAlert status="error">{t(gameSystemState.error)}</AppAlert>
       )}
 
       {gameSystemState.isSuccess && (

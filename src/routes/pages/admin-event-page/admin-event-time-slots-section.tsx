@@ -1,15 +1,8 @@
-import {
-  Alert,
-  Button,
-  Card,
-  Heading,
-  Spinner,
-  Text,
-  VStack,
-} from "@chakra-ui/react";
+import { Button, Card, Heading, Spinner, Text, VStack } from "@chakra-ui/react";
 import { useCallback } from "react";
 import type { EventTimeSlot } from "~/domain/event-time-slots";
 import useI18n from "~/i18n/use-i18n";
+import AppAlert from "~/ui/app-alert";
 import EventTimeSlotForm from "../../components/event-time-slot-form";
 import AdminEventTimeSlotCard from "./admin-event-time-slot-card";
 import { formatAdminEventTimeSlot } from "./admin-event-time-slot-format";
@@ -89,11 +82,9 @@ export default function AdminEventTimeSlotsSection({
               disabled={createState.isLoading}
               message={
                 createState.hasError ?
-                  <Alert.Root status="error">
-                    <Alert.Description>
-                      {t(createState.error)}
-                    </Alert.Description>
-                  </Alert.Root>
+                  <AppAlert dismissible status="error">
+                    {t(createState.error)}
+                  </AppAlert>
                 : undefined
               }
               onSubmit={createAdminEventTimeSlot}
@@ -106,17 +97,13 @@ export default function AdminEventTimeSlotsSection({
         {eventTimeSlotsState.isLoading && <Spinner />}
 
         {eventTimeSlotsState.hasError && (
-          <Alert.Root status="error">
-            <Alert.Description>
-              {t(eventTimeSlotsState.error)}
-            </Alert.Description>
-          </Alert.Root>
+          <AppAlert status="error">{t(eventTimeSlotsState.error)}</AppAlert>
         )}
 
         {deleteError && (
-          <Alert.Root status="error">
-            <Alert.Description>{t(deleteError)}</Alert.Description>
-          </Alert.Root>
+          <AppAlert dismissible status="error">
+            {t(deleteError)}
+          </AppAlert>
         )}
 
         {eventTimeSlotsState.isSuccess &&

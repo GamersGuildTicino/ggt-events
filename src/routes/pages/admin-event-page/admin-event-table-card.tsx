@@ -1,5 +1,4 @@
 import {
-  Alert,
   Button,
   Card,
   HStack,
@@ -8,13 +7,14 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import type { EventRegistration } from "~/domain/event-registrations";
 import type { EventTable } from "~/domain/event-tables";
 import type { EventTimeSlot } from "~/domain/event-time-slots";
 import type { GameSystem } from "~/domain/game-systems";
 import { formatPlayerCount } from "~/domain/players";
 import useI18n from "~/i18n/use-i18n";
+import AppAlert from "~/ui/app-alert";
 import type { AsyncState } from "~/utils/async-state";
 import EventTableExperienceLevelBadge from "../../components/event-table-experience-level-badge";
 import EventTableForm, {
@@ -77,6 +77,9 @@ export default function AdminEventTableCard({
   const [detailsVisible, setDetailsVisible] = useState(false);
   const hasDetails = Boolean(eventTable.description || eventTable.notes);
   const hasFreeSeats = registrations.length < eventTable.maxPlayers;
+  const toggleDetails = useCallback(() => {
+    setDetailsVisible((currentDetailsVisible) => !currentDetailsVisible);
+  }, []);
 
   if (editing) {
     return (
@@ -98,9 +101,9 @@ export default function AdminEventTableCard({
             initialValue={eventTable}
             message={
               updateState.hasError ?
-                <Alert.Root status="error">
-                  <Alert.Description>{t(updateState.error)}</Alert.Description>
-                </Alert.Root>
+                <AppAlert dismissible status="error">
+                  {t(updateState.error)}
+                </AppAlert>
               : undefined
             }
             onSubmit={(value) => onUpdate(eventTable, value)}
@@ -165,7 +168,7 @@ export default function AdminEventTableCard({
                 <Button
                   h="auto"
                   minW={0}
-                  onClick={() => setDetailsVisible(!detailsVisible)}
+                  onClick={toggleDetails}
                   p={0}
                   size="xs"
                   variant="plain"

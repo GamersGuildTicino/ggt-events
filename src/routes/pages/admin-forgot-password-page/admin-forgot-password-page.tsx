@@ -1,5 +1,4 @@
 import {
-  Alert,
   Button,
   Field,
   HStack,
@@ -12,6 +11,7 @@ import { useCallback, useState } from "react";
 import { Link as RouterLink } from "react-router";
 import useI18n from "~/i18n/use-i18n";
 import { resetPasswordForEmail } from "~/lib/supabase";
+import AppAlert from "~/ui/app-alert";
 import Form from "~/ui/form";
 import {
   type AsyncState,
@@ -68,17 +68,15 @@ export default function AdminForgotPasswordPage() {
         </Field.Root>
 
         {resetPasswordState.hasError && (
-          <Alert.Root status="error">
-            <Alert.Description>{resetPasswordState.error}</Alert.Description>
-          </Alert.Root>
+          <AppAlert dismissible status="error">
+            {resetPasswordState.error}
+          </AppAlert>
         )}
 
         {resetPasswordState.isSuccess && (
-          <Alert.Root status="success">
-            <Alert.Description>
-              {i18n.t("page.admin_forgot_password.confirmation")}
-            </Alert.Description>
-          </Alert.Root>
+          <AppAlert dismissible status="success">
+            {i18n.t("page.admin_forgot_password.confirmation")}
+          </AppAlert>
         )}
 
         <HStack gap={3}>

@@ -1,6 +1,7 @@
-import { Alert, Button, Card, HStack, Text } from "@chakra-ui/react";
+import { Button, Card, HStack, Text } from "@chakra-ui/react";
 import type { EventTimeSlot } from "~/domain/event-time-slots";
 import useI18n from "~/i18n/use-i18n";
+import AppAlert from "~/ui/app-alert";
 import { type AsyncState, initial } from "~/utils/async-state";
 import EventTimeSlotForm, {
   type EventTimeSlotFormValue,
@@ -55,9 +56,9 @@ export default function AdminEventTimeSlotCard({
             initialValue={timeSlot}
             message={
               updateState.hasError ?
-                <Alert.Root status="error">
-                  <Alert.Description>{t(updateState.error)}</Alert.Description>
-                </Alert.Root>
+                <AppAlert dismissible status="error">
+                  {t(updateState.error)}
+                </AppAlert>
               : undefined
             }
             onSubmit={(value) => onUpdate(timeSlot, value)}

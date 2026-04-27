@@ -1,5 +1,4 @@
 import {
-  Alert,
   Button,
   Field,
   HStack,
@@ -12,6 +11,7 @@ import { useCallback, useState } from "react";
 import { Link as RouterLink, useLocation, useNavigate } from "react-router";
 import useI18n from "~/i18n/use-i18n";
 import { signInWithPassword } from "~/lib/supabase";
+import AppAlert from "~/ui/app-alert";
 import Form from "~/ui/form";
 import { PasswordInput } from "~/ui/password-input";
 import {
@@ -85,9 +85,9 @@ export default function AdminLoginPage() {
         </Field.Root>
 
         {signInState.hasError && (
-          <Alert.Root status="error">
-            <Alert.Description>{signInState.error}</Alert.Description>
-          </Alert.Root>
+          <AppAlert dismissible status="error">
+            {signInState.error}
+          </AppAlert>
         )}
 
         <HStack gap={3}>

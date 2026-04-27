@@ -1,9 +1,10 @@
-import { Alert, Button, Field, Heading, Link, VStack } from "@chakra-ui/react";
+import { Button, Field, Heading, Link, VStack } from "@chakra-ui/react";
 import { useCallback, useState } from "react";
 import { Link as RouterLink, useNavigate } from "react-router";
 import { useAuth } from "~/auth/use-auth";
 import useI18n from "~/i18n/use-i18n";
 import { signOut, updatePassword } from "~/lib/supabase";
+import AppAlert from "~/ui/app-alert";
 import Form from "~/ui/form";
 import { PasswordInput } from "~/ui/password-input";
 import {
@@ -66,11 +67,9 @@ export default function AdminResetPasswordPage() {
         <Heading size="3xl">{t("page.admin_reset_password.heading")}</Heading>
 
         {!isLoading && !isAuthenticated && (
-          <Alert.Root status="error">
-            <Alert.Description>
-              {t("page.admin_reset_password.error.invalid_link")}
-            </Alert.Description>
-          </Alert.Root>
+          <AppAlert status="error">
+            {t("page.admin_reset_password.error.invalid_link")}
+          </AppAlert>
         )}
 
         <Field.Root
@@ -102,19 +101,15 @@ export default function AdminResetPasswordPage() {
         </Field.Root>
 
         {updatePasswordState.hasError && (
-          <Alert.Root status="error">
-            <Alert.Description>
-              {t(updatePasswordState.error)}
-            </Alert.Description>
-          </Alert.Root>
+          <AppAlert dismissible status="error">
+            {t(updatePasswordState.error)}
+          </AppAlert>
         )}
 
         {updatePasswordState.isSuccess && (
-          <Alert.Root status="success">
-            <Alert.Description>
-              {t("page.admin_reset_password.success")}
-            </Alert.Description>
-          </Alert.Root>
+          <AppAlert dismissible status="success">
+            {t("page.admin_reset_password.success")}
+          </AppAlert>
         )}
 
         <Button

@@ -1,9 +1,10 @@
-import { Alert, Button, Heading, VStack } from "@chakra-ui/react";
-import { useState } from "react";
+import { Button, Heading, VStack } from "@chakra-ui/react";
+import { useCallback, useState } from "react";
 import { Link as RouterLink, useNavigate } from "react-router";
 import { useAuth } from "~/auth/use-auth";
 import { createGameSystem } from "~/domain/game-systems";
 import useI18n from "~/i18n/use-i18n";
+import AppAlert from "~/ui/app-alert";
 import {
   type AsyncState,
   failure,
@@ -27,25 +28,28 @@ export default function AdminGameSystemsNewPage() {
   const navigate = useNavigate();
   const [createState, setCreateState] = useState<AsyncState>(initial());
 
-  const handleCreateGameSystem = async (value: GameSystemFormValue) => {
-    try {
-      if (user === null)
-        return setCreateState(
-          failure("page.admin_game_systems_new.error.missing_user"),
-        );
+  const createAdminGameSystem = useCallback(
+    async (value: GameSystemFormValue) => {
+      try {
+        if (user === null)
+          return setCreateState(
+            failure("page.admin_game_systems_new.error.missing_user"),
+          );
 
-      setCreateState(loading());
+        setCreateState(loading());
 
-      const error = await createGameSystem({ createdBy: user.id, ...value });
-      if (error) return setCreateState(failure(error));
+        const error = await createGameSystem({ createdBy: user.id, ...value });
+        if (error) return setCreateState(failure(error));
 
-      setCreateState(success(undefined));
-      navigate("/admin/game-systems");
-    } catch (e) {
-      console.error(e);
-      setCreateState(failure("page.admin_game_systems_new.error.generic"));
-    }
-  };
+        setCreateState(success(undefined));
+        navigate("/admin/game-systems");
+      } catch (e) {
+        console.error(e);
+        setCreateState(failure("page.admin_game_systems_new.error.generic"));
+      }
+    },
+    [navigate, user],
+  );
 
   return (
     <VStack align="stretch" gap={3} w="full">
@@ -83,12 +87,12 @@ export default function AdminGameSystemsNewPage() {
           disabled={createState.isLoading}
           message={
             createState.hasError ?
-              <Alert.Root status="error">
-                <Alert.Description>{t(createState.error)}</Alert.Description>
-              </Alert.Root>
+              <AppAlert dismissible status="error">
+                {t(createState.error)}
+              </AppAlert>
             : undefined
           }
-          onSubmit={handleCreateGameSystem}
+          onSubmit={createAdminGameSystem}
         />
       </AdminContentColumns>
     </VStack>

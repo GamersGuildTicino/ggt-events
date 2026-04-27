@@ -1,15 +1,9 @@
-import {
-  Alert,
-  Button,
-  Card,
-  Heading,
-  Spinner,
-  Text,
-  VStack,
-} from "@chakra-ui/react";
+import { Button, Card, Heading, Spinner, Text, VStack } from "@chakra-ui/react";
+import { useCallback } from "react";
 import type { EventTimeSlot } from "~/domain/event-time-slots";
 import type { Event } from "~/domain/events";
 import useI18n from "~/i18n/use-i18n";
+import AppAlert from "~/ui/app-alert";
 import { initial } from "~/utils/async-state";
 import EventTableForm from "../../components/event-table-form";
 import AdminEventTableCard from "./admin-event-table-card";
@@ -50,10 +44,13 @@ export default function AdminEventTablesSection({
     updateState,
   } = useAdminEventTables(eventId, locale);
 
-  const confirmDeleteEventTable = (eventTableTitle: string) =>
-    window.confirm(
-      ti("page.admin_event.tables.delete.confirm", eventTableTitle),
-    );
+  const confirmDeleteEventTable = useCallback(
+    (eventTableTitle: string) =>
+      window.confirm(
+        ti("page.admin_event.tables.delete.confirm", eventTableTitle),
+      ),
+    [ti],
+  );
 
   return (
     <VStack align="stretch" gap={4} w="full">
@@ -65,11 +62,7 @@ export default function AdminEventTablesSection({
             {gameSystemsState.isLoading && <Spinner />}
 
             {gameSystemsState.hasError && (
-              <Alert.Root status="error">
-                <Alert.Description>
-                  {t(gameSystemsState.error)}
-                </Alert.Description>
-              </Alert.Root>
+              <AppAlert status="error">{t(gameSystemsState.error)}</AppAlert>
             )}
 
             {gameSystemsState.isSuccess &&
@@ -103,11 +96,9 @@ export default function AdminEventTablesSection({
                   key={createFormKey}
                   message={
                     createState.hasError ?
-                      <Alert.Root status="error">
-                        <Alert.Description>
-                          {t(createState.error)}
-                        </Alert.Description>
-                      </Alert.Root>
+                      <AppAlert dismissible status="error">
+                        {t(createState.error)}
+                      </AppAlert>
                     : undefined
                   }
                   onSubmit={createAdminEventTable}
@@ -122,15 +113,13 @@ export default function AdminEventTablesSection({
         {eventTablesState.isLoading && <Spinner />}
 
         {eventTablesState.hasError && (
-          <Alert.Root status="error">
-            <Alert.Description>{t(eventTablesState.error)}</Alert.Description>
-          </Alert.Root>
+          <AppAlert status="error">{t(eventTablesState.error)}</AppAlert>
         )}
 
         {deleteError && (
-          <Alert.Root status="error">
-            <Alert.Description>{t(deleteError)}</Alert.Description>
-          </Alert.Root>
+          <AppAlert dismissible status="error">
+            {t(deleteError)}
+          </AppAlert>
         )}
 
         {eventTablesState.isSuccess && eventTablesState.data.length > 0 && (

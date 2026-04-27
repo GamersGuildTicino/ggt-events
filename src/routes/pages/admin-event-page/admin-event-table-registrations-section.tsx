@@ -1,5 +1,4 @@
 import {
-  Alert,
   Button,
   HStack,
   Heading,
@@ -11,6 +10,7 @@ import { useCallback, useState } from "react";
 import type { EventRegistration } from "~/domain/event-registrations";
 import type { EventTable } from "~/domain/event-tables";
 import useI18n from "~/i18n/use-i18n";
+import AppAlert from "~/ui/app-alert";
 import {
   type AsyncState,
   failure,
@@ -119,27 +119,19 @@ export default function AdminEventTableRegistrationsSection({
           {registrationsState.isLoading && <Spinner size="sm" />}
 
           {registrationsState.hasError && (
-            <Alert.Root status="error">
-              <Alert.Description>
-                {t(registrationsState.error)}
-              </Alert.Description>
-            </Alert.Root>
+            <AppAlert status="error">{t(registrationsState.error)}</AppAlert>
           )}
 
           {createRegistrationState.hasError && (
-            <Alert.Root status="error">
-              <Alert.Description>
-                {t(createRegistrationState.error)}
-              </Alert.Description>
-            </Alert.Root>
+            <AppAlert dismissible status="error">
+              {t(createRegistrationState.error)}
+            </AppAlert>
           )}
 
           {createRegistrationState.isSuccess && (
-            <Alert.Root status="success">
-              <Alert.Description>
-                {t("page.admin_event.tables.registrations.added")}
-              </Alert.Description>
-            </Alert.Root>
+            <AppAlert dismissible status="success">
+              {t("page.admin_event.tables.registrations.added")}
+            </AppAlert>
           )}
 
           {!registrationsState.hasError &&

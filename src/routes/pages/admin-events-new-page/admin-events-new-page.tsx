@@ -1,10 +1,11 @@
-import { Alert, Button, HStack, Heading, VStack } from "@chakra-ui/react";
+import { Button, HStack, Heading, VStack } from "@chakra-ui/react";
 import { useCallback, useState } from "react";
 import { useNavigate } from "react-router";
 import { Link as RouterLink } from "react-router";
 import { useAuth } from "~/auth/use-auth";
 import { createEvent } from "~/domain/events";
 import useI18n from "~/i18n/use-i18n";
+import AppAlert from "~/ui/app-alert";
 import {
   type AsyncState,
   failure,
@@ -96,11 +97,9 @@ export default function AdminEventsNewPage() {
           disabled={createEventState.isLoading}
           message={
             createEventState.hasError ?
-              <Alert.Root status="error">
-                <Alert.Description>
-                  {t(createEventState.error)}
-                </Alert.Description>
-              </Alert.Root>
+              <AppAlert dismissible status="error">
+                {t(createEventState.error)}
+              </AppAlert>
             : undefined
           }
           onSubmit={handleCreateEvent}

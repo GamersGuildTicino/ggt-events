@@ -1,5 +1,4 @@
 import {
-  Alert,
   Button,
   HStack,
   Heading,
@@ -11,6 +10,7 @@ import { useCallback } from "react";
 import { Link as RouterLink } from "react-router";
 import type { GameSystem } from "~/domain/game-systems";
 import useI18n from "~/i18n/use-i18n";
+import AppAlert from "~/ui/app-alert";
 import AdminBreadcrumb from "../../components/admin-breadcrumb";
 import AdminContentColumns from "../../components/admin-content-columns";
 import AdminGameSystemCard from "./admin-game-system-card";
@@ -73,17 +73,15 @@ export default function AdminGameSystemsPage() {
       {gameSystemsState.isLoading && <Spinner />}
 
       {gameSystemsState.hasError && (
-        <Alert.Root status="error">
-          <Alert.Description>
-            {gameSystemsState.error || t("page.admin_game_systems.error")}
-          </Alert.Description>
-        </Alert.Root>
+        <AppAlert status="error">
+          {gameSystemsState.error || t("page.admin_game_systems.error")}
+        </AppAlert>
       )}
 
       {deleteError && (
-        <Alert.Root status="error">
-          <Alert.Description>{t(deleteError)}</Alert.Description>
-        </Alert.Root>
+        <AppAlert dismissible status="error">
+          {t(deleteError)}
+        </AppAlert>
       )}
 
       {gameSystemsState.isSuccess && gameSystemsState.data.length === 0 && (
