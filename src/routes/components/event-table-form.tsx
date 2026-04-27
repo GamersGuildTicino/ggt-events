@@ -210,6 +210,11 @@ export default function EventTableForm({
       </Field.Root>
 
       <Field.Root disabled={disabled}>
+        <Field.Label>{t("form.event_table.notes.label")}</Field.Label>
+        <Textarea defaultValue={initialValue?.notes} name="notes" size="sm" />
+      </Field.Root>
+
+      <Field.Root disabled={disabled}>
         <Field.Label>{t("form.event_table.image_url.label")}</Field.Label>
         <Input
           defaultValue={initialValue?.imageUrl}
@@ -217,11 +222,6 @@ export default function EventTableForm({
           size="sm"
           type="url"
         />
-      </Field.Root>
-
-      <Field.Root disabled={disabled}>
-        <Field.Label>{t("form.event_table.notes.label")}</Field.Label>
-        <Textarea defaultValue={initialValue?.notes} name="notes" size="sm" />
       </Field.Root>
 
       {message}
