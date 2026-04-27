@@ -11,6 +11,7 @@ import type { EventRegistration } from "~/domain/event-registrations";
 import type { EventTable } from "~/domain/event-tables";
 import useI18n from "~/i18n/use-i18n";
 import AppAlert from "~/ui/app-alert";
+import { toaster } from "~/ui/toaster";
 import {
   type AsyncState,
   failure,
@@ -61,9 +62,13 @@ export default function AdminEventTableRegistrationsSection({
       if (error) return setCreateRegistrationState(failure(error));
 
       setCreateRegistrationState(success(undefined));
+      toaster.success({
+        description: t("page.admin_event.tables.registrations.added"),
+        id: `admin-event-table-registration-added-${eventTable.id}`,
+      });
       return "";
     },
-    [eventTable.id, onCreateRegistration],
+    [eventTable.id, onCreateRegistration, t],
   );
 
   const deleteAdminEventRegistration = useCallback(
@@ -125,12 +130,6 @@ export default function AdminEventTableRegistrationsSection({
           {createRegistrationState.hasError && (
             <AppAlert dismissible status="error">
               {t(createRegistrationState.error)}
-            </AppAlert>
-          )}
-
-          {createRegistrationState.isSuccess && (
-            <AppAlert dismissible status="success">
-              {t("page.admin_event.tables.registrations.added")}
             </AppAlert>
           )}
 

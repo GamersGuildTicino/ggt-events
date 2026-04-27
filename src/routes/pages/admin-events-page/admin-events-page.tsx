@@ -3,6 +3,7 @@ import { useCallback } from "react";
 import { Link as RouterLink } from "react-router";
 import useI18n from "~/i18n/use-i18n";
 import AppAlert from "~/ui/app-alert";
+import { toaster } from "~/ui/toaster";
 import AdminBreadcrumb from "../../components/admin-breadcrumb";
 import AdminContentColumns from "../../components/admin-content-columns";
 import AdminEventCard from "./admin-event-card";
@@ -16,11 +17,8 @@ export default function AdminEventsPage() {
   const { locale, t, ti } = useI18n();
   const {
     copyAdminEventEmails,
-    copyError,
-    copiedEventTitle,
     deleteAdminEvent,
     deleteError,
-    emailError,
     eventsState,
     composeAdminEventEmail,
     sortedEvents,
@@ -35,13 +33,62 @@ export default function AdminEventsPage() {
   );
 
   const composeAdminEventEmailForCard = useCallback(
-    (targetEvent: Parameters<typeof composeAdminEventEmail>[0]) =>
-      composeAdminEventEmail(
-        targetEvent,
-        ti("page.admin_events.compose_email_body", targetEvent.title),
-        ti("page.admin_events.compose_email_subject", targetEvent.title),
-      ),
-    [composeAdminEventEmail, ti],
+    (targetEvent: Parameters<typeof composeAdminEventEmail>[0]) => {
+      let composed = false;
+
+      try {
+        composed = composeAdminEventEmail(
+          targetEvent,
+          ti("page.admin_events.compose_email_body", targetEvent.title),
+          ti("page.admin_events.compose_email_subject", targetEvent.title),
+        );
+      } catch {
+        composed = false;
+      }
+
+      if (composed) return;
+
+      toaster.error({
+        description: t("page.admin_events.compose_email_error"),
+        id: `compose-admin-event-email-error-${targetEvent.id}`,
+      });
+    },
+    [composeAdminEventEmail, t, ti],
+  );
+
+  const copyAdminEventEmailsForCard = useCallback(
+    async (targetEvent: Parameters<typeof copyAdminEventEmails>[0]) => {
+      let copied = false;
+
+      try {
+        copied = await copyAdminEventEmails(targetEvent);
+      } catch {
+        copied = false;
+      }
+
+      if (copied) {
+        toaster.success({
+          description: ti(
+            "page.admin_events.copy_emails_success",
+            targetEvent.title,
+          ),
+          id: `copy-admin-event-emails-success-${targetEvent.id}`,
+        });
+        return;
+      }
+
+      toaster.error({
+        description: t("page.admin_events.copy_emails_error"),
+        id: `copy-admin-event-emails-error-${targetEvent.id}`,
+      });
+    },
+    [copyAdminEventEmails, t, ti],
+  );
+
+  const copyAdminEventEmailsForCardAction = useCallback(
+    (targetEvent: Parameters<typeof copyAdminEventEmails>[0]) =>
+      void copyAdminEventEmailsForCard(targetEvent),
+    [copyAdminEventEmailsForCard],
   );
 
   const deleteAdminEventForCard = useCallback(
@@ -85,24 +132,6 @@ export default function AdminEventsPage() {
         </AppAlert>
       )}
 
-      {copyError && (
-        <AppAlert dismissible status="error">
-          {t(copyError)}
-        </AppAlert>
-      )}
-
-      {emailError && (
-        <AppAlert dismissible status="error">
-          {t(emailError)}
-        </AppAlert>
-      )}
-
-      {copiedEventTitle && (
-        <AppAlert dismissible status="success">
-          {ti("page.admin_events.copy_emails_success", copiedEventTitle)}
-        </AppAlert>
-      )}
-
       {eventsState.isSuccess && eventsState.data.length === 0 && (
         <Text color="fg.muted">{t("page.admin_events.empty")}</Text>
       )}
@@ -115,7 +144,7 @@ export default function AdminEventsPage() {
               key={event.id}
               locale={locale}
               onComposeEmail={composeAdminEventEmailForCard}
-              onCopyEmails={copyAdminEventEmails}
+              onCopyEmails={copyAdminEventEmailsForCardAction}
               onDelete={deleteAdminEventForCard}
               stats={statsByEventId[event.id]}
               timeSlots={timeSlotsByEventId[event.id] ?? []}

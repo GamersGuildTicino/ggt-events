@@ -13,6 +13,7 @@ import useI18n from "~/i18n/use-i18n";
 import { resetPasswordForEmail } from "~/lib/supabase";
 import AppAlert from "~/ui/app-alert";
 import Form from "~/ui/form";
+import { toaster } from "~/ui/toaster";
 import {
   type AsyncState,
   failure,
@@ -43,8 +44,12 @@ export default function AdminForgotPasswordPage() {
       if (error) return setResetPasswordState(failure(error));
 
       setResetPasswordState(success(undefined));
+      toaster.success({
+        description: i18n.t("page.admin_forgot_password.confirmation"),
+        id: "admin-forgot-password-confirmation",
+      });
     },
-    [],
+    [i18n],
   );
 
   return (
@@ -70,12 +75,6 @@ export default function AdminForgotPasswordPage() {
         {resetPasswordState.hasError && (
           <AppAlert dismissible status="error">
             {resetPasswordState.error}
-          </AppAlert>
-        )}
-
-        {resetPasswordState.isSuccess && (
-          <AppAlert dismissible status="success">
-            {i18n.t("page.admin_forgot_password.confirmation")}
           </AppAlert>
         )}
 

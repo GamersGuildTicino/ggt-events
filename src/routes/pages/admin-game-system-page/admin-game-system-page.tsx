@@ -1,11 +1,14 @@
 import { Button, Heading, Spinner, VStack } from "@chakra-ui/react";
+import { useCallback } from "react";
 import { Link as RouterLink, useParams } from "react-router";
 import useI18n from "~/i18n/use-i18n";
 import AppAlert from "~/ui/app-alert";
+import { toaster } from "~/ui/toaster";
 import AdminBreadcrumb from "../../components/admin-breadcrumb";
 import AdminContentColumns from "../../components/admin-content-columns";
-import GameSystemForm from "../../components/game-system-form";
-import AdminGameSystemPageSaveMessage from "./admin-game-system-page-save-message";
+import GameSystemForm, {
+  type GameSystemFormValue,
+} from "../../components/game-system-form";
 import useAdminGameSystem from "./use-admin-game-system";
 
 //------------------------------------------------------------------------------
@@ -17,6 +20,19 @@ export default function AdminGameSystemPage() {
   const { t } = useI18n();
   const { gameSystemState, saveState, updateAdminGameSystem } =
     useAdminGameSystem(gameSystemId);
+
+  const saveAdminGameSystem = useCallback(
+    async (value: GameSystemFormValue) => {
+      const saved = await updateAdminGameSystem(value);
+      if (!saved || !gameSystemState.isSuccess) return;
+
+      toaster.success({
+        description: t("page.admin_game_system.saved"),
+        id: `admin-game-system-saved-${gameSystemState.data.id}`,
+      });
+    },
+    [gameSystemState, t, updateAdminGameSystem],
+  );
 
   return (
     <VStack align="stretch" gap={3} w="full">
@@ -60,8 +76,14 @@ export default function AdminGameSystemPage() {
             }
             disabled={saveState.isLoading}
             initialValue={gameSystemState.data}
-            message={<AdminGameSystemPageSaveMessage saveState={saveState} />}
-            onSubmit={updateAdminGameSystem}
+            message={
+              saveState.hasError ?
+                <AppAlert dismissible status="error">
+                  {t(saveState.error)}
+                </AppAlert>
+              : undefined
+            }
+            onSubmit={saveAdminGameSystem}
           />
         </AdminContentColumns>
       )}

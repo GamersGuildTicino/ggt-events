@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { fetchEventRegistrations } from "~/domain/event-registrations";
 import { fetchEventTables } from "~/domain/event-tables";
 import {
@@ -28,10 +28,7 @@ export type EventSummaryStats = {
 //------------------------------------------------------------------------------
 
 export default function useAdminEvents(locale: Locale) {
-  const [copyError, setCopyError] = useState("");
-  const [copiedEventTitle, setCopiedEventTitle] = useState("");
   const [deleteError, setDeleteError] = useState("");
-  const [emailError, setEmailError] = useState("");
   const [eventsState, setEventsState] =
     useState<AsyncState<Event[]>>(initial());
   const [timeSlotsByEventId, setTimeSlotsByEventId] = useState<
@@ -65,82 +62,90 @@ export default function useAdminEvents(locale: Locale) {
     });
   }, [eventsState, timeSlotsByEventId]);
 
-  const loadEventMeta = async (events: Event[]) => {
-    const entries = await Promise.all(
-      events.map(async (event) => {
-        const [timeSlots, eventTables] = await Promise.all([
-          fetchEventTimeSlots(event.id),
-          fetchEventTables(event.id),
-        ]);
+  const loadEventMeta = useCallback(
+    async (events: Event[]) => {
+      const entries = await Promise.all(
+        events.map(async (event) => {
+          const [timeSlots, eventTables] = await Promise.all([
+            fetchEventTimeSlots(event.id),
+            fetchEventTables(event.id),
+          ]);
 
-        const timeSlotsData = timeSlots.isSuccess ? timeSlots.data : [];
-        if (!eventTables.isSuccess) {
-          return [event.id, { stats: null, timeSlots: timeSlotsData }] as const;
-        }
-
-        const registrations = await fetchEventRegistrations(
-          eventTables.data.map((eventTable) => eventTable.id),
-        );
-
-        const registrationsByTableId = new Map<string, number>();
-        const emails = new Set<string>();
-        if (registrations.isSuccess) {
-          for (const registration of registrations.data) {
-            registrationsByTableId.set(
-              registration.eventTableId,
-              (registrationsByTableId.get(registration.eventTableId) ?? 0) + 1,
-            );
-            emails.add(registration.email);
+          const timeSlotsData = timeSlots.isSuccess ? timeSlots.data : [];
+          if (!eventTables.isSuccess) {
+            return [
+              event.id,
+              { stats: null, timeSlots: timeSlotsData },
+            ] as const;
           }
-        }
 
-        const occupiedSeats =
-          registrations.isSuccess ? registrations.data.length : 0;
-        const occupiedTables = eventTables.data.filter(
-          (eventTable) => (registrationsByTableId.get(eventTable.id) ?? 0) > 0,
-        ).length;
-        const totalSeats = eventTables.data.reduce(
-          (sum, eventTable) => sum + eventTable.maxPlayers,
-          0,
-        );
-        const totalTables = eventTables.data.length;
+          const registrations = await fetchEventRegistrations(
+            eventTables.data.map((eventTable) => eventTable.id),
+          );
 
-        return [
-          event.id,
-          {
-            stats: {
-              emails: [...emails].sort((a, b) => a.localeCompare(b, locale)),
-              occupiedSeats,
-              occupiedTables,
-              totalSeats,
-              totalTables,
+          const registrationsByTableId = new Map<string, number>();
+          const emails = new Set<string>();
+          if (registrations.isSuccess) {
+            for (const registration of registrations.data) {
+              registrationsByTableId.set(
+                registration.eventTableId,
+                (registrationsByTableId.get(registration.eventTableId) ?? 0) +
+                  1,
+              );
+              emails.add(registration.email);
+            }
+          }
+
+          const occupiedSeats =
+            registrations.isSuccess ? registrations.data.length : 0;
+          const occupiedTables = eventTables.data.filter(
+            (eventTable) =>
+              (registrationsByTableId.get(eventTable.id) ?? 0) > 0,
+          ).length;
+          const totalSeats = eventTables.data.reduce(
+            (sum, eventTable) => sum + eventTable.maxPlayers,
+            0,
+          );
+          const totalTables = eventTables.data.length;
+
+          return [
+            event.id,
+            {
+              stats: {
+                emails: [...emails].sort((a, b) => a.localeCompare(b, locale)),
+                occupiedSeats,
+                occupiedTables,
+                totalSeats,
+                totalTables,
+              },
+              timeSlots: timeSlotsData,
             },
-            timeSlots: timeSlotsData,
-          },
-        ] as const;
-      }),
-    );
+          ] as const;
+        }),
+      );
 
-    setTimeSlotsByEventId(
-      Object.fromEntries(
-        entries.map(([eventId, data]) => [eventId, data.timeSlots]),
-      ),
-    );
-    setStatsByEventId(
-      Object.fromEntries(
-        entries.flatMap(([eventId, data]) =>
-          data.stats ? [[eventId, data.stats] as const] : [],
+      setTimeSlotsByEventId(
+        Object.fromEntries(
+          entries.map(([eventId, data]) => [eventId, data.timeSlots]),
         ),
-      ),
-    );
-  };
+      );
+      setStatsByEventId(
+        Object.fromEntries(
+          entries.flatMap(([eventId, data]) =>
+            data.stats ? [[eventId, data.stats] as const] : [],
+          ),
+        ),
+      );
+    },
+    [locale],
+  );
 
-  const loadEvents = async () => {
+  const loadEvents = useCallback(async () => {
     setEventsState(loading());
     const events = await fetchEvents();
     setEventsState(events);
     if (events.isSuccess) await loadEventMeta(events.data);
-  };
+  }, [loadEventMeta]);
 
   useAsyncEffect(
     async (isActive) => {
@@ -155,64 +160,50 @@ export default function useAdminEvents(locale: Locale) {
     [locale],
   );
 
-  const deleteAdminEvent = async (event: Event, confirmed: boolean) => {
-    if (!confirmed) return;
+  const deleteAdminEvent = useCallback(
+    async (event: Event, confirmed: boolean) => {
+      if (!confirmed) return;
 
-    setDeleteError("");
-    const error = await deleteEvent(event.id);
+      setDeleteError("");
+      const error = await deleteEvent(event.id);
 
-    if (error) return setDeleteError(error);
-    await loadEvents();
-  };
+      if (error) return setDeleteError(error);
+      await loadEvents();
+    },
+    [loadEvents],
+  );
 
-  const copyAdminEventEmails = async (event: Event) => {
-    const emails = statsByEventId[event.id]?.emails ?? [];
-    if (emails.length === 0) return;
+  const copyAdminEventEmails = useCallback(
+    async (event: Event) => {
+      const emails = statsByEventId[event.id]?.emails ?? [];
+      if (emails.length === 0) return false;
 
-    setCopyError("");
-
-    try {
       await navigator.clipboard.writeText(emails.join(", "));
-      setCopiedEventTitle(event.title);
-      window.setTimeout(
-        () =>
-          setCopiedEventTitle((title) => (title === event.title ? "" : title)),
-        2000,
-      );
-    } catch {
-      setCopyError("page.admin_events.copy_emails_error");
-    }
-  };
+      return true;
+    },
+    [statsByEventId],
+  );
 
-  const composeAdminEventEmail = (
-    event: Event,
-    body: string,
-    subject: string,
-  ) => {
-    const emails = statsByEventId[event.id]?.emails ?? [];
-    if (emails.length === 0) return;
+  const composeAdminEventEmail = useCallback(
+    (event: Event, body: string, subject: string) => {
+      const emails = statsByEventId[event.id]?.emails ?? [];
+      if (emails.length === 0) return false;
 
-    setEmailError("");
-
-    try {
       window.location.href = createMailtoUrl({
         bcc: emails,
         body,
         subject,
       });
-    } catch {
-      setEmailError("page.admin_events.compose_email_error");
-    }
-  };
+      return true;
+    },
+    [statsByEventId],
+  );
 
   return {
     composeAdminEventEmail,
-    copiedEventTitle,
     copyAdminEventEmails,
-    copyError,
     deleteAdminEvent,
     deleteError,
-    emailError,
     eventsState,
     loadEvents,
     sortedEvents,

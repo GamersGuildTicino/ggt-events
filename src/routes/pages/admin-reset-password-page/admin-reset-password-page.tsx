@@ -7,6 +7,7 @@ import { signOut, updatePassword } from "~/lib/supabase";
 import AppAlert from "~/ui/app-alert";
 import Form from "~/ui/form";
 import { PasswordInput } from "~/ui/password-input";
+import { toaster } from "~/ui/toaster";
 import {
   type AsyncState,
   failure,
@@ -49,10 +50,14 @@ export default function AdminResetPasswordPage() {
         );
 
       setUpdatePasswordState(success(undefined));
+      toaster.success({
+        description: t("page.admin_reset_password.success"),
+        id: "admin-reset-password-success",
+      });
       await signOut();
       navigate("/admin/login", { replace: true });
     },
-    [navigate],
+    [navigate, t],
   );
 
   return (
@@ -103,12 +108,6 @@ export default function AdminResetPasswordPage() {
         {updatePasswordState.hasError && (
           <AppAlert dismissible status="error">
             {t(updatePasswordState.error)}
-          </AppAlert>
-        )}
-
-        {updatePasswordState.isSuccess && (
-          <AppAlert dismissible status="success">
-            {t("page.admin_reset_password.success")}
           </AppAlert>
         )}
 

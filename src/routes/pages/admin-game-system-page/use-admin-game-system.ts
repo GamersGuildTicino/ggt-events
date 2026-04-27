@@ -41,7 +41,7 @@ export default function useAdminGameSystem(gameSystemId?: string) {
 
   const updateAdminGameSystem = useCallback(
     async (value: GameSystemFormValue) => {
-      if (!gameSystemState.isSuccess) return;
+      if (!gameSystemState.isSuccess) return false;
 
       try {
         setSaveState(loading());
@@ -52,13 +52,18 @@ export default function useAdminGameSystem(gameSystemId?: string) {
         };
 
         const error = await updateGameSystem(updatedGameSystem);
-        if (error) return setSaveState(failure(error));
+        if (error) {
+          setSaveState(failure(error));
+          return false;
+        }
 
         setGameSystemState(success(updatedGameSystem));
         setSaveState(success(undefined));
+        return true;
       } catch (e) {
         console.error(e);
         setSaveState(failure("page.admin_game_system.error.generic"));
+        return false;
       }
     },
     [gameSystemState],

@@ -12,6 +12,7 @@ import { isEventOver } from "~/domain/event-time-slots";
 import { type Event, updateEvent } from "~/domain/events";
 import useI18n from "~/i18n/use-i18n";
 import AppAlert from "~/ui/app-alert";
+import { toaster } from "~/ui/toaster";
 import {
   type AsyncState,
   failure,
@@ -25,7 +26,6 @@ import EventDetailsForm, {
   type EventDetailsFormValue,
 } from "../../components/event-details-form";
 import AdminEventPageHeadingActions from "./admin-event-page-heading-actions";
-import AdminEventPageSaveMessage from "./admin-event-page-save-message";
 import AdminEventTablesSection from "./admin-event-tables-section";
 import AdminEventTimeSlotsSection from "./admin-event-time-slots-section";
 import useAdminEvent from "./use-admin-event";
@@ -39,9 +39,6 @@ import useAdminEventTimeSlots from "./use-admin-event-time-slots";
 export default function AdminEventPage() {
   const { eventId } = useParams();
   const { t, ti } = useI18n();
-  const [copyError, setCopyError] = useState("");
-  const [copied, setCopied] = useState(false);
-  const [emailError, setEmailError] = useState("");
   const [saveState, setSaveState] = useState<AsyncState>(initial());
   const { eventState, setEventState } = useAdminEvent(eventId);
   const {
@@ -72,32 +69,40 @@ export default function AdminEventPage() {
 
         setEventState(success(updatedEvent));
         setSaveState(success(undefined));
+        toaster.success({
+          description: t("page.admin_event.saved"),
+          id: `admin-event-saved-${updatedEvent.id}`,
+        });
       } catch (e) {
         console.error(e);
         setSaveState(failure("page.admin_event.error.generic"));
       }
     },
-    [eventState, setEventState],
+    [eventState, setEventState, t],
   );
 
   const copyAdminEventEmails = useCallback(async () => {
     if (!eventState.isSuccess || !eventEmailsState.isSuccess) return;
 
-    setCopyError("");
-
     try {
       await navigator.clipboard.writeText(eventEmailsState.data.join(", "));
-      setCopied(true);
-      window.setTimeout(() => setCopied(false), 2000);
+      toaster.success({
+        description: ti(
+          "page.admin_events.copy_emails_success",
+          eventState.data.title,
+        ),
+        id: `admin-event-copy-emails-success-${eventState.data.id}`,
+      });
     } catch {
-      setCopyError("page.admin_events.copy_emails_error");
+      toaster.error({
+        description: t("page.admin_events.copy_emails_error"),
+        id: `admin-event-copy-emails-error-${eventState.data.id}`,
+      });
     }
-  }, [eventEmailsState, eventState]);
+  }, [eventEmailsState, eventState, t, ti]);
 
   const composeAdminEventEmail = useCallback(() => {
     if (!eventState.isSuccess || !eventEmailsState.isSuccess) return;
-
-    setEmailError("");
 
     try {
       window.location.href = createMailtoUrl({
@@ -109,9 +114,12 @@ export default function AdminEventPage() {
         ),
       });
     } catch {
-      setEmailError("page.admin_events.compose_email_error");
+      toaster.error({
+        description: t("page.admin_events.compose_email_error"),
+        id: `admin-event-compose-email-error-${eventState.data.id}`,
+      });
     }
-  }, [eventEmailsState, eventState, ti]);
+  }, [eventEmailsState, eventState, t, ti]);
 
   return (
     <VStack align="stretch" gap={3} w="full">
@@ -145,24 +153,6 @@ export default function AdminEventPage() {
         <AppAlert status="error">{t(eventState.error)}</AppAlert>
       )}
 
-      {copyError && (
-        <AppAlert dismissible status="error">
-          {t(copyError)}
-        </AppAlert>
-      )}
-
-      {emailError && (
-        <AppAlert dismissible status="error">
-          {t(emailError)}
-        </AppAlert>
-      )}
-
-      {copied && eventState.isSuccess && (
-        <AppAlert dismissible status="success">
-          {ti("page.admin_events.copy_emails_success", eventState.data.title)}
-        </AppAlert>
-      )}
-
       {eventState.isSuccess && (
         <Grid
           alignItems="flex-start"
@@ -187,7 +177,13 @@ export default function AdminEventPage() {
               }
               disabled={saveState.isLoading}
               initialValue={eventState.data}
-              message={<AdminEventPageSaveMessage saveState={saveState} />}
+              message={
+                saveState.hasError ?
+                  <AppAlert dismissible status="error">
+                    {t(saveState.error)}
+                  </AppAlert>
+                : undefined
+              }
               onSubmit={updateAdminEvent}
             />
 
