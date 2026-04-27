@@ -4,6 +4,7 @@ import { useNavigate } from "react-router";
 import { Link as RouterLink } from "react-router";
 import { useAuth } from "~/auth/use-auth";
 import { createEvent } from "~/domain/events";
+import usePageTitle from "~/hooks/use-page-title";
 import useI18n from "~/i18n/use-i18n";
 import AppAlert from "~/ui/app-alert";
 import {
@@ -29,6 +30,8 @@ export default function AdminEventsNewPage() {
   const navigate = useNavigate();
   const [createEventState, setCreateEventState] =
     useState<AsyncState>(initial());
+
+  usePageTitle(t("page.admin_events_new.heading"));
 
   const handleCreateEvent = useCallback(
     async (eventDetails: EventDetailsFormValue) => {

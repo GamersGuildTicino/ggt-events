@@ -10,6 +10,7 @@ import { useCallback, useState } from "react";
 import { Link as RouterLink, useParams } from "react-router";
 import { isEventOver } from "~/domain/event-time-slots";
 import { type Event, updateEvent } from "~/domain/events";
+import usePageTitle from "~/hooks/use-page-title";
 import useI18n from "~/i18n/use-i18n";
 import AppAlert from "~/ui/app-alert";
 import { toaster } from "~/ui/toaster";
@@ -55,6 +56,12 @@ export default function AdminEventPage() {
     updateState,
   } = useAdminEventTimeSlots(eventId);
   const { eventEmailsState, eventHasEmails } = useAdminEventEmails(eventId);
+  const pageTitle =
+    eventState.isSuccess ?
+      `${eventState.data.title} | ${t("page.admin.heading")}`
+    : t("page.admin_event.heading");
+
+  usePageTitle(pageTitle);
 
   const updateAdminEvent = useCallback(
     async (eventDetails: EventDetailsFormValue) => {

@@ -9,6 +9,7 @@ import {
 } from "@chakra-ui/react";
 import { useCallback, useState } from "react";
 import { Link as RouterLink } from "react-router";
+import usePageTitle from "~/hooks/use-page-title";
 import useI18n from "~/i18n/use-i18n";
 import { resetPasswordForEmail } from "~/lib/supabase";
 import AppAlert from "~/ui/app-alert";
@@ -30,6 +31,8 @@ export default function AdminForgotPasswordPage() {
   const i18n = useI18n();
   const [resetPasswordState, setResetPasswordState] =
     useState<AsyncState>(initial());
+
+  usePageTitle(i18n.t("page.admin_forgot_password.heading"));
 
   const resetPassword = useCallback(
     async (event: React.SubmitEvent<HTMLFormElement>) => {

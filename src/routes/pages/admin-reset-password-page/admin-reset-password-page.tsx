@@ -2,6 +2,7 @@ import { Button, Field, Heading, Link, VStack } from "@chakra-ui/react";
 import { useCallback, useState } from "react";
 import { Link as RouterLink, useNavigate } from "react-router";
 import { useAuth } from "~/auth/use-auth";
+import usePageTitle from "~/hooks/use-page-title";
 import useI18n from "~/i18n/use-i18n";
 import { signOut, updatePassword } from "~/lib/supabase";
 import AppAlert from "~/ui/app-alert";
@@ -26,6 +27,8 @@ export default function AdminResetPasswordPage() {
   const navigate = useNavigate();
   const [updatePasswordState, setUpdatePasswordState] =
     useState<AsyncState>(initial());
+
+  usePageTitle(t("page.admin_reset_password.heading"));
 
   const resetPassword = useCallback(
     async (event: React.SubmitEvent<HTMLFormElement>) => {

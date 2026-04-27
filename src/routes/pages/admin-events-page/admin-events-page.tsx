@@ -1,6 +1,7 @@
 import { Button, Heading, Spinner, Text, VStack } from "@chakra-ui/react";
 import { useCallback } from "react";
 import { Link as RouterLink } from "react-router";
+import usePageTitle from "~/hooks/use-page-title";
 import useI18n from "~/i18n/use-i18n";
 import AppAlert from "~/ui/app-alert";
 import { toaster } from "~/ui/toaster";
@@ -25,6 +26,8 @@ export default function AdminEventsPage() {
     statsByEventId,
     timeSlotsByEventId,
   } = useAdminEvents(locale);
+
+  usePageTitle(t("page.admin_events.heading"));
 
   const confirmAdminEventDelete = useCallback(
     (eventTitle: string) =>

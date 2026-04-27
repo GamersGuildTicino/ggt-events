@@ -9,6 +9,7 @@ import {
 import { useCallback } from "react";
 import { Link as RouterLink } from "react-router";
 import type { GameSystem } from "~/domain/game-systems";
+import usePageTitle from "~/hooks/use-page-title";
 import useI18n from "~/i18n/use-i18n";
 import AppAlert from "~/ui/app-alert";
 import AdminBreadcrumb from "../../components/admin-breadcrumb";
@@ -28,6 +29,8 @@ export default function AdminGameSystemsPage() {
     deletingGameSystemId,
     gameSystemsState,
   } = useAdminGameSystems();
+
+  usePageTitle(t("page.admin_game_systems.heading"));
 
   const confirmAdminGameSystemDelete = useCallback(
     (gameSystemName: GameSystem["name"]) =>

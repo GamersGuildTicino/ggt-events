@@ -9,6 +9,7 @@ import {
 } from "@chakra-ui/react";
 import { useCallback, useState } from "react";
 import { Link as RouterLink, useLocation, useNavigate } from "react-router";
+import usePageTitle from "~/hooks/use-page-title";
 import useI18n from "~/i18n/use-i18n";
 import { signInWithPassword } from "~/lib/supabase";
 import AppAlert from "~/ui/app-alert";
@@ -35,6 +36,8 @@ export default function AdminLoginPage() {
   const location = useLocation();
   const navigate = useNavigate();
   const [signInState, setSignInState] = useState<AsyncState>(initial());
+
+  usePageTitle(i18n.t("page.admin_login.heading"));
 
   const signIn = useCallback(
     async (e: React.SubmitEvent<HTMLFormElement>) => {

@@ -3,6 +3,7 @@ import { useCallback, useState } from "react";
 import { Link as RouterLink, useNavigate } from "react-router";
 import { useAuth } from "~/auth/use-auth";
 import { createGameSystem } from "~/domain/game-systems";
+import usePageTitle from "~/hooks/use-page-title";
 import useI18n from "~/i18n/use-i18n";
 import AppAlert from "~/ui/app-alert";
 import {
@@ -27,6 +28,8 @@ export default function AdminGameSystemsNewPage() {
   const { user } = useAuth();
   const navigate = useNavigate();
   const [createState, setCreateState] = useState<AsyncState>(initial());
+
+  usePageTitle(t("page.admin_game_systems_new.heading"));
 
   const createAdminGameSystem = useCallback(
     async (value: GameSystemFormValue) => {

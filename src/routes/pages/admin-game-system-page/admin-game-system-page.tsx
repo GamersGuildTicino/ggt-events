@@ -1,6 +1,7 @@
 import { Button, Heading, Spinner, VStack } from "@chakra-ui/react";
 import { useCallback } from "react";
 import { Link as RouterLink, useParams } from "react-router";
+import usePageTitle from "~/hooks/use-page-title";
 import useI18n from "~/i18n/use-i18n";
 import AppAlert from "~/ui/app-alert";
 import { toaster } from "~/ui/toaster";
@@ -20,6 +21,12 @@ export default function AdminGameSystemPage() {
   const { t } = useI18n();
   const { gameSystemState, saveState, updateAdminGameSystem } =
     useAdminGameSystem(gameSystemId);
+  const pageTitle =
+    gameSystemState.isSuccess ?
+      `${gameSystemState.data.name} | ${t("page.admin.heading")}`
+    : t("page.admin_game_system.heading");
+
+  usePageTitle(pageTitle);
 
   const saveAdminGameSystem = useCallback(
     async (value: GameSystemFormValue) => {

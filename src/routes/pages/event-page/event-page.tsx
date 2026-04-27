@@ -1,6 +1,7 @@
 import { Button, HStack, Spinner, VStack } from "@chakra-ui/react";
 import { ChevronLeft } from "lucide-react";
 import { Link as RouterLink, useParams } from "react-router";
+import usePageTitle from "~/hooks/use-page-title";
 import LocaleSelect from "~/i18n/locale-select";
 import useI18n from "~/i18n/use-i18n";
 import AppAlert from "~/ui/app-alert";
@@ -22,6 +23,9 @@ export default function EventPage() {
   const eventTimeSlotsState = useEventTimeSlots(eventId);
   const eventTablesState = usePublicEventTables(eventId);
   const { gameSystemById, gameSystemsState } = useGameSystems();
+  const pageTitle = eventState.isSuccess ? eventState.data.title : undefined;
+
+  usePageTitle(pageTitle);
 
   return (
     <VStack align="stretch" gap={6} w="full">

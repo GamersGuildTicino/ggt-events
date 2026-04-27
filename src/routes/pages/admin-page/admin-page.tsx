@@ -1,5 +1,6 @@
 import { Button, Card, Heading, Text, VStack } from "@chakra-ui/react";
 import { Link as RouterLink } from "react-router";
+import usePageTitle from "~/hooks/use-page-title";
 import useI18n from "~/i18n/use-i18n";
 import AdminContentColumns from "../../components/admin-content-columns";
 
@@ -9,6 +10,8 @@ import AdminContentColumns from "../../components/admin-content-columns";
 
 export default function AdminPage() {
   const { t } = useI18n();
+
+  usePageTitle(t("page.admin.heading"));
 
   return (
     <VStack align="stretch" gap={6} w="full">
