@@ -1,4 +1,11 @@
-import { Button, Heading, Spinner, Text, VStack } from "@chakra-ui/react";
+import {
+  Button,
+  HStack,
+  Heading,
+  Spinner,
+  Text,
+  VStack,
+} from "@chakra-ui/react";
 import { useCallback } from "react";
 import { Link as RouterLink } from "react-router";
 import usePageTitle from "~/hooks/use-page-title";
@@ -112,14 +119,15 @@ export default function AdminEventsPage() {
         ]}
       />
 
-      <VStack align="stretch" gap={3}>
+      <HStack justify="space-between">
         <Heading size="3xl">{t("page.admin_events.heading")}</Heading>
-        <Button alignSelf="flex-start" asChild size="xs">
+
+        <Button asChild size="xs">
           <RouterLink to="/admin/events/new">
             {t("page.admin_events.new")}
           </RouterLink>
         </Button>
-      </VStack>
+      </HStack>
 
       {eventsState.isLoading && <Spinner />}
 

@@ -62,9 +62,7 @@ export default function AdminGameSystemsPage() {
       />
 
       <HStack justify="space-between">
-        <VStack align="flex-start" gap={1}>
-          <Heading size="3xl">{t("page.admin_game_systems.heading")}</Heading>
-        </VStack>
+        <Heading size="3xl">{t("page.admin_game_systems.heading")}</Heading>
 
         <Button asChild size="xs">
           <RouterLink to="/admin/game-systems/new">
