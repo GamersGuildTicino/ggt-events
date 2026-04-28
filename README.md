@@ -1,132 +1,226 @@
-# GGT Event Management Platform
+# Gamers Guild Ticino Events
 
-This project is intended to become a web application for a local association that organizes monthly live tabletop roleplaying events.
+Public event site and admin panel for managing tabletop roleplaying events, tables, time slots, registrations, and registration emails.
 
-The current goal is to define the expected behavior of the platform before implementation details are finalized. The product direction described here reflects the current understanding of the organizers' needs and should be treated as a working specification.
+## Stack
 
-## Purpose
-
-The platform should help the association manage event publication and player registrations with a simple flow:
-
-1. Admins prepare an event internally.
-2. Admins publish the event when registrations should open.
-3. Players receive a link to the public event page.
-4. Players review the available tables and register for a table that still has space.
-
-## Intended Users
-
-### Admins
-
-Admins are responsible for creating and managing events and tables before an event is made public.
-
-### Players
-
-Players are end users who access a public event page through a shared link and sign up for one of the available tables.
-
-## Core Domain
-
-### Event
-
-An event represents one monthly association session and should include at least:
-
-- A name
-- A date
-- A location
-- A collection of tables/games
-- A publication state
-
-An event starts as a draft or otherwise non-public event. While it is not public, admins can still modify it. Once it is made public, users should be able to access it and sign up.
-
-### Table
-
-A table represents one game offered during an event and should include at least:
-
-- A title
-- A game system
-- A minimum number of players
-- A maximum number of players
-
-Each table belongs to a single event.
-
-### Registration
-
-A registration represents a player's sign-up for a specific table in a specific event.
-
-At this stage, the intended registration flow is lightweight: the player provides:
-
-- Name
-- Email address
-
-The platform should only allow registrations on tables that are not full.
-
-## Intended Behavior
-
-### Admin Workflow
-
-Admins should be able to:
-
-- View existing events
-- Create a new event
-- Edit an existing event while it is not yet public
-- Define one or more tables for an event
-- Publish an event to make it accessible to players
-
-Publishing is a meaningful state change. Before publication, the event is managed internally. After publication, the event is available through a shareable link and should accept player registrations.
-
-### Player Workflow
-
-Players should be able to:
-
-- Open a public event page from a direct link
-- See the event details relevant to participation
-- Browse the available tables for that event
-- Identify which tables still have space
-- Submit a registration by entering their name and email
-
-Players should not need admin access to register.
-
-## Rules and Constraints
-
-The following behavior is currently intended:
-
-- Only public events can accept player registrations.
-- Only tables with remaining capacity can be joined.
-- Events that are not yet public remain editable by admins.
-- Event tables are part of the event definition and should be managed alongside the event.
-
-## Expected Product Scope
-
-The current scope is intentionally narrow and focused on the association's core operational needs:
-
-- Event creation and management
-- Table setup per event
-- Public event sharing
-- Simple player sign-up
-
-This keeps the first version centered on making monthly event organization workable before expanding into secondary features.
-
-## Open Product Questions
-
-The detailed behavior still needs to be discussed with the event organizers. At minimum, the following decisions remain open:
-
-- Whether events can still be edited after publication, and if so, which fields can change
-- Whether admins can manually add, move, or remove player registrations
-- Whether players can change or cancel their own registration
-- Whether one player can register for more than one table in the same event
-- Whether a waitlist is needed once a table is full
-- Whether registration confirmation emails should be sent
-- Whether duplicate registrations should be prevented, and by which rule
-- Which event details should be visible on the public page beyond name, date, location, and tables
-- What level of spam protection or validation is needed on the registration form
-- Whether the platform needs authentication for admins only, or eventually for players as well
-
-## Planned Technical Direction
-
-The application is intended to be built with:
-
-- Vite
 - React
+- Vite
 - Chakra UI
 - Supabase
 
-This README describes intended product behavior, not a finalized technical design.
+## Features
+
+- Public homepage with upcoming events
+- Public event pages with table registration
+- Admin authentication via Supabase Auth
+- Admin event management
+- Admin game system management
+- Registration confirmation and removal emails via a Supabase Edge Function
+- Localized UI in `en-GB` and `it-CH`
+
+## Project Structure
+
+- `src/`: frontend application
+- `src/routes/pages/`: route entry pages, one page per folder
+- `src/routes/components/`: route-related shared components
+- `src/ui/`: generic shared UI
+- `supabase/schemas/`: database source of truth
+- `supabase/migrations/`: generated/manual migrations
+- `supabase/functions/send-transactional-email/`: transactional email Edge Function
+
+## Frontend Environment
+
+The frontend requires:
+
+```bash
+VITE_SUPABASE_URL=...
+VITE_SUPABASE_ANON_KEY=...
+```
+
+Note: `VITE_SUPABASE_ANON_KEY` is currently the Supabase publishable key, despite the older variable name.
+
+## Local Development
+
+1. Install dependencies:
+
+```bash
+npm install
+```
+
+2. Start Supabase locally:
+
+```bash
+npx supabase start
+```
+
+3. Reset/apply the local database if needed:
+
+```bash
+npx supabase db reset
+```
+
+4. Provide the frontend env vars in a local env file.
+
+5. Start the app:
+
+```bash
+npm run dev
+```
+
+## Validation Commands
+
+```bash
+npm run lint:check
+npm run build
+```
+
+There is currently no formal test suite.
+
+## Supabase Setup
+
+The database source of truth is in `supabase/schemas/`. Schema files are edited directly, and migrations are generated from them.
+
+Important: for this project, `pg_net` must currently be enabled manually in the Supabase dashboard.
+
+### Required Extensions
+
+- `supabase_vault`
+- `pg_net`
+
+### Manual `pg_net` Step
+
+Enable `pg_net` from the Supabase Dashboard:
+
+1. Open `Database`
+2. Open `Extensions`
+3. Enable `pg_net`
+4. Choose the `extensions` schema when prompted
+
+Even though the extension is installed under `extensions`, the callable functions used by this project are exposed under the `net` schema, for example:
+
+```sql
+net.http_post(...)
+```
+
+This is required for registration confirmation/removal emails.
+
+## Admin Setup
+
+Admin access is controlled by the `public.admin_users` table.
+
+After creating a Supabase Auth user, grant admin access by inserting its user id:
+
+```sql
+insert into public.admin_users (user_id)
+values ('<auth-user-uuid>');
+```
+
+## Registration Emails
+
+Registration confirmation and removal emails are sent by:
+
+- database function: `public.send_registration_email(...)`
+- edge function: `send-transactional-email`
+
+The current email provider is Mailjet.
+
+### Edge Function Secrets
+
+Set these in Supabase Edge Function secrets:
+
+```bash
+MAILJET_API_KEY=...
+MAILJET_SECRET_KEY=...
+MAILJET_FROM_EMAIL=...
+MAILJET_FROM_NAME=...
+TRANSACTIONAL_EMAIL_SECRET=...
+```
+
+`TRANSACTIONAL_EMAIL_SECRET` is an internal shared secret between the database-triggered HTTP call and the Edge Function. It is not related to Mailjet credentials.
+
+### Vault Secrets
+
+These secrets must exist in `vault.decrypted_secrets`:
+
+- `project_url`
+- `anon_key`
+- `transactional_email_secret`
+
+Expected meanings:
+
+- `project_url`: your Supabase project base URL, for example `https://<project-ref>.supabase.co`
+- `anon_key`: your current Supabase publishable key
+- `transactional_email_secret`: must match `TRANSACTIONAL_EMAIL_SECRET`
+
+To verify:
+
+```sql
+select name, decrypted_secret
+from vault.decrypted_secrets
+where name in ('project_url', 'anon_key', 'transactional_email_secret');
+```
+
+To create a missing Vault secret:
+
+```sql
+select vault.create_secret(
+  '<secret-value>',
+  '<secret-name>',
+  '<description>'
+);
+```
+
+### Deploy the Edge Function
+
+After changing the function:
+
+```bash
+supabase functions deploy send-transactional-email
+```
+
+### How the Email Flow Works
+
+1. A registration or unregistration happens in Postgres.
+2. `public.send_registration_email(...)` builds a payload.
+3. Postgres calls `/functions/v1/send-transactional-email` via `net.http_post(...)`.
+4. The Edge Function sends the email through Mailjet.
+
+## Mailjet Notes
+
+- Mailjet is used for transactional outbound email only.
+- Mailjet does not provide a normal mailbox/inbox for your custom domain.
+- The sender address or sender domain must be validated in Mailjet.
+- Domain-based sending is preferred over freemail senders such as Gmail for deliverability.
+
+## Password Reset
+
+Admin password reset uses Supabase Auth and redirects to:
+
+```text
+/admin/reset-password
+```
+
+Make sure your deployed frontend URL is allowed in Supabase Auth redirect settings.
+
+## Deployment Notes
+
+- The router uses `import.meta.env.BASE_URL` as the browser router basename.
+- The app includes a one-time reload safeguard for stale lazy-loaded chunks after deploys.
+- The site can be hosted statically, for example on GitHub Pages.
+
+## Localization
+
+- Supported locales: `en-GB`, `it-CH`
+- Italian is the base language for the app
+- All user-facing text should be localized
+
+## Current Operational Notes
+
+- Registration emails are functional once:
+  - Mailjet secrets are set
+  - Vault secrets are present
+  - `pg_net` is enabled
+  - the Edge Function is deployed
+- Deliverability may be poor when sending from freemail addresses through Mailjet
+- A proper custom domain sender is recommended for production
