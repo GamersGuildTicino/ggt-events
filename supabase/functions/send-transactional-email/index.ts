@@ -23,8 +23,10 @@ type Payload = {
   type: EmailType;
 };
 
-const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY") ?? "";
-const RESEND_FROM_EMAIL = Deno.env.get("RESEND_FROM_EMAIL") ?? "";
+const MAILJET_API_KEY = Deno.env.get("MAILJET_API_KEY") ?? "";
+const MAILJET_FROM_EMAIL = Deno.env.get("MAILJET_FROM_EMAIL") ?? "";
+const MAILJET_FROM_NAME = Deno.env.get("MAILJET_FROM_NAME") ?? "";
+const MAILJET_SECRET_KEY = Deno.env.get("MAILJET_SECRET_KEY") ?? "";
 const TRANSACTIONAL_EMAIL_SECRET =
   Deno.env.get("TRANSACTIONAL_EMAIL_SECRET") ?? "";
 
@@ -41,23 +43,44 @@ Deno.serve(async (request) => {
     return json({ error: "forbidden" }, 401);
   }
 
-  if (!RESEND_API_KEY || !RESEND_FROM_EMAIL) {
+  if (
+    !MAILJET_API_KEY ||
+    !MAILJET_FROM_EMAIL ||
+    !MAILJET_FROM_NAME ||
+    !MAILJET_SECRET_KEY
+  ) {
     return json({ error: "missing_email_configuration" }, 500);
   }
 
   const payload = (await request.json()) as Payload;
   const email = buildEmail(payload);
+  const mailjetAuthorization = basicAuthorization(
+    MAILJET_API_KEY,
+    MAILJET_SECRET_KEY,
+  );
 
-  const response = await fetch("https://api.resend.com/emails", {
+  const response = await fetch("https://api.mailjet.com/v3.1/send", {
     body: JSON.stringify({
-      from: RESEND_FROM_EMAIL,
-      html: email.html,
-      subject: email.subject,
-      text: email.text,
-      to: payload.registration.email,
+      Messages: [
+        {
+          From: {
+            Email: MAILJET_FROM_EMAIL,
+            Name: MAILJET_FROM_NAME,
+          },
+          HTMLPart: email.html,
+          Subject: email.subject,
+          TextPart: email.text,
+          To: [
+            {
+              Email: payload.registration.email,
+              Name: payload.registration.playerName,
+            },
+          ],
+        },
+      ],
     }),
     headers: {
-      "Authorization": `Bearer ${RESEND_API_KEY}`,
+      "Authorization": mailjetAuthorization,
       "Content-Type": "application/json",
     },
     method: "POST",
@@ -223,6 +246,10 @@ function escapeHtml(value: string) {
     .replaceAll(">", "&gt;")
     .replaceAll('"', "&quot;")
     .replaceAll("'", "&#39;");
+}
+
+function basicAuthorization(username: string, password: string) {
+  return `Basic ${btoa(`${username}:${password}`)}`;
 }
 
 function json(data: unknown, status: number) {
