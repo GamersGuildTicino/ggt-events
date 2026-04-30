@@ -4,8 +4,8 @@ import react, { reactCompilerPreset } from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
 
 // https://vite.dev/config/
-export default defineConfig(({ command }) => ({
-  base: command === "serve" ? "/" : "/ggt-events/",
+export default defineConfig(() => ({
+  base: "/",
   build: {
     rollupOptions: {
       output: {
