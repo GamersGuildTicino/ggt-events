@@ -1,14 +1,13 @@
 import {
   Badge,
   Box,
-  Button,
   Card,
-  Grid,
   HStack,
   Heading,
   Text,
   VStack,
 } from "@chakra-ui/react";
+import LocaleSelect from "~/i18n/locale-select";
 import useI18n from "~/i18n/use-i18n";
 
 //------------------------------------------------------------------------------
@@ -26,7 +25,7 @@ export default function HomeHero() {
       overflow="hidden"
       position="relative"
       px={{ base: 6, md: 10 }}
-      py={{ base: 10, md: 16 }}
+      py={{ base: 8, md: 12 }}
     >
       <Box
         bg="whiteAlpha.200"
@@ -48,13 +47,8 @@ export default function HomeHero() {
         w="18rem"
       />
 
-      <Grid
-        alignItems="center"
-        gap={8}
-        position="relative"
-        templateColumns={{ base: "1fr", lg: "1.25fr 0.75fr" }}
-      >
-        <VStack align="flex-start" gap={6}>
+      <VStack align="stretch" gap={8} position="relative" zIndex={1}>
+        <HStack justify="space-between" w="full">
           <Badge
             bg="whiteAlpha.300"
             borderColor="whiteAlpha.400"
@@ -67,7 +61,11 @@ export default function HomeHero() {
             {t("page.home.hero.eyebrow")}
           </Badge>
 
-          <VStack align="flex-start" gap={3}>
+          <LocaleSelect css={localeSelectCss} />
+        </HStack>
+
+        <HStack align="flex-start" gap={8} justify="space-between">
+          <VStack align="flex-start" flex="1" gap={3}>
             <Heading
               fontSize={{ base: "4xl", md: "6xl" }}
               letterSpacing="-0.06em"
@@ -85,39 +83,43 @@ export default function HomeHero() {
             </Text>
           </VStack>
 
-          <HStack flexWrap="wrap" gap={3}>
-            <Button asChild bg="white" color="orange.900" size="lg">
-              <a href="#upcoming-events">{t("page.home.hero.events")}</a>
-            </Button>
-            <Button
-              asChild
-              borderColor="whiteAlpha.500"
-              color="white"
-              size="lg"
-              variant="outline"
-            >
-              <a href="#about">{t("page.home.hero.about")}</a>
-            </Button>
-          </HStack>
-        </VStack>
-
-        <Card.Root
-          bg="blackAlpha.300"
-          borderColor="whiteAlpha.300"
-          color="white"
-          transform={{ base: "none", lg: "rotate(2deg)" }}
-        >
-          <Card.Body gap={5}>
-            <Text color="orange.100" fontSize="sm" fontWeight="semibold">
-              {t("page.home.hero.card.label")}
-            </Text>
-            <Heading size="2xl">{t("page.home.hero.card.heading")}</Heading>
-            <Text color="whiteAlpha.800">
-              {t("page.home.hero.card.description")}
-            </Text>
-          </Card.Body>
-        </Card.Root>
-      </Grid>
+          <Card.Root
+            bg="blackAlpha.300"
+            borderColor="whiteAlpha.300"
+            color="white"
+            display={{ base: "none", xl: "block" }}
+            flexShrink={0}
+            maxW="22rem"
+            transform="rotate(2deg)"
+          >
+            <Card.Body gap={5}>
+              <Text color="orange.100" fontSize="sm" fontWeight="semibold">
+                {t("page.home.hero.card.label")}
+              </Text>
+              <Heading size="2xl">{t("page.home.hero.card.heading")}</Heading>
+              <Text color="whiteAlpha.800">
+                {t("page.home.hero.card.description")}
+              </Text>
+            </Card.Body>
+          </Card.Root>
+        </HStack>
+      </VStack>
     </Box>
   );
 }
+
+//------------------------------------------------------------------------------
+// Locale Select CSS
+//------------------------------------------------------------------------------
+
+const localeSelectCss = {
+  "& [data-part='indicator']": {
+    color: "white",
+  },
+  "& [data-part='trigger']": {
+    backdropFilter: "blur(8px)",
+    background: "rgba(255, 255, 255, 0.08)",
+    borderColor: "rgba(255, 255, 255, 0.5)",
+    color: "white",
+  },
+};
