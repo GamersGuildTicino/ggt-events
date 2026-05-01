@@ -1,5 +1,18 @@
+//------------------------------------------------------------------------------
+// Locale
+//------------------------------------------------------------------------------
+
 type Locale = "en-GB" | "it-CH";
+
+//------------------------------------------------------------------------------
+// Email Type
+//------------------------------------------------------------------------------
+
 type EmailType = "registration-confirmed" | "registration-removed";
+
+//------------------------------------------------------------------------------
+// Payload
+//------------------------------------------------------------------------------
 
 type Payload = {
   event: {
@@ -23,12 +36,36 @@ type Payload = {
   type: EmailType;
 };
 
+//------------------------------------------------------------------------------
+// Env Variables
+//------------------------------------------------------------------------------
+
 const MAILJET_API_KEY = Deno.env.get("MAILJET_API_KEY") ?? "";
 const MAILJET_FROM_EMAIL = Deno.env.get("MAILJET_FROM_EMAIL") ?? "";
 const MAILJET_FROM_NAME = Deno.env.get("MAILJET_FROM_NAME") ?? "";
+const MAILJET_REPLY_TO_EMAIL =
+  Deno.env.get("MAILJET_REPLY_TO_EMAIL") ?? MAILJET_FROM_EMAIL;
+const MAILJET_REPLY_TO_NAME =
+  Deno.env.get("MAILJET_REPLY_TO_NAME") ?? MAILJET_FROM_NAME;
 const MAILJET_SECRET_KEY = Deno.env.get("MAILJET_SECRET_KEY") ?? "";
+const MAILJET_TEMPLATE_ID_REGISTRATION_CONFIRMED_EN_GB = Number(
+  Deno.env.get("MAILJET_TEMPLATE_ID_REGISTRATION_CONFIRMED_EN_GB"),
+);
+const MAILJET_TEMPLATE_ID_REGISTRATION_CONFIRMED_IT_CH = Number(
+  Deno.env.get("MAILJET_TEMPLATE_ID_REGISTRATION_CONFIRMED_IT_CH"),
+);
+const MAILJET_TEMPLATE_ID_REGISTRATION_REMOVED_EN_GB = Number(
+  Deno.env.get("MAILJET_TEMPLATE_ID_REGISTRATION_REMOVED_EN_GB"),
+);
+const MAILJET_TEMPLATE_ID_REGISTRATION_REMOVED_IT_CH = Number(
+  Deno.env.get("MAILJET_TEMPLATE_ID_REGISTRATION_REMOVED_IT_CH"),
+);
 const TRANSACTIONAL_EMAIL_SECRET =
   Deno.env.get("TRANSACTIONAL_EMAIL_SECRET") ?? "";
+
+//------------------------------------------------------------------------------
+// Deno Serve
+//------------------------------------------------------------------------------
 
 Deno.serve(async (request) => {
   if (request.method !== "POST") {
@@ -53,11 +90,11 @@ Deno.serve(async (request) => {
   }
 
   const payload = (await request.json()) as Payload;
-  const email = buildEmail(payload);
-  const mailjetAuthorization = basicAuthorization(
-    MAILJET_API_KEY,
-    MAILJET_SECRET_KEY,
-  );
+  const templateId = mailjetTemplateId(payload.type, payload.locale);
+
+  if (!templateId) {
+    return json({ error: "missing_template_configuration" }, 500);
+  }
 
   const response = await fetch("https://api.mailjet.com/v3.1/send", {
     body: JSON.stringify({
@@ -67,20 +104,24 @@ Deno.serve(async (request) => {
             Email: MAILJET_FROM_EMAIL,
             Name: MAILJET_FROM_NAME,
           },
-          HTMLPart: email.html,
-          Subject: email.subject,
-          TextPart: email.text,
+          ReplyTo: {
+            Email: MAILJET_REPLY_TO_EMAIL,
+            Name: MAILJET_REPLY_TO_NAME,
+          },
+          TemplateID: templateId,
+          TemplateLanguage: true,
           To: [
             {
               Email: payload.registration.email,
               Name: payload.registration.playerName,
             },
           ],
+          Variables: templateVariables(payload),
         },
       ],
     }),
     headers: {
-      "Authorization": mailjetAuthorization,
+      "Authorization": basicAuthorization(MAILJET_API_KEY, MAILJET_SECRET_KEY),
       "Content-Type": "application/json",
     },
     method: "POST",
@@ -92,117 +133,34 @@ Deno.serve(async (request) => {
   return json(data, 200);
 });
 
-function buildEmail(payload: Payload) {
-  if (payload.type === "registration-confirmed") {
-    return registrationConfirmedEmail(payload);
+//------------------------------------------------------------------------------
+// Mailjet Template Id
+//------------------------------------------------------------------------------
+
+function mailjetTemplateId(type: EmailType, locale: Locale) {
+  switch (type) {
+    case "registration-confirmed":
+      return locale === "en-GB" ?
+          MAILJET_TEMPLATE_ID_REGISTRATION_CONFIRMED_EN_GB
+        : MAILJET_TEMPLATE_ID_REGISTRATION_CONFIRMED_IT_CH;
+    case "registration-removed":
+      return locale === "en-GB" ?
+          MAILJET_TEMPLATE_ID_REGISTRATION_REMOVED_EN_GB
+        : MAILJET_TEMPLATE_ID_REGISTRATION_REMOVED_IT_CH;
   }
-
-  return registrationRemovedEmail(payload);
 }
 
-function registrationConfirmedEmail(payload: Payload) {
-  const detailsHtml = detailsListHtml(payload);
-  const detailsText = detailsListText(payload);
-
-  if (payload.locale === "it-CH") {
-    return {
-      html:
-        `<p>Ciao ${escapeHtml(payload.registration.playerName)},</p>` +
-        "<p>la tua registrazione è confermata.</p>" +
-        detailsHtml +
-        "<p>A presto,<br />Gamers Guild Ticino</p>",
-      subject: `Conferma registrazione - ${payload.event.title}`,
-      text:
-        `Ciao ${payload.registration.playerName},\n\n` +
-        "la tua registrazione è confermata.\n\n" +
-        `${detailsText}\n\n` +
-        "A presto,\nGamers Guild Ticino",
-    };
-  }
-
-  return {
-    html:
-      `<p>Hello ${escapeHtml(payload.registration.playerName)},</p>` +
-      "<p>your registration is confirmed.</p>" +
-      detailsHtml +
-      "<p>See you soon,<br />Gamers Guild Ticino</p>",
-    subject: `Registration confirmed - ${payload.event.title}`,
-    text:
-      `Hello ${payload.registration.playerName},\n\n` +
-      "your registration is confirmed.\n\n" +
-      `${detailsText}\n\n` +
-      "See you soon,\nGamers Guild Ticino",
-  };
-}
-
-function registrationRemovedEmail(payload: Payload) {
-  const detailsHtml = detailsListHtml(payload);
-  const detailsText = detailsListText(payload);
-
-  if (payload.locale === "it-CH") {
-    return {
-      html:
-        `<p>Ciao ${escapeHtml(payload.registration.playerName)},</p>` +
-        "<p>la tua registrazione è stata rimossa da questo tavolo.</p>" +
-        detailsHtml +
-        "<p>Per domande, contatta gli organizzatori.</p>" +
-        "<p>Gamers Guild Ticino</p>",
-      subject: `Registrazione rimossa - ${payload.event.title}`,
-      text:
-        `Ciao ${payload.registration.playerName},\n\n` +
-        "la tua registrazione è stata rimossa da questo tavolo.\n\n" +
-        `${detailsText}\n\n` +
-        "Per domande, contatta gli organizzatori.\n\n" +
-        "Gamers Guild Ticino",
-    };
-  }
-
-  return {
-    html:
-      `<p>Hello ${escapeHtml(payload.registration.playerName)},</p>` +
-      "<p>your registration has been removed from this table.</p>" +
-      detailsHtml +
-      "<p>If you have any questions, please contact the organizers.</p>" +
-      "<p>Gamers Guild Ticino</p>",
-    subject: `Registration removed - ${payload.event.title}`,
-    text:
-      `Hello ${payload.registration.playerName},\n\n` +
-      "your registration has been removed from this table.\n\n" +
-      `${detailsText}\n\n` +
-      "If you have any questions, please contact the organizers.\n\n" +
-      "Gamers Guild Ticino",
-  };
-}
-
-function detailsListHtml(payload: Payload) {
-  const labels = textLabels(payload.locale);
-
-  return (
-    "<ul>" +
-    `<li><strong>${labels.event}:</strong> ${escapeHtml(payload.event.title)}</li>` +
-    `<li><strong>${labels.table}:</strong> ${escapeHtml(payload.table.title)}</li>` +
-    `<li><strong>${labels.gameMaster}:</strong> ${escapeHtml(payload.table.gameMasterName)}</li>` +
-    `<li><strong>${labels.time}:</strong> ${escapeHtml(formatTimeSlot(payload.locale, payload.timeSlot))}</li>` +
-    `<li><strong>${labels.location}:</strong> ${escapeHtml(formatLocation(payload.event))}</li>` +
-    "</ul>"
-  );
-}
-
-function detailsListText(payload: Payload) {
-  const labels = textLabels(payload.locale);
-
-  return [
-    `${labels.event}: ${payload.event.title}`,
-    `${labels.table}: ${payload.table.title}`,
-    `${labels.gameMaster}: ${payload.table.gameMasterName}`,
-    `${labels.time}: ${formatTimeSlot(payload.locale, payload.timeSlot)}`,
-    `${labels.location}: ${formatLocation(payload.event)}`,
-  ].join("\n");
-}
+//------------------------------------------------------------------------------
+// Format Location
+//------------------------------------------------------------------------------
 
 function formatLocation(event: Payload["event"]) {
   return [event.locationName, event.locationAddress].filter(Boolean).join(", ");
 }
+
+//------------------------------------------------------------------------------
+// Format Time Slot
+//------------------------------------------------------------------------------
 
 function formatTimeSlot(locale: Locale, timeSlot: Payload["timeSlot"]) {
   const startsAt = new Date(timeSlot.startsAt);
@@ -219,38 +177,32 @@ function formatTimeSlot(locale: Locale, timeSlot: Payload["timeSlot"]) {
   return `${start} - ${end}`;
 }
 
-function textLabels(locale: Locale) {
-  if (locale === "it-CH") {
-    return {
-      event: "Evento",
-      gameMaster: "Game Master",
-      location: "Luogo",
-      table: "Tavolo",
-      time: "Orario",
-    };
-  }
-
-  return {
-    event: "Event",
-    gameMaster: "Game Master",
-    location: "Location",
-    table: "Table",
-    time: "Time",
-  };
-}
-
-function escapeHtml(value: string) {
-  return value
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#39;");
-}
+//------------------------------------------------------------------------------
+// Basic Authorization
+//------------------------------------------------------------------------------
 
 function basicAuthorization(username: string, password: string) {
   return `Basic ${btoa(`${username}:${password}`)}`;
 }
+
+//------------------------------------------------------------------------------
+// Template Variables
+//------------------------------------------------------------------------------
+
+function templateVariables(payload: Payload) {
+  return {
+    eventTitle: payload.event.title,
+    gameMasterName: payload.table.gameMasterName,
+    location: formatLocation(payload.event),
+    playerName: payload.registration.playerName,
+    tableTitle: payload.table.title,
+    timeSlot: formatTimeSlot(payload.locale, payload.timeSlot),
+  };
+}
+
+//------------------------------------------------------------------------------
+// JSON
+//------------------------------------------------------------------------------
 
 function json(data: unknown, status: number) {
   return new Response(JSON.stringify(data), {
