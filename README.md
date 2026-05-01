@@ -29,16 +29,23 @@ Public event site and admin panel for managing tabletop roleplaying events, tabl
 - `supabase/migrations/`: generated/manual migrations
 - `supabase/functions/send-transactional-email/`: transactional email Edge Function
 
-## Frontend Environment
+## Configuration
 
-The frontend requires:
+### Frontend Environment
+
+Configure these in your local frontend env file, for example `.env.local`.
+
+For GitHub Pages or any other static deployment, configure the same values in the deploy environment used to build the site.
 
 ```bash
 VITE_SUPABASE_URL=...
 VITE_SUPABASE_ANON_KEY=...
 ```
 
-Note: `VITE_SUPABASE_ANON_KEY` is currently the Supabase publishable key, despite the older variable name.
+- `VITE_SUPABASE_URL`: Supabase project URL
+- `VITE_SUPABASE_ANON_KEY`: Supabase publishable key used by the frontend
+
+Note: `VITE_SUPABASE_ANON_KEY` still uses the older name, but the value should be the current Supabase publishable key.
 
 ## Local Development
 
@@ -125,23 +132,57 @@ Registration confirmation and removal emails are sent by:
 
 The current email provider is Mailjet.
 
-### Edge Function Secrets
+### Supabase Edge Function Secrets
 
-Set these in Supabase Edge Function secrets:
+Configure these in Supabase for the `send-transactional-email` Edge Function:
 
 ```bash
 MAILJET_API_KEY=...
 MAILJET_SECRET_KEY=...
 MAILJET_FROM_EMAIL=...
 MAILJET_FROM_NAME=...
+MAILJET_REPLY_TO_EMAIL=...
+MAILJET_REPLY_TO_NAME=...
+MAILJET_TEMPLATE_ID_REGISTRATION_CONFIRMED_EN_GB=...
+MAILJET_TEMPLATE_ID_REGISTRATION_CONFIRMED_IT_CH=...
+MAILJET_TEMPLATE_ID_REGISTRATION_REMOVED_EN_GB=...
+MAILJET_TEMPLATE_ID_REGISTRATION_REMOVED_IT_CH=...
 TRANSACTIONAL_EMAIL_SECRET=...
 ```
 
-`TRANSACTIONAL_EMAIL_SECRET` is an internal shared secret between the database-triggered HTTP call and the Edge Function. It is not related to Mailjet credentials.
+- `MAILJET_API_KEY`: Mailjet API key
+- `MAILJET_SECRET_KEY`: Mailjet secret key
+- `MAILJET_FROM_EMAIL`: sender email address used for transactional emails
+- `MAILJET_FROM_NAME`: sender display name
+- `MAILJET_REPLY_TO_EMAIL`: reply-to mailbox shown to recipients
+- `MAILJET_REPLY_TO_NAME`: reply-to display name
+- `MAILJET_TEMPLATE_ID_REGISTRATION_CONFIRMED_EN_GB`: Mailjet template id for English registration confirmations
+- `MAILJET_TEMPLATE_ID_REGISTRATION_CONFIRMED_IT_CH`: Mailjet template id for Italian registration confirmations
+- `MAILJET_TEMPLATE_ID_REGISTRATION_REMOVED_EN_GB`: Mailjet template id for English registration removals
+- `MAILJET_TEMPLATE_ID_REGISTRATION_REMOVED_IT_CH`: Mailjet template id for Italian registration removals
+- `TRANSACTIONAL_EMAIL_SECRET`: internal shared secret between Postgres and the Edge Function
 
-### Vault Secrets
+`TRANSACTIONAL_EMAIL_SECRET` is not related to Mailjet credentials.
 
-These secrets must exist in `vault.decrypted_secrets`:
+Mailjet transactional templates are selected by email type and locale. The Edge Function currently expects four templates:
+
+- `registration-confirmed` / `en-GB`
+- `registration-confirmed` / `it-CH`
+- `registration-removed` / `en-GB`
+- `registration-removed` / `it-CH`
+
+The function passes these template variables:
+
+- `eventTitle`
+- `gameMasterName`
+- `location`
+- `playerName`
+- `tableTitle`
+- `timeSlot`
+
+### Supabase Vault Secrets
+
+These values must exist in `vault.decrypted_secrets` inside the Supabase database:
 
 - `project_url`
 - `anon_key`
@@ -185,6 +226,19 @@ supabase functions deploy send-transactional-email
 2. `public.send_registration_email(...)` builds a payload.
 3. Postgres calls `/functions/v1/send-transactional-email` via `net.http_post(...)`.
 4. The Edge Function sends the email through Mailjet.
+
+## GitHub Pages
+
+If the site is deployed on GitHub Pages:
+
+- the app build must use the frontend env vars listed above
+- the custom domain and DNS are configured outside the repo
+- GitHub Pages serves the built static output only
+
+Current routing assumptions:
+
+- Vite `base` is `/`
+- the SPA fallback page in `public/404.html` must match root-domain hosting
 
 ## Mailjet Notes
 
