@@ -28,6 +28,8 @@ export default function HomeEventCard({
   timeSlots,
 }: HomeEventCardProps) {
   const { locale, t } = useI18n();
+  const eventPath =
+    locale === "it-CH" ? `/eventi/${event.slug}` : `/events/${event.slug}`;
   const firstTimeSlot = timeSlots[0];
   if (!firstTimeSlot) return null;
 
@@ -43,9 +45,7 @@ export default function HomeEventCard({
           <VStack align="flex-start" flex={1} gap={1}>
             <HStack align="flex-start" justify="space-between" w="full">
               <Link asChild fontWeight="semibold">
-                <RouterLink to={`/events/${event.slug}`}>
-                  {event.title}
-                </RouterLink>
+                <RouterLink to={eventPath}>{event.title}</RouterLink>
               </Link>
               <Badge colorPalette={event.registrationsOpen ? "green" : "gray"}>
                 {event.registrationsOpen ?
@@ -72,7 +72,7 @@ export default function HomeEventCard({
 
             <HStack justify="flex-end" pt={1} w="full">
               <Button asChild size="sm" variant="outline">
-                <RouterLink to={`/events/${event.slug}`}>
+                <RouterLink to={eventPath}>
                   {t("page.home.events.open")}
                 </RouterLink>
               </Button>
