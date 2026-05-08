@@ -160,7 +160,6 @@ export async function fetchPublicEventById(
     .from("events")
     .select("*")
     .eq("id", eventId)
-    .in("visibility", ["public", "restricted"])
     .single();
 
   if (error) return failure("error.events.fetch_one");
@@ -182,7 +181,6 @@ export async function fetchPublicEventBySlug(
     .from("events")
     .select("*")
     .eq("slug", eventSlug)
-    .in("visibility", ["public", "restricted"])
     .single();
 
   if (error) return failure("error.events.fetch_one");
