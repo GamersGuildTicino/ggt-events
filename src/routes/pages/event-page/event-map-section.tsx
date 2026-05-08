@@ -37,11 +37,7 @@ export default function EventMapSection({ event }: EventMapSectionProps) {
         </Button>
       </HStack>
 
-      <Box
-        borderRadius="2xl"
-        h={{ base: "20rem", md: "24rem" }}
-        overflow="hidden"
-      >
+      <Box h={{ base: "20rem", md: "24rem" }} overflow="hidden">
         <iframe
           height="100%"
           loading="lazy"
