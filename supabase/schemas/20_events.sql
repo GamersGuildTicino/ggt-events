@@ -5,13 +5,20 @@
 create table public.events (
   id uuid primary key default gen_random_uuid(),
   title text not null,
+  short_description text not null default '',
+  description text not null default '',
+  image_url text not null default '',
+  slug text not null unique,
   location_name text not null,
   location_address text not null,
   registrations_open boolean not null default false,
   visibility public.event_visibility not null default 'private',
   created_by uuid not null references auth.users (id),
   created_at timestamptz not null default now(),
-  updated_at timestamptz not null default now()
+  updated_at timestamptz not null default now(),
+
+  constraint events_slug_format_valid
+    check (slug ~ '^[a-z0-9]+(?:-[a-z0-9]+)*$')
 );
 
 create trigger set_events_updated_at
