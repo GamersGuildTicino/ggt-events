@@ -1,6 +1,7 @@
 import {
   Badge,
   Box,
+  Button,
   Card,
   Grid,
   Heading,
@@ -19,10 +20,15 @@ import { formatDateRange, formatTimeRange } from "./event-page-format";
 
 type EventHeroProps = {
   event: Event;
+  hasMap: boolean;
   timeSlots: EventTimeSlot[];
 };
 
-export default function EventHero({ event, timeSlots }: EventHeroProps) {
+export default function EventHero({
+  event,
+  hasMap,
+  timeSlots,
+}: EventHeroProps) {
   const { locale, t } = useI18n();
   const eventOver = isEventOver(timeSlots);
 
@@ -118,6 +124,12 @@ export default function EventHero({ event, timeSlots }: EventHeroProps) {
               {statusDescription}
             </Text>
           </VStack>
+
+          {hasMap && (
+            <Button asChild colorPalette="whiteAlpha" variant="subtle">
+              <a href="#map">{t("page.event.map.jump_to_map")}</a>
+            </Button>
+          )}
         </VStack>
 
         <Card.Root

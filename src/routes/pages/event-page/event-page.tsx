@@ -6,6 +6,7 @@ import LocaleSelect from "~/i18n/locale-select";
 import useI18n from "~/i18n/use-i18n";
 import AppAlert from "~/ui/app-alert";
 import EventHero from "./event-hero";
+import EventMapSection from "./event-map-section";
 import EventTablesSection from "./event-tables-section";
 import useEvent from "./use-event";
 import useEventTimeSlots from "./use-event-time-slots";
@@ -20,6 +21,9 @@ export default function EventPage() {
   const { eventSlugOrId } = useParams();
   const { t } = useI18n();
   const eventState = useEvent(eventSlugOrId);
+  const eventHasMap =
+    eventState.isSuccess &&
+    hasEventMap(eventState.data.locationName, eventState.data.locationAddress);
   const eventTimeSlotsState = useEventTimeSlots(
     eventState.isSuccess ? eventState.data.id : undefined,
   );
@@ -53,6 +57,7 @@ export default function EventPage() {
         <>
           <EventHero
             event={eventState.data}
+            hasMap={eventHasMap}
             timeSlots={
               eventTimeSlotsState.isSuccess ? eventTimeSlotsState.data : []
             }
@@ -71,8 +76,18 @@ export default function EventPage() {
             gameSystemById={gameSystemById}
             gameSystemsState={gameSystemsState}
           />
+
+          {eventHasMap && <EventMapSection event={eventState.data} />}
         </>
       )}
     </VStack>
   );
+}
+
+//------------------------------------------------------------------------------
+// Has Event Map
+//------------------------------------------------------------------------------
+
+function hasEventMap(locationName: string, locationAddress: string) {
+  return Boolean(locationName || locationAddress);
 }
