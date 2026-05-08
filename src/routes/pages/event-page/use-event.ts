@@ -1,6 +1,9 @@
 import { useState } from "react";
-import type { Event } from "~/domain/events";
-import { fetchPublicEvent } from "~/domain/events";
+import {
+  type Event,
+  fetchPublicEventById,
+  fetchPublicEventBySlug,
+} from "~/domain/events";
 import { useAsyncEffect } from "~/hooks/use-async-effect";
 import {
   type AsyncState,
@@ -13,21 +16,33 @@ import {
 // Use Event
 //------------------------------------------------------------------------------
 
-export default function useEvent(eventId?: string) {
+export default function useEvent(eventSlugOrId?: string) {
   const [eventState, setEventState] = useState<AsyncState<Event>>(initial());
 
   useAsyncEffect(
     async (isActive) => {
       setEventState(loading());
 
-      if (!eventId) return setEventState(failure("page.event.error.missing"));
+      if (!eventSlugOrId)
+        return setEventState(failure("page.event.error.missing"));
 
-      const event = await fetchPublicEvent(eventId);
+      const event =
+        uuidRegexp.test(eventSlugOrId) ?
+          await fetchPublicEventById(eventSlugOrId)
+        : await fetchPublicEventBySlug(eventSlugOrId);
+
       if (!isActive()) return;
       setEventState(event);
     },
-    [eventId],
+    [eventSlugOrId],
   );
 
   return eventState;
 }
+
+//------------------------------------------------------------------------------
+// UUID Regexp
+//------------------------------------------------------------------------------
+
+const uuidRegexp =
+  /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;

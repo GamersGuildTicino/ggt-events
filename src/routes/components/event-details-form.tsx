@@ -1,4 +1,4 @@
-import { Card, Field, Heading, Input } from "@chakra-ui/react";
+import { Card, Field, Heading, Input, Textarea } from "@chakra-ui/react";
 import type { ReactNode } from "react";
 import { useCallback } from "react";
 import {
@@ -17,9 +17,13 @@ import SelectEnum from "~/ui/select-enum";
 
 export type EventDetailsFormValue = Pick<
   Event,
+  | "description"
+  | "imageUrl"
   | "locationAddress"
   | "locationName"
   | "registrationsOpen"
+  | "shortDescription"
+  | "slug"
   | "title"
   | "visibility"
 >;
@@ -79,6 +83,45 @@ export default function EventDetailsForm({
               defaultValue={initialValue?.title}
               name="title"
               pattern="\s*\S.*"
+              size="sm"
+            />
+          </Field.Root>
+
+          <Field.Root disabled={disabled} required>
+            <Field.Label>
+              {t("form.event_details.slug.label")}
+              <Field.RequiredIndicator />
+            </Field.Label>
+            <Input defaultValue={initialValue?.slug} name="slug" size="sm" />
+          </Field.Root>
+
+          <Field.Root disabled={disabled}>
+            <Field.Label>
+              {t("form.event_details.short_description.label")}
+            </Field.Label>
+            <Input
+              defaultValue={initialValue?.shortDescription}
+              name="short-description"
+              size="sm"
+            />
+          </Field.Root>
+
+          <Field.Root disabled={disabled}>
+            <Field.Label>
+              {t("form.event_details.description.label")}
+            </Field.Label>
+            <Textarea
+              defaultValue={initialValue?.description}
+              name="description"
+              size="sm"
+            />
+          </Field.Root>
+
+          <Field.Root disabled={disabled}>
+            <Field.Label>{t("form.event_details.image_url.label")}</Field.Label>
+            <Input
+              defaultValue={initialValue?.imageUrl}
+              name="image-url"
               size="sm"
             />
           </Field.Root>
@@ -150,10 +193,26 @@ function eventDetailsFormValueFromForm(
   const getString = (key: string) => String(formData.get(key) ?? "").trim();
 
   return {
+    description: getString("description"),
+    imageUrl: getString("image-url"),
     locationAddress: getString("location-address"),
     locationName: getString("location-name"),
     registrationsOpen: formData.get("registrations-open") === "on",
+    shortDescription: getString("short-description"),
+    slug: normalizeSlug(getString("slug")),
     title: getString("title"),
     visibility: formData.get("visibility") as EventVisibility,
   };
+}
+
+//------------------------------------------------------------------------------
+// Normalize Slug
+//------------------------------------------------------------------------------
+
+function normalizeSlug(value: string) {
+  return value
+    .trim()
+    .toLowerCase()
+    .replaceAll(/[^a-z0-9]+/g, "-")
+    .replaceAll(/^-+|-+$/g, "");
 }

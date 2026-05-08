@@ -1,4 +1,4 @@
-import { Button, HStack, Spinner, VStack } from "@chakra-ui/react";
+import { Button, HStack, Spinner, Text, VStack } from "@chakra-ui/react";
 import { ChevronLeft } from "lucide-react";
 import { Link as RouterLink, useParams } from "react-router";
 import usePageTitle from "~/hooks/use-page-title";
@@ -17,11 +17,15 @@ import usePublicEventTables from "./use-public-event-tables";
 //------------------------------------------------------------------------------
 
 export default function EventPage() {
-  const { eventId } = useParams();
+  const { eventSlugOrId } = useParams();
   const { t } = useI18n();
-  const eventState = useEvent(eventId);
-  const eventTimeSlotsState = useEventTimeSlots(eventId);
-  const eventTablesState = usePublicEventTables(eventId);
+  const eventState = useEvent(eventSlugOrId);
+  const eventTimeSlotsState = useEventTimeSlots(
+    eventState.isSuccess ? eventState.data.id : undefined,
+  );
+  const eventTablesState = usePublicEventTables(
+    eventState.isSuccess ? eventState.data.id : undefined,
+  );
   const { gameSystemById, gameSystemsState } = useGameSystems();
   const pageTitle = eventState.isSuccess ? eventState.data.title : undefined;
 
@@ -53,6 +57,12 @@ export default function EventPage() {
               eventTimeSlotsState.isSuccess ? eventTimeSlotsState.data : []
             }
           />
+
+          {eventState.data.description && (
+            <Text color="fg.muted" whiteSpace="pre-line">
+              {eventState.data.description}
+            </Text>
+          )}
 
           <EventTablesSection
             event={eventState.data}

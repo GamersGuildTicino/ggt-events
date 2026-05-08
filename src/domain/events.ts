@@ -15,10 +15,14 @@ import { eventVisibilitySchema } from "./enums/event-visibility";
 export const eventSchema = z.object({
   createdAt: z.date(),
   createdBy: z.uuid(),
+  description: z.string(),
   id: z.uuid(),
+  imageUrl: z.string(),
   locationAddress: z.string(),
   locationName: z.string(),
   registrationsOpen: z.boolean(),
+  shortDescription: z.string(),
+  slug: z.string(),
   title: z.string(),
   updatedAt: z.date(),
   visibility: eventVisibilitySchema,
@@ -33,10 +37,14 @@ export type Event = z.infer<typeof eventSchema>;
 export const eventRowSchema = z.object({
   created_at: z.string(),
   created_by: z.uuid(),
+  description: z.string(),
   id: z.uuid(),
+  image_url: z.string(),
   location_address: z.string(),
   location_name: z.string(),
   registrations_open: z.boolean(),
+  short_description: z.string(),
+  slug: z.string(),
   title: z.string(),
   updated_at: z.string(),
   visibility: eventVisibilitySchema,
@@ -52,10 +60,14 @@ export const eventFromRowSchema = eventRowSchema.transform(
   (row): Event => ({
     createdAt: new Date(row.created_at),
     createdBy: row.created_by,
+    description: row.description,
     id: row.id,
+    imageUrl: row.image_url,
     locationAddress: row.location_address,
     locationName: row.location_name,
     registrationsOpen: row.registrations_open,
+    shortDescription: row.short_description,
+    slug: row.slug,
     title: row.title,
     updatedAt: new Date(row.updated_at),
     visibility: row.visibility,
@@ -70,10 +82,14 @@ export const eventToRowSchema = eventSchema.transform(
   (event): EventRow => ({
     created_at: event.createdAt.toISOString(),
     created_by: event.createdBy,
+    description: event.description,
     id: event.id,
+    image_url: event.imageUrl,
     location_address: event.locationAddress,
     location_name: event.locationName,
     registrations_open: event.registrationsOpen,
+    short_description: event.shortDescription,
+    slug: event.slug,
     title: event.title,
     updated_at: event.updatedAt.toISOString(),
     visibility: event.visibility,
@@ -89,9 +105,13 @@ export async function createEvent(
 ) {
   const { error } = await supabase.from("events").insert({
     created_by: event.createdBy,
+    description: event.description,
+    image_url: event.imageUrl,
     location_address: event.locationAddress,
     location_name: event.locationName,
     registrations_open: event.registrationsOpen,
+    short_description: event.shortDescription,
+    slug: event.slug,
     title: event.title,
     visibility: event.visibility,
   });
@@ -130,16 +150,38 @@ export async function fetchEvent(
 }
 
 //------------------------------------------------------------------------------
-// Fetch Public Event
+// Fetch Public Event By Id
 //------------------------------------------------------------------------------
 
-export async function fetchPublicEvent(
+export async function fetchPublicEventById(
   eventId: Event["id"],
 ): Promise<AsyncStateSuccess<Event> | AsyncStateFailure> {
   const { data, error } = await supabase
     .from("events")
     .select("*")
     .eq("id", eventId)
+    .in("visibility", ["public", "restricted"])
+    .single();
+
+  if (error) return failure("error.events.fetch_one");
+
+  const event = eventFromRowSchema.safeParse(data);
+  if (event.error) return failure("error.events.parse_one");
+
+  return success(event.data);
+}
+
+//------------------------------------------------------------------------------
+// Fetch Public Event By Slug
+//------------------------------------------------------------------------------
+
+export async function fetchPublicEventBySlug(
+  eventSlug: Event["slug"],
+): Promise<AsyncStateSuccess<Event> | AsyncStateFailure> {
+  const { data, error } = await supabase
+    .from("events")
+    .select("*")
+    .eq("slug", eventSlug)
     .in("visibility", ["public", "restricted"])
     .single();
 
@@ -200,16 +242,22 @@ export async function updateEvent(
   event: Pick<Event, "id"> &
     Omit<Event, "createdAt" | "createdBy" | "id" | "updatedAt">,
 ) {
-  const { error } = await supabase
+  const { data, error } = await supabase
     .from("events")
     .update({
+      description: event.description,
+      image_url: event.imageUrl,
       location_address: event.locationAddress,
       location_name: event.locationName,
       registrations_open: event.registrationsOpen,
+      short_description: event.shortDescription,
+      slug: event.slug,
       title: event.title,
       visibility: event.visibility,
     })
-    .eq("id", event.id);
+    .eq("id", event.id)
+    .select("id")
+    .maybeSingle();
 
-  return error ? "error.events.update" : "";
+  return error || !data ? "error.events.update" : "";
 }

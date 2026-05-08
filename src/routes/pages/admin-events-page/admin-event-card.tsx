@@ -68,6 +68,11 @@ export default function AdminEventCard({
                 .filter(Boolean)
                 .join(", ")}
             </Text>
+            {event.shortDescription && (
+              <Text color="fg.muted" fontSize="sm">
+                {event.shortDescription}
+              </Text>
+            )}
             {stats && stats.totalTables > 0 && (
               <Text color="fg.muted" fontSize="sm">
                 {ti(

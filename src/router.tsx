@@ -115,7 +115,7 @@ export const router = createBrowserRouter(
     {
       children: [
         { index: true, lazy: HomePage },
-        { lazy: EventPage, path: "events/:eventId" },
+        { lazy: EventPage, path: "events/:eventSlugOrId" },
         { lazy: TermsAndConditionsPage, path: "terms-and-conditions" },
       ],
       element: <PublicLayout />,

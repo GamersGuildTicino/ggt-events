@@ -43,7 +43,7 @@ export default function HomeEventCard({
           <VStack align="flex-start" flex={1} gap={1}>
             <HStack align="flex-start" justify="space-between" w="full">
               <Link asChild fontWeight="semibold">
-                <RouterLink to={`/events/${event.id}`}>
+                <RouterLink to={`/events/${event.slug}`}>
                   {event.title}
                 </RouterLink>
               </Link>
@@ -63,11 +63,16 @@ export default function HomeEventCard({
                   .filter(Boolean)
                   .join(", ")}
               </Text>
+              {event.shortDescription && (
+                <Text color="fg.muted" fontSize="sm">
+                  {event.shortDescription}
+                </Text>
+              )}
             </VStack>
 
             <HStack justify="flex-end" pt={1} w="full">
               <Button asChild size="sm" variant="outline">
-                <RouterLink to={`/events/${event.id}`}>
+                <RouterLink to={`/events/${event.slug}`}>
                   {t("page.home.events.open")}
                 </RouterLink>
               </Button>

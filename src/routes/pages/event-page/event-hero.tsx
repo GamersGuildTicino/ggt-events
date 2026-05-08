@@ -47,7 +47,18 @@ export default function EventHero({ event, timeSlots }: EventHeroProps) {
 
   return (
     <Box
-      bg="linear-gradient(135deg, #121826 0%, #233a5f 52%, #3d7f89 100%)"
+      backgroundPosition="center"
+      backgroundSize="cover"
+      bg={
+        event.imageUrl ?
+          "rgba(18, 24, 38, 0.72)"
+        : "linear-gradient(135deg, #121826 0%, #233a5f 52%, #3d7f89 100%)"
+      }
+      bgImage={
+        event.imageUrl ?
+          `linear-gradient(180deg, rgba(18, 24, 38, 0.72) 0%, rgba(18, 24, 38, 0.58) 100%), url("${event.imageUrl}")`
+        : undefined
+      }
       borderRadius="3xl"
       color="white"
       overflow="hidden"
@@ -98,7 +109,12 @@ export default function EventHero({ event, timeSlots }: EventHeroProps) {
             >
               {event.title}
             </Heading>
-            <Text color="whiteAlpha.900" fontSize="lg" maxW="34em">
+            {event.shortDescription && (
+              <Text color="whiteAlpha.900" fontSize="lg" maxW="34em">
+                {event.shortDescription}
+              </Text>
+            )}
+            <Text color="whiteAlpha.800" fontSize="sm" maxW="34em">
               {statusDescription}
             </Text>
           </VStack>
