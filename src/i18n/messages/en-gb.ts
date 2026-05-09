@@ -109,6 +109,10 @@ const enGB = {
   "form.game_system.image_url.label": "Image URL",
   "form.game_system.name.label": "Name",
 
+  "layout.public_footer.copyright": "Gamers Guild Ticino",
+  "layout.public_footer.email": "info@gamersguildticino.ch",
+  "layout.public_footer.instagram": "Instagram",
+
   "locale.en-GB": "English",
   "locale.it-CH": "Italiano",
 

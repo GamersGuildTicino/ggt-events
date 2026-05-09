@@ -1,5 +1,6 @@
 import { Center, Flex, VStack } from "@chakra-ui/react";
 import { Outlet } from "react-router";
+import PublicFooter from "./public-footer";
 
 //------------------------------------------------------------------------------
 // Public Layout
@@ -7,10 +8,16 @@ import { Outlet } from "react-router";
 
 export default function PublicLayout() {
   return (
-    <VStack backgroundColor="publicPageBg" minH="100vh">
-      <Center px={8} py={8} w="full">
+    <VStack backgroundColor="publicPageBg" gap={0} minH="100vh">
+      <Flex flex="1" justify="center" p={8} w="full">
         <Flex maxW="72em" w="full">
           <Outlet />
+        </Flex>
+      </Flex>
+
+      <Center bg="publicFooterBg" px={8} w="full">
+        <Flex maxW="72em" w="full">
+          <PublicFooter />
         </Flex>
       </Center>
     </VStack>

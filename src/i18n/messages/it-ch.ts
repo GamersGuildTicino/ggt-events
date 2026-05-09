@@ -115,6 +115,10 @@ const itCH = {
   "form.game_system.image_url.label": "URL immagine",
   "form.game_system.name.label": "Nome",
 
+  "layout.public_footer.copyright": "Gamers Guild Ticino",
+  "layout.public_footer.email": "info@gamersguildticino.ch",
+  "layout.public_footer.instagram": "Instagram",
+
   "locale.en-GB": "English",
   "locale.it-CH": "Italiano",
 
