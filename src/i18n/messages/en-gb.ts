@@ -343,6 +343,7 @@ const enGB = {
   "page.home.events.empty": "No upcoming events.",
   "page.home.events.heading": "Upcoming events",
   "page.home.events.open": "View event",
+  "page.home.events.open_and_register": "View event / Register",
   "page.home.events.registrations_closed": "Registrations closed",
   "page.home.events.registrations_open": "Registrations open",
   "page.home.heading": "Gamers Guild Ticino",

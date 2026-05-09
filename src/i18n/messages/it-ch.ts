@@ -355,6 +355,7 @@ const itCH = {
   "page.home.events.empty": "Nessun evento in programma.",
   "page.home.events.heading": "Prossimi eventi",
   "page.home.events.open": "Vedi evento",
+  "page.home.events.open_and_register": "Vedi evento / Iscriviti",
   "page.home.events.registrations_closed": "Registrazioni chiuse",
   "page.home.events.registrations_open": "Registrazioni aperte",
   "page.home.heading": "Gamers Guild Ticino",

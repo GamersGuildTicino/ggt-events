@@ -1,4 +1,4 @@
-import { HStack, Heading, Text, VStack } from "@chakra-ui/react";
+import { HStack, Heading, VStack } from "@chakra-ui/react";
 import useI18n from "~/i18n/use-i18n";
 import HomeUpcomingEventsEmpty from "./home-upcoming-events-empty";
 import HomeUpcomingEventsError from "./home-upcoming-events-error";
@@ -22,11 +22,10 @@ export default function HomeUpcomingEventsSection({
   const { t } = useI18n();
 
   return (
-    <VStack align="stretch" gap={4} id="upcoming-events">
-      <HStack align="flex-end" justify="space-between">
-        <VStack align="flex-start" gap={1}>
+    <VStack align="stretch" gap={4} w="full">
+      <HStack align="flex-end" justify="space-between" w="full">
+        <VStack align="flex-start" flex="1" gap={1} textAlign="left">
           <Heading size="2xl">{t("page.home.events.heading")}</Heading>
-          <Text color="fg.muted">{t("page.home.events.description")}</Text>
         </VStack>
       </HStack>
 

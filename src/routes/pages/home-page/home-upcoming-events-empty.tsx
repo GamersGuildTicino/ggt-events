@@ -1,4 +1,4 @@
-import { Card, Text } from "@chakra-ui/react";
+import { Text } from "@chakra-ui/react";
 import useI18n from "~/i18n/use-i18n";
 
 //------------------------------------------------------------------------------
@@ -8,11 +8,5 @@ import useI18n from "~/i18n/use-i18n";
 export default function HomeUpcomingEventsEmpty() {
   const { t } = useI18n();
 
-  return (
-    <Card.Root borderStyle="dashed">
-      <Card.Body>
-        <Text color="fg.muted">{t("page.home.events.empty")}</Text>
-      </Card.Body>
-    </Card.Root>
-  );
+  return <Text color="fg.muted">{t("page.home.events.empty")}</Text>;
 }
