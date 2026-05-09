@@ -350,6 +350,9 @@ const itCH = {
   "page.home.about.description":
     "Gamers Guild Ticino riunisce persone attorno a storie condivise, dadi e giochi di ruolo dal vivo.",
   "page.home.about.heading": "Giocare storie insieme",
+  "page.home.events.contact_cta": "Contatta l'associazione",
+  "page.home.events.contact_text":
+    "Domande, proposte, oppure vuoi iscriverti all'associazione?",
   "page.home.events.description":
     "Scegli un evento, consulta i tavoli disponibili e riserva il tuo posto quando le registrazioni sono aperte.",
   "page.home.events.empty": "Nessun evento in programma.",

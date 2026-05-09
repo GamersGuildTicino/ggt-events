@@ -1,4 +1,4 @@
-import { List, VStack } from "@chakra-ui/react";
+import { Link, List, Separator, Text, VStack } from "@chakra-ui/react";
 import useI18n from "~/i18n/use-i18n";
 import Eyebrow from "~/ui/eyebrow";
 
@@ -26,6 +26,21 @@ export default function HomeEventsInfoPanel() {
         <List.Item>• {t("page.home.events.info_step_2")}</List.Item>
         <List.Item>• {t("page.home.events.info_step_3")}</List.Item>
       </List.Root>
+
+      <Separator borderColor="publicSurfaceBorder" my={2} />
+
+      <VStack align="flex-start" gap={1}>
+        <Text color="fg.muted" fontSize="sm">
+          {t("page.home.events.contact_text")}
+        </Text>
+
+        <Link
+          href="mailto:info@gamersguildticino.ch"
+          textDecoration="underline"
+        >
+          {t("page.home.events.contact_cta")}
+        </Link>
+      </VStack>
     </VStack>
   );
 }
