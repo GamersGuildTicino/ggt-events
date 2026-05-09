@@ -7,7 +7,7 @@ import { Outlet } from "react-router";
 
 export default function PublicLayout() {
   return (
-    <VStack minH="100vh">
+    <VStack backgroundColor="publicPageBg" minH="100vh">
       <Center px={8} py={8} w="full">
         <Flex maxW="72em" w="full">
           <Outlet />

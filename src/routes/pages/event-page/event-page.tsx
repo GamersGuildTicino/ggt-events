@@ -44,7 +44,7 @@ export default function EventPage() {
             {t("page.event.back_to_home")}
           </RouterLink>
         </Button>
-        <LocaleSelect />
+        <LocaleSelect css={localeSelectCss} />
       </HStack>
 
       {eventState.isLoading && <Spinner />}
@@ -64,9 +64,7 @@ export default function EventPage() {
           />
 
           {eventState.data.description && (
-            <Text color="fg.muted" whiteSpace="pre-line">
-              {eventState.data.description}
-            </Text>
+            <Text whiteSpace="pre-line">{eventState.data.description}</Text>
           )}
 
           <EventTablesSection
@@ -91,3 +89,13 @@ export default function EventPage() {
 function hasEventMap(locationName: string, locationAddress: string) {
   return Boolean(locationName || locationAddress);
 }
+
+//------------------------------------------------------------------------------
+// Locale Select CSS
+//------------------------------------------------------------------------------
+
+const localeSelectCss = {
+  "& [data-part='trigger']": {
+    borderColor: "black",
+  },
+};

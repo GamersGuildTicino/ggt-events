@@ -35,7 +35,12 @@ export default function HomeEventCard({
 
   return (
     <Card.Root
-      _hover={{ borderColor: "orange.400", transform: "translateY(-2px)" }}
+      _hover={{
+        borderColor: "publicAccentBorder",
+        transform: "translateY(-2px)",
+      }}
+      bg="publicSurfaceBg"
+      borderColor="publicSurfaceBorder"
       transition="border-color 160ms ease, transform 160ms ease"
     >
       <Card.Body gap={4}>

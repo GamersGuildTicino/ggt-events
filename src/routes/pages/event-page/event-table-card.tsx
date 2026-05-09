@@ -72,14 +72,16 @@ export default function EventTableCard({
 
   return (
     <Card.Root
-      _hover={{ borderColor: "blue.400", transform: "translateY(-2px)" }}
+      _hover={{ borderColor: "publicAccentBorder" }}
+      bg="publicSurfaceBg"
+      borderColor="publicSurfaceBorder"
       overflow="hidden"
-      transition="border-color 160ms ease, transform 160ms ease"
+      transition="border-color 160ms ease"
     >
       <Card.Body
         backgroundImage={
           imageUrl ?
-            `linear-gradient(135deg, rgba(255,255,255,0.98) 0%, rgba(255,255,255,0.92) 38%, rgba(255,255,255,0.72) 100%), url(${imageUrl})`
+            `linear-gradient(135deg, rgba(252,248,240,0.98) 0%, rgba(247,240,226,0.92) 40%, rgba(234,223,203,0.8) 100%), url(${imageUrl})`
           : undefined
         }
         backgroundPosition="center"

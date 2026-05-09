@@ -29,7 +29,7 @@ export default function EventMapSection({ event }: EventMapSectionProps) {
       <HStack align="center" justify="space-between" wrap="wrap">
         <Heading size="2xl">{t("page.event.map.heading")}</Heading>
 
-        <Button asChild size="xs" variant="outline">
+        <Button asChild borderColor="black" size="xs" variant="outline">
           <a href={googleMapsUrl} rel="noreferrer" target="_blank">
             <ExternalLink />
             {t("page.event.map.open_in_google_maps")}
@@ -37,7 +37,12 @@ export default function EventMapSection({ event }: EventMapSectionProps) {
         </Button>
       </HStack>
 
-      <Box h={{ base: "20rem", md: "24rem" }} overflow="hidden">
+      <Box
+        borderColor="publicSurfaceBorder"
+        borderWidth="1px"
+        h={{ base: "20rem", md: "24rem" }}
+        overflow="hidden"
+      >
         <iframe
           height="100%"
           loading="lazy"
