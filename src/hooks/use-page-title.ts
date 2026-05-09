@@ -12,6 +12,7 @@ const appName = "Gamers Guild Ticino";
 
 export default function usePageTitle(title?: string) {
   useEffect(() => {
-    document.title = title ? `${title} | ${appName}` : appName;
+    document.title =
+      title && title !== appName ? `${title} | ${appName}` : appName;
   }, [title]);
 }
