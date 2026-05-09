@@ -1,4 +1,4 @@
-import { HStack, Heading, Span, Text, VStack } from "@chakra-ui/react";
+import { HStack, Heading, Image, Span, Text, VStack } from "@chakra-ui/react";
 import LocaleSelect from "~/i18n/locale-select";
 import useI18n from "~/i18n/use-i18n";
 
@@ -23,6 +23,13 @@ export default function HomeHero() {
       </HStack>
 
       <VStack align="center" gap={2} mt={{ base: 0, md: 4 }} textAlign="center">
+        <Image
+          alt="Gamers Guild Ticino"
+          boxSize={{ base: "3.5rem", md: "7.5rem" }}
+          mb={2}
+          objectFit="contain"
+          src="/favicon.ico"
+        />
         <Heading
           fontFamily="'Shrikhand', Georgia, serif"
           fontSize={{ base: "4xl", md: "7xl" }}
