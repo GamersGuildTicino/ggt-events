@@ -11,6 +11,7 @@ create table public.event_tables (
   image_url text not null default '',
   game_master_name text not null,
   experience_level public.event_table_experience_level not null default 'unspecified',
+  age_requirement public.event_table_age_requirement not null default 'age_14_plus',
   language public.event_table_language not null default 'italian',
   notes text not null default '',
   min_players integer not null,
