@@ -1,5 +1,4 @@
 import {
-  Badge,
   Button,
   Card,
   HStack,
@@ -91,23 +90,29 @@ export default function EventTableCard({
           <HStack align="flex-start" justify="space-between" w="full">
             <VStack align="flex-start" gap={1}>
               <Heading size="lg">{eventTable.title}</Heading>
+              <Text
+                color="fg.muted"
+                fontSize="sm"
+                fontWeight="semibold"
+                letterSpacing="0.05em"
+                textTransform="uppercase"
+              >
+                {gameSystemName}
+              </Text>
               <Text color="fg.muted" fontSize="sm">
                 {ti("page.event.tables.game_master", eventTable.gameMasterName)}
               </Text>
             </VStack>
 
-            <VStack align="flex-end" gap={1}>
-              <Badge colorPalette="gray">{gameSystemName}</Badge>
-              <HStack gap={1}>
-                <EventTableAgeRequirementBadge
-                  ageRequirement={eventTable.ageRequirement}
-                />
-                <EventTableExperienceLevelBadge
-                  experienceLevel={eventTable.experienceLevel}
-                />
-                <EventTableLanguageBadge language={eventTable.language} />
-              </HStack>
-            </VStack>
+            <HStack gap={1} justify="flex-end" wrap="wrap">
+              <EventTableAgeRequirementBadge
+                ageRequirement={eventTable.ageRequirement}
+              />
+              <EventTableExperienceLevelBadge
+                experienceLevel={eventTable.experienceLevel}
+              />
+              <EventTableLanguageBadge language={eventTable.language} />
+            </HStack>
           </HStack>
 
           {hasDetails && (
