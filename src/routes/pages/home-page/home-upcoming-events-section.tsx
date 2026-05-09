@@ -1,5 +1,6 @@
-import { HStack, Heading, VStack } from "@chakra-ui/react";
+import { Flex, VStack } from "@chakra-ui/react";
 import useI18n from "~/i18n/use-i18n";
+import Eyebrow from "~/ui/eyebrow";
 import HomeUpcomingEventsEmpty from "./home-upcoming-events-empty";
 import HomeUpcomingEventsError from "./home-upcoming-events-error";
 import HomeUpcomingEventsList from "./home-upcoming-events-list";
@@ -22,26 +23,30 @@ export default function HomeUpcomingEventsSection({
   const { t } = useI18n();
 
   return (
-    <VStack align="stretch" gap={4} w="full">
-      <HStack align="flex-end" justify="space-between" w="full">
-        <VStack align="flex-start" flex="1" gap={1} textAlign="left">
-          <Heading size="2xl">{t("page.home.events.heading")}</Heading>
-        </VStack>
-      </HStack>
+    <Flex
+      bgColor="publicSurfaceBg"
+      borderColor="publicSurfaceBorder"
+      borderWidth={1}
+      flex={1}
+      p={6}
+    >
+      <VStack align="flex-start" gap={4} w="full">
+        <Eyebrow>{t("page.home.events.heading")}</Eyebrow>
 
-      {eventsState.isLoading && <HomeUpcomingEventsLoading />}
+        {eventsState.isLoading && <HomeUpcomingEventsLoading />}
 
-      {eventsState.hasError && (
-        <HomeUpcomingEventsError error={eventsState.error} />
-      )}
+        {eventsState.hasError && (
+          <HomeUpcomingEventsError error={eventsState.error} />
+        )}
 
-      {eventsState.isSuccess && upcomingEvents.length === 0 && (
-        <HomeUpcomingEventsEmpty />
-      )}
+        {eventsState.isSuccess && upcomingEvents.length === 0 && (
+          <HomeUpcomingEventsEmpty />
+        )}
 
-      {eventsState.isSuccess && upcomingEvents.length > 0 && (
-        <HomeUpcomingEventsList upcomingEvents={upcomingEvents} />
-      )}
-    </VStack>
+        {eventsState.isSuccess && upcomingEvents.length > 0 && (
+          <HomeUpcomingEventsList upcomingEvents={upcomingEvents} />
+        )}
+      </VStack>
+    </Flex>
   );
 }

@@ -342,6 +342,13 @@ const enGB = {
     "Pick an event, browse the available tables, and reserve your seat when registrations are open.",
   "page.home.events.empty": "No upcoming events.",
   "page.home.events.heading": "Upcoming events",
+  "page.home.events.info_eyebrow": "How it works",
+  "page.home.events.info_step_1":
+    "Each event brings together one or more tables, often with different systems and tones.",
+  "page.home.events.info_step_2":
+    "Open the event page to see the available tables, the game masters, and any age or language requirements.",
+  "page.home.events.info_step_3":
+    "When registrations are open, reserve your seat directly from the event page.",
   "page.home.events.open": "View event",
   "page.home.events.open_and_register": "View event / Register",
   "page.home.events.registrations_closed": "Registrations closed",

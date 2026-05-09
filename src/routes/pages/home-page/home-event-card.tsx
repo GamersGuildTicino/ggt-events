@@ -19,7 +19,6 @@ type HomeEventCardProps = {
 
 export default function HomeEventCard({
   event,
-  isFirst,
   isLast,
   timeSlots,
 }: HomeEventCardProps) {
@@ -27,59 +26,51 @@ export default function HomeEventCard({
   const eventPath =
     locale === "it-CH" ? `/eventi/${event.slug}` : `/events/${event.slug}`;
   const firstTimeSlot = timeSlots[0];
-  const markerCenterOffset = "1.1rem";
   if (!firstTimeSlot) return null;
 
   return (
     <>
-      <VStack align="flex-end" gap={0} pt={2}>
+      <VStack align="flex-end" gap={0}>
         <HomeDateBadge date={firstTimeSlot.startsAt} locale={locale} />
       </VStack>
 
-      <VStack align="center" gap={0} position="relative" w="1.5rem">
-        {!isFirst && (
-          <Box
-            bg="publicSurfaceBorder"
-            bottom={markerCenterOffset}
-            left="50%"
-            position="absolute"
-            top="-1.5rem"
-            transform="translateX(-50%)"
-            w="2px"
-          />
-        )}
+      <VStack
+        align="center"
+        gap={0}
+        mb={isLast ? 6 : 0}
+        position="relative"
+        w="1.5rem"
+      >
+        <Box
+          bgColor={"publicAccentBorder"}
+          borderRadius="full"
+          h="0.8rem"
+          w="0.8rem"
+        />
+        <Box bgColor="publicSurfaceBorder" flex={1} w="2px" />
         <Box
           bg={
             isLast ?
-              "linear-gradient(180deg, rgba(231,220,199,0.95) 0%, rgba(231,220,199,0.95) 72%, rgba(231,220,199,0) 100%)"
+              "linear-gradient(#e7dcc7ff 0%, #e7dcc7dd 15%, #e7dcc700 100%)"
             : "publicSurfaceBorder"
           }
-          bottom="-1.5rem"
-          left="50%"
+          bottom={0}
+          h={6}
           position="absolute"
-          top={markerCenterOffset}
-          transform="translateX(-50%)"
+          transform="translateY(100%)"
           w="2px"
-        />
-        <Box
-          bg="publicAccentBorder"
-          borderRadius="full"
-          h="0.8rem"
-          mt="0.7rem"
-          position="relative"
-          w="0.8rem"
-          zIndex="1"
+          zIndex={1}
         />
       </VStack>
 
-      <VStack align="flex-start" pt={1}>
+      <VStack align="flex-start" mt={-1.5}>
         <Link asChild fontWeight="semibold">
           <RouterLink to={eventPath}>{event.title}</RouterLink>
         </Link>
 
         <HStack color="fg.muted" gap={2}>
           <Box
-            bg={event.registrationsOpen ? "green.500" : "gray.400"}
+            bgColor={event.registrationsOpen ? "green.500" : "gray.400"}
             borderRadius="full"
             h="0.55rem"
             w="0.55rem"

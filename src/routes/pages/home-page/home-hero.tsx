@@ -1,4 +1,4 @@
-import { HStack, Heading, Text, VStack } from "@chakra-ui/react";
+import { HStack, Heading, Span, Text, VStack } from "@chakra-ui/react";
 import LocaleSelect from "~/i18n/locale-select";
 import useI18n from "~/i18n/use-i18n";
 
@@ -16,6 +16,7 @@ export default function HomeHero() {
       borderBottomWidth="1px"
       gap={6}
       pb={6}
+      w="full"
     >
       <HStack justify="flex-end" w="full">
         <LocaleSelect css={localeSelectCss} />
@@ -28,7 +29,8 @@ export default function HomeHero() {
           fontWeight="light"
           lineHeight={1}
         >
-          {t("page.home.heading")}
+          <Span color="#e68bb6">G</Span>amers <Span color="#e68bb6">G</Span>uild{" "}
+          <Span color="#e68bb6">T</Span>icino
         </Heading>
         <Text color="fg.muted" fontSize={{ base: "lg", md: "xl" }} maxW="34em">
           {t("page.home.hero.description")}

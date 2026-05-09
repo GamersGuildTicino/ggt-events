@@ -354,6 +354,13 @@ const itCH = {
     "Scegli un evento, consulta i tavoli disponibili e riserva il tuo posto quando le registrazioni sono aperte.",
   "page.home.events.empty": "Nessun evento in programma.",
   "page.home.events.heading": "Prossimi eventi",
+  "page.home.events.info_eyebrow": "Come funziona",
+  "page.home.events.info_step_1":
+    "Ogni evento riunisce uno o più tavoli, spesso con sistemi e toni diversi.",
+  "page.home.events.info_step_2":
+    "Apri la pagina dell'evento per vedere i tavoli disponibili, i game master e gli eventuali requisiti di età o lingua.",
+  "page.home.events.info_step_3":
+    "Quando le registrazioni sono aperte, puoi riservare il tuo posto direttamente dalla pagina dell'evento.",
   "page.home.events.open": "Vedi evento",
   "page.home.events.open_and_register": "Vedi evento / Iscriviti",
   "page.home.events.registrations_closed": "Registrazioni chiuse",

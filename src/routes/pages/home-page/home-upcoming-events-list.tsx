@@ -1,4 +1,4 @@
-import { Box, Grid } from "@chakra-ui/react";
+import { Grid } from "@chakra-ui/react";
 import HomeEventCard from "./home-event-card";
 import type { UpcomingHomeEvent } from "./use-home-events";
 
@@ -20,24 +20,21 @@ export default function HomeUpcomingEventsList({
   const timelineColumnGap = { base: 4, md: 6 };
 
   return (
-    <Box w="full">
-      <Grid
-        columnGap={timelineColumnGap}
-        gridTemplateColumns={timelineColumns}
-        position="relative"
-        rowGap={6}
-        w="full"
-      >
-        {upcomingEvents.map(({ event, timeSlots }, index) => (
-          <HomeEventCard
-            event={event}
-            isFirst={index === 0}
-            isLast={index === upcomingEvents.length - 1}
-            key={event.id}
-            timeSlots={timeSlots}
-          />
-        ))}
-      </Grid>
-    </Box>
+    <Grid
+      columnGap={timelineColumnGap}
+      gridTemplateColumns={timelineColumns}
+      position="relative"
+      rowGap={6}
+    >
+      {upcomingEvents.map(({ event, timeSlots }, index) => (
+        <HomeEventCard
+          event={event}
+          isFirst={index === 0}
+          isLast={index === upcomingEvents.length - 1}
+          key={event.id}
+          timeSlots={timeSlots}
+        />
+      ))}
+    </Grid>
   );
 }
