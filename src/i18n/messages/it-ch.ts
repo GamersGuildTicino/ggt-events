@@ -362,12 +362,13 @@ const itCH = {
   "page.home.events.empty": "Nessun evento in programma.",
   "page.home.events.heading": "Prossimi eventi",
   "page.home.events.info_eyebrow": "Come funziona",
-  "page.home.events.info_step_1":
-    "Ogni evento riunisce uno o più tavoli, spesso con sistemi e toni diversi.",
+  "page.home.events.info_intro":
+    "Gamers Guild Ticino è un’associazione senza scopo di lucro che promuove la cultura e la diffusione dei giochi di ruolo, favorendo la socializzazione, l’aggregazione e la condivisione della passione per il gioco attraverso eventi e iniziative aperte.",
+  "page.home.events.info_step_1": "Ogni evento può ospitare uno o più tavoli.",
   "page.home.events.info_step_2":
-    "Apri la pagina dell'evento per vedere i tavoli disponibili, i game master e gli eventuali requisiti di età o lingua.",
+    "Apri un evento per vedere tavoli, game master e requisiti.",
   "page.home.events.info_step_3":
-    "Quando le registrazioni sono aperte, puoi riservare il tuo posto direttamente dalla pagina dell'evento.",
+    "Quando le registrazioni sono aperte, puoi riservare il tuo posto online.",
   "page.home.events.open": "Vedi evento",
   "page.home.events.open_and_register": "Vedi evento / Iscriviti",
   "page.home.events.registrations_closed": "Registrazioni chiuse",

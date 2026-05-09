@@ -350,12 +350,13 @@ const enGB = {
   "page.home.events.empty": "No upcoming events.",
   "page.home.events.heading": "Upcoming events",
   "page.home.events.info_eyebrow": "How it works",
-  "page.home.events.info_step_1":
-    "Each event brings together one or more tables, often with different systems and tones.",
+  "page.home.events.info_intro":
+    "Gamers Guild Ticino is a non-profit association that promotes the culture and diffusion of role-playing games, encouraging socialization, community building, and sharing a passion for play through events and open initiatives.",
+  "page.home.events.info_step_1": "Each event may host one or more tables.",
   "page.home.events.info_step_2":
-    "Open the event page to see the available tables, the game masters, and any age or language requirements.",
+    "Open an event to see tables, game masters, and requirements.",
   "page.home.events.info_step_3":
-    "When registrations are open, reserve your seat directly from the event page.",
+    "When registrations are open, reserve your seat online.",
   "page.home.events.open": "View event",
   "page.home.events.open_and_register": "View event / Register",
   "page.home.events.registrations_closed": "Registrations closed",

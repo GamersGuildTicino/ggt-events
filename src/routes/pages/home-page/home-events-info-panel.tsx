@@ -21,7 +21,9 @@ export default function HomeEventsInfoPanel() {
     >
       <Eyebrow>{t("page.home.events.info_eyebrow")}</Eyebrow>
 
-      <List.Root color="fg.muted" gap={1.5} lineHeight={1.2} variant="plain">
+      <Text>{t("page.home.events.info_intro")}</Text>
+
+      <List.Root gap={1.5} lineHeight={1.2} variant="plain">
         <List.Item>• {t("page.home.events.info_step_1")}</List.Item>
         <List.Item>• {t("page.home.events.info_step_2")}</List.Item>
         <List.Item>• {t("page.home.events.info_step_3")}</List.Item>
