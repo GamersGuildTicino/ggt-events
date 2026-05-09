@@ -8,6 +8,7 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { useCallback, useState } from "react";
+import type { EventTableAgeRequirement } from "~/domain/enums/event-table-age-requirement";
 import { registerForEventTable } from "~/domain/event-registrations";
 import type { PublicEventTable } from "~/domain/event-tables";
 import useI18n from "~/i18n/use-i18n";
@@ -26,6 +27,7 @@ import {
 //------------------------------------------------------------------------------
 
 type EventRegistrationSectionProps = {
+  ageRequirement: EventTableAgeRequirement;
   eventTableId: PublicEventTable["id"];
   onCancel: () => void;
   onSuccess: () => void;
@@ -34,6 +36,7 @@ type EventRegistrationSectionProps = {
 };
 
 export default function EventRegistrationSection({
+  ageRequirement,
   eventTableId,
   onCancel,
   onSuccess,
@@ -106,6 +109,16 @@ export default function EventRegistrationSection({
                   <Input name="phone-number" size="sm" type="tel" />
                 </Field.Root>
               </HStack>
+
+              {ageRequirement === "kids" && (
+                <Field.Root required>
+                  <Checkbox name="guardian-confirmed" required size="sm">
+                    <Text fontSize="sm">
+                      {t("page.event.registration.guardian_confirmation")}
+                    </Text>
+                  </Checkbox>
+                </Field.Root>
+              )}
 
               <Field.Root required>
                 <Checkbox name="accept-terms" required size="sm">

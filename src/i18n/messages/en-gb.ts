@@ -17,6 +17,10 @@ const enGB = {
   "enum.event_table_experience_level.novice": "Novice",
   "enum.event_table_experience_level.unspecified": "Unspecified",
 
+  "enum.event_table_age_requirement.age_14_plus": "14+",
+  "enum.event_table_age_requirement.age_18_plus": "18+",
+  "enum.event_table_age_requirement.kids": "Kids",
+
   "enum.event_table_language.english": "English",
   "enum.event_table_language.french": "French",
   "enum.event_table_language.german": "German",
@@ -83,6 +87,7 @@ const enGB = {
   "form.event_details.title.label": "Title",
   "form.event_details.visibility.label": "Visibility",
 
+  "form.event_table.age_requirement.label": "Age requirement",
   "form.event_table.description.label": "Description",
   "form.event_table.experience_level.label": "Experience level",
   "form.event_table.game_master_name.label": "Game master",
@@ -298,6 +303,8 @@ const enGB = {
     "I confirm that I can arrive 15 minutes before the indicated time and attend the session in full. I understand that discriminatory, offensive, racist, or sexist behaviour towards other players may result in disqualification from the event.",
   "page.event.registration.cancel": "Cancel",
   "page.event.registration.email": "Email",
+  "page.event.registration.guardian_confirmation":
+    "As a parent or legal guardian, I confirm that I will be present and responsible for the child during the activity.",
   "page.event.registration.name": "Name",
   "page.event.registration.open": "Register",
   "page.event.registration.phone_number": "Phone number",

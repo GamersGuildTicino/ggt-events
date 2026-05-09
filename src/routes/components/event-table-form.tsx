@@ -2,6 +2,10 @@ import { Field, HStack, Input, Textarea } from "@chakra-ui/react";
 import type { ReactNode } from "react";
 import { useCallback } from "react";
 import {
+  type EventTableAgeRequirement,
+  useEventTableAgeRequirementOptions,
+} from "~/domain/enums/event-table-age-requirement";
+import {
   type EventTableExperienceLevel,
   useEventTableExperienceLevelOptions,
 } from "~/domain/enums/event-table-experience-level";
@@ -22,6 +26,7 @@ import SelectEnum from "~/ui/select-enum";
 
 export type EventTableFormValue = Pick<
   EventTable,
+  | "ageRequirement"
   | "description"
   | "experienceLevel"
   | "gameMasterName"
@@ -62,6 +67,7 @@ export default function EventTableForm({
   timeSlots,
 }: EventTableFormProps) {
   const { locale, t } = useI18n();
+  const ageRequirementOptions = useEventTableAgeRequirementOptions();
   const experienceLevelOptions = useEventTableExperienceLevelOptions();
   const languageOptions = useEventTableLanguageOptions();
 
@@ -175,6 +181,19 @@ export default function EventTableForm({
       <HStack w="full">
         <Field.Root disabled={disabled} required>
           <Field.Label>
+            {t("form.event_table.age_requirement.label")}
+            <Field.RequiredIndicator />
+          </Field.Label>
+          <SelectEnum<EventTableAgeRequirement>
+            defaultValue={initialValue?.ageRequirement ?? "age_14_plus"}
+            name="age-requirement"
+            options={ageRequirementOptions}
+            size="sm"
+          />
+        </Field.Root>
+
+        <Field.Root disabled={disabled} required>
+          <Field.Label>
             {t("form.event_table.experience_level.label")}
             <Field.RequiredIndicator />
           </Field.Label>
@@ -241,6 +260,7 @@ function eventTableFormValueFromForm(form: HTMLFormElement) {
   const getNumber = (key: string) => Number(formData.get(key));
 
   return {
+    ageRequirement: getString("age-requirement") as EventTableAgeRequirement,
     description: getString("description"),
     experienceLevel: getString("experience-level") as EventTableExperienceLevel,
     gameMasterName: getString("game-master-name"),

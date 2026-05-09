@@ -16,6 +16,7 @@ import { formatPlayerCount } from "~/domain/players";
 import useI18n from "~/i18n/use-i18n";
 import AppAlert from "~/ui/app-alert";
 import type { AsyncState } from "~/utils/async-state";
+import EventTableAgeRequirementBadge from "../../components/event-table-age-requirement-badge";
 import EventTableExperienceLevelBadge from "../../components/event-table-experience-level-badge";
 import EventTableForm, {
   type EventTableFormValue,
@@ -129,6 +130,10 @@ export default function AdminEventTableCard({
                 <Text fontSize="sm">
                   {formatPlayerCount({ ...eventTable, t, ti })}
                 </Text>
+                <EventTableAgeRequirementBadge
+                  ageRequirement={eventTable.ageRequirement}
+                  size="sm"
+                />
                 <EventTableExperienceLevelBadge
                   experienceLevel={eventTable.experienceLevel}
                   size="sm"

@@ -17,6 +17,10 @@ const itCH = {
   "enum.event_table_experience_level.novice": "Principiante",
   "enum.event_table_experience_level.unspecified": "Non specificato",
 
+  "enum.event_table_age_requirement.age_14_plus": "14+",
+  "enum.event_table_age_requirement.age_18_plus": "18+",
+  "enum.event_table_age_requirement.kids": "Per bambini",
+
   "enum.event_table_language.english": "Inglese",
   "enum.event_table_language.french": "Francese",
   "enum.event_table_language.german": "Tedesco",
@@ -89,6 +93,7 @@ const itCH = {
   "form.event_details.title.label": "Titolo",
   "form.event_details.visibility.label": "Visibilità",
 
+  "form.event_table.age_requirement.label": "Fascia d'età",
   "form.event_table.description.label": "Descrizione",
   "form.event_table.experience_level.label": "Esperienza",
   "form.event_table.game_master_name.label": "Game master",
@@ -310,6 +315,8 @@ const itCH = {
     "Confermo di poter arrivare 15 minuti prima dell'orario indicato e di seguire la partita per intero. Prendo atto che atteggiamenti discriminatori, offensivi, razzisti o sessisti verso altrə giocatorə possono significare la squalifica dalla serata.",
   "page.event.registration.cancel": "Annulla",
   "page.event.registration.email": "Email",
+  "page.event.registration.guardian_confirmation":
+    "In quanto genitore o tutore legale, confermo che sarò presente e responsabile per il bambino durante l'attività.",
   "page.event.registration.name": "Nome",
   "page.event.registration.open": "Registrati",
   "page.event.registration.phone_number": "Numero di telefono",

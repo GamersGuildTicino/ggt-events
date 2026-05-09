@@ -6,6 +6,7 @@ import {
   failure,
   success,
 } from "~/utils/async-state";
+import { eventTableAgeRequirementSchema } from "./enums/event-table-age-requirement";
 import { eventTableExperienceLevelSchema } from "./enums/event-table-experience-level";
 import { eventTableLanguageSchema } from "./enums/event-table-language";
 
@@ -14,6 +15,7 @@ import { eventTableLanguageSchema } from "./enums/event-table-language";
 //------------------------------------------------------------------------------
 
 export const eventTableSchema = z.object({
+  ageRequirement: eventTableAgeRequirementSchema,
   createdAt: z.date(),
   createdBy: z.uuid(),
   description: z.string(),
@@ -44,6 +46,7 @@ export type PublicEventTable = z.infer<typeof publicEventTableSchema>;
 //------------------------------------------------------------------------------
 
 export const eventTableRowSchema = z.object({
+  age_requirement: eventTableAgeRequirementSchema,
   created_at: z.string(),
   created_by: z.uuid(),
   description: z.string(),
@@ -75,6 +78,7 @@ export type PublicEventTableRow = z.infer<typeof publicEventTableRowSchema>;
 
 export const eventTableFromRowSchema = eventTableRowSchema.transform(
   (row): EventTable => ({
+    ageRequirement: row.age_requirement,
     createdAt: new Date(row.created_at),
     createdBy: row.created_by,
     description: row.description,
@@ -96,6 +100,7 @@ export const eventTableFromRowSchema = eventTableRowSchema.transform(
 export const publicEventTableFromRowSchema =
   publicEventTableRowSchema.transform(
     (row): PublicEventTable => ({
+      ageRequirement: row.age_requirement,
       createdAt: new Date(row.created_at),
       createdBy: row.created_by,
       description: row.description,
@@ -123,6 +128,7 @@ export async function createEventTable(
   eventTable: Omit<EventTable, "createdAt" | "id" | "updatedAt">,
 ) {
   const { error } = await supabase.from("event_tables").insert({
+    age_requirement: eventTable.ageRequirement,
     created_by: eventTable.createdBy,
     description: eventTable.description,
     experience_level: eventTable.experienceLevel,
@@ -204,6 +210,7 @@ export async function updateEventTable(
   const { error } = await supabase
     .from("event_tables")
     .update({
+      age_requirement: eventTable.ageRequirement,
       description: eventTable.description,
       experience_level: eventTable.experienceLevel,
       game_master_name: eventTable.gameMasterName,
