@@ -84,7 +84,7 @@ export default function EventRegistrationSection({
       <VStack align="stretch" gap={3} w="full">
         {visible && (
           <form onSubmit={registerToEventTable}>
-            <VStack align="stretch" gap={3}>
+            <VStack align="stretch">
               <Field.Root required>
                 <Field.Label>
                   {t("page.event.registration.email")}
