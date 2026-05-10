@@ -381,7 +381,6 @@ as $$
   join public.event_time_slots on event_time_slots.id = event_tables.time_slot_id
   join public.events on events.id = event_time_slots.event_id
   where event_time_slots.event_id = p_event_id
-    and events.visibility in ('public', 'restricted')
   order by event_tables.title asc;
 $$;
 
