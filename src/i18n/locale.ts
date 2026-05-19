@@ -16,9 +16,9 @@ export type Locale = z.infer<typeof localeSchema>;
 //------------------------------------------------------------------------------
 
 function detectLocale(): Locale {
-  if (typeof navigator === "undefined") return "en-GB";
+  if (typeof navigator === "undefined") return "it-CH";
   const parsed = localeSchema.safeParse(navigator.language);
-  return parsed.success ? parsed.data : "en-GB";
+  return parsed.success ? parsed.data : "it-CH";
 }
 
 //------------------------------------------------------------------------------
