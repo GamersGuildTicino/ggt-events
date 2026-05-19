@@ -9,6 +9,9 @@ import useI18n from "~/i18n/use-i18n";
 export const eventTableAgeRequirementSchema = z.enum([
   "kids",
   "age_14_plus",
+  "age_15_plus",
+  "age_16_plus",
+  "age_17_plus",
   "age_18_plus",
 ]);
 
@@ -43,6 +46,12 @@ export function ageRequirementColorPalette(
   switch (ageRequirement) {
     case "age_14_plus":
       return "blue";
+    case "age_15_plus":
+      return "cyan";
+    case "age_16_plus":
+      return "yellow";
+    case "age_17_plus":
+      return "orange";
     case "age_18_plus":
       return "red";
     case "kids":

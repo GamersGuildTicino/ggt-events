@@ -18,6 +18,9 @@ const itCH = {
   "enum.event_table_experience_level.unspecified": "Non specificato",
 
   "enum.event_table_age_requirement.age_14_plus": "14+",
+  "enum.event_table_age_requirement.age_15_plus": "15+",
+  "enum.event_table_age_requirement.age_16_plus": "16+",
+  "enum.event_table_age_requirement.age_17_plus": "17+",
   "enum.event_table_age_requirement.age_18_plus": "18+",
   "enum.event_table_age_requirement.kids": "Per bambini",
 
