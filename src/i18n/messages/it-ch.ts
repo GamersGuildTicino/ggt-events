@@ -48,6 +48,8 @@ const itCH = {
 
   "error.event_registrations.already_registered_same_table":
     "Questo giocatore è già registrato per questo tavolo.",
+  "error.event_registrations.anonymize_old":
+    "Impossibile anonimizzare le vecchie registrazioni.",
   "error.event_registrations.create":
     "Impossibile completare la registrazione.",
   "error.event_registrations.delete": "Impossibile rimuovere la registrazione.",
@@ -172,6 +174,7 @@ const itCH = {
   "page.admin_event.tables.notes": "Note",
   "page.admin_event.tables.registrations.add": "Aggiungi",
   "page.admin_event.tables.registrations.added": "Giocatore aggiunto.",
+  "page.admin_event.tables.registrations.anonymized": "Anonimizzato",
   "page.admin_event.tables.registrations.confirm_add": "Conferma aggiunta",
   "page.admin_event.tables.registrations.delete": "Rimuovi",
   "page.admin_event.tables.registrations.delete.confirm":
@@ -200,6 +203,11 @@ const itCH = {
   "page.admin_event.time_slots.new": "Nuova fascia oraria",
   "page.admin_event.time_slots.save": "Salva modifiche",
 
+  "page.admin_events.anonymize_old": "Anonimizza eventi",
+  "page.admin_events.anonymize_old.confirm":
+    "Anonimizzare i dati personali delle registrazioni collegate a eventi conclusi da più di 12 mesi?",
+  "page.admin_events.anonymize_old.success":
+    "{0} vecchie registrazioni anonimizzate.",
   "page.admin_events.breadcrumb.admin": "Panoramica",
   "page.admin_events.breadcrumb.events": "Eventi",
   "page.admin_events.compose_email": "Scrivi email",

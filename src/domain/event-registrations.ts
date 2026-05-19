@@ -13,6 +13,7 @@ import {
 //------------------------------------------------------------------------------
 
 export const eventRegistrationSchema = z.object({
+  anonymizedAt: z.date().nullable(),
   createdAt: z.date(),
   email: z.string(),
   eventTableId: z.uuid(),
@@ -32,6 +33,7 @@ export type EventRegistrationInput = {
 };
 
 export const eventRegistrationRowSchema = z.object({
+  anonymized_at: z.string().nullable(),
   created_at: z.string(),
   email: z.string(),
   event_table_id: z.uuid(),
@@ -43,6 +45,7 @@ export const eventRegistrationRowSchema = z.object({
 export const eventRegistrationFromRowSchema =
   eventRegistrationRowSchema.transform(
     (row): EventRegistration => ({
+      anonymizedAt: row.anonymized_at ? new Date(row.anonymized_at) : null,
       createdAt: new Date(row.created_at),
       email: row.email,
       eventTableId: row.event_table_id,
@@ -51,6 +54,21 @@ export const eventRegistrationFromRowSchema =
       playerName: row.player_name,
     }),
   );
+
+//------------------------------------------------------------------------------
+// Anonymize Old Event Registrations
+//------------------------------------------------------------------------------
+
+export async function anonymizeOldEventRegistrations() {
+  const { data, error } = await supabase.rpc(
+    "anonymize_old_event_registrations",
+  );
+
+  return {
+    count: typeof data === "number" ? data : 0,
+    error: error ? "error.event_registrations.anonymize_old" : "",
+  };
+}
 
 //------------------------------------------------------------------------------
 // Delete Event Registration

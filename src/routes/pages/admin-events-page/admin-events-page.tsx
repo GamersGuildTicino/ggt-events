@@ -24,6 +24,8 @@ import useAdminEvents from "./use-admin-events";
 export default function AdminEventsPage() {
   const { locale, t, ti } = useI18n();
   const {
+    anonymizeOldAdminEventRegistrations,
+    anonymizeOldRegistrationsState,
     copyAdminEventEmails,
     deleteAdminEvent,
     deleteError,
@@ -40,6 +42,11 @@ export default function AdminEventsPage() {
     (eventTitle: string) =>
       window.confirm(ti("page.admin_events.delete.confirm", eventTitle)),
     [ti],
+  );
+
+  const confirmOldRegistrationsAnonymization = useCallback(
+    () => window.confirm(t("page.admin_events.anonymize_old.confirm")),
+    [t],
   );
 
   const composeAdminEventEmailForCard = useCallback(
@@ -110,6 +117,15 @@ export default function AdminEventsPage() {
     [confirmAdminEventDelete, deleteAdminEvent],
   );
 
+  const anonymizeOldRegistrations = useCallback(async () => {
+    if (!confirmOldRegistrationsAnonymization()) return;
+
+    await anonymizeOldAdminEventRegistrations();
+  }, [
+    anonymizeOldAdminEventRegistrations,
+    confirmOldRegistrationsAnonymization,
+  ]);
+
   return (
     <VStack align="stretch" gap={3} w="full">
       <AdminBreadcrumb
@@ -119,14 +135,25 @@ export default function AdminEventsPage() {
         ]}
       />
 
-      <HStack justify="space-between">
+      <HStack align="center" justify="space-between">
         <Heading size="3xl">{t("page.admin_events.heading")}</Heading>
 
-        <Button asChild size="xs">
-          <RouterLink to="/admin/events/new">
-            {t("page.admin_events.new")}
-          </RouterLink>
-        </Button>
+        <HStack>
+          <Button
+            loading={anonymizeOldRegistrationsState.isLoading}
+            onClick={anonymizeOldRegistrations}
+            size="xs"
+            variant="outline"
+          >
+            {t("page.admin_events.anonymize_old")}
+          </Button>
+
+          <Button asChild size="xs">
+            <RouterLink to="/admin/events/new">
+              {t("page.admin_events.new")}
+            </RouterLink>
+          </Button>
+        </HStack>
       </HStack>
 
       {eventsState.isLoading && <Spinner />}
@@ -140,6 +167,21 @@ export default function AdminEventsPage() {
       {deleteError && (
         <AppAlert dismissible status="error">
           {t(deleteError)}
+        </AppAlert>
+      )}
+
+      {anonymizeOldRegistrationsState.hasError && (
+        <AppAlert dismissible status="error">
+          {t(anonymizeOldRegistrationsState.error)}
+        </AppAlert>
+      )}
+
+      {anonymizeOldRegistrationsState.isSuccess && (
+        <AppAlert dismissible status="success">
+          {ti(
+            "page.admin_events.anonymize_old.success",
+            String(anonymizeOldRegistrationsState.data),
+          )}
         </AppAlert>
       )}
 

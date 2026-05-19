@@ -1,4 +1,5 @@
 import {
+  Badge,
   Button,
   HStack,
   Heading,
@@ -145,21 +146,34 @@ export default function AdminEventTableRegistrationsSection({
             registrations.map((registration) => (
               <HStack justify="space-between" key={registration.id} w="full">
                 <VStack align="flex-start" gap={0}>
-                  <Text fontSize="sm" fontWeight="medium">
-                    {registration.playerName}
-                  </Text>
-                  <Text color="fg.muted" fontSize="sm">
-                    {registration.email}
-                  </Text>
-                  {registration.phoneNumber && (
-                    <Text color="fg.muted" fontSize="sm">
-                      {registration.phoneNumber}
+                  <HStack>
+                    <Text fontSize="sm" fontWeight="medium">
+                      {registration.playerName}
                     </Text>
+                    {registration.anonymizedAt && (
+                      <Badge colorPalette="gray" size="xs">
+                        {t("page.admin_event.tables.registrations.anonymized")}
+                      </Badge>
+                    )}
+                  </HStack>
+
+                  {!registration.anonymizedAt && (
+                    <>
+                      <Text color="fg.muted" fontSize="sm">
+                        {registration.email}
+                      </Text>
+                      {registration.phoneNumber && (
+                        <Text color="fg.muted" fontSize="sm">
+                          {registration.phoneNumber}
+                        </Text>
+                      )}
+                    </>
                   )}
                 </VStack>
 
                 <Button
                   colorPalette="red"
+                  disabled={Boolean(registration.anonymizedAt)}
                   loading={deletingRegistrationId === registration.id}
                   onClick={() => deleteAdminEventRegistration(registration)}
                   size="xs"

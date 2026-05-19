@@ -1,5 +1,8 @@
 import { useCallback, useMemo, useState } from "react";
-import { fetchEventRegistrations } from "~/domain/event-registrations";
+import {
+  anonymizeOldEventRegistrations,
+  fetchEventRegistrations,
+} from "~/domain/event-registrations";
 import { fetchEventTables } from "~/domain/event-tables";
 import {
   type EventTimeSlot,
@@ -28,6 +31,8 @@ export type EventSummaryStats = {
 //------------------------------------------------------------------------------
 
 export default function useAdminEvents(locale: Locale) {
+  const [anonymizeOldRegistrationsState, setAnonymizeOldRegistrationsState] =
+    useState<AsyncState<number>>(initial());
   const [deleteError, setDeleteError] = useState("");
   const [eventsState, setEventsState] =
     useState<AsyncState<Event[]>>(initial());
@@ -92,7 +97,7 @@ export default function useAdminEvents(locale: Locale) {
                 (registrationsByTableId.get(registration.eventTableId) ?? 0) +
                   1,
               );
-              emails.add(registration.email);
+              if (!registration.anonymizedAt) emails.add(registration.email);
             }
           }
 
@@ -173,6 +178,31 @@ export default function useAdminEvents(locale: Locale) {
     [loadEvents],
   );
 
+  const anonymizeOldAdminEventRegistrations = useCallback(async () => {
+    setAnonymizeOldRegistrationsState(loading());
+    const result = await anonymizeOldEventRegistrations();
+
+    if (result.error) {
+      setAnonymizeOldRegistrationsState({
+        error: result.error,
+        hasError: true,
+        isLoading: false,
+        isSuccess: false,
+        status: "failure",
+      });
+      return;
+    }
+
+    setAnonymizeOldRegistrationsState({
+      data: result.count,
+      hasError: false,
+      isLoading: false,
+      isSuccess: true,
+      status: "success",
+    });
+    await loadEvents();
+  }, [loadEvents]);
+
   const copyAdminEventEmails = useCallback(
     async (event: Event) => {
       const emails = statsByEventId[event.id]?.emails ?? [];
@@ -200,6 +230,8 @@ export default function useAdminEvents(locale: Locale) {
   );
 
   return {
+    anonymizeOldAdminEventRegistrations,
+    anonymizeOldRegistrationsState,
     composeAdminEventEmail,
     copyAdminEventEmails,
     deleteAdminEvent,

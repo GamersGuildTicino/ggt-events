@@ -48,6 +48,8 @@ const enGB = {
 
   "error.event_registrations.already_registered_same_table":
     "This player is already registered for this table.",
+  "error.event_registrations.anonymize_old":
+    "Unable to anonymize old registrations.",
   "error.event_registrations.create": "Unable to complete the registration.",
   "error.event_registrations.delete": "Unable to remove the registration.",
   "error.event_registrations.fetch_many": "Unable to load registrations.",
@@ -164,6 +166,7 @@ const enGB = {
   "page.admin_event.tables.notes": "Notes",
   "page.admin_event.tables.registrations.add": "Add",
   "page.admin_event.tables.registrations.added": "Player added.",
+  "page.admin_event.tables.registrations.anonymized": "Anonymized",
   "page.admin_event.tables.registrations.confirm_add": "Confirm add",
   "page.admin_event.tables.registrations.delete": "Remove",
   "page.admin_event.tables.registrations.delete.confirm":
@@ -192,6 +195,11 @@ const enGB = {
   "page.admin_event.time_slots.new": "New time slot",
   "page.admin_event.time_slots.save": "Save changes",
 
+  "page.admin_events.anonymize_old": "Anonymize events",
+  "page.admin_events.anonymize_old.confirm":
+    "Anonymize personal data for registrations linked to events that ended more than 12 months ago?",
+  "page.admin_events.anonymize_old.success":
+    "{0} old registrations anonymized.",
   "page.admin_events.breadcrumb.admin": "Dashboard",
   "page.admin_events.breadcrumb.events": "Events",
   "page.admin_events.compose_email": "Compose email",
