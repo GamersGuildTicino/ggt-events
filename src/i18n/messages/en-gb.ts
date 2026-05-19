@@ -115,6 +115,7 @@ const enGB = {
   "form.game_system.name.label": "Name",
 
   "layout.public_footer.copyright": "Gamers Guild Ticino",
+  "layout.public_footer.data_and_terms": "Data & Terms",
   "layout.public_footer.email": "info@gamersguildticino.ch",
   "layout.public_footer.instagram": "Instagram",
 
@@ -298,6 +299,41 @@ const enGB = {
   "page.admin_reset_password.success":
     "Password updated. Redirecting to login.",
 
+  "page.data_and_terms.content": `
+##Overview##
+These terms explain how Gamers Guild Ticino manages table registrations and the personal data submitted through this website.
+
+##Participation##
+By registering for a table, participants confirm that the submitted information is accurate, that they can attend the selected session, and that they will follow the event rules and the instructions of the organisers. Discriminatory, offensive, racist, or sexist behaviour may result in removal from the event.
+
+##Data we collect##
+• Full name, used to identify the participant at the table.
+• Email address, used for registration confirmations and event-related communications.
+• Phone number, used only for practical or urgent event-related communication.
+
+##Why we use the data##
+The data is used to manage event registrations, contact participants about the event, coordinate tables, and handle operational changes such as cancellations or schedule updates. We do not use registration data for newsletters or marketing campaigns without separate consent.
+
+##Storage and access##
+Registration data is stored through Supabase, the external technical provider we use for the website database, authentication, and backend services. Access is limited to authorized organizers.
+Transactional emails, such as registration confirmations and removal confirmations, are sent through Mailjet. Mailjet may process recipient email addresses for delivery, technical tracking, bounce handling, abuse prevention, and deliverability.
+
+##Retention##
+Registration data may be kept after the event for internal organization and event history. Registrations linked to events that ended more than 12 months ago may be anonymized, removing name, email, and phone number while preserving aggregate participation counts.
+
+##Participant rights##
+Participants may ask to access or correct their registration data.
+Participants may ask us to remove their registration from an event. Removing a registration deletes the table booking and frees the seat.
+For events that have already ended, participants may ask us to anonymize their personal data linked to that event. Anonymization removes name, email, and phone number while preserving aggregate participation counts.
+Some data may need to be kept temporarily when required for event organization or legal reasons.
+
+##Contact##
+For questions, access requests, corrections, registration removal requests, or anonymization requests, contact us at @@info@gamersguildticino.ch@@.
+`,
+  "page.data_and_terms.heading": "Data Transparency and Participation Terms",
+  "page.data_and_terms.last_updated": "Last updated: May 2026",
+  "page.data_and_terms.url": "/data-and-terms",
+
   "page.event.back_to_home": "Back to home",
   "page.event.details.address": "Address",
   "page.event.details.date": "Date",
@@ -314,8 +350,9 @@ const enGB = {
   "page.event.map.heading": "How to get there",
   "page.event.map.jump_to_map": "Get here",
   "page.event.map.open_in_google_maps": "Open in Google Maps",
-  "page.event.registration.accept_terms":
-    "I confirm that I can arrive 15 minutes before the indicated time and attend the session in full. I understand that discriminatory, offensive, racist, or sexist behaviour towards other players may result in disqualification from the event.",
+  "page.event.registration.accept_terms": "I accept the ",
+  "page.event.registration.accept_time":
+    "I confirm that I can arrive 15 minutes before the indicated time and attend the session in full",
   "page.event.registration.cancel": "Cancel",
   "page.event.registration.email": "Email",
   "page.event.registration.guardian_confirmation":
@@ -323,9 +360,11 @@ const enGB = {
   "page.event.registration.name": "Name",
   "page.event.registration.open": "Register",
   "page.event.registration.phone_number": "Phone number",
-  "page.event.registration.submit": "Confirm registration",
+  "page.event.registration.submit": "Register",
   "page.event.registration.success":
     "Registration completed. A confirmation email has been sent.",
+  "page.event.registration.terms_link":
+    "terms of participation and on data usage",
   "page.event.registrations_closed": "Registrations closed",
   "page.event.registrations_open": "Registrations open",
   "page.event.tables.available_seats/*": "{0} seats left",
@@ -384,7 +423,6 @@ const enGB = {
   "page.home.hero.eyebrow": "TTRPG events in Ticino",
 
   "page.not_found.heading": "Page Not Found",
-  "page.terms_and_conditions.heading": "Terms & Conditions",
 } as const;
 
 export default enGB;

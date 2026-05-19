@@ -4,10 +4,12 @@ import {
   Field,
   HStack,
   Input,
+  Link,
   Text,
   VStack,
 } from "@chakra-ui/react";
 import { useCallback, useState } from "react";
+import { Link as RouterLink } from "react-router";
 import type { EventTableAgeRequirement } from "~/domain/enums/event-table-age-requirement";
 import { registerForEventTable } from "~/domain/event-registrations";
 import type { PublicEventTable } from "~/domain/event-tables";
@@ -110,23 +112,41 @@ export default function EventRegistrationSection({
                 </Field.Root>
               </HStack>
 
-              {ageRequirement === "kids" && (
+              <VStack my={2}>
                 <Field.Root required>
-                  <Checkbox name="guardian-confirmed" required size="sm">
+                  <Checkbox name="accept-terms" required size="sm">
                     <Text fontSize="sm">
-                      {t("page.event.registration.guardian_confirmation")}
+                      {t("page.event.registration.accept_terms")}
+                      <Link asChild color="publicAccentBorder" fontSize="sm">
+                        <RouterLink
+                          target="_blank"
+                          to={t("page.data_and_terms.url")}
+                        >
+                          {t("page.event.registration.terms_link")}
+                        </RouterLink>
+                      </Link>
                     </Text>
                   </Checkbox>
                 </Field.Root>
-              )}
 
-              <Field.Root required>
-                <Checkbox name="accept-terms" required size="sm">
-                  <Text fontSize="sm">
-                    {t("page.event.registration.accept_terms")}
-                  </Text>
-                </Checkbox>
-              </Field.Root>
+                {ageRequirement === "kids" && (
+                  <Field.Root required>
+                    <Checkbox name="guardian-confirmed" required size="sm">
+                      <Text fontSize="sm">
+                        {t("page.event.registration.guardian_confirmation")}
+                      </Text>
+                    </Checkbox>
+                  </Field.Root>
+                )}
+
+                <Field.Root required>
+                  <Checkbox name="accept-time" required size="sm">
+                    <Text fontSize="sm">
+                      {t("page.event.registration.accept_time")}
+                    </Text>
+                  </Checkbox>
+                </Field.Root>
+              </VStack>
 
               {registrationState.hasError && (
                 <AppAlert dismissible status="error">
@@ -134,7 +154,7 @@ export default function EventRegistrationSection({
                 </AppAlert>
               )}
 
-              <HStack>
+              <HStack wrap="wrap">
                 <Button
                   loading={registrationState.isLoading}
                   size="sm"

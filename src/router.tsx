@@ -66,9 +66,8 @@ const lazy =
 
 const HomePage = lazy(() => import("./routes/pages/home-page/home-page"));
 const EventPage = lazy(() => import("./routes/pages/event-page/event-page"));
-const TermsAndConditionsPage = lazy(
-  () =>
-    import("./routes/pages/terms-and-conditions-page/terms-and-conditions-page"),
+const DataAndTerms = lazy(
+  () => import("./routes/pages/data-and-terms-page/data-and-terms-page"),
 );
 const AdminForgotPasswordPage = lazy(
   () =>
@@ -117,7 +116,8 @@ export const router = createBrowserRouter(
         { index: true, lazy: HomePage },
         { lazy: EventPage, path: "events/:eventSlugOrId" },
         { lazy: EventPage, path: "eventi/:eventSlugOrId" },
-        { lazy: TermsAndConditionsPage, path: "terms-and-conditions" },
+        { lazy: DataAndTerms, path: "data-and-terms" },
+        { lazy: DataAndTerms, path: "dati-e-termini" },
       ],
       element: <PublicLayout />,
     },

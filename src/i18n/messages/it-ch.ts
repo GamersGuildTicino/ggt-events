@@ -121,6 +121,7 @@ const itCH = {
   "form.game_system.name.label": "Nome",
 
   "layout.public_footer.copyright": "Gamers Guild Ticino",
+  "layout.public_footer.data_and_terms": "Dati e Condizioni",
   "layout.public_footer.email": "info@gamersguildticino.ch",
   "layout.public_footer.instagram": "Instagram",
 
@@ -310,6 +311,43 @@ const itCH = {
   "page.admin_reset_password.success":
     "Password aggiornata. Reindirizzamento al login.",
 
+  "page.data_and_terms.content": `
+##Panoramica##
+Queste condizioni spiegano come Gamers Guild Ticino gestisce le iscrizioni ai tavoli e i dati personali inviati tramite questo sito.
+
+##Partecipazione##
+Iscrivendosi a un tavolo, le persone confermano che le informazioni inserite sono corrette, che possono partecipare alla sessione scelta e che rispetteranno le regole dell'evento e le indicazioni degli organizzatori. Comportamenti discriminatori, offensivi, razzisti o sessisti possono comportare l'esclusione dall'evento.
+
+##Dati raccolti##
+• Nome e cognome, usati per identificare la persona iscritta al tavolo.
+• Indirizzo email, usato per conferme di iscrizione e comunicazioni relative all'evento.
+• Numero di telefono, usato solo per comunicazioni pratiche o urgenti relative all'evento.
+
+##Perché usiamo i dati##
+I dati sono usati per gestire le iscrizioni agli eventi, contattare le persone iscritte, coordinare i tavoli e comunicare cambiamenti operativi come cancellazioni o modifiche di programma. Non usiamo i dati di iscrizione per newsletter o campagne marketing senza un consenso separato.
+
+##Salvataggio e accesso##
+I dati di iscrizione sono salvati tramite Supabase, il fornitore tecnico esterno che usiamo per database, autenticazione e servizi backend del sito. L'accesso è limitato agli organizzatori autorizzati.
+
+Le email transazionali, come conferme di iscrizione e conferme di rimozione, sono inviate tramite Mailjet. Mailjet può trattare gli indirizzi email dei destinatari per l'invio, il tracciamento tecnico, la gestione di errori di consegna, la prevenzione di abusi e la deliverability.
+
+##Conservazione##
+I dati di iscrizione possono essere conservati dopo l'evento per organizzazione interna e storico degli eventi. Le registrazioni collegate a eventi conclusi da più di 12 mesi possono essere anonimizzate, rimuovendo nome, email e numero di telefono ma mantenendo i conteggi aggregati di partecipazione.
+
+##Diritti delle persone iscritte##
+Le persone partecipanti possono chiedere accesso o correzione dei propri dati di iscrizione.
+Le persone partecipanti possono chiedere di rimuovere la propria iscrizione da un evento. La rimozione elimina la prenotazione al tavolo e libera il posto.
+Per eventi già conclusi, le persone partecipanti possono chiedere di anonimizzare i propri dati personali collegati a quell'evento. L'anonimizzazione rimuove nome, email e numero di telefono ma mantiene i conteggi aggregati di partecipazione.
+Alcuni dati potrebbero dover essere conservati temporaneamente quando necessario per motivi organizzativi o legali.
+
+##Contatto##
+Per domande, richieste di accesso, correzione, rimozione dell'iscrizione o anonimizzazione, contattaci a @@info@gamersguildticino.ch@@.
+`,
+  "page.data_and_terms.heading":
+    "Trasparenza sui Dati e Condizioni di Partecipazione",
+  "page.data_and_terms.last_updated": "Ultimo aggiornamento: maggio 2026",
+  "page.data_and_terms.url": "/dati-e-termini",
+
   "page.event.back_to_home": "Torna alla home",
   "page.event.details.address": "Indirizzo",
   "page.event.details.date": "Data",
@@ -326,18 +364,21 @@ const itCH = {
   "page.event.map.heading": "Come arrivare",
   "page.event.map.jump_to_map": "Come arrivare",
   "page.event.map.open_in_google_maps": "Apri in Google Maps",
-  "page.event.registration.accept_terms":
-    "Confermo di poter arrivare 15 minuti prima dell'orario indicato e di seguire la partita per intero. Prendo atto che atteggiamenti discriminatori, offensivi, razzisti o sessisti verso altrə giocatorə possono significare la squalifica dalla serata.",
+  "page.event.registration.accept_terms": "Accetto i ",
+  "page.event.registration.accept_time":
+    "Confermo di poter arrivare 15 minuti prima dell'orario indicato e di seguire la partita per intero",
   "page.event.registration.cancel": "Annulla",
   "page.event.registration.email": "Email",
   "page.event.registration.guardian_confirmation":
-    "In quanto genitore o tutore legale, confermo che sarò presente e responsabile per il bambino durante l'attività.",
+    "In quanto genitore o tutore legale, confermo che sarò presente e responsabile per il bambino durante l'attività",
   "page.event.registration.name": "Nome",
   "page.event.registration.open": "Registrati",
   "page.event.registration.phone_number": "Numero di telefono",
-  "page.event.registration.submit": "Conferma registrazione",
+  "page.event.registration.submit": "Registrati",
   "page.event.registration.success":
     "Registrazione completata. Una mail di conferma è stata inviata.",
+  "page.event.registration.terms_link":
+    "termini di partecipazione e sull'uso dei dati",
   "page.event.registrations_closed": "Registrazioni chiuse",
   "page.event.registrations_open": "Registrazioni aperte",
   "page.event.tables.available_seats/*": "{0} posti liberi",
@@ -396,7 +437,6 @@ const itCH = {
   "page.home.hero.eyebrow": "Eventi GDR in Ticino",
 
   "page.not_found.heading": "Pagina Non Trovata",
-  "page.terms_and_conditions.heading": "Termini e condizioni",
 } as const;
 
 export default itCH;

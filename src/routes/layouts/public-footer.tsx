@@ -1,4 +1,5 @@
 import { Flex, Link, Text, VStack } from "@chakra-ui/react";
+import { Link as RouterLink } from "react-router";
 import useI18n from "~/i18n/use-i18n";
 
 //------------------------------------------------------------------------------
@@ -31,6 +32,11 @@ export default function PublicFooter() {
         gap={0}
         textAlign={{ base: "left", md: "right" }}
       >
+        <Link _hover={{ color: "whiteAlpha.800" }} asChild color="fg.inverted">
+          <RouterLink to={t("page.data_and_terms.url")}>
+            {t("layout.public_footer.data_and_terms")}
+          </RouterLink>
+        </Link>
         <Link
           _hover={{ color: "whiteAlpha.800" }}
           color="fg.inverted"
