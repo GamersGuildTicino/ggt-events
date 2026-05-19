@@ -1,8 +1,13 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import type { PublicEventTable } from "~/domain/event-tables";
 import { fetchPublicEventTables } from "~/domain/event-tables";
 import { useAsyncEffect } from "~/hooks/use-async-effect";
-import { type AsyncState, initial, loading } from "~/utils/async-state";
+import {
+  type AsyncState,
+  initial,
+  loading,
+  success,
+} from "~/utils/async-state";
 
 //------------------------------------------------------------------------------
 // Use Public Event Tables
@@ -11,6 +16,26 @@ import { type AsyncState, initial, loading } from "~/utils/async-state";
 export default function usePublicEventTables(eventId?: string) {
   const [eventTablesState, setEventTablesState] =
     useState<AsyncState<PublicEventTable[]>>(initial());
+
+  const incrementRegistrationCount = useCallback(
+    (eventTableId: PublicEventTable["id"]) => {
+      setEventTablesState((currentEventTablesState) => {
+        if (!currentEventTablesState.isSuccess) return currentEventTablesState;
+
+        return success(
+          currentEventTablesState.data.map((eventTable) => {
+            if (eventTable.id !== eventTableId) return eventTable;
+
+            return {
+              ...eventTable,
+              registrationCount: eventTable.registrationCount + 1,
+            };
+          }),
+        );
+      });
+    },
+    [],
+  );
 
   useAsyncEffect(
     async (isActive) => {
@@ -24,5 +49,5 @@ export default function usePublicEventTables(eventId?: string) {
     [eventId],
   );
 
-  return eventTablesState;
+  return { eventTablesState, incrementRegistrationCount };
 }

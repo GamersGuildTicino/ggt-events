@@ -21,6 +21,7 @@ type EventTablesSectionProps = {
   eventTimeSlotsState: AsyncState<EventTimeSlot[]>;
   gameSystemById: Map<string, GameSystem>;
   gameSystemsState: AsyncState<GameSystem[]>;
+  onRegistrationSuccess: (eventTableId: PublicEventTable["id"]) => void;
 };
 
 export default function EventTablesSection({
@@ -29,6 +30,7 @@ export default function EventTablesSection({
   eventTimeSlotsState,
   gameSystemById,
   gameSystemsState,
+  onRegistrationSuccess,
 }: EventTablesSectionProps) {
   const { locale, t } = useI18n();
   const tablesBySlotId = useMemo(() => {
@@ -102,6 +104,7 @@ export default function EventTablesSection({
                           ""
                         }
                         key={eventTable.id}
+                        onRegistrationSuccess={onRegistrationSuccess}
                         registrationsOpen={event.registrationsOpen}
                         timeSlot={timeSlot}
                       />

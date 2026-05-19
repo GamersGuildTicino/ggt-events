@@ -27,6 +27,7 @@ type EventTableCardProps = {
   eventTable: PublicEventTable;
   gameSystemImageUrl?: string;
   gameSystemName: string;
+  onRegistrationSuccess: (eventTableId: PublicEventTable["id"]) => void;
   registrationsOpen: boolean;
   timeSlot: EventTimeSlot;
 };
@@ -35,6 +36,7 @@ export default function EventTableCard({
   eventTable,
   gameSystemImageUrl,
   gameSystemName,
+  onRegistrationSuccess,
   registrationsOpen,
   timeSlot,
 }: EventTableCardProps) {
@@ -68,7 +70,8 @@ export default function EventTableCard({
   const completeEventRegistration = useCallback(() => {
     setRegistrationSucceeded(true);
     setRegistrationVisible(false);
-  }, []);
+    onRegistrationSuccess(eventTable.id);
+  }, [eventTable.id, onRegistrationSuccess]);
 
   return (
     <Card.Root

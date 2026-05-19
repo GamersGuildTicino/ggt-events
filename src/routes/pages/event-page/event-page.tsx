@@ -34,7 +34,7 @@ export default function EventPage() {
   const eventTimeSlotsState = useEventTimeSlots(
     eventState.isSuccess ? eventState.data.id : undefined,
   );
-  const eventTablesState = usePublicEventTables(
+  const { eventTablesState, incrementRegistrationCount } = usePublicEventTables(
     eventState.isSuccess ? eventState.data.id : undefined,
   );
   const { gameSystemById, gameSystemsState } = useGameSystems();
@@ -84,6 +84,7 @@ export default function EventPage() {
             eventTimeSlotsState={eventTimeSlotsState}
             gameSystemById={gameSystemById}
             gameSystemsState={gameSystemsState}
+            onRegistrationSuccess={incrementRegistrationCount}
           />
 
           {eventHasMap && <EventMapSection event={eventState.data} />}
