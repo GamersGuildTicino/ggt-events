@@ -1,4 +1,11 @@
-import { Button, HStack, Spinner, Text, VStack } from "@chakra-ui/react";
+import {
+  Button,
+  Center,
+  HStack,
+  Spinner,
+  Text,
+  VStack,
+} from "@chakra-ui/react";
 import { ChevronLeft } from "lucide-react";
 import { Link as RouterLink, useParams } from "react-router";
 import usePageTitle from "~/hooks/use-page-title";
@@ -47,7 +54,11 @@ export default function EventPage() {
         <LocaleSelect css={localeSelectCss} />
       </HStack>
 
-      {eventState.isLoading && <Spinner />}
+      {eventState.isLoading && (
+        <Center flex={1}>
+          <Spinner />
+        </Center>
+      )}
 
       {eventState.hasError && (
         <AppAlert status="error">{t(eventState.error)}</AppAlert>

@@ -1,9 +1,13 @@
-import { Spinner } from "@chakra-ui/react";
+import { Center, Spinner } from "@chakra-ui/react";
 
 //------------------------------------------------------------------------------
 // Home Upcoming Events Loading
 //------------------------------------------------------------------------------
 
 export default function HomeUpcomingEventsLoading() {
-  return <Spinner />;
+  return (
+    <Center flex={1} w="full">
+      <Spinner />
+    </Center>
+  );
 }
