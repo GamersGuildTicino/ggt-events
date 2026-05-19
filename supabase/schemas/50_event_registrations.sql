@@ -9,6 +9,7 @@ create table public.event_registrations (
   email text not null,
   phone_number text not null default '',
   locale text not null default 'en-GB',
+  anonymized_at timestamptz,
   created_at timestamptz not null default now(),
 
   constraint event_registrations_player_name_not_blank
@@ -325,6 +326,47 @@ end;
 $$;
 
 grant execute on function public.delete_event_registration(uuid) to authenticated;
+
+--------------------------------------------------------------------------------
+-- Anonymize Old Event Registrations
+--------------------------------------------------------------------------------
+
+create or replace function public.anonymize_old_event_registrations()
+returns integer
+language plpgsql
+security definer
+set search_path = public
+as $$
+declare
+  v_count integer;
+begin
+  if auth.uid() is null or not public.is_admin() then
+    raise exception using message = 'forbidden';
+  end if;
+
+  update public.event_registrations registrations
+  set
+    player_name = 'Anonymized participant',
+    email = 'anonymous+' || registrations.id::text || '@example.invalid',
+    phone_number = '',
+    anonymized_at = now()
+  from public.event_tables tables
+  join public.event_time_slots slots on slots.id = tables.time_slot_id
+  where registrations.event_table_id = tables.id
+    and registrations.anonymized_at is null
+    and slots.event_id in (
+      select event_time_slots.event_id
+      from public.event_time_slots
+      group by event_time_slots.event_id
+      having max(event_time_slots.ends_at) < now() - interval '12 months'
+    );
+
+  get diagnostics v_count = row_count;
+  return v_count;
+end;
+$$;
+
+grant execute on function public.anonymize_old_event_registrations() to authenticated;
 
 --------------------------------------------------------------------------------
 -- Fetch Public Event Tables
