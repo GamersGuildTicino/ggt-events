@@ -168,7 +168,7 @@ const enGB = {
     "Something went wrong, please try again.",
   "page.admin_event.tables.error.missing_user":
     "You must be logged in to create a table.",
-  "page.admin_event.tables.game_master": "Master: {0}",
+  "page.admin_event.tables.game_master": "Game Master: {0}",
   "page.admin_event.tables.hide_description": "Hide details",
   "page.admin_event.tables.new": "New table",
   "page.admin_event.tables.no_game_systems":

@@ -176,7 +176,7 @@ const itCH = {
     "Qualcosa è andato storto, per favore prova di nuovo.",
   "page.admin_event.tables.error.missing_user":
     "Devi essere registrato per creare un tavolo.",
-  "page.admin_event.tables.game_master": "Master: {0}",
+  "page.admin_event.tables.game_master": "Game Master: {0}",
   "page.admin_event.tables.hide_description": "Nascondi dettagli",
   "page.admin_event.tables.new": "Nuovo tavolo",
   "page.admin_event.tables.no_game_systems":

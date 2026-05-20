@@ -121,10 +121,16 @@ export default function AdminEventTableCard({
         <VStack align="stretch" gap={2}>
           <HStack align="stretch" justify="space-between" w="full" wrap="wrap">
             <VStack align="flex-start" gap={0.5}>
-              <Heading size="md">{eventTable.title}</Heading>
+              <Heading size="md">{`${gameSystemName}`}</Heading>
 
               <Text color="fg.muted" fontSize="sm">
-                {`${gameSystemName} (${eventTable.gameMasterName})`}
+                {eventTable.title}
+              </Text>
+              <Text color="fg.muted" fontSize="sm">
+                {ti(
+                  "page.admin_event.tables.game_master",
+                  eventTable.gameMasterName,
+                )}
               </Text>
               <HStack gap={2}>
                 <Text fontSize="sm">

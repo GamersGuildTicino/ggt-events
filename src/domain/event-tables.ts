@@ -168,8 +168,9 @@ export async function fetchEventTables(
 ): Promise<AsyncStateSuccess<EventTable[]> | AsyncStateFailure> {
   const { data, error } = await supabase
     .from("event_tables")
-    .select("*, event_time_slots!inner(event_id)")
+    .select("*, event_time_slots!inner(event_id), game_systems!inner(name)")
     .eq("event_time_slots.event_id", eventId)
+    .order("game_systems(name)", { ascending: true })
     .order("title", { ascending: true });
 
   if (error) return failure("error.event_tables.fetch_many");

@@ -94,15 +94,15 @@ export default function EventTableCard({
         <VStack align="flex-start" gap={2}>
           <HStack align="flex-start" justify="space-between" w="full">
             <VStack align="flex-start" gap={1}>
-              <Heading size="lg">{eventTable.title}</Heading>
-              <Text
-                color="fg.muted"
-                fontSize="sm"
-                fontWeight="semibold"
-                letterSpacing="0.05em"
+              <Heading
+                letterSpacing="0.03em"
+                size="lg"
                 textTransform="uppercase"
               >
                 {gameSystemName}
+              </Heading>
+              <Text color="fg.muted" fontSize="sm" fontWeight="semibold">
+                {eventTable.title}
               </Text>
               <Text color="fg.muted" fontSize="sm">
                 {ti("page.event.tables.game_master", eventTable.gameMasterName)}
