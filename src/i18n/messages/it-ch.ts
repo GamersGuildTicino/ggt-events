@@ -17,12 +17,14 @@ const itCH = {
   "enum.event_table_experience_level.novice": "Principiante",
   "enum.event_table_experience_level.unspecified": "Non specificato",
 
-  "enum.event_table_age_requirement.age_14_plus": "14+",
-  "enum.event_table_age_requirement.age_15_plus": "15+",
-  "enum.event_table_age_requirement.age_16_plus": "16+",
-  "enum.event_table_age_requirement.age_17_plus": "17+",
-  "enum.event_table_age_requirement.age_18_plus": "18+",
-  "enum.event_table_age_requirement.kids": "Per bambini",
+  "enum.event_table_age_requirement.age_9_11": "Età 9-11",
+  "enum.event_table_age_requirement.age_11_13": "Età 11-13",
+  "enum.event_table_age_requirement.age_14_plus": "Età 14+",
+  "enum.event_table_age_requirement.age_15_plus": "Età 15+",
+  "enum.event_table_age_requirement.age_16_plus": "Età 16+",
+  "enum.event_table_age_requirement.age_17_plus": "Età 17+",
+  "enum.event_table_age_requirement.age_18_plus": "Età 18+",
+  "enum.event_table_age_requirement.any": "Qualsiasi età",
 
   "enum.event_table_language.english": "Inglese",
   "enum.event_table_language.french": "Francese",
@@ -329,7 +331,7 @@ Iscrivendosi a un tavolo, le persone confermano che le informazioni inserite son
 
 Le persone partecipanti confermano inoltre di rispettare i requisiti del tavolo indicati sul sito, inclusi fascia d'età, livello di esperienza e lingua del tavolo.
 
-Per i tavoli kids, cioè tavoli per giocatori sotto i 14 anni, l'iscrizione deve essere effettuata da un genitore o tutore legale che sarà presente e responsabile per il bambino durante l'attività.
+Per i tavoli 9-11 e 11-13 anni, l'iscrizione deve essere effettuata da un genitore o tutore legale che sarà presente e responsabile per il bambino durante l'attività.
 
 ##Dati raccolti##
 • Nome e cognome, usati per identificare la persona iscritta al tavolo.

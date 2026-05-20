@@ -11,6 +11,7 @@ import {
 import { useCallback, useState } from "react";
 import { Link as RouterLink } from "react-router";
 import type { EventTableAgeRequirement } from "~/domain/enums/event-table-age-requirement";
+import { isKidsAgeRequirement } from "~/domain/enums/event-table-age-requirement";
 import { registerForEventTable } from "~/domain/event-registrations";
 import type { PublicEventTable } from "~/domain/event-tables";
 import useI18n from "~/i18n/use-i18n";
@@ -129,7 +130,7 @@ export default function EventRegistrationSection({
                   </Checkbox>
                 </Field.Root>
 
-                {ageRequirement === "kids" && (
+                {isKidsAgeRequirement(ageRequirement) && (
                   <Field.Root required>
                     <Checkbox name="guardian-confirmed" required size="sm">
                       <Text fontSize="sm">

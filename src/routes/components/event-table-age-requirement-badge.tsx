@@ -20,7 +20,6 @@ export default function EventTableAgeRequirementBadge({
   size,
 }: EventTableAgeRequirementBadgeProps) {
   const { t } = useI18n();
-  if (ageRequirement === "age_14_plus") return null;
 
   return (
     <Badge

@@ -7,7 +7,9 @@ import useI18n from "~/i18n/use-i18n";
 //------------------------------------------------------------------------------
 
 export const eventTableAgeRequirementSchema = z.enum([
-  "kids",
+  "any",
+  "age_9_11",
+  "age_11_13",
   "age_14_plus",
   "age_15_plus",
   "age_16_plus",
@@ -20,6 +22,14 @@ export const eventTableAgeRequirements = eventTableAgeRequirementSchema.options;
 export type EventTableAgeRequirement = z.infer<
   typeof eventTableAgeRequirementSchema
 >;
+
+//------------------------------------------------------------------------------
+// Is Kids Age Requirement
+//------------------------------------------------------------------------------
+
+export function isKidsAgeRequirement(ageRequirement: EventTableAgeRequirement) {
+  return ageRequirement === "age_9_11" || ageRequirement === "age_11_13";
+}
 
 //------------------------------------------------------------------------------
 // Use Event Table Age Requirement Options
@@ -44,6 +54,10 @@ export function ageRequirementColorPalette(
   ageRequirement: EventTableAgeRequirement,
 ) {
   switch (ageRequirement) {
+    case "age_9_11":
+      return "green";
+    case "age_11_13":
+      return "teal";
     case "age_14_plus":
       return "blue";
     case "age_15_plus":
@@ -54,7 +68,7 @@ export function ageRequirementColorPalette(
       return "orange";
     case "age_18_plus":
       return "red";
-    case "kids":
-      return "green";
+    case "any":
+      return "gray";
   }
 }

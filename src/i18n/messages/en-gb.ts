@@ -17,12 +17,14 @@ const enGB = {
   "enum.event_table_experience_level.novice": "Novice",
   "enum.event_table_experience_level.unspecified": "Unspecified",
 
-  "enum.event_table_age_requirement.age_14_plus": "14+",
-  "enum.event_table_age_requirement.age_15_plus": "15+",
-  "enum.event_table_age_requirement.age_16_plus": "16+",
-  "enum.event_table_age_requirement.age_17_plus": "17+",
-  "enum.event_table_age_requirement.age_18_plus": "18+",
-  "enum.event_table_age_requirement.kids": "Kids",
+  "enum.event_table_age_requirement.age_9_11": "Age 9-11",
+  "enum.event_table_age_requirement.age_11_13": "Age 11-13",
+  "enum.event_table_age_requirement.age_14_plus": "Age 14+",
+  "enum.event_table_age_requirement.age_15_plus": "Age 15+",
+  "enum.event_table_age_requirement.age_16_plus": "Age 16+",
+  "enum.event_table_age_requirement.age_17_plus": "Age 17+",
+  "enum.event_table_age_requirement.age_18_plus": "Age 18+",
+  "enum.event_table_age_requirement.any": "Any age",
 
   "enum.event_table_language.english": "English",
   "enum.event_table_language.french": "French",
@@ -317,7 +319,7 @@ By registering for a table, participants confirm that the submitted information 
 
 Participants also confirm that they meet the table requirements shown on the website, including age requirement, experience level, and table language.
 
-For kids tables, meaning tables for players under 14 years old, the registration must be submitted by a parent or legal guardian who will be present and responsible for the child during the activity.
+For age 9-11 and age 11-13 tables, the registration must be submitted by a parent or legal guardian who will be present and responsible for the child during the activity.
 
 ##Data we collect##
 • Full name, used to identify the participant at the table.
