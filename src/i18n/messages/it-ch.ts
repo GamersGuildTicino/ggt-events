@@ -153,6 +153,7 @@ const itCH = {
   "page.admin_event.event_over_notice":
     "Tutte le fasce orarie sono nel passato. Le registrazioni pubbliche non sono piu disponibili.",
   "page.admin_event.heading": "Gestisci evento",
+  "page.admin_event.preview": "Anteprima",
   "page.admin_event.save": "Salva modifiche",
   "page.admin_event.saved": "Evento salvato.",
   "page.admin_event.tables.cancel": "Annulla",

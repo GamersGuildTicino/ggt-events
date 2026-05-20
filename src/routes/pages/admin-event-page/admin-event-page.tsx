@@ -144,14 +144,22 @@ export default function AdminEventPage() {
       <HStack align="center" justify="space-between">
         <Heading size="3xl">{t("page.admin_event.heading")}</Heading>
 
-        {eventTimeSlotsState.isSuccess && eventState.isSuccess && (
-          <AdminEventPageHeadingActions
-            eventHasEmails={eventHasEmails}
-            onComposeEmail={composeAdminEventEmail}
-            onCopyEmails={copyAdminEventEmails}
-            timeSlots={eventTimeSlotsState.data}
-          />
-        )}
+        <HStack>
+          <Button asChild size="sm" variant="outline">
+            <RouterLink target="_blank" to={`/events/${eventId}`}>
+              {t("page.admin_event.preview")}
+            </RouterLink>
+          </Button>
+
+          {eventTimeSlotsState.isSuccess && eventState.isSuccess && (
+            <AdminEventPageHeadingActions
+              eventHasEmails={eventHasEmails}
+              onComposeEmail={composeAdminEventEmail}
+              onCopyEmails={copyAdminEventEmails}
+              timeSlots={eventTimeSlotsState.data}
+            />
+          )}
+        </HStack>
       </HStack>
 
       {eventState.isLoading && <Spinner />}

@@ -145,6 +145,7 @@ const enGB = {
   "page.admin_event.event_over_notice":
     "All time slots are in the past. Public registrations are no longer available.",
   "page.admin_event.heading": "Manage event",
+  "page.admin_event.preview": "Preview",
   "page.admin_event.save": "Save changes",
   "page.admin_event.saved": "Event saved.",
   "page.admin_event.tables.cancel": "Cancel",
