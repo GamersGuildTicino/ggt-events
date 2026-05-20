@@ -57,18 +57,18 @@ export function ageRequirementColorPalette(
     case "age_9_11":
       return "green";
     case "age_11_13":
-      return "teal";
+      return "green";
     case "age_14_plus":
-      return "blue";
+      return "teal";
     case "age_15_plus":
-      return "cyan";
-    case "age_16_plus":
       return "yellow";
+    case "age_16_plus":
+      return "orange";
     case "age_17_plus":
       return "orange";
     case "age_18_plus":
       return "red";
     case "any":
-      return "gray";
+      return "blue";
   }
 }

@@ -47,14 +47,14 @@ export function experienceLevelColorPalette(
   switch (experienceLevel) {
     case "any":
       return "blue";
-    case "expert":
-      return "red";
     case "first_time":
       return "green";
-    case "intermediate":
-      return "orange";
     case "novice":
+      return "teal";
+    case "intermediate":
       return "yellow";
+    case "expert":
+      return "red";
     case "unspecified":
       return "gray";
   }

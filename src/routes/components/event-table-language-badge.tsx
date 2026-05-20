@@ -20,7 +20,7 @@ export default function EventTableLanguageBadge({
   if (language === "italian" || language === "unspecified") return null;
 
   return (
-    <Badge colorPalette="pink" size={size}>
+    <Badge colorPalette="purple" size={size}>
       {t(`enum.event_table_language.${language}`)}
     </Badge>
   );
