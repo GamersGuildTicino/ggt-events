@@ -1,5 +1,12 @@
-import { Badge, HStack, Menu as ChakraMenu, Portal } from "@chakra-ui/react";
+import {
+  Badge,
+  Button,
+  HStack,
+  Menu as ChakraMenu,
+  Portal,
+} from "@chakra-ui/react";
 import { EllipsisVertical } from "lucide-react";
+import { Link as RouterLink } from "react-router";
 import type { EventTimeSlot } from "~/domain/event-time-slots";
 import { isEventOver } from "~/domain/event-time-slots";
 import useI18n from "~/i18n/use-i18n";
@@ -11,6 +18,7 @@ import IconButton from "~/ui/icon-button";
 
 type AdminEventPageHeadingActionsProps = {
   eventHasEmails: boolean;
+  eventId?: string;
   onComposeEmail: () => void;
   onCopyEmails: () => void;
   timeSlots: EventTimeSlot[];
@@ -18,6 +26,7 @@ type AdminEventPageHeadingActionsProps = {
 
 export default function AdminEventPageHeadingActions({
   eventHasEmails,
+  eventId,
   onComposeEmail,
   onCopyEmails,
   timeSlots,
@@ -26,11 +35,19 @@ export default function AdminEventPageHeadingActions({
   const eventOver = isEventOver(timeSlots);
 
   return (
-    <HStack>
+    <HStack justify="flex-end" wrap="wrap">
       {eventOver && (
         <Badge colorPalette="orange" size="lg">
           {t("page.admin_event.event_over")}
         </Badge>
+      )}
+
+      {eventId && (
+        <Button asChild size="sm" variant="outline">
+          <RouterLink target="_blank" to={`/events/${eventId}`}>
+            {t("page.admin_event.preview")}
+          </RouterLink>
+        </Button>
       )}
 
       <ChakraMenu.Root positioning={{ placement: "bottom-end" }}>
