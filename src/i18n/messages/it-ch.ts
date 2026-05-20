@@ -50,13 +50,21 @@ const itCH = {
     "Questo giocatore è già registrato per questo tavolo.",
   "error.event_registrations.anonymize_old":
     "Impossibile anonimizzare le vecchie registrazioni.",
+  "error.event_registrations.cancel_with_token":
+    "Impossibile cancellare questa registrazione.",
   "error.event_registrations.create":
     "Impossibile completare la registrazione.",
   "error.event_registrations.delete": "Impossibile rimuovere la registrazione.",
+  "error.event_registrations.fetch_cancellation":
+    "Impossibile caricare questa cancellazione.",
   "error.event_registrations.fetch_many":
     "Impossibile caricare le registrazioni.",
+  "error.event_registrations.invalid_cancellation_token":
+    "Questo link di cancellazione non è valido o è scaduto.",
   "error.event_registrations.invalid_email":
     "Inserisci un indirizzo email valido.",
+  "error.event_registrations.parse_cancellation":
+    "I dati della cancellazione non sono validi.",
   "error.event_registrations.parse_many":
     "I dati delle registrazioni non sono validi.",
   "error.event_registrations.registrations_closed":
@@ -443,6 +451,14 @@ Per domande, richieste di accesso, correzione, rimozione dell'iscrizione o anoni
   "page.home.hero.eyebrow": "Eventi GDR in Ticino",
 
   "page.not_found.heading": "Pagina Non Trovata",
+  "page.registration_cancellation.confirm": "Cancella registrazione",
+  "page.registration_cancellation.description":
+    "Controlla i dettagli della registrazione prima di confermare la cancellazione.",
+  "page.registration_cancellation.game_master": "Game Master: {0}",
+  "page.registration_cancellation.heading": "Cancella registrazione",
+  "page.registration_cancellation.success":
+    "Registrazione cancellata. Una mail di conferma è stata inviata.",
+  "page.registration_cancellation.table": "Tavolo: {0}",
 } as const;
 
 export default itCH;

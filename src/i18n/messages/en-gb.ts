@@ -50,11 +50,19 @@ const enGB = {
     "This player is already registered for this table.",
   "error.event_registrations.anonymize_old":
     "Unable to anonymize old registrations.",
+  "error.event_registrations.cancel_with_token":
+    "Unable to cancel this registration.",
   "error.event_registrations.create": "Unable to complete the registration.",
   "error.event_registrations.delete": "Unable to remove the registration.",
+  "error.event_registrations.fetch_cancellation":
+    "Unable to load this registration cancellation.",
   "error.event_registrations.fetch_many": "Unable to load registrations.",
+  "error.event_registrations.invalid_cancellation_token":
+    "This cancellation link is invalid or has expired.",
   "error.event_registrations.invalid_email":
     "Please enter a valid email address.",
+  "error.event_registrations.parse_cancellation":
+    "The registration cancellation data is invalid.",
   "error.event_registrations.parse_many": "Registrations data is invalid.",
   "error.event_registrations.registrations_closed":
     "Registrations are closed for this event.",
@@ -429,6 +437,14 @@ For questions, access requests, corrections, registration removal requests, or a
   "page.home.hero.eyebrow": "TTRPG events in Ticino",
 
   "page.not_found.heading": "Page Not Found",
+  "page.registration_cancellation.confirm": "Cancel registration",
+  "page.registration_cancellation.description":
+    "Review the registration details before confirming the cancellation.",
+  "page.registration_cancellation.game_master": "Game Master: {0}",
+  "page.registration_cancellation.heading": "Cancel registration",
+  "page.registration_cancellation.success":
+    "Registration cancelled. A confirmation email has been sent.",
+  "page.registration_cancellation.table": "Table: {0}",
 } as const;
 
 export default enGB;

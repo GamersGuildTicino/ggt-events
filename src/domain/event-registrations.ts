@@ -32,6 +32,37 @@ export type EventRegistrationInput = {
   playerName: string;
 };
 
+//------------------------------------------------------------------------------
+// Event Registration Cancellation
+//------------------------------------------------------------------------------
+
+export const eventRegistrationCancellationRowSchema = z.object({
+  event_title: z.string(),
+  game_master_name: z.string(),
+  location_address: z.string(),
+  location_name: z.string(),
+  player_name: z.string(),
+  table_title: z.string(),
+  time_slot_ends_at: z.string(),
+  time_slot_starts_at: z.string(),
+});
+
+export const eventRegistrationCancellationFromRowSchema =
+  eventRegistrationCancellationRowSchema.transform((row) => ({
+    eventTitle: row.event_title,
+    gameMasterName: row.game_master_name,
+    locationAddress: row.location_address,
+    locationName: row.location_name,
+    playerName: row.player_name,
+    tableTitle: row.table_title,
+    timeSlotEndsAt: new Date(row.time_slot_ends_at),
+    timeSlotStartsAt: new Date(row.time_slot_starts_at),
+  }));
+
+export type EventRegistrationCancellation = z.infer<
+  typeof eventRegistrationCancellationFromRowSchema
+>;
+
 export const eventRegistrationRowSchema = z.object({
   anonymized_at: z.string().nullable(),
   created_at: z.string(),
@@ -56,6 +87,30 @@ export const eventRegistrationFromRowSchema =
   );
 
 //------------------------------------------------------------------------------
+// Cancel Registration With Token
+//------------------------------------------------------------------------------
+
+export async function cancelRegistrationWithToken(
+  token: string,
+): Promise<
+  AsyncStateSuccess<EventRegistrationCancellation> | AsyncStateFailure
+> {
+  const { data, error } = await supabase.rpc("cancel_registration_with_token", {
+    p_token: token,
+  });
+
+  if (error) return failure("error.event_registrations.cancel_with_token");
+
+  const cancellation = eventRegistrationCancellationFromRowSchema.safeParse(
+    data?.[0],
+  );
+  if (cancellation.error)
+    return failure("error.event_registrations.parse_cancellation");
+
+  return success(cancellation.data);
+}
+
+//------------------------------------------------------------------------------
 // Anonymize Old Event Registrations
 //------------------------------------------------------------------------------
 
@@ -68,6 +123,31 @@ export async function anonymizeOldEventRegistrations() {
     count: typeof data === "number" ? data : 0,
     error: error ? "error.event_registrations.anonymize_old" : "",
   };
+}
+
+//------------------------------------------------------------------------------
+// Fetch Registration Cancellation
+//------------------------------------------------------------------------------
+
+export async function fetchRegistrationCancellation(
+  token: string,
+): Promise<
+  AsyncStateSuccess<EventRegistrationCancellation> | AsyncStateFailure
+> {
+  const { data, error } = await supabase.rpc(
+    "fetch_registration_cancellation",
+    { p_token: token },
+  );
+
+  if (error) return failure("error.event_registrations.fetch_cancellation");
+
+  const cancellation = eventRegistrationCancellationFromRowSchema.safeParse(
+    data?.[0],
+  );
+  if (cancellation.error)
+    return failure("error.event_registrations.invalid_cancellation_token");
+
+  return success(cancellation.data);
 }
 
 //------------------------------------------------------------------------------
