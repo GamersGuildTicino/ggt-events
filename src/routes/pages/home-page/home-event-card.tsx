@@ -51,7 +51,7 @@ export default function HomeEventCard({
         <Box
           bg={
             isLast ?
-              "linear-gradient(#e7dcc7ff 0%, #e7dcc7dd 15%, #e7dcc700 100%)"
+              "linear-gradient(#65bff7ff 0%, #65bff7dd 15%, #e7dcc700 100%)"
             : "publicSurfaceBorder"
           }
           bottom={0}

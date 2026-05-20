@@ -33,11 +33,11 @@ const system = createSystem(defaultConfig, {
     },
     tokens: {
       colors: {
-        publicAccentBorder: { value: "#a16207" },
-        publicFooterBg: { value: "#2f2418" },
-        publicPageBg: { value: "#f3eadb" },
+        publicAccentBorder: { value: "#458db9" },
+        publicFooterBg: { value: "#0e4263" },
+        publicPageBg: { value: "#addcf9" },
         publicSurfaceBg: { value: "#fafafa" },
-        publicSurfaceBorder: { value: "#e7dcc7" },
+        publicSurfaceBorder: { value: "#65bff7" },
         publicSurfaceMutedBg: { value: "#fafafa" },
       },
     },
