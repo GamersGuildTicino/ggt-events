@@ -173,6 +173,7 @@ Mailjet transactional templates are selected by email type and locale. The Edge 
 
 The function passes these template variables:
 
+- `cancellationUrl`
 - `eventTitle`
 - `gameMasterName`
 - `location`
@@ -186,12 +187,14 @@ These values must exist in `vault.decrypted_secrets` inside the Supabase databas
 
 - `project_url`
 - `anon_key`
+- `site_url`
 - `transactional_email_secret`
 
 Expected meanings:
 
 - `project_url`: your Supabase project base URL, for example `https://<project-ref>.supabase.co`
 - `anon_key`: your current Supabase publishable key
+- `site_url`: public website base URL, used to build registration cancellation links
 - `transactional_email_secret`: must match `TRANSACTIONAL_EMAIL_SECRET`
 
 To verify:
@@ -199,7 +202,7 @@ To verify:
 ```sql
 select name, decrypted_secret
 from vault.decrypted_secrets
-where name in ('project_url', 'anon_key', 'transactional_email_secret');
+where name in ('project_url', 'anon_key', 'site_url', 'transactional_email_secret');
 ```
 
 To create a missing Vault secret:

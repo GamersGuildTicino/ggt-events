@@ -10,6 +10,8 @@ create table public.event_registrations (
   phone_number text not null default '',
   locale text not null default 'en-GB',
   anonymized_at timestamptz,
+  cancellation_token_hash text unique,
+  cancellation_token_expires_at timestamptz,
   created_at timestamptz not null default now(),
 
   constraint event_registrations_player_name_not_blank
@@ -32,23 +34,30 @@ alter table public.event_registrations enable row level security;
 
 create or replace function public.send_registration_email(
   p_type text,
-  p_registration public.event_registrations
+  p_registration public.event_registrations,
+  p_cancellation_token text default null
 )
 returns bigint
 language plpgsql
 security definer
-set search_path = public
+set search_path = public, extensions
 as $$
 declare
   v_event public.events;
   v_event_table public.event_tables;
+  v_cancellation_url text;
   v_request_id bigint;
   v_time_slot public.event_time_slots;
   v_function_secret text;
   v_headers jsonb;
   v_project_url text;
+  v_site_url text;
 begin
-  if p_type not in ('registration-confirmed', 'registration-removed') then
+  if p_type not in (
+    'registration-confirmed',
+    'registration-removed',
+    'registration-removed-admin-notification'
+  ) then
     raise exception using message = 'invalid_email_type';
   end if;
 
@@ -88,6 +97,16 @@ begin
     return null;
   end if;
 
+  select decrypted_secret
+  into v_site_url
+  from vault.decrypted_secrets
+  where name = 'site_url';
+
+  if p_cancellation_token is not null and v_site_url is not null then
+    v_cancellation_url :=
+      rtrim(v_site_url, '/') || '/registrations/cancel?token=' || p_cancellation_token;
+  end if;
+
   v_headers := jsonb_build_object(
     'Authorization',
       'Bearer ' || (
@@ -119,6 +138,7 @@ begin
         'title', v_event.title
       ),
       'registration', jsonb_build_object(
+        'cancellationUrl', v_cancellation_url,
         'email', p_registration.email,
         'playerName', p_registration.player_name
       ),
@@ -154,9 +174,10 @@ create or replace function public.register_for_event_table(
 returns public.event_registrations
 language plpgsql
 security definer
-set search_path = public
+set search_path = public, extensions
 as $$
 declare
+  v_cancellation_token text;
   v_event public.events;
   v_event_table public.event_tables;
   v_locale text;
@@ -167,6 +188,7 @@ declare
   v_phone_number text;
   v_player_name text;
 begin
+  v_cancellation_token := encode(gen_random_bytes(32), 'hex');
   v_player_name := btrim(coalesce(p_player_name, ''));
   v_email := lower(btrim(coalesce(p_email, '')));
   v_phone_number := btrim(coalesce(p_phone_number, ''));
@@ -261,21 +283,26 @@ begin
     player_name,
     email,
     phone_number,
-    locale
+    locale,
+    cancellation_token_hash,
+    cancellation_token_expires_at
   )
   values (
     v_event_table.id,
     v_player_name,
     v_email,
     v_phone_number,
-    v_locale
+    v_locale,
+    encode(digest(v_cancellation_token, 'sha256'), 'hex'),
+    v_time_slot.ends_at
   )
   returning *
   into v_registration;
 
   perform public.send_registration_email(
     'registration-confirmed',
-    v_registration
+    v_registration,
+    v_cancellation_token
   );
 
   return v_registration;
@@ -287,6 +314,127 @@ $$;
 
 grant execute on function public.register_for_event_table(uuid, text, text, text, text) to anon;
 grant execute on function public.register_for_event_table(uuid, text, text, text, text) to authenticated;
+
+--------------------------------------------------------------------------------
+-- Fetch Registration Cancellation
+--------------------------------------------------------------------------------
+
+create or replace function public.fetch_registration_cancellation(
+  p_token text
+)
+returns table (
+  event_title text,
+  game_master_name text,
+  location_address text,
+  location_name text,
+  player_name text,
+  table_title text,
+  time_slot_ends_at timestamptz,
+  time_slot_starts_at timestamptz
+)
+language sql
+stable
+security definer
+set search_path = public, extensions
+as $$
+  select
+    events.title as event_title,
+    event_tables.game_master_name,
+    events.location_address,
+    events.location_name,
+    event_registrations.player_name,
+    event_tables.title as table_title,
+    event_time_slots.ends_at as time_slot_ends_at,
+    event_time_slots.starts_at as time_slot_starts_at
+  from public.event_registrations
+  join public.event_tables on event_tables.id = event_registrations.event_table_id
+  join public.event_time_slots on event_time_slots.id = event_tables.time_slot_id
+  join public.events on events.id = event_time_slots.event_id
+  where event_registrations.cancellation_token_hash =
+      encode(digest(p_token, 'sha256'), 'hex')
+    and event_registrations.cancellation_token_expires_at > now()
+    and event_registrations.anonymized_at is null
+  limit 1;
+$$;
+
+grant execute on function public.fetch_registration_cancellation(text) to anon;
+grant execute on function public.fetch_registration_cancellation(text) to authenticated;
+
+--------------------------------------------------------------------------------
+-- Cancel Registration With Token
+--------------------------------------------------------------------------------
+
+create or replace function public.cancel_registration_with_token(
+  p_token text
+)
+returns table (
+  event_title text,
+  game_master_name text,
+  location_address text,
+  location_name text,
+  player_name text,
+  table_title text,
+  time_slot_ends_at timestamptz,
+  time_slot_starts_at timestamptz
+)
+language plpgsql
+security definer
+set search_path = public, extensions
+as $$
+declare
+  v_registration public.event_registrations;
+begin
+  select
+    events.title,
+    event_tables.game_master_name,
+    events.location_address,
+    events.location_name,
+    event_registrations.player_name,
+    event_tables.title,
+    event_time_slots.ends_at,
+    event_time_slots.starts_at
+  into
+    event_title,
+    game_master_name,
+    location_address,
+    location_name,
+    player_name,
+    table_title,
+    time_slot_ends_at,
+    time_slot_starts_at
+  from public.event_registrations
+  join public.event_tables on event_tables.id = event_registrations.event_table_id
+  join public.event_time_slots on event_time_slots.id = event_tables.time_slot_id
+  join public.events on events.id = event_time_slots.event_id
+  where event_registrations.cancellation_token_hash =
+      encode(digest(p_token, 'sha256'), 'hex')
+    and event_registrations.cancellation_token_expires_at > now()
+    and event_registrations.anonymized_at is null;
+
+  if not found then
+    raise exception using message = 'registration_cancellation_not_found';
+  end if;
+
+  delete from public.event_registrations
+  where cancellation_token_hash = encode(digest(p_token, 'sha256'), 'hex')
+    and cancellation_token_expires_at > now()
+    and anonymized_at is null
+  returning *
+  into v_registration;
+
+  if not found then
+    raise exception using message = 'registration_cancellation_not_found';
+  end if;
+
+  perform public.send_registration_email('registration-removed', v_registration);
+  perform public.send_registration_email('registration-removed-admin-notification', v_registration);
+
+  return next;
+end;
+$$;
+
+grant execute on function public.cancel_registration_with_token(text) to anon;
+grant execute on function public.cancel_registration_with_token(text) to authenticated;
 
 --------------------------------------------------------------------------------
 -- Delete Event Registration

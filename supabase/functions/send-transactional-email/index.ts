@@ -8,7 +8,10 @@ type Locale = "en-GB" | "it-CH";
 // Email Type
 //------------------------------------------------------------------------------
 
-type EmailType = "registration-confirmed" | "registration-removed";
+type EmailType =
+  | "registration-confirmed"
+  | "registration-removed"
+  | "registration-removed-admin-notification";
 
 //------------------------------------------------------------------------------
 // Payload
@@ -22,6 +25,7 @@ type Payload = {
   };
   locale: Locale;
   registration: {
+    cancellationUrl?: string;
     email: string;
     playerName: string;
   };
@@ -90,36 +94,14 @@ Deno.serve(async (request) => {
   }
 
   const payload = (await request.json()) as Payload;
-  const templateId = mailjetTemplateId(payload.type, payload.locale);
+  const message = mailjetMessage(payload);
 
-  if (!templateId) {
+  if (!message) {
     return json({ error: "missing_template_configuration" }, 500);
   }
 
   const response = await fetch("https://api.mailjet.com/v3.1/send", {
-    body: JSON.stringify({
-      Messages: [
-        {
-          From: {
-            Email: MAILJET_FROM_EMAIL,
-            Name: MAILJET_FROM_NAME,
-          },
-          ReplyTo: {
-            Email: MAILJET_REPLY_TO_EMAIL,
-            Name: MAILJET_REPLY_TO_NAME,
-          },
-          TemplateID: templateId,
-          TemplateLanguage: true,
-          To: [
-            {
-              Email: payload.registration.email,
-              Name: payload.registration.playerName,
-            },
-          ],
-          Variables: templateVariables(payload),
-        },
-      ],
-    }),
+    body: JSON.stringify({ Messages: [message] }),
     headers: {
       "Authorization": basicAuthorization(MAILJET_API_KEY, MAILJET_SECRET_KEY),
       "Content-Type": "application/json",
@@ -132,6 +114,78 @@ Deno.serve(async (request) => {
   if (!response.ok) return json(data, response.status);
   return json(data, 200);
 });
+
+//------------------------------------------------------------------------------
+// Mailjet Message
+//------------------------------------------------------------------------------
+
+function mailjetMessage(payload: Payload) {
+  switch (payload.type) {
+    case "registration-confirmed":
+    case "registration-removed":
+      return templateMessage(payload);
+    case "registration-removed-admin-notification":
+      return registrationRemovedAdminNotificationMessage(payload);
+  }
+}
+
+//------------------------------------------------------------------------------
+// Template Message
+//------------------------------------------------------------------------------
+
+function templateMessage(payload: Payload) {
+  const templateId = mailjetTemplateId(payload.type, payload.locale);
+
+  if (!templateId) {
+    return null;
+  }
+
+  return {
+    From: {
+      Email: MAILJET_FROM_EMAIL,
+      Name: MAILJET_FROM_NAME,
+    },
+    ReplyTo: {
+      Email: MAILJET_REPLY_TO_EMAIL,
+      Name: MAILJET_REPLY_TO_NAME,
+    },
+    TemplateID: templateId,
+    TemplateLanguage: true,
+    To: [
+      {
+        Email: payload.registration.email,
+        Name: payload.registration.playerName,
+      },
+    ],
+    Variables: templateVariables(payload),
+  };
+}
+
+//------------------------------------------------------------------------------
+// Registration Removed Admin Notification Message
+//------------------------------------------------------------------------------
+
+function registrationRemovedAdminNotificationMessage(payload: Payload) {
+  const timeSlot = formatTimeSlot(payload.locale, payload.timeSlot);
+  const location = formatLocation(payload.event);
+
+  return {
+    From: { Email: MAILJET_FROM_EMAIL, Name: MAILJET_FROM_NAME },
+    ReplyTo: { Email: MAILJET_REPLY_TO_EMAIL, Name: MAILJET_REPLY_TO_NAME },
+    Subject: `Registrazione cancellata: ${payload.event.title}`,
+    TextPart: [
+      `${payload.registration.playerName} si è disiscrittə.`,
+      "",
+      `Evento: ${payload.event.title}`,
+      `Tavolo: ${payload.table.title}`,
+      `Game Master: ${payload.table.gameMasterName}`,
+      `Fascia oraria: ${timeSlot}`,
+      `Luogo: ${location ?? "n/a"}`,
+      `Email: ${payload.registration.email}`,
+    ].join("\n"),
+    To: [{ Email: MAILJET_REPLY_TO_EMAIL, Name: "Gamers Guild Ticino" }],
+  };
+}
 
 //------------------------------------------------------------------------------
 // Mailjet Template Id
@@ -191,6 +245,7 @@ function basicAuthorization(username: string, password: string) {
 
 function templateVariables(payload: Payload) {
   return {
+    cancellationUrl: payload.registration.cancellationUrl ?? "",
     eventTitle: payload.event.title,
     gameMasterName: payload.table.gameMasterName,
     location: formatLocation(payload.event),
