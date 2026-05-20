@@ -304,7 +304,11 @@ const enGB = {
 These terms explain how Gamers Guild Ticino manages table registrations and the personal data submitted through this website.
 
 ##Participation##
-By registering for a table, participants confirm that the submitted information is accurate, that they can attend the selected session, and that they will follow the event rules and the instructions of the organisers. Discriminatory, offensive, racist, or sexist behaviour may result in removal from the event.
+By registering for a table, participants confirm that the submitted information is accurate, that they can arrive 15 minutes before the indicated time, that they can attend the selected session in full, and that they will follow the event rules and the instructions of the organizers. Discriminatory, offensive, racist, or sexist behaviour may result in removal from the event.
+
+Participants also confirm that they meet the table requirements shown on the website, including age requirement, experience level, and table language.
+
+For kids tables, meaning tables for players under 14 years old, the registration must be submitted by a parent or legal guardian who will be present and responsible for the child during the activity.
 
 ##Data we collect##
 • Full name, used to identify the participant at the table.

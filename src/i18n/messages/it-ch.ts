@@ -316,7 +316,11 @@ const itCH = {
 Queste condizioni spiegano come Gamers Guild Ticino gestisce le iscrizioni ai tavoli e i dati personali inviati tramite questo sito.
 
 ##Partecipazione##
-Iscrivendosi a un tavolo, le persone confermano che le informazioni inserite sono corrette, che possono partecipare alla sessione scelta e che rispetteranno le regole dell'evento e le indicazioni degli organizzatori. Comportamenti discriminatori, offensivi, razzisti o sessisti possono comportare l'esclusione dall'evento.
+Iscrivendosi a un tavolo, le persone confermano che le informazioni inserite sono corrette, che possono arrivare 15 minuti prima dell'orario indicato, che possono seguire la sessione scelta per intero e che rispetteranno le regole dell'evento e le indicazioni degli organizzatori. Comportamenti discriminatori, offensivi, razzisti o sessisti possono comportare l'esclusione dall'evento.
+
+Le persone partecipanti confermano inoltre di rispettare i requisiti del tavolo indicati sul sito, inclusi fascia d'età, livello di esperienza e lingua del tavolo.
+
+Per i tavoli kids, cioè tavoli per giocatori sotto i 14 anni, l'iscrizione deve essere effettuata da un genitore o tutore legale che sarà presente e responsabile per il bambino durante l'attività.
 
 ##Dati raccolti##
 • Nome e cognome, usati per identificare la persona iscritta al tavolo.
@@ -415,7 +419,7 @@ Per domande, richieste di accesso, correzione, rimozione dell'iscrizione o anoni
   "page.home.events.heading": "Prossimi eventi",
   "page.home.events.info_eyebrow": "Come funziona",
   "page.home.events.info_intro":
-    "Gamers Guild Ticino è un’associazione senza scopo di lucro che promuove la cultura e la diffusione dei giochi di ruolo, favorendo la socializzazione, l’aggregazione e la condivisione della passione per il gioco attraverso eventi e iniziative aperte.",
+    "Gamers Guild Ticino è un'associazione senza scopo di lucro che promuove la cultura e la diffusione dei giochi di ruolo, favorendo la socializzazione, l'aggregazione e la condivisione della passione per il gioco attraverso eventi e iniziative aperte.",
   "page.home.events.info_step_1": "Ogni evento può ospitare uno o più tavoli.",
   "page.home.events.info_step_2":
     "Apri un evento per vedere tavoli, game master e requisiti.",
