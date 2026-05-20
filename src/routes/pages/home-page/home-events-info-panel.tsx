@@ -29,7 +29,7 @@ export default function HomeEventsInfoPanel() {
         <List.Item>• {t("page.home.events.info_step_3")}</List.Item>
       </List.Root>
 
-      <Separator borderColor="publicSurfaceBorder" my={2} />
+      <Separator my={2} />
 
       <VStack align="flex-start" gap={1}>
         <Text color="fg.muted" fontSize="sm">
