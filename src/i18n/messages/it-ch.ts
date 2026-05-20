@@ -394,6 +394,7 @@ Per domande, richieste di accesso, correzione, rimozione dell'iscrizione o anoni
   "page.event.tables.game_master": "Game Master: {0}",
   "page.event.tables.heading": "Tavoli",
   "page.event.tables.hide_details": "Nascondi dettagli",
+  "page.event.tables.jump_tables": "Iscriviti a un tavolo",
   "page.event.tables.notes": "Note",
   "page.event.tables.seats": "Posti",
   "page.event.tables.show_details": "Mostra dettagli",

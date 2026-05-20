@@ -4,6 +4,7 @@ import {
   Button,
   Card,
   Grid,
+  HStack,
   Heading,
   Text,
   VStack,
@@ -125,11 +126,23 @@ export default function EventHero({
             </Text>
           </VStack>
 
-          {hasMap && (
-            <Button asChild colorPalette="whiteAlpha" variant="subtle">
-              <a href="#map">{t("page.event.map.jump_to_map")}</a>
+          <HStack wrap="wrap">
+            <Button asChild size="sm" variant="subtle">
+              <a href="#tables">{t("page.event.tables.jump_tables")}</a>
             </Button>
-          )}
+
+            {hasMap && (
+              <Button
+                _hover={{ color: "fg" }}
+                asChild
+                color="fg.inverted"
+                size="sm"
+                variant="outline"
+              >
+                <a href="#map">{t("page.event.map.jump_to_map")}</a>
+              </Button>
+            )}
+          </HStack>
         </VStack>
 
         <Card.Root

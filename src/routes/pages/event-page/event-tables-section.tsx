@@ -50,7 +50,7 @@ export default function EventTablesSection({
     spansMultipleDays(eventTimeSlotsState.data);
 
   return (
-    <VStack align="stretch" gap={4}>
+    <VStack align="stretch" gap={4} id="tables">
       <Heading size="2xl">{t("page.event.tables.heading")}</Heading>
 
       {eventTablesState.isLoading && <Spinner />}
