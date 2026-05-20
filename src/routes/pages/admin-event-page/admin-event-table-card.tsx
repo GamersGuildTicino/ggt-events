@@ -119,7 +119,7 @@ export default function AdminEventTableCard({
     <Card.Root>
       <Card.Body gap={3}>
         <VStack align="stretch" gap={2}>
-          <HStack align="stretch" justify="space-between" w="full">
+          <HStack align="stretch" justify="space-between" w="full" wrap="wrap">
             <VStack align="flex-start" gap={0.5}>
               <Heading size="md">{eventTable.title}</Heading>
 
@@ -153,7 +153,7 @@ export default function AdminEventTableCard({
               )}
             </VStack>
 
-            <VStack align="flex-end" justify="space-between">
+            <VStack align="flex-end" flex={1} justify="space-between">
               <HStack gap={2}>
                 <Button onClick={onEdit} size="xs" variant="outline">
                   {t("page.admin_event.tables.edit")}
