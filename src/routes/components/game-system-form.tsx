@@ -16,8 +16,10 @@ import Form from "~/ui/form";
 //------------------------------------------------------------------------------
 
 export type GameSystemFormValue = {
+  backgroundImageUrl: string;
+  coverImageUrl: string;
   description: string;
-  imageUrl: string;
+  logoImageUrl: string;
   name: string;
 };
 
@@ -90,10 +92,36 @@ export default function GameSystemForm({
           </Field.Root>
 
           <Field.Root disabled={disabled}>
-            <Field.Label>{t("form.game_system.image_url.label")}</Field.Label>
+            <Field.Label>
+              {t("form.game_system.background_image_url.label")}
+            </Field.Label>
             <Input
-              defaultValue={initialValue?.imageUrl}
-              name="image-url"
+              defaultValue={initialValue?.backgroundImageUrl}
+              name="background-image-url"
+              size="sm"
+              type="url"
+            />
+          </Field.Root>
+
+          <Field.Root disabled={disabled}>
+            <Field.Label>
+              {t("form.game_system.logo_image_url.label")}
+            </Field.Label>
+            <Input
+              defaultValue={initialValue?.logoImageUrl}
+              name="logo-image-url"
+              size="sm"
+              type="url"
+            />
+          </Field.Root>
+
+          <Field.Root disabled={disabled}>
+            <Field.Label>
+              {t("form.game_system.cover_image_url.label")}
+            </Field.Label>
+            <Input
+              defaultValue={initialValue?.coverImageUrl}
+              name="cover-image-url"
               size="sm"
               type="url"
             />
@@ -119,8 +147,10 @@ function gameSystemFormValueFromForm(
   const getString = (key: string) => String(formData.get(key) ?? "").trim();
 
   return {
+    backgroundImageUrl: getString("background-image-url"),
+    coverImageUrl: getString("cover-image-url"),
     description: getString("description"),
-    imageUrl: getString("image-url"),
+    logoImageUrl: getString("logo-image-url"),
     name: getString("name"),
   };
 }

@@ -125,9 +125,11 @@ const itCH = {
   "form.event_time_slot.ends_at_time.label": "Ora di fine",
   "form.event_time_slot.starts_at_time.label": "Ora di inizio",
 
+  "form.game_system.background_image_url.label": "URL immagine di sfondo",
+  "form.game_system.cover_image_url.label": "URL copertina",
   "form.game_system.description.label": "Descrizione",
   "form.game_system.heading": "Dettagli",
-  "form.game_system.image_url.label": "URL immagine",
+  "form.game_system.logo_image_url.label": "URL logo",
   "form.game_system.name.label": "Nome",
 
   "layout.public_footer.copyright": "Gamers Guild Ticino",

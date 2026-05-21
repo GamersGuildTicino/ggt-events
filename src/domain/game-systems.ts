@@ -12,11 +12,13 @@ import {
 //------------------------------------------------------------------------------
 
 export const gameSystemSchema = z.object({
+  backgroundImageUrl: z.string(),
+  coverImageUrl: z.string(),
   createdAt: z.date(),
   createdBy: z.uuid(),
   description: z.string(),
   id: z.uuid(),
-  imageUrl: z.string(),
+  logoImageUrl: z.string(),
   name: z.string(),
   updatedAt: z.date(),
 });
@@ -28,11 +30,13 @@ export type GameSystem = z.infer<typeof gameSystemSchema>;
 //------------------------------------------------------------------------------
 
 export const gameSystemRowSchema = z.object({
+  background_image_url: z.string(),
+  cover_image_url: z.string(),
   created_at: z.string(),
   created_by: z.uuid(),
   description: z.string(),
   id: z.uuid(),
-  image_url: z.string(),
+  logo_image_url: z.string(),
   name: z.string(),
   updated_at: z.string(),
 });
@@ -45,11 +49,13 @@ export type GameSystemRow = z.infer<typeof gameSystemRowSchema>;
 
 export const gameSystemFromRowSchema = gameSystemRowSchema.transform(
   (row): GameSystem => ({
+    backgroundImageUrl: row.background_image_url,
+    coverImageUrl: row.cover_image_url,
     createdAt: new Date(row.created_at),
     createdBy: row.created_by,
     description: row.description,
     id: row.id,
-    imageUrl: row.image_url,
+    logoImageUrl: row.logo_image_url,
     name: row.name,
     updatedAt: new Date(row.updated_at),
   }),
@@ -63,9 +69,11 @@ export async function createGameSystem(
   gameSystem: Omit<GameSystem, "createdAt" | "id" | "updatedAt">,
 ) {
   const { error } = await supabase.from("game_systems").insert({
+    background_image_url: gameSystem.backgroundImageUrl,
+    cover_image_url: gameSystem.coverImageUrl,
     created_by: gameSystem.createdBy,
     description: gameSystem.description,
-    image_url: gameSystem.imageUrl,
+    logo_image_url: gameSystem.logoImageUrl,
     name: gameSystem.name,
   });
 
@@ -137,8 +145,10 @@ export async function updateGameSystem(
   const { error } = await supabase
     .from("game_systems")
     .update({
+      background_image_url: gameSystem.backgroundImageUrl,
+      cover_image_url: gameSystem.coverImageUrl,
       description: gameSystem.description,
-      image_url: gameSystem.imageUrl,
+      logo_image_url: gameSystem.logoImageUrl,
       name: gameSystem.name,
     })
     .eq("id", gameSystem.id);

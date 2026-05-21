@@ -119,9 +119,11 @@ const enGB = {
   "form.event_time_slot.ends_at_time.label": "End time",
   "form.event_time_slot.starts_at_time.label": "Start time",
 
+  "form.game_system.background_image_url.label": "Background image URL",
+  "form.game_system.cover_image_url.label": "Cover image URL",
   "form.game_system.description.label": "Description",
   "form.game_system.heading": "Details",
-  "form.game_system.image_url.label": "Image URL",
+  "form.game_system.logo_image_url.label": "Logo image URL",
   "form.game_system.name.label": "Name",
 
   "layout.public_footer.copyright": "Gamers Guild Ticino",
