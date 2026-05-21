@@ -6,7 +6,9 @@ create table public.game_systems (
   id uuid primary key default gen_random_uuid(),
   name text not null,
   description text not null default '',
-  image_url text not null default '',
+  background_image_url text not null default '',
+  logo_image_url text not null default '',
+  cover_image_url text not null default '',
   created_by uuid not null references auth.users (id),
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
