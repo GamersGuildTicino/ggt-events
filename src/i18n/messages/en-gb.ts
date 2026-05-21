@@ -394,6 +394,7 @@ For questions, access requests, corrections, registration removal requests, or a
   "page.event.tables.heading": "Tables",
   "page.event.tables.hide_details": "Hide details",
   "page.event.tables.jump_tables": "Join a table",
+  "page.event.tables.no_game_system": "Without Game System",
   "page.event.tables.notes": "Notes",
   "page.event.tables.seats": "Seats",
   "page.event.tables.show_details": "Show details",

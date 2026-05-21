@@ -96,13 +96,7 @@ export default function EventTablesSection({
                     {tables.map((eventTable) => (
                       <EventTableCard
                         eventTable={eventTable}
-                        gameSystemImageUrl={
-                          gameSystemById.get(eventTable.gameSystemId)?.imageUrl
-                        }
-                        gameSystemName={
-                          gameSystemById.get(eventTable.gameSystemId)?.name ??
-                          ""
-                        }
+                        gameSystem={gameSystemById.get(eventTable.gameSystemId)}
                         key={eventTable.id}
                         onRegistrationSuccess={onRegistrationSuccess}
                         registrationsOpen={event.registrationsOpen}

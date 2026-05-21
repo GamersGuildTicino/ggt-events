@@ -3,6 +3,7 @@ import {
   Card,
   HStack,
   Heading,
+  Image,
   Separator,
   Text,
   VStack,
@@ -10,6 +11,7 @@ import {
 import { useCallback, useState } from "react";
 import type { PublicEventTable } from "~/domain/event-tables";
 import type { EventTimeSlot } from "~/domain/event-time-slots";
+import type { GameSystem } from "~/domain/game-systems";
 import { formatPlayerCount } from "~/domain/players";
 import useI18n from "~/i18n/use-i18n";
 import AppAlert from "~/ui/app-alert";
@@ -25,8 +27,7 @@ import EventRegistrationSection from "./event-registration-section";
 
 type EventTableCardProps = {
   eventTable: PublicEventTable;
-  gameSystemImageUrl?: string;
-  gameSystemName: string;
+  gameSystem?: GameSystem;
   onRegistrationSuccess: (eventTableId: PublicEventTable["id"]) => void;
   registrationsOpen: boolean;
   timeSlot: EventTimeSlot;
@@ -34,8 +35,7 @@ type EventTableCardProps = {
 
 export default function EventTableCard({
   eventTable,
-  gameSystemImageUrl,
-  gameSystemName,
+  gameSystem,
   onRegistrationSuccess,
   registrationsOpen,
   timeSlot,
@@ -50,7 +50,6 @@ export default function EventTableCard({
     eventTable.maxPlayers - eventTable.registrationCount,
   );
   const hasDetails = Boolean(eventTable.description || eventTable.notes);
-  const imageUrl = eventTable.imageUrl || gameSystemImageUrl;
 
   const toggleEventRegistration = useCallback(() => {
     setRegistrationSucceeded(false);
@@ -81,68 +80,94 @@ export default function EventTableCard({
       overflow="hidden"
       transition="border-color 160ms ease"
     >
-      <Card.Body
-        backgroundImage={
-          imageUrl ?
-            `linear-gradient(135deg, rgba(252,248,240,0.98) 0%, rgba(247,240,226,0.92) 40%, rgba(234,223,203,0.8) 100%), url(${imageUrl})`
-          : undefined
-        }
-        backgroundPosition="center"
-        backgroundSize="cover"
-        gap={4}
-      >
-        <VStack align="flex-start" gap={2}>
-          <HStack align="flex-start" justify="space-between" w="full">
-            <VStack align="flex-start" gap={1}>
+      <Card.Body backgroundPosition="center" backgroundSize="cover" gap={4}>
+        <VStack align="flex-start" gap={2} w="full">
+          <HStack
+            align="flex-start"
+            gap={4}
+            justify="center"
+            w="full"
+            wrap="wrap"
+          >
+            {gameSystem?.coverImageUrl && (
+              <Image src={gameSystem?.coverImageUrl} w="5em" />
+            )}
+
+            <VStack
+              align={{ sm: "flex-start", xs: "center" }}
+              flex={1}
+              gap={1}
+              minW={{ sm: "30%", xs: "100%" }}
+              textAlign={{ sm: "left", xs: "center" }}
+            >
               <Heading
                 letterSpacing="0.03em"
                 size="lg"
                 textTransform="uppercase"
               >
-                {gameSystemName}
+                {gameSystem?.name ?? (
+                  <i>{t("page.event.tables.no_game_system")}</i>
+                )}
               </Heading>
-              <Text color="fg.muted" fontSize="sm" fontWeight="semibold">
-                {eventTable.title}
-              </Text>
-              <Text color="fg.muted" fontSize="sm">
-                {ti("page.event.tables.game_master", eventTable.gameMasterName)}
-              </Text>
+
+              <VStack
+                align={{ sm: "flex-start", xs: "center" }}
+                gap={0}
+                w="ful"
+              >
+                <Text color="fg.muted" fontSize="xs" fontWeight="semibold">
+                  {eventTable.title}
+                </Text>
+                <Text color="fg.muted" fontSize="xs">
+                  {ti(
+                    "page.event.tables.game_master",
+                    eventTable.gameMasterName,
+                  )}
+                </Text>
+              </VStack>
             </VStack>
 
-            <HStack gap={1} justify="flex-end" wrap="wrap">
-              <EventTableAgeRequirementBadge
-                ageRequirement={eventTable.ageRequirement}
-              />
-              <EventTableExperienceLevelBadge
-                experienceLevel={eventTable.experienceLevel}
-              />
-              <EventTableLanguageBadge language={eventTable.language} />
-            </HStack>
-          </HStack>
-
-          {hasDetails && (
-            <Button
-              alignSelf="flex-start"
-              display={{ base: "inline-flex", md: "none" }}
-              h="auto"
-              minW={0}
-              onClick={toggleEventTableDetails}
-              p={0}
-              size="xs"
-              variant="plain"
+            <VStack
+              align={{ sm: "flex-end", xs: "center" }}
+              gap={1}
+              maxW={{ sm: "30%", xs: "100%" }}
             >
-              {detailsVisible ?
-                t("page.event.tables.hide_details")
-              : t("page.event.tables.show_details")}
-            </Button>
-          )}
+              <HStack
+                gap={1}
+                justify={{ sm: "flex-end", xs: "center" }}
+                wrap="wrap"
+              >
+                <EventTableAgeRequirementBadge
+                  ageRequirement={eventTable.ageRequirement}
+                />
+                <EventTableExperienceLevelBadge
+                  experienceLevel={eventTable.experienceLevel}
+                />
+                <EventTableLanguageBadge language={eventTable.language} />
+              </HStack>
+
+              {hasDetails && (
+                <Button
+                  display={{ sm: "none", xs: "inline-flex" }}
+                  onClick={toggleEventTableDetails}
+                  p={0}
+                  size="xs"
+                  variant="plain"
+                >
+                  {detailsVisible ?
+                    t("page.event.tables.hide_details")
+                  : t("page.event.tables.show_details")}
+                </Button>
+              )}
+            </VStack>
+          </HStack>
 
           <VStack
             align="flex-start"
             display={
               detailsVisible ?
-                { base: "flex", md: "flex" }
-              : { base: "none", md: "flex" }
+                { sm: "flex", xs: "flex" }
+              : { sm: "flex", xs: "none" }
             }
             gap={2}
           >
@@ -167,7 +192,7 @@ export default function EventTableCard({
 
         <Separator />
 
-        <HStack justify="space-between">
+        <HStack justify="space-between" wrap="wrap">
           <VStack align="flex-start" gap={0}>
             <Text fontWeight="semibold">
               {formatPlayerCount({ ...eventTable, t, ti })}
