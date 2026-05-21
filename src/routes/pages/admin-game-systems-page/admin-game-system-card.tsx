@@ -34,7 +34,7 @@ export default function AdminGameSystemCard({
               <Image src={gameSystem.coverImageUrl} w="1.5em" />
             )}
 
-            <Link asChild fontWeight="medium">
+            <Link asChild fontWeight="medium" lineHeight={1}>
               <RouterLink to={`/admin/game-systems/${gameSystem.id}`}>
                 {gameSystem.name}
               </RouterLink>
