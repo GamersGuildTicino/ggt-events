@@ -1,4 +1,4 @@
-import { Button, Card, HStack, Link } from "@chakra-ui/react";
+import { Button, Card, HStack, Image, Link } from "@chakra-ui/react";
 import { useCallback } from "react";
 import { Link as RouterLink } from "react-router";
 import type { GameSystem } from "~/domain/game-systems";
@@ -29,11 +29,17 @@ export default function AdminGameSystemCard({
     <Card.Root>
       <Card.Body py={3}>
         <HStack justify="space-between">
-          <Link asChild fontWeight="medium">
-            <RouterLink to={`/admin/game-systems/${gameSystem.id}`}>
-              {gameSystem.name}
-            </RouterLink>
-          </Link>
+          <HStack>
+            {gameSystem.coverImageUrl && (
+              <Image src={gameSystem.coverImageUrl} w="1.5em" />
+            )}
+
+            <Link asChild fontWeight="medium">
+              <RouterLink to={`/admin/game-systems/${gameSystem.id}`}>
+                {gameSystem.name}
+              </RouterLink>
+            </Link>
+          </HStack>
 
           <HStack gap={2}>
             <Button asChild size="xs" variant="outline">
