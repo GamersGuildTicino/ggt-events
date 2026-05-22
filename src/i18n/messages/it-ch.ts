@@ -101,6 +101,10 @@ const itCH = {
   "form.event_details.location_address.label": "Indirizzo",
   "form.event_details.location_name.label": "Luogo",
   "form.event_details.registrations_open": "Registrazioni aperte",
+  "form.event_details.registrations_open_at.label":
+    "Data di apertura iscrizioni",
+  "form.event_details.registrations_open_at_time.label":
+    "Ora di apertura iscrizioni",
   "form.event_details.short_description.label": "Descrizione breve",
   "form.event_details.slug.label": "Slug",
   "form.event_details.starts_at_date.label": "Data",
@@ -166,6 +170,8 @@ const itCH = {
     "Tutte le fasce orarie sono nel passato. Le registrazioni pubbliche non sono piu disponibili.",
   "page.admin_event.heading": "Gestisci evento",
   "page.admin_event.preview": "Anteprima",
+  "page.admin_event.registrations_open_at_notice":
+    "Le iscrizioni sono attualmente chiuse. Data mostrata agli utenti: {0}.",
   "page.admin_event.save": "Salva modifiche",
   "page.admin_event.saved": "Evento salvato.",
   "page.admin_event.tables.cancel": "Annulla",
@@ -378,6 +384,8 @@ Per domande, richieste di accesso, correzione, rimozione dell'iscrizione o anoni
     "Le registrazioni non sono aperte al momento. Puoi comunque consultare i tavoli disponibili.",
   "page.event.hero.registration_open":
     "Consulta i tavoli disponibili e scegli l'avventura a cui vuoi partecipare.",
+  "page.event.hero.registration_scheduled":
+    "Le registrazioni apriranno *{0}*. Puoi comunque consultare i tavoli disponibili.",
   "page.event.map.heading": "Come arrivare",
   "page.event.map.jump_to_map": "Come arrivare",
   "page.event.map.open_in_google_maps": "Apri in Google Maps",
@@ -444,6 +452,7 @@ Per domande, richieste di accesso, correzione, rimozione dell'iscrizione o anoni
   "page.home.events.open_and_register": "Vedi evento / Iscriviti",
   "page.home.events.registrations_closed": "Registrazioni chiuse",
   "page.home.events.registrations_open": "Registrazioni aperte",
+  "page.home.events.registrations_open_at": "Iscrizioni da",
   "page.home.heading": "Gamers Guild Ticino",
   "page.home.hero.about": "Scopri l'associazione",
   "page.home.hero.card.description":

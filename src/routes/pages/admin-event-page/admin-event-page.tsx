@@ -8,6 +8,10 @@ import {
 } from "@chakra-ui/react";
 import { useCallback, useState } from "react";
 import { Link as RouterLink, useParams } from "react-router";
+import {
+  formatRegistrationOpeningDate,
+  shouldShowRegistrationOpeningDate,
+} from "~/domain/event-registration-opening";
 import { isEventOver } from "~/domain/event-time-slots";
 import { type Event, updateEvent } from "~/domain/events";
 import usePageTitle from "~/hooks/use-page-title";
@@ -39,7 +43,7 @@ import useAdminEventTimeSlots from "./use-admin-event-time-slots";
 
 export default function AdminEventPage() {
   const { eventId } = useParams();
-  const { t, ti } = useI18n();
+  const { locale, t, ti } = useI18n();
   const [saveState, setSaveState] = useState<AsyncState>(initial());
   const { eventState, setEventState } = useAdminEvent(eventId);
   const {
@@ -216,6 +220,22 @@ export default function AdminEventPage() {
             {eventTimeSlotsState.hasError && (
               <AppAlert status="error">{t(eventTimeSlotsState.error)}</AppAlert>
             )}
+
+            {eventTimeSlotsState.isSuccess &&
+              shouldShowRegistrationOpeningDate(
+                eventState.data,
+                eventTimeSlotsState.data,
+              ) && (
+                <AppAlert status="info">
+                  {ti(
+                    "page.admin_event.registrations_open_at_notice",
+                    formatRegistrationOpeningDate(
+                      eventState.data.registrationsOpenAt,
+                      locale,
+                    ),
+                  )}
+                </AppAlert>
+              )}
 
             {eventTimeSlotsState.isSuccess &&
               isEventOver(eventTimeSlotsState.data) && (

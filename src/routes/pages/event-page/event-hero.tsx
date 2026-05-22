@@ -6,12 +6,19 @@ import {
   Grid,
   HStack,
   Heading,
+  Span,
   Text,
   VStack,
 } from "@chakra-ui/react";
+import type { ReactNode } from "react";
+import {
+  formatLongRegistrationOpeningDate,
+  shouldShowRegistrationOpeningDate,
+} from "~/domain/event-registration-opening";
 import { type EventTimeSlot, isEventOver } from "~/domain/event-time-slots";
 import type { Event } from "~/domain/events";
 import useI18n from "~/i18n/use-i18n";
+import RichText from "~/ui/rich-text";
 import EventDetailRow from "./event-detail-row";
 import { formatDateRange, formatTimeRange } from "./event-page-format";
 
@@ -30,8 +37,12 @@ export default function EventHero({
   hasMap,
   timeSlots,
 }: EventHeroProps) {
-  const { locale, t } = useI18n();
+  const { locale, t, ti } = useI18n();
   const eventOver = isEventOver(timeSlots);
+  const showRegistrationOpeningDate = shouldShowRegistrationOpeningDate(
+    event,
+    timeSlots,
+  );
 
   const [statusColor, statusLabel, statusDescription] =
     eventOver ?
@@ -49,7 +60,15 @@ export default function EventHero({
     : [
         "whiteAlpha.300",
         t("page.event.registrations_closed"),
-        t("page.event.hero.registration_closed"),
+        showRegistrationOpeningDate ?
+          ti(
+            "page.event.hero.registration_scheduled",
+            formatLongRegistrationOpeningDate(
+              event.registrationsOpenAt,
+              locale,
+            ),
+          )
+        : t("page.event.hero.registration_closed"),
       ];
 
   return (
@@ -121,9 +140,14 @@ export default function EventHero({
                 {event.shortDescription}
               </Text>
             )}
-            <Text color="whiteAlpha.800" fontSize="sm" maxW="34em">
-              {statusDescription}
-            </Text>
+            <RichText
+              color="whiteAlpha.800"
+              fontSize="sm"
+              lineHeight={1.2}
+              maxW="34em"
+              patterns={accentPatterns}
+              text={statusDescription}
+            />
           </VStack>
 
           <HStack wrap="wrap">
@@ -175,3 +199,18 @@ export default function EventHero({
     </Box>
   );
 }
+
+//------------------------------------------------------------------------------
+// Accent Patterns
+//------------------------------------------------------------------------------
+
+const accentPatterns = [
+  {
+    regex: /\*(.+?)\*/,
+    render: (val: ReactNode) => (
+      <Span color="publicAccent" fontWeight="bold">
+        {val}
+      </Span>
+    ),
+  },
+];

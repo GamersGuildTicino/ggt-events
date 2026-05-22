@@ -95,6 +95,9 @@ const enGB = {
   "form.event_details.location_address.label": "Address",
   "form.event_details.location_name.label": "Location",
   "form.event_details.registrations_open": "Registrations open",
+  "form.event_details.registrations_open_at.label": "Registration opening date",
+  "form.event_details.registrations_open_at_time.label":
+    "Registration opening time",
   "form.event_details.short_description.label": "Short description",
   "form.event_details.slug.label": "Slug",
   "form.event_details.starts_at_date.label": "Date",
@@ -158,6 +161,8 @@ const enGB = {
     "All time slots are in the past. Public registrations are no longer available.",
   "page.admin_event.heading": "Manage event",
   "page.admin_event.preview": "Preview",
+  "page.admin_event.registrations_open_at_notice":
+    "Registrations are currently closed. Opening date shown to users: {0}.",
   "page.admin_event.save": "Save changes",
   "page.admin_event.saved": "Event saved.",
   "page.admin_event.tables.cancel": "Cancel",
@@ -364,6 +369,8 @@ For questions, access requests, corrections, registration removal requests, or a
     "Registrations are not open right now. You can still browse the available tables.",
   "page.event.hero.registration_open":
     "Browse the available tables and choose the adventure you want to join.",
+  "page.event.hero.registration_scheduled":
+    "Registrations will open *{0}*. You can still browse the available tables.",
   "page.event.map.heading": "How to get there",
   "page.event.map.jump_to_map": "Get here",
   "page.event.map.open_in_google_maps": "Open in Google Maps",
@@ -430,6 +437,7 @@ For questions, access requests, corrections, registration removal requests, or a
   "page.home.events.open_and_register": "View event / Register",
   "page.home.events.registrations_closed": "Registrations closed",
   "page.home.events.registrations_open": "Registrations open",
+  "page.home.events.registrations_open_at": "Registrations open on",
   "page.home.heading": "Gamers Guild Ticino",
   "page.home.hero.about": "About the association",
   "page.home.hero.card.description":

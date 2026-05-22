@@ -1,5 +1,9 @@
 import { Box, HStack, Link, Text, VStack } from "@chakra-ui/react";
 import { Link as RouterLink } from "react-router";
+import {
+  formatHomeRegistrationOpeningDate,
+  shouldShowRegistrationOpeningDate,
+} from "~/domain/event-registration-opening";
 import type { EventTimeSlot } from "~/domain/event-time-slots";
 import type { Event } from "~/domain/events";
 import useI18n from "~/i18n/use-i18n";
@@ -27,6 +31,10 @@ export default function HomeEventCard({
     locale === "it-CH" ? `/eventi/${event.slug}` : `/events/${event.slug}`;
   const firstTimeSlot = timeSlots[0];
   if (!firstTimeSlot) return null;
+  const showRegistrationOpeningDate = shouldShowRegistrationOpeningDate(
+    event,
+    timeSlots,
+  );
 
   return (
     <>
@@ -70,8 +78,14 @@ export default function HomeEventCard({
 
         <HStack color="fg.muted" gap={2}>
           <Box
-            bgColor={event.registrationsOpen ? "green.500" : "gray.400"}
+            bgColor={
+              event.registrationsOpen ? "green.500"
+              : showRegistrationOpeningDate ?
+                "blue.500"
+              : "gray.400"
+            }
             borderRadius="full"
+            flexShrink={0}
             h="0.55rem"
             w="0.55rem"
           />
@@ -83,6 +97,8 @@ export default function HomeEventCard({
           >
             {event.registrationsOpen ?
               t("page.home.events.registrations_open")
+            : showRegistrationOpeningDate ?
+              `${t("page.home.events.registrations_open_at")} ${formatHomeRegistrationOpeningDate(event.registrationsOpenAt, locale)}`
             : t("page.home.events.registrations_closed")}
           </Text>
         </HStack>
