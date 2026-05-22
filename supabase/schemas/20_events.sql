@@ -12,6 +12,7 @@ create table public.events (
   location_name text not null,
   location_address text not null,
   registrations_open boolean not null default false,
+  registrations_open_at timestamptz not null,
   visibility public.event_visibility not null default 'private',
   created_by uuid not null references auth.users (id),
   created_at timestamptz not null default now(),
