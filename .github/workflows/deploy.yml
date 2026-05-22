@@ -39,8 +39,12 @@ jobs:
 
       - name: Build
         env:
+          VITE_INFO_ADDRESS: ${{ vars.VITE_INFO_ADDRESS || secrets.VITE_INFO_ADDRESS }}
+          VITE_INSTAGRAM_LINK: ${{ vars.VITE_INSTAGRAM_LINK || secrets.VITE_INSTAGRAM_LINK }}
+          VITE_MEMBERSHIP_FORM_LINK: ${{ vars.VITE_MEMBERSHIP_FORM_LINK || secrets.VITE_MEMBERSHIP_FORM_LINK }}
           VITE_SUPABASE_ANON_KEY: ${{ vars.VITE_SUPABASE_ANON_KEY || secrets.VITE_SUPABASE_ANON_KEY }}
           VITE_SUPABASE_URL: ${{ vars.VITE_SUPABASE_URL || secrets.VITE_SUPABASE_URL }}
+          VITE_WHATS_APP_LINK: ${{ vars.VITE_WHATS_APP_LINK || secrets.VITE_WHATS_APP_LINK }}
         run: npm run build
 
       - name: Setup Pages
