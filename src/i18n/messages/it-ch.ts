@@ -140,6 +140,7 @@ const itCH = {
   "layout.public_footer.data_and_terms": "Dati e Condizioni",
   "layout.public_footer.email": "info@gamersguildticino.ch",
   "layout.public_footer.instagram": "Instagram",
+  "layout.public_footer.whatsapp": "WhatsApp",
 
   "locale.en-GB": "English",
   "locale.it-CH": "Italiano",
