@@ -40,10 +40,16 @@ For GitHub Pages or any other static deployment, configure the same values in th
 ```bash
 VITE_SUPABASE_URL=...
 VITE_SUPABASE_ANON_KEY=...
+VITE_INFO_ADDRESS=...
+VITE_INSTAGRAM_LINK=...
+VITE_WHATS_APP_LINK=...
 ```
 
 - `VITE_SUPABASE_URL`: Supabase project URL
 - `VITE_SUPABASE_ANON_KEY`: Supabase publishable key used by the frontend
+- `VITE_INFO_ADDRESS`: Email address of the association the users can use for contacting the organizers.
+- `VITE_INSTAGRAM_LINK`: Link to the Instagram page, used in contacts sections.
+- `VITE_WHATS_APP_LINK`: Invitation link to the WhatsApp group, used in contacts sections.
 
 Note: `VITE_SUPABASE_ANON_KEY` still uses the older name, but the value should be the current Supabase publishable key.
 
