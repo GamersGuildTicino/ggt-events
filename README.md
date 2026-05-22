@@ -48,6 +48,7 @@ VITE_WHATS_APP_LINK=...
 - `VITE_SUPABASE_URL`: Supabase project URL
 - `VITE_SUPABASE_ANON_KEY`: Supabase publishable key used by the frontend
 - `VITE_INFO_ADDRESS`: Email address of the association the users can use for contacting the organizers.
+- `VITE_MEMBERSHIP_FORM_LINK`: Link to the registration form.
 - `VITE_INSTAGRAM_LINK`: Link to the Instagram page, used in contacts sections.
 - `VITE_WHATS_APP_LINK`: Invitation link to the WhatsApp group, used in contacts sections.
 

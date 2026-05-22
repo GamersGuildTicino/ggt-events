@@ -28,7 +28,9 @@ export default function HomeUpcomingEventsSection({
       borderColor="publicSurfaceBorder"
       borderWidth={1}
       flex={1}
+      minW={{ sm: "30em", xs: "100%" }}
       p={6}
+      w="full"
     >
       <VStack align="flex-start" gap={4} w="full">
         <Eyebrow>{t("page.home.events.heading")}</Eyebrow>

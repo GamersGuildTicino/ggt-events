@@ -421,6 +421,11 @@ For questions, access requests, corrections, registration removal requests, or a
   "page.home.events.contact_cta": "Contact the association",
   "page.home.events.contact_text":
     "Questions, proposals, or do you want to join the association?",
+  "page.home.events.contacts_follow": "Follow us",
+  "page.home.events.contacts_join": "Join the association",
+  "page.home.events.contacts_join_cta": "Open membership form",
+  "page.home.events.contacts_join_description":
+    "Fill in the form to become a member of Gamers Guild Ticino.",
   "page.home.events.description":
     "Pick an event, browse the available tables, and reserve your seat when registrations are open.",
   "page.home.events.empty": "No upcoming events.",

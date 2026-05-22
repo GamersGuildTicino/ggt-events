@@ -436,6 +436,11 @@ Per domande, richieste di accesso, correzione, rimozione dell'iscrizione o anoni
   "page.home.events.contact_cta": "Contatta l'associazione",
   "page.home.events.contact_text":
     "Domande, proposte, oppure vuoi iscriverti all'associazione?",
+  "page.home.events.contacts_follow": "Seguici su",
+  "page.home.events.contacts_join": "Iscriviti all'associazione",
+  "page.home.events.contacts_join_cta": "Apri formulario",
+  "page.home.events.contacts_join_description":
+    "Compila il formulario per diventare membro di Gamers Guild Ticino.",
   "page.home.events.description":
     "Scegli un evento, consulta i tavoli disponibili e riserva il tuo posto quando le registrazioni sono aperte.",
   "page.home.events.empty": "Nessun evento in programma.",

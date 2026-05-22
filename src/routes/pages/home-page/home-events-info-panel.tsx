@@ -17,8 +17,8 @@ export default function HomeEventsInfoPanel() {
       borderColor="publicSurfaceBorder"
       borderWidth="1px"
       flex={1}
-      minW={{ base: "full", lg: "18rem" }}
       p={6}
+      w="full"
     >
       <Eyebrow>{t("page.home.events.info_eyebrow")}</Eyebrow>
 

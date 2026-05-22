@@ -1,6 +1,7 @@
 import { HStack, VStack } from "@chakra-ui/react";
 import usePageTitle from "~/hooks/use-page-title";
 import useI18n from "~/i18n/use-i18n";
+import HomeEventsContactsPanel from "./home-events-contacts-panel";
 import HomeEventsInfoPanel from "./home-events-info-panel";
 import HomeHero from "./home-hero";
 import HomeUpcomingEventsSection from "./home-upcoming-events-section";
@@ -21,7 +22,16 @@ export default function HomePage() {
       <HomeHero />
 
       <HStack align="flex-end" justify="center" wrap="wrap-reverse">
-        <HomeEventsInfoPanel />
+        <VStack
+          align="stretch"
+          flex={1}
+          gap={2}
+          minW={{ sm: "30em", xs: "100%" }}
+          w="full"
+        >
+          <HomeEventsInfoPanel />
+          <HomeEventsContactsPanel />
+        </VStack>
 
         <HomeUpcomingEventsSection
           eventsState={eventsState}
