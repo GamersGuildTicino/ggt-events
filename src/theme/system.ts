@@ -28,6 +28,7 @@ export const system = createSystem(defaultConfig, {
     },
     tokens: {
       colors: {
+        publicAccent: { value: "#65bff7" },
         publicAccentBorder: { value: "#458db9" },
         publicFooterBg: { value: "#0e4263" },
         publicPageBg: { value: "#addcf9" },
