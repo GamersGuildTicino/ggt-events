@@ -11,7 +11,8 @@ import RichText from "~/ui/rich-text";
 //------------------------------------------------------------------------------
 
 export default function DataAndTermsPage() {
-  const { t } = useI18n();
+  const { t, ti } = useI18n();
+  const infoAddress = import.meta.env["VITE_INFO_ADDRESS"];
 
   usePageTitle(t("page.data_and_terms.heading"));
 
@@ -34,7 +35,7 @@ export default function DataAndTermsPage() {
 
       <Card.Root bg="publicSurfaceBg" borderColor="publicSurfaceBorder">
         <Card.Body gap={2} lineHeight={1.2}>
-          {t("page.data_and_terms.content")
+          {ti("page.data_and_terms.content", infoAddress)
             .split("\n")
             .map((paragraph) => (
               <RichText text={paragraph} />

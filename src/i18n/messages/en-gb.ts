@@ -131,7 +131,6 @@ const enGB = {
 
   "layout.public_footer.copyright": "Gamers Guild Ticino",
   "layout.public_footer.data_and_terms": "Data & Terms",
-  "layout.public_footer.email": "info@gamersguildticino.ch",
   "layout.public_footer.instagram": "Instagram",
   "layout.public_footer.whatsapp": "WhatsApp",
 
@@ -351,7 +350,7 @@ For events that have already ended, participants may ask us to anonymize their p
 Some data may need to be kept temporarily when required for event organization or legal reasons.
 
 ##Contact##
-For questions, access requests, corrections, registration removal requests, or anonymization requests, contact us at @@info@gamersguildticino.ch@@.
+For questions, access requests, corrections, registration removal requests, or anonymization requests, contact us at @@{0}@@.
 `,
   "page.data_and_terms.heading": "Data Transparency and Participation Terms",
   "page.data_and_terms.last_updated": "Last updated: May 2026",

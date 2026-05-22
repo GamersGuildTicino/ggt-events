@@ -21,6 +21,7 @@ export default function PublicFooter() {
   const { t } = useI18n();
   const currentYear = new Date().getFullYear();
 
+  const infoAddress = import.meta.env["VITE_INFO_ADDRESS"];
   const instagramLink = import.meta.env["VITE_INSTAGRAM_LINK"];
   const whatsAppLink = import.meta.env["VITE_WHATS_APP_LINK"];
 
@@ -54,9 +55,9 @@ export default function PublicFooter() {
         <Link
           _hover={{ color: "whiteAlpha.800" }}
           color="fg.inverted"
-          href="mailto:info@gamersguildticino.ch"
+          href={`mailto:${infoAddress}`}
         >
-          {t("layout.public_footer.email")}
+          {infoAddress}
         </Link>
 
         {instagramLink && whatsAppLink && (

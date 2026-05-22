@@ -138,7 +138,6 @@ const itCH = {
 
   "layout.public_footer.copyright": "Gamers Guild Ticino",
   "layout.public_footer.data_and_terms": "Dati e Condizioni",
-  "layout.public_footer.email": "info@gamersguildticino.ch",
   "layout.public_footer.instagram": "Instagram",
   "layout.public_footer.whatsapp": "WhatsApp",
 
@@ -365,7 +364,7 @@ Per eventi già conclusi, le persone partecipanti possono chiedere di anonimizza
 Alcuni dati potrebbero dover essere conservati temporaneamente quando necessario per motivi organizzativi o legali.
 
 ##Contatto##
-Per domande, richieste di accesso, correzione, rimozione dell'iscrizione o anonimizzazione, contattaci a @@info@gamersguildticino.ch@@.
+Per domande, richieste di accesso, correzione, rimozione dell'iscrizione o anonimizzazione, contattaci a @@{0}@@.
 `,
   "page.data_and_terms.heading":
     "Trasparenza sui Dati e Condizioni di Partecipazione",

@@ -8,6 +8,7 @@ import Eyebrow from "~/ui/eyebrow";
 
 export default function HomeEventsInfoPanel() {
   const { t } = useI18n();
+  const infoAddress = import.meta.env["VITE_INFO_ADDRESS"];
 
   return (
     <VStack
@@ -36,10 +37,7 @@ export default function HomeEventsInfoPanel() {
           {t("page.home.events.contact_text")}
         </Text>
 
-        <Link
-          href="mailto:info@gamersguildticino.ch"
-          textDecoration="underline"
-        >
+        <Link href={`mailto:${infoAddress}`} textDecoration="underline">
           {t("page.home.events.contact_cta")}
         </Link>
       </VStack>
