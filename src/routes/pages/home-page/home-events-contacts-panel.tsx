@@ -42,7 +42,13 @@ export default function HomeEventsContactsPanel() {
         >
           <Eyebrow>{t("page.home.events.contacts_follow")}</Eyebrow>
 
-          <HStack gap={5} justify="space-evenly" mt={2} w="full">
+          <HStack
+            align="center"
+            gap={5}
+            h="full"
+            justify="space-evenly"
+            w="full"
+          >
             {instagramLink && (
               <ContactLink
                 href={instagramLink}
