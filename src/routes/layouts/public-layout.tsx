@@ -9,13 +9,13 @@ import PublicFooter from "./public-footer";
 export default function PublicLayout() {
   return (
     <VStack backgroundColor="publicPageBg" gap={0} minH="100vh">
-      <Flex flex="1" justify="center" p={8} w="full">
+      <Flex flex="1" justify="center" p={{ base: 4, md: 8 }} w="full">
         <Flex maxW="72em" w="full">
           <Outlet />
         </Flex>
       </Flex>
 
-      <Center bg="publicFooterBg" px={8} w="full">
+      <Center bg="publicFooterBg" px={{ base: 4, md: 8 }} w="full">
         <Flex maxW="72em" w="full">
           <PublicFooter />
         </Flex>
