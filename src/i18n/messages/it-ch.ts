@@ -404,8 +404,8 @@ Per domande, richieste di accesso, correzione, rimozione dell'iscrizione o anoni
     "Registrazione completata. Una mail di conferma è stata inviata.",
   "page.event.registration.terms_link":
     "termini di partecipazione e sull'uso dei dati",
-  "page.event.registrations_closed": "Registrazioni chiuse",
   "page.event.registrations_open": "Registrazioni aperte",
+  "page.event.registrations_open_at": "Iscrizioni da {0}",
   "page.event.tables.available_seats/*": "{0} posti liberi",
   "page.event.tables.available_seats/1": "{0} posto libero",
   "page.event.tables.choose": "Registrati",
@@ -433,6 +433,7 @@ Per domande, richieste di accesso, correzione, rimozione dell'iscrizione o anoni
   "page.home.about.description":
     "Gamers Guild Ticino riunisce persone attorno a storie condivise, dadi e giochi di ruolo dal vivo.",
   "page.home.about.heading": "Giocare storie insieme",
+  "page.home.event.url": "/eventi/{0}",
   "page.home.events.contact_cta": "Contatta l'associazione",
   "page.home.events.contact_text":
     "Domande, proposte, oppure vuoi iscriverti all'associazione?",
@@ -457,7 +458,7 @@ Per domande, richieste di accesso, correzione, rimozione dell'iscrizione o anoni
   "page.home.events.open_and_register": "Vedi evento / Iscriviti",
   "page.home.events.registrations_closed": "Registrazioni chiuse",
   "page.home.events.registrations_open": "Registrazioni aperte",
-  "page.home.events.registrations_open_at": "Iscrizioni da",
+  "page.home.events.registrations_open_at": "Iscrizioni da {0}",
   "page.home.heading": "Gamers Guild Ticino",
   "page.home.hero.about": "Scopri l'associazione",
   "page.home.hero.card.description":

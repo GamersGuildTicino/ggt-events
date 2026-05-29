@@ -1,7 +1,7 @@
 import { Box, HStack, Link, Text, VStack } from "@chakra-ui/react";
 import { Link as RouterLink } from "react-router";
 import {
-  formatHomeRegistrationOpeningDate,
+  formatRegistrationOpeningDateShort,
   shouldShowRegistrationOpeningDate,
 } from "~/domain/event-registration-opening";
 import type { EventTimeSlot } from "~/domain/event-time-slots";
@@ -26,15 +26,33 @@ export default function HomeEventCard({
   isLast,
   timeSlots,
 }: HomeEventCardProps) {
-  const { locale, t } = useI18n();
-  const eventPath =
-    locale === "it-CH" ? `/eventi/${event.slug}` : `/events/${event.slug}`;
+  const { locale, t, ti } = useI18n();
+
+  const eventPath = ti("page.home.event.url", event.slug);
+
   const firstTimeSlot = timeSlots[0];
   if (!firstTimeSlot) return null;
-  const showRegistrationOpeningDate = shouldShowRegistrationOpeningDate(
-    event,
-    timeSlots,
-  );
+
+  const showOpeningDate = shouldShowRegistrationOpeningDate(event, timeSlots);
+
+  const statusLabel =
+    event.registrationsOpen ? t("page.home.events.registrations_open")
+    : showOpeningDate ?
+      ti(
+        "page.home.events.registrations_open_at",
+        formatRegistrationOpeningDateShort(event.registrationsOpenAt, locale),
+      )
+    : t("page.home.events.registrations_closed");
+
+  const lineBgColor =
+    isLast ?
+      "linear-gradient(#65bff7ff 0%, #65bff7dd 15%, #e7dcc700 100%)"
+    : "publicSurfaceBorder";
+
+  const statusDotColor =
+    event.registrationsOpen ? "green.500"
+    : showOpeningDate ? "blue.500"
+    : "gray.400";
 
   return (
     <>
@@ -57,11 +75,7 @@ export default function HomeEventCard({
         />
         <Box bgColor="publicSurfaceBorder" flex={1} w="2px" />
         <Box
-          bg={
-            isLast ?
-              "linear-gradient(#65bff7ff 0%, #65bff7dd 15%, #e7dcc700 100%)"
-            : "publicSurfaceBorder"
-          }
+          bg={lineBgColor}
           bottom={0}
           h={6}
           position="absolute"
@@ -78,12 +92,7 @@ export default function HomeEventCard({
 
         <HStack color="fg.muted" gap={2}>
           <Box
-            bgColor={
-              event.registrationsOpen ? "green.500"
-              : showRegistrationOpeningDate ?
-                "blue.500"
-              : "gray.400"
-            }
+            bgColor={statusDotColor}
             borderRadius="full"
             flexShrink={0}
             h="0.55rem"
@@ -95,11 +104,7 @@ export default function HomeEventCard({
             letterSpacing="0.08em"
             textTransform="uppercase"
           >
-            {event.registrationsOpen ?
-              t("page.home.events.registrations_open")
-            : showRegistrationOpeningDate ?
-              `${t("page.home.events.registrations_open_at")} ${formatHomeRegistrationOpeningDate(event.registrationsOpenAt, locale)}`
-            : t("page.home.events.registrations_closed")}
+            {statusLabel}
           </Text>
         </HStack>
 

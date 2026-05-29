@@ -389,8 +389,8 @@ For questions, access requests, corrections, registration removal requests, or a
     "Registration completed. A confirmation email has been sent.",
   "page.event.registration.terms_link":
     "terms of participation and on data usage",
-  "page.event.registrations_closed": "Registrations closed",
   "page.event.registrations_open": "Registrations open",
+  "page.event.registrations_open_at": "Registrations open on {0}",
   "page.event.tables.available_seats/*": "{0} seats left",
   "page.event.tables.available_seats/1": "{0} seat left",
   "page.event.tables.choose": "Register",
@@ -418,6 +418,7 @@ For questions, access requests, corrections, registration removal requests, or a
   "page.home.about.description":
     "Gamers Guild Ticino brings people together around shared stories, dice, and live tabletop role-playing games.",
   "page.home.about.heading": "Play stories together",
+  "page.home.event.url": "/events/{0}",
   "page.home.events.contact_cta": "Contact the association",
   "page.home.events.contact_text":
     "Questions, proposals, or do you want to join the association?",
@@ -442,7 +443,7 @@ For questions, access requests, corrections, registration removal requests, or a
   "page.home.events.open_and_register": "View event / Register",
   "page.home.events.registrations_closed": "Registrations closed",
   "page.home.events.registrations_open": "Registrations open",
-  "page.home.events.registrations_open_at": "Registrations open on",
+  "page.home.events.registrations_open_at": "Registrations open on {0}",
   "page.home.heading": "Gamers Guild Ticino",
   "page.home.hero.about": "About the association",
   "page.home.hero.card.description":

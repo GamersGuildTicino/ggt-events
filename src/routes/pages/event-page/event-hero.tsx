@@ -12,7 +12,8 @@ import {
 } from "@chakra-ui/react";
 import type { ReactNode } from "react";
 import {
-  formatLongRegistrationOpeningDate,
+  formatRegistrationOpeningDateLong,
+  formatRegistrationOpeningDateShort,
   shouldShowRegistrationOpeningDate,
 } from "~/domain/event-registration-opening";
 import { type EventTimeSlot, isEventOver } from "~/domain/event-time-slots";
@@ -58,12 +59,15 @@ export default function EventHero({
         t("page.event.hero.registration_open"),
       ]
     : [
-        "whiteAlpha.300",
-        t("page.event.registrations_closed"),
+        "blue.500",
+        ti(
+          "page.event.registrations_open_at",
+          formatRegistrationOpeningDateShort(event.registrationsOpenAt, locale),
+        ),
         showRegistrationOpeningDate ?
           ti(
             "page.event.hero.registration_scheduled",
-            formatLongRegistrationOpeningDate(
+            formatRegistrationOpeningDateLong(
               event.registrationsOpenAt,
               locale,
             ),
@@ -123,7 +127,7 @@ export default function EventHero({
         templateColumns={{ base: "1fr", lg: "1.2fr 0.8fr" }}
       >
         <VStack align="flex-start" gap={5} justify="center">
-          <Badge bg={statusColor} color="white" rounded="full">
+          <Badge bg={statusColor} color="white" px={3} rounded="full">
             {statusLabel}
           </Badge>
 

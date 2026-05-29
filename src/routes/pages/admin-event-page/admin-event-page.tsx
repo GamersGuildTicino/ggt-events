@@ -9,7 +9,7 @@ import {
 import { useCallback, useState } from "react";
 import { Link as RouterLink, useParams } from "react-router";
 import {
-  formatRegistrationOpeningDate,
+  formatRegistrationOpeningDateMedium,
   shouldShowRegistrationOpeningDate,
 } from "~/domain/event-registration-opening";
 import { isEventOver } from "~/domain/event-time-slots";
@@ -229,7 +229,7 @@ export default function AdminEventPage() {
                 <AppAlert status="info">
                   {ti(
                     "page.admin_event.registrations_open_at_notice",
-                    formatRegistrationOpeningDate(
+                    formatRegistrationOpeningDateMedium(
                       eventState.data.registrationsOpenAt,
                       locale,
                     ),

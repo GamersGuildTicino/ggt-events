@@ -14,10 +14,13 @@ export function shouldShowRegistrationOpeningDate(
 }
 
 //------------------------------------------------------------------------------
-// Format Registration Opening Date
+// Format Registration Opening Date Medium
 //------------------------------------------------------------------------------
 
-export function formatRegistrationOpeningDate(date: Date, locale: string) {
+export function formatRegistrationOpeningDateMedium(
+  date: Date,
+  locale: string,
+) {
   return new Intl.DateTimeFormat(locale, {
     dateStyle: "medium",
     timeStyle: "short",
@@ -25,10 +28,10 @@ export function formatRegistrationOpeningDate(date: Date, locale: string) {
 }
 
 //------------------------------------------------------------------------------
-// Format Home Registration Opening Date
+// Format Registration Opening Date Short
 //------------------------------------------------------------------------------
 
-export function formatHomeRegistrationOpeningDate(date: Date, locale: string) {
+export function formatRegistrationOpeningDateShort(date: Date, locale: string) {
   return new Intl.DateTimeFormat(locale, {
     day: "numeric",
     month: "long",
@@ -39,10 +42,10 @@ export function formatHomeRegistrationOpeningDate(date: Date, locale: string) {
 }
 
 //------------------------------------------------------------------------------
-// Format Long Registration Opening Date
+// Format Registration Opening Date Long
 //------------------------------------------------------------------------------
 
-export function formatLongRegistrationOpeningDate(date: Date, locale: string) {
+export function formatRegistrationOpeningDateLong(date: Date, locale: string) {
   return new Intl.DateTimeFormat(locale, {
     dateStyle: "full",
     timeStyle: "short",
