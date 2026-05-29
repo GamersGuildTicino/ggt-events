@@ -419,7 +419,7 @@ For questions, access requests, corrections, registration removal requests, or a
     "Gamers Guild Ticino brings people together around shared stories, dice, and live tabletop role-playing games.",
   "page.home.about.heading": "Play stories together",
   "page.home.event.url": "/events/{0}",
-  "page.home.events.contact_cta": "Contact the association",
+  "page.home.events.contact_cta": "Contact us",
   "page.home.events.contact_text":
     "Questions, proposals, or do you want to join the association?",
   "page.home.events.contacts_follow": "Follow us",
