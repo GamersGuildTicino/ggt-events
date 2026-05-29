@@ -33,8 +33,8 @@ export default function HomeEventsContactsPanel() {
       {(instagramLink || whatsAppLink) && (
         <VStack
           align="stretch"
-          bgColor="publicSurfaceBg"
-          borderColor="publicSurfaceBorder"
+          bgColor="ggt.surface.bg"
+          borderColor="ggt.surface.border"
           borderWidth="1px"
           flex={1}
           gap={4}
@@ -71,8 +71,8 @@ export default function HomeEventsContactsPanel() {
       {membershipFormLink && (
         <VStack
           align="stretch"
-          bgColor="publicSurfaceBg"
-          borderColor="publicSurfaceBorder"
+          bgColor="ggt.surface.bg"
+          borderColor="ggt.surface.border"
           borderWidth="1px"
           flex={1}
           gap={4}
@@ -106,7 +106,6 @@ type ContactLinkProps = {
 function ContactLink({ href, imageSrc, label }: ContactLinkProps) {
   return (
     <Link
-      _hover={{ color: "publicAccentBorder" }}
       alignItems="center"
       aria-label={label}
       color="fg"

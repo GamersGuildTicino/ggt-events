@@ -14,7 +14,7 @@ export default function HomeInfoCard({
   title,
 }: HomeInfoCardProps) {
   return (
-    <Card.Root bg="publicSurfaceMutedBg" borderColor="publicSurfaceBorder">
+    <Card.Root bg="ggt.surface.bg" borderColor="ggt.surface.border">
       <Card.Body gap={2}>
         <Heading size="md">{title}</Heading>
         <Text color="fg.muted" fontSize="sm">

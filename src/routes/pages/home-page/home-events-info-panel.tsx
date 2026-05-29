@@ -13,8 +13,8 @@ export default function HomeEventsInfoPanel() {
   return (
     <VStack
       align="stretch"
-      bg="publicSurfaceBg"
-      borderColor="publicSurfaceBorder"
+      bg="ggt.surface.bg"
+      borderColor="ggt.surface.border"
       borderWidth="1px"
       flex={1}
       p={6}
@@ -37,7 +37,7 @@ export default function HomeEventsInfoPanel() {
           {t("page.home.events.contact_text")}
         </Text>
 
-        <Link href={`mailto:${infoAddress}`} textDecoration="underline">
+        <Link href={`mailto:${infoAddress}`}>
           {t("page.home.events.contact_cta")}
         </Link>
       </VStack>

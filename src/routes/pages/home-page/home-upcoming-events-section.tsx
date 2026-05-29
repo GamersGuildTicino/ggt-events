@@ -24,8 +24,8 @@ export default function HomeUpcomingEventsSection({
 
   return (
     <Flex
-      bgColor="publicSurfaceBg"
-      borderColor="publicSurfaceBorder"
+      bgColor="ggt.surface.bg"
+      borderColor="ggt.surface.border"
       borderWidth={1}
       flex={1}
       minW={{ sm: "30em", xs: "100%" }}

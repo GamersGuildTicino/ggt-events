@@ -12,7 +12,7 @@ export default function HomeHero() {
   return (
     <VStack
       align="stretch"
-      borderBottomColor="publicSurfaceBorder"
+      borderBottomColor="ggt.surface.border"
       borderBottomWidth="1px"
       gap={6}
       pb={6}
@@ -36,8 +36,9 @@ export default function HomeHero() {
           fontWeight="light"
           lineHeight={1}
         >
-          <Span color="#e68bb6">G</Span>amers <Span color="#e68bb6">G</Span>uild{" "}
-          <Span color="#e68bb6">T</Span>icino
+          <Span color="ggt.fg.secondary">G</Span>amers{" "}
+          <Span color="ggt.fg.secondary">G</Span>uild{" "}
+          <Span color="ggt.fg.secondary">T</Span>icino
         </Heading>
         <Text color="fg.muted" fontSize={{ base: "lg", md: "xl" }} maxW="34em">
           {t("page.home.hero.description")}

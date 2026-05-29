@@ -28,13 +28,25 @@ export const system = createSystem(defaultConfig, {
     },
     tokens: {
       colors: {
-        publicAccent: { value: "#65bff7" },
-        publicAccentBorder: { value: "#458db9" },
-        publicFooterBg: { value: "#0e4263" },
-        publicPageBg: { value: "#addcf9" },
-        publicSurfaceBg: { value: "#fafafa" },
-        publicSurfaceBorder: { value: "#65bff7" },
-        publicSurfaceMutedBg: { value: "#fafafa" },
+        ggt: {
+          border: {
+            primary: { value: "#458db9" },
+          },
+          fg: {
+            primary: { value: "#65bff7" },
+            secondary: { value: "#e68bb6" },
+          },
+          footer: {
+            bg: { value: "#0e4263" },
+          },
+          page: {
+            bg: { value: "#addcf9" },
+          },
+          surface: {
+            bg: { value: "#fafafa" },
+            border: { value: "#65bff7" },
+          },
+        },
       },
     },
   },

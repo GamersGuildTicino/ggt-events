@@ -212,7 +212,7 @@ const accentPatterns = [
   {
     regex: /\*(.+?)\*/,
     render: (val: ReactNode) => (
-      <Span color="publicAccent" fontWeight="bold">
+      <Span color="ggt.fg.primary" fontWeight="bold">
         {val}
       </Span>
     ),

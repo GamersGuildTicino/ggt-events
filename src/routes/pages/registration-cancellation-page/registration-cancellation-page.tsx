@@ -98,7 +98,7 @@ export default function RegistrationCancellationPage() {
       )}
 
       {visibleCancellation && (
-        <Card.Root bg="publicSurfaceBg" borderColor="publicSurfaceBorder">
+        <Card.Root bg="ggt.surface.bg" borderColor="ggt.surface.border">
           <Card.Body gap={4}>
             <VStack align="stretch" gap={1}>
               <Heading size="md">{visibleCancellation.eventTitle}</Heading>

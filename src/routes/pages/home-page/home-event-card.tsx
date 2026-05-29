@@ -46,8 +46,12 @@ export default function HomeEventCard({
 
   const lineBgColor =
     isLast ?
-      "linear-gradient(#65bff7ff 0%, #65bff7dd 15%, #e7dcc700 100%)"
-    : "publicSurfaceBorder";
+      `linear-gradient(
+        token(colors.ggt.surface.border) 0%,
+        color-mix(in srgb, token(colors.ggt.surface.border) 87%, transparent) 15%,
+        transparent 100%
+      )`
+    : "ggt.surface.border";
 
   const statusDotColor =
     event.registrationsOpen ? "green.500"
@@ -68,12 +72,12 @@ export default function HomeEventCard({
         w="1.5rem"
       >
         <Box
-          bgColor={"publicAccentBorder"}
+          bgColor="ggt.border.primary"
           borderRadius="full"
           h="0.8rem"
           w="0.8rem"
         />
-        <Box bgColor="publicSurfaceBorder" flex={1} w="2px" />
+        <Box bgColor="ggt.surface.border" flex={1} w="2px" />
         <Box
           bg={lineBgColor}
           bottom={0}

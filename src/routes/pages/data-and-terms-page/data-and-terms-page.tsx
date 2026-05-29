@@ -33,7 +33,7 @@ export default function DataAndTermsPage() {
         <Text color="fg.muted">{t("page.data_and_terms.last_updated")}</Text>
       </VStack>
 
-      <Card.Root bg="publicSurfaceBg" borderColor="publicSurfaceBorder">
+      <Card.Root bg="ggt.surface.bg" borderColor="ggt.surface.border">
         <Card.Body gap={2} lineHeight={1.2}>
           {ti("page.data_and_terms.content", infoAddress)
             .split("\n")

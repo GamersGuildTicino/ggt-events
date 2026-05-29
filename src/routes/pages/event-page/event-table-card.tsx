@@ -74,9 +74,9 @@ export default function EventTableCard({
 
   return (
     <Card.Root
-      _hover={{ borderColor: "publicAccentBorder" }}
-      bg="publicSurfaceBg"
-      borderColor="publicSurfaceBorder"
+      _hover={{ borderColor: "ggt.border.primary" }}
+      bg="ggt.surface.bg"
+      borderColor="ggt.surface.border"
       overflow="hidden"
       transition="border-color 160ms ease"
     >

@@ -118,7 +118,7 @@ export default function EventRegistrationSection({
                   <Checkbox name="accept-terms" required size="sm">
                     <Text fontSize="sm">
                       {t("page.event.registration.accept_terms")}
-                      <Link asChild color="publicAccentBorder" fontSize="sm">
+                      <Link asChild color="ggt.fg.primary" fontSize="sm">
                         <RouterLink
                           target="_blank"
                           to={t("page.data_and_terms.url")}

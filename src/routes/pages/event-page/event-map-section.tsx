@@ -38,7 +38,7 @@ export default function EventMapSection({ event }: EventMapSectionProps) {
       </HStack>
 
       <Box
-        borderColor="publicSurfaceBorder"
+        borderColor="ggt.surface.border"
         borderWidth="1px"
         h={{ base: "20rem", md: "24rem" }}
         overflow="hidden"
