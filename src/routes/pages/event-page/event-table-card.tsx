@@ -3,7 +3,6 @@ import {
   Card,
   HStack,
   Heading,
-  Image,
   Separator,
   Text,
   VStack,
@@ -15,6 +14,7 @@ import type { GameSystem } from "~/domain/game-systems";
 import { formatPlayerCount } from "~/domain/players";
 import useI18n from "~/i18n/use-i18n";
 import AppAlert from "~/ui/app-alert";
+import ImageWithFallback from "~/ui/image-with-fallback";
 import EventTableAgeRequirementBadge from "../../components/event-table-age-requirement-badge";
 import EventTableExperienceLevelBadge from "../../components/event-table-experience-level-badge";
 import EventTableLanguageBadge from "../../components/event-table-language-badge";
@@ -90,7 +90,7 @@ export default function EventTableCard({
             wrap="wrap"
           >
             {gameSystem?.coverImageUrl && (
-              <Image src={gameSystem?.coverImageUrl} w="5em" />
+              <ImageWithFallback src={gameSystem?.coverImageUrl} w="5em" />
             )}
 
             <VStack
