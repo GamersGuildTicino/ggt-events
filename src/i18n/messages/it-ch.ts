@@ -49,18 +49,16 @@ const itCH = {
   "error.event_tables.update": "Impossibile aggiornare il tavolo.",
 
   "error.event_registrations.already_registered_same_table":
-    "Questo giocatore è già registrato per questo tavolo.",
+    "Questo giocatore è già iscritto a questo tavolo.",
   "error.event_registrations.anonymize_old":
-    "Impossibile anonimizzare le vecchie registrazioni.",
+    "Impossibile anonimizzare le vecchie iscrizioni.",
   "error.event_registrations.cancel_with_token":
-    "Impossibile cancellare questa registrazione.",
-  "error.event_registrations.create":
-    "Impossibile completare la registrazione.",
-  "error.event_registrations.delete": "Impossibile rimuovere la registrazione.",
+    "Impossibile cancellare questa iscrizione.",
+  "error.event_registrations.create": "Impossibile completare l'iscrizione.",
+  "error.event_registrations.delete": "Impossibile rimuovere l'iscrizione.",
   "error.event_registrations.fetch_cancellation":
     "Impossibile caricare questa cancellazione.",
-  "error.event_registrations.fetch_many":
-    "Impossibile caricare le registrazioni.",
+  "error.event_registrations.fetch_many": "Impossibile caricare le iscrizioni.",
   "error.event_registrations.invalid_cancellation_token":
     "Questo link di cancellazione non è valido o è scaduto.",
   "error.event_registrations.invalid_email":
@@ -68,14 +66,14 @@ const itCH = {
   "error.event_registrations.parse_cancellation":
     "I dati della cancellazione non sono validi.",
   "error.event_registrations.parse_many":
-    "I dati delle registrazioni non sono validi.",
+    "I dati delle iscrizioni non sono validi.",
   "error.event_registrations.registrations_closed":
-    "Le registrazioni per questo evento sono chiuse.",
+    "Le iscrizioni per questo evento sono chiuse.",
   "error.event_registrations.slot_conflict":
-    "Questo giocatore è già registrato per un'altra fascia oraria sovrapposta.",
+    "Questo giocatore è già iscritto per un'altra fascia oraria sovrapposta.",
   "error.event_registrations.table_full": "Questo tavolo è già al completo.",
   "error.event_registrations.time_slot_closed":
-    "Questa fascia oraria non è più aperta alle registrazioni.",
+    "Questa fascia oraria non è più aperta alle iscrizioni.",
 
   "error.event_time_slots.create": "Impossibile creare la fascia oraria.",
   "error.event_time_slots.delete": "Impossibile eliminare la fascia oraria.",
@@ -100,7 +98,7 @@ const itCH = {
   "form.event_details.image_url.label": "URL immagine",
   "form.event_details.location_address.label": "Indirizzo",
   "form.event_details.location_name.label": "Luogo",
-  "form.event_details.registrations_open": "Registrazioni aperte",
+  "form.event_details.registrations_open": "Iscrizioni aperte",
   "form.event_details.registrations_open_at.label":
     "Data di apertura iscrizioni",
   "form.event_details.registrations_open_at_time.label":
@@ -147,7 +145,7 @@ const itCH = {
   "page.admin.create_event.description": "Prepara un nuovo evento.",
   "page.admin.create_event.heading": "Crea evento",
   "page.admin.create_event.open": "Nuovo evento",
-  "page.admin.description": "Gestisci eventi e registrazioni per GGT.",
+  "page.admin.description": "Gestisci eventi e iscrizioni per GGT.",
   "page.admin.events.description":
     "Visualizza e gestisci gli eventi esistenti.",
   "page.admin.events.heading": "Eventi",
@@ -167,7 +165,7 @@ const itCH = {
   "page.admin_event.error.missing_event": "ID evento mancante.",
   "page.admin_event.event_over": "Evento concluso",
   "page.admin_event.event_over_notice":
-    "Tutte le fasce orarie sono nel passato. Le registrazioni pubbliche non sono piu disponibili.",
+    "Tutte le fasce orarie sono nel passato. Le iscrizioni pubbliche non sono piu disponibili.",
   "page.admin_event.heading": "Gestisci evento",
   "page.admin_event.preview": "Anteprima",
   "page.admin_event.registrations_open_at_notice":
@@ -200,12 +198,12 @@ const itCH = {
   "page.admin_event.tables.registrations.delete.confirm":
     'Rimuovere "{0}" da questo tavolo?',
   "page.admin_event.tables.registrations.email": "Email",
-  "page.admin_event.tables.registrations.empty": "Nessun giocatore registrato.",
-  "page.admin_event.tables.registrations.heading": "Registrazioni ({0}/{1})",
-  "page.admin_event.tables.registrations.hide": "Nascondi registrazioni",
+  "page.admin_event.tables.registrations.empty": "Nessun giocatore iscritto.",
+  "page.admin_event.tables.registrations.heading": "Iscrizioni ({0}/{1})",
+  "page.admin_event.tables.registrations.hide": "Nascondi iscrizioni",
   "page.admin_event.tables.registrations.phone_number": "Numero di telefono",
   "page.admin_event.tables.registrations.player_name": "Nome",
-  "page.admin_event.tables.registrations.show": "Mostra registrazioni",
+  "page.admin_event.tables.registrations.show": "Mostra iscrizioni",
   "page.admin_event.tables.save": "Salva modifiche",
   "page.admin_event.tables.show_description": "Mostra dettagli",
   "page.admin_event.tables.time_slot": "Fascia oraria: {0}",
@@ -225,9 +223,9 @@ const itCH = {
 
   "page.admin_events.anonymize_old": "Anonimizza eventi",
   "page.admin_events.anonymize_old.confirm":
-    "Anonimizzare i dati personali delle registrazioni collegate a eventi conclusi da più di 12 mesi?",
+    "Anonimizzare i dati personali delle iscrizioni collegate a eventi conclusi da più di 12 mesi?",
   "page.admin_events.anonymize_old.success":
-    "{0} vecchie registrazioni anonimizzate.",
+    "{0} vecchie iscrizioni anonimizzate.",
   "page.admin_events.breadcrumb.admin": "Panoramica",
   "page.admin_events.breadcrumb.events": "Eventi",
   "page.admin_events.compose_email": "Scrivi email",
@@ -250,8 +248,8 @@ const itCH = {
   "page.admin_events.manage": "Gestisci",
   "page.admin_events.more": "Altre azioni",
   "page.admin_events.new": "Nuovo evento",
-  "page.admin_events.registrations_closed": "Registrazioni chiuse",
-  "page.admin_events.registrations_open": "Registrazioni aperte",
+  "page.admin_events.registrations_closed": "Iscrizioni chiuse",
+  "page.admin_events.registrations_open": "Iscrizioni aperte",
   "page.admin_events.starts_at": "Data",
   "page.admin_events.stats.seats": "{0}/{1} posti",
   "page.admin_events.stats.tables": "{0}/{1} tavoli",
@@ -355,7 +353,7 @@ I dati di iscrizione sono salvati tramite Supabase, il fornitore tecnico esterno
 Le email transazionali, come conferme di iscrizione e conferme di rimozione, sono inviate tramite Mailjet. Mailjet può trattare gli indirizzi email dei destinatari per l'invio, il tracciamento tecnico, la gestione di errori di consegna, la prevenzione di abusi e la deliverability.
 
 ##Conservazione##
-I dati di iscrizione possono essere conservati dopo l'evento per organizzazione interna e storico degli eventi. Le registrazioni collegate a eventi conclusi da più di 12 mesi possono essere anonimizzate, rimuovendo nome, email e numero di telefono ma mantenendo i conteggi aggregati di partecipazione.
+I dati di iscrizione possono essere conservati dopo l'evento per organizzazione interna e storico degli eventi. Le iscrizioni collegate a eventi conclusi da più di 12 mesi possono essere anonimizzate, rimuovendo nome, email e numero di telefono ma mantenendo i conteggi aggregati di partecipazione.
 
 ##Diritti delle persone iscritte##
 Le persone partecipanti possono chiedere accesso o correzione dei propri dati di iscrizione.
@@ -381,11 +379,11 @@ Per domande, richieste di accesso, correzione, rimozione dell'iscrizione o anoni
   "page.event.hero.event_over":
     "Questo evento è già terminato. Puoi comunque consultare i tavoli che ne facevano parte.",
   "page.event.hero.registration_closed":
-    "Le registrazioni non sono aperte al momento. Puoi comunque consultare i tavoli disponibili.",
+    "Le iscrizioni non sono aperte al momento. Puoi comunque consultare i tavoli disponibili.",
   "page.event.hero.registration_open":
     "Consulta i tavoli disponibili e scegli l'avventura a cui vuoi partecipare.",
   "page.event.hero.registration_scheduled":
-    "Le registrazioni apriranno *{0}*. Puoi comunque consultare i tavoli disponibili.",
+    "Le iscrizioni apriranno *{0}*. Puoi comunque consultare i tavoli disponibili.",
   "page.event.map.heading": "Come arrivare",
   "page.event.map.jump_to_map": "Come arrivare",
   "page.event.map.open_in_google_maps": "Apri in Google Maps",
@@ -397,18 +395,18 @@ Per domande, richieste di accesso, correzione, rimozione dell'iscrizione o anoni
   "page.event.registration.guardian_confirmation":
     "In quanto genitore o tutore legale, confermo che sarò presente e responsabile per il bambino durante l'attività",
   "page.event.registration.name": "Nome",
-  "page.event.registration.open": "Registrati",
+  "page.event.registration.open": "Iscriviti",
   "page.event.registration.phone_number": "Numero di telefono",
-  "page.event.registration.submit": "Registrati",
+  "page.event.registration.submit": "Iscriviti",
   "page.event.registration.success":
-    "Registrazione completata. Una mail di conferma è stata inviata.",
+    "Iscrizione completata. Una mail di conferma è stata inviata.",
   "page.event.registration.terms_link":
     "termini di partecipazione e sull'uso dei dati",
-  "page.event.registrations_open": "Registrazioni aperte",
+  "page.event.registrations_open": "Iscrizioni aperte",
   "page.event.registrations_open_at": "Iscrizioni da {0}",
   "page.event.tables.available_seats/*": "{0} posti liberi",
   "page.event.tables.available_seats/1": "{0} posto libero",
-  "page.event.tables.choose": "Registrati",
+  "page.event.tables.choose": "Iscriviti",
   "page.event.tables.close": "Chiudi",
   "page.event.tables.closed": "Chiuso",
   "page.event.tables.empty": "Nessun tavolo.",
@@ -443,7 +441,7 @@ Per domande, richieste di accesso, correzione, rimozione dell'iscrizione o anoni
   "page.home.events.contacts_join_description":
     "Compila il formulario per diventare membro di Gamers Guild Ticino.",
   "page.home.events.description":
-    "Scegli un evento, consulta i tavoli disponibili e riserva il tuo posto quando le registrazioni sono aperte.",
+    "Scegli un evento, consulta i tavoli disponibili e riserva il tuo posto quando le iscrizioni sono aperte.",
   "page.home.events.empty": "Nessun evento in programma.",
   "page.home.events.heading": "Prossimi eventi",
   "page.home.events.info_eyebrow": "Come funziona",
@@ -453,11 +451,11 @@ Per domande, richieste di accesso, correzione, rimozione dell'iscrizione o anoni
   "page.home.events.info_step_2":
     "Apri un evento per vedere tavoli, game master e requisiti.",
   "page.home.events.info_step_3":
-    "Quando le registrazioni sono aperte, puoi riservare il tuo posto online.",
+    "Quando le iscrizioni sono aperte, puoi riservare il tuo posto online.",
   "page.home.events.open": "Vedi evento",
   "page.home.events.open_and_register": "Vedi evento / Iscriviti",
-  "page.home.events.registrations_closed": "Registrazioni chiuse",
-  "page.home.events.registrations_open": "Registrazioni aperte",
+  "page.home.events.registrations_closed": "Iscrizioni chiuse",
+  "page.home.events.registrations_open": "Iscrizioni aperte",
   "page.home.events.registrations_open_at": "Iscrizioni da {0}",
   "page.home.heading": "Gamers Guild Ticino",
   "page.home.hero.about": "Scopri l'associazione",
@@ -471,13 +469,14 @@ Per domande, richieste di accesso, correzione, rimozione dell'iscrizione o anoni
   "page.home.hero.eyebrow": "Eventi GDR in Ticino",
 
   "page.not_found.heading": "Pagina Non Trovata",
-  "page.registration_cancellation.confirm": "Cancella registrazione",
+
+  "page.registration_cancellation.confirm": "Cancella iscrizione",
   "page.registration_cancellation.description":
-    "Controlla i dettagli della registrazione prima di confermare la cancellazione.",
+    "Controlla i dettagli dell'iscrizione prima di confermare la cancellazione.",
   "page.registration_cancellation.game_master": "Game Master: {0}",
-  "page.registration_cancellation.heading": "Cancella registrazione",
+  "page.registration_cancellation.heading": "Cancella iscrizione",
   "page.registration_cancellation.success":
-    "Registrazione cancellata. Una mail di conferma è stata inviata.",
+    "Iscrizione cancellata. Una mail di conferma è stata inviata.",
   "page.registration_cancellation.table": "Tavolo: {0}",
 } as const;
 
