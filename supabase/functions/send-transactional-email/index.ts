@@ -5,6 +5,13 @@
 type Locale = "en-GB" | "it-CH";
 
 //------------------------------------------------------------------------------
+// Locale
+//------------------------------------------------------------------------------
+
+// FIXME: This should be taken as parameter by the Edge Function.
+const EVENT_TIME_ZONE = "Europe/Zurich";
+
+//------------------------------------------------------------------------------
 // Email Type
 //------------------------------------------------------------------------------
 
@@ -223,9 +230,11 @@ function formatTimeSlot(locale: Locale, timeSlot: Payload["timeSlot"]) {
   const start = new Intl.DateTimeFormat(locale, {
     dateStyle: "full",
     timeStyle: "short",
+    timeZone: EVENT_TIME_ZONE,
   }).format(startsAt);
   const end = new Intl.DateTimeFormat(locale, {
     timeStyle: "short",
+    timeZone: EVENT_TIME_ZONE,
   }).format(endsAt);
 
   return `${start} - ${end}`;
