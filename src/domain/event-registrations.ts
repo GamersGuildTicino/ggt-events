@@ -17,7 +17,10 @@ export const eventRegistrationSchema = z.object({
   createdAt: z.date(),
   email: z.string(),
   eventTableId: z.uuid(),
+  guardianName: z.string(),
+  guardianPhoneNumber: z.string(),
   id: z.uuid(),
+  participantIsMinor: z.boolean(),
   phoneNumber: z.string(),
   playerName: z.string(),
 });
@@ -27,7 +30,10 @@ export type EventRegistration = z.infer<typeof eventRegistrationSchema>;
 export type EventRegistrationInput = {
   email: string;
   eventTableId: string;
+  guardianName?: string;
+  guardianPhoneNumber?: string;
   locale: Locale;
+  participantIsMinor?: boolean;
   phoneNumber: string;
   playerName: string;
 };
@@ -68,7 +74,10 @@ export const eventRegistrationRowSchema = z.object({
   created_at: z.string(),
   email: z.string(),
   event_table_id: z.uuid(),
+  guardian_name: z.string(),
+  guardian_phone_number: z.string(),
   id: z.uuid(),
+  participant_is_minor: z.boolean(),
   phone_number: z.string(),
   player_name: z.string(),
 });
@@ -80,7 +89,10 @@ export const eventRegistrationFromRowSchema =
       createdAt: new Date(row.created_at),
       email: row.email,
       eventTableId: row.event_table_id,
+      guardianName: row.guardian_name,
+      guardianPhoneNumber: row.guardian_phone_number,
       id: row.id,
+      participantIsMinor: row.participant_is_minor,
       phoneNumber: row.phone_number,
       playerName: row.player_name,
     }),
@@ -195,14 +207,20 @@ export async function fetchEventRegistrations(
 export async function registerForEventTable({
   email,
   eventTableId,
+  guardianName = "",
+  guardianPhoneNumber = "",
   locale,
+  participantIsMinor = false,
   playerName,
   phoneNumber,
 }: EventRegistrationInput) {
   const { error } = await supabase.rpc("register_for_event_table", {
     p_email: email,
     p_event_table_id: eventTableId,
+    p_guardian_name: guardianName,
+    p_guardian_phone_number: guardianPhoneNumber,
     p_locale: locale,
+    p_participant_is_minor: participantIsMinor,
     p_phone_number: phoneNumber,
     p_player_name: playerName,
   });
@@ -214,6 +232,8 @@ export async function registerForEventTable({
       return "error.event_registrations.already_registered_same_table";
     case "invalid_email":
       return "error.event_registrations.invalid_email";
+    case "invalid_guardian_contact":
+      return "error.event_registrations.invalid_guardian_contact";
     case "registrations_closed":
       return "error.event_registrations.registrations_closed";
     case "slot_conflict":

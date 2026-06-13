@@ -8,6 +8,9 @@ create table public.event_registrations (
   player_name text not null,
   email text not null,
   phone_number text not null default '',
+  participant_is_minor boolean not null default false,
+  guardian_name text not null default '',
+  guardian_phone_number text not null default '',
   locale text not null default 'en-GB',
   anonymized_at timestamptz,
   cancellation_token_hash text unique,
@@ -20,6 +23,11 @@ create table public.event_registrations (
     check (email = lower(btrim(email))),
   constraint event_registrations_email_not_blank
     check (email <> ''),
+  constraint event_registrations_guardian_contact_for_minors
+    check (
+      not participant_is_minor
+      or (btrim(guardian_name) <> '' and btrim(guardian_phone_number) <> '')
+    ),
   constraint event_registrations_locale_valid
     check (locale in ('en-GB', 'it-CH')),
   constraint event_registrations_table_email_player_name_unique
@@ -170,7 +178,10 @@ create or replace function public.register_for_event_table(
   p_player_name text,
   p_email text,
   p_phone_number text default '',
-  p_locale text default 'en-GB'
+  p_locale text default 'en-GB',
+  p_participant_is_minor boolean default false,
+  p_guardian_name text default '',
+  p_guardian_phone_number text default ''
 )
 returns public.event_registrations
 language plpgsql
@@ -186,6 +197,9 @@ declare
   v_registration_count integer;
   v_time_slot public.event_time_slots;
   v_email text;
+  v_guardian_name text;
+  v_guardian_phone_number text;
+  v_participant_is_minor boolean;
   v_phone_number text;
   v_player_name text;
 begin
@@ -194,6 +208,9 @@ begin
   v_email := lower(btrim(coalesce(p_email, '')));
   v_phone_number := btrim(coalesce(p_phone_number, ''));
   v_locale := coalesce(p_locale, 'en-GB');
+  v_participant_is_minor := coalesce(p_participant_is_minor, false);
+  v_guardian_name := btrim(coalesce(p_guardian_name, ''));
+  v_guardian_phone_number := btrim(coalesce(p_guardian_phone_number, ''));
 
   if v_player_name = '' then
     raise exception using message = 'invalid_name';
@@ -247,6 +264,21 @@ begin
     raise exception using message = 'time_slot_closed';
   end if;
 
+  if v_event_table.age_requirement not in (
+    'age_14_plus',
+    'age_15_plus',
+    'age_16_plus',
+    'age_17_plus'
+  ) then
+    v_participant_is_minor := false;
+    v_guardian_name := '';
+    v_guardian_phone_number := '';
+  end if;
+
+  if v_participant_is_minor and (v_guardian_name = '' or v_guardian_phone_number = '') then
+    raise exception using message = 'invalid_guardian_contact';
+  end if;
+
   if exists (
     select 1
     from public.event_registrations
@@ -284,6 +316,9 @@ begin
     player_name,
     email,
     phone_number,
+    participant_is_minor,
+    guardian_name,
+    guardian_phone_number,
     locale,
     cancellation_token_hash,
     cancellation_token_expires_at
@@ -293,6 +328,9 @@ begin
     v_player_name,
     v_email,
     v_phone_number,
+    v_participant_is_minor,
+    v_guardian_name,
+    v_guardian_phone_number,
     v_locale,
     encode(digest(v_cancellation_token, 'sha256'), 'hex'),
     v_time_slot.ends_at
@@ -313,8 +351,8 @@ exception
 end;
 $$;
 
-grant execute on function public.register_for_event_table(uuid, text, text, text, text) to anon;
-grant execute on function public.register_for_event_table(uuid, text, text, text, text) to authenticated;
+grant execute on function public.register_for_event_table(uuid, text, text, text, text, boolean, text, text) to anon;
+grant execute on function public.register_for_event_table(uuid, text, text, text, text, boolean, text, text) to authenticated;
 
 --------------------------------------------------------------------------------
 -- Fetch Registration Cancellation
@@ -498,6 +536,9 @@ begin
     player_name = 'Anonymized participant',
     email = 'anonymous+' || registrations.id::text || '@example.invalid',
     phone_number = '',
+    participant_is_minor = false,
+    guardian_name = '',
+    guardian_phone_number = '',
     anonymized_at = now()
   from public.event_tables tables
   join public.event_time_slots slots on slots.id = tables.time_slot_id

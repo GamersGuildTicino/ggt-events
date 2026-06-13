@@ -63,6 +63,8 @@ const enGB = {
     "This cancellation link is invalid or has expired.",
   "error.event_registrations.invalid_email":
     "Please enter a valid email address.",
+  "error.event_registrations.invalid_guardian_contact":
+    "A parent or legal guardian name and phone number are required for underage participants.",
   "error.event_registrations.parse_cancellation":
     "The registration cancellation data is invalid.",
   "error.event_registrations.parse_many": "Registrations data is invalid.",
@@ -192,6 +194,8 @@ const enGB = {
     'Remove "{0}" from this table?',
   "page.admin_event.tables.registrations.email": "Email",
   "page.admin_event.tables.registrations.empty": "No registered players yet.",
+  "page.admin_event.tables.registrations.guardian_contact":
+    "Parent/guardian: {0}, {1}",
   "page.admin_event.tables.registrations.heading": "Registrations ({0}/{1})",
   "page.admin_event.tables.registrations.hide": "Hide registrations",
   "page.admin_event.tables.registrations.phone_number": "Phone number",
@@ -326,12 +330,15 @@ By registering for a table, participants confirm that the submitted information 
 
 Participants also confirm that they meet the table requirements shown on the website, including age requirement, experience level, and table language.
 
+For age 14+, 15+, 16+, and 17+ tables, underage participants must provide the name and phone number of a parent or legal guardian.
+
 For age 9-11 and age 11-13 tables, the registration must be submitted by a parent or legal guardian who will be present and responsible for the child during the activity.
 
 ##Data we collect##
 • Full name, used to identify the participant at the table.
 • Email address, used for registration confirmations and event-related communications.
 • Phone number, used only for practical or urgent event-related communication.
+• For underage participants registered for age 14+, 15+, 16+, or 17+ tables, parent or legal guardian name and phone number, used only for event-related organizational, practical, or urgent needs.
 
 ##Why we use the data##
 The data is used to manage event registrations, contact participants about the event, coordinate tables, and handle operational changes such as cancellations or schedule updates. We do not use registration data for newsletters or marketing campaigns without separate consent.
@@ -353,7 +360,7 @@ Some data may need to be kept temporarily when required for event organization o
 For questions, access requests, corrections, registration removal requests, or anonymization requests, contact us at @@{0}@@.
 `,
   "page.data_and_terms.heading": "Data Transparency and Participation Terms",
-  "page.data_and_terms.last_updated": "Last updated: May 2026",
+  "page.data_and_terms.last_updated": "Last updated: June 2026",
   "page.data_and_terms.url": "/data-and-terms",
 
   "page.event.back_to_home": "Back to home",
@@ -381,8 +388,12 @@ For questions, access requests, corrections, registration removal requests, or a
   "page.event.registration.email": "Email",
   "page.event.registration.guardian_confirmation":
     "As a parent or legal guardian, I confirm that I will be present and responsible for the child during the activity.",
+  "page.event.registration.guardian_name": "Parent/guardian name",
+  "page.event.registration.guardian_phone_number":
+    "Parent/guardian phone number",
   "page.event.registration.name": "Name",
   "page.event.registration.open": "Register",
+  "page.event.registration.participant_is_minor": "I am under 18",
   "page.event.registration.phone_number": "Phone number",
   "page.event.registration.submit": "Register",
   "page.event.registration.success":

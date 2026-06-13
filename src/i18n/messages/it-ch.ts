@@ -63,6 +63,8 @@ const itCH = {
     "Questo link di cancellazione non è valido o è scaduto.",
   "error.event_registrations.invalid_email":
     "Inserisci un indirizzo email valido.",
+  "error.event_registrations.invalid_guardian_contact":
+    "Per iscrivere una persona minorenne è necessario indicare nome e numero di telefono del genitore o tutore.",
   "error.event_registrations.parse_cancellation":
     "I dati della cancellazione non sono validi.",
   "error.event_registrations.parse_many":
@@ -199,6 +201,8 @@ const itCH = {
     'Rimuovere "{0}" da questo tavolo?',
   "page.admin_event.tables.registrations.email": "Email",
   "page.admin_event.tables.registrations.empty": "Nessun giocatore iscritto.",
+  "page.admin_event.tables.registrations.guardian_contact":
+    "Genitore/tutore: {0}, {1}",
   "page.admin_event.tables.registrations.heading": "Iscrizioni ({0}/{1})",
   "page.admin_event.tables.registrations.hide": "Nascondi iscrizioni",
   "page.admin_event.tables.registrations.phone_number": "Numero di telefono",
@@ -337,12 +341,15 @@ Iscrivendosi a un tavolo, le persone confermano che le informazioni inserite son
 
 Le persone partecipanti confermano inoltre di rispettare i requisiti del tavolo indicati sul sito, inclusi fascia d'età, livello di esperienza e lingua del tavolo.
 
+Per i tavoli 14+, 15+, 16+ e 17+, le persone partecipanti minorenni devono indicare nome e numero di telefono di un genitore o tutore legale.
+
 Per i tavoli 9-11 e 11-13 anni, l'iscrizione deve essere effettuata da un genitore o tutore legale che sarà presente e responsabile per il bambino durante l'attività.
 
 ##Dati raccolti##
 • Nome e cognome, usati per identificare la persona iscritta al tavolo.
 • Indirizzo email, usato per conferme di iscrizione e comunicazioni relative all'evento.
 • Numero di telefono, usato solo per comunicazioni pratiche o urgenti relative all'evento.
+• Per persone minorenni iscritte a tavoli 14+, 15+, 16+ o 17+, nome e numero di telefono del genitore o tutore legale, usati solo per necessità organizzative, pratiche o urgenti relative all'evento.
 
 ##Perché usiamo i dati##
 I dati sono usati per gestire le iscrizioni agli eventi, contattare le persone iscritte, coordinare i tavoli e comunicare cambiamenti operativi come cancellazioni o modifiche di programma. Non usiamo i dati di iscrizione per newsletter o campagne marketing senza un consenso separato.
@@ -366,7 +373,7 @@ Per domande, richieste di accesso, correzione, rimozione dell'iscrizione o anoni
 `,
   "page.data_and_terms.heading":
     "Trasparenza sui Dati e Condizioni di Partecipazione",
-  "page.data_and_terms.last_updated": "Ultimo aggiornamento: maggio 2026",
+  "page.data_and_terms.last_updated": "Ultimo aggiornamento: giugno 2026",
   "page.data_and_terms.url": "/dati-e-termini",
 
   "page.event.back_to_home": "Torna alla home",
@@ -394,8 +401,11 @@ Per domande, richieste di accesso, correzione, rimozione dell'iscrizione o anoni
   "page.event.registration.email": "Email",
   "page.event.registration.guardian_confirmation":
     "In quanto genitore o tutore legale, confermo che sarò presente e responsabile per il bambino durante l'attività",
+  "page.event.registration.guardian_name": "Nome genitore/tutore",
+  "page.event.registration.guardian_phone_number": "Telefono genitore/tutore",
   "page.event.registration.name": "Nome",
   "page.event.registration.open": "Iscriviti",
+  "page.event.registration.participant_is_minor": "Sono minorenne",
   "page.event.registration.phone_number": "Numero di telefono",
   "page.event.registration.submit": "Iscriviti",
   "page.event.registration.success":

@@ -167,6 +167,15 @@ export default function AdminEventTableRegistrationsSection({
                           {registration.phoneNumber}
                         </Text>
                       )}
+                      {registration.participantIsMinor && (
+                        <Text color="fg.muted" fontSize="sm">
+                          {ti(
+                            "page.admin_event.tables.registrations.guardian_contact",
+                            registration.guardianName,
+                            registration.guardianPhoneNumber,
+                          )}
+                        </Text>
+                      )}
                     </>
                   )}
                 </VStack>

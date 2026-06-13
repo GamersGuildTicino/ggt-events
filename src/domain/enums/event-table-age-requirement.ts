@@ -32,6 +32,21 @@ export function isKidsAgeRequirement(ageRequirement: EventTableAgeRequirement) {
 }
 
 //------------------------------------------------------------------------------
+// Requires Minor Guardian Contact
+//------------------------------------------------------------------------------
+
+export function requiresMinorGuardianContact(
+  ageRequirement: EventTableAgeRequirement,
+) {
+  return (
+    ageRequirement === "age_14_plus" ||
+    ageRequirement === "age_15_plus" ||
+    ageRequirement === "age_16_plus" ||
+    ageRequirement === "age_17_plus"
+  );
+}
+
+//------------------------------------------------------------------------------
 // Use Event Table Age Requirement Options
 //------------------------------------------------------------------------------
 

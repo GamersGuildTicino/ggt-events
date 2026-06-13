@@ -11,7 +11,10 @@ import {
 import { useCallback, useState } from "react";
 import { Link as RouterLink } from "react-router";
 import type { EventTableAgeRequirement } from "~/domain/enums/event-table-age-requirement";
-import { isKidsAgeRequirement } from "~/domain/enums/event-table-age-requirement";
+import {
+  isKidsAgeRequirement,
+  requiresMinorGuardianContact,
+} from "~/domain/enums/event-table-age-requirement";
 import { registerForEventTable } from "~/domain/event-registrations";
 import type { PublicEventTable } from "~/domain/event-tables";
 import useI18n from "~/i18n/use-i18n";
@@ -47,8 +50,10 @@ export default function EventRegistrationSection({
   visible,
 }: EventRegistrationSectionProps) {
   const { locale, t } = useI18n();
+  const [participantIsMinor, setParticipantIsMinor] = useState(false);
   const [registrationState, setRegistrationState] =
     useState<AsyncState>(initial());
+  const guardianContactRequired = requiresMinorGuardianContact(ageRequirement);
 
   const registerToEventTable = useCallback(
     async (e: React.SubmitEvent<HTMLFormElement>) => {
@@ -59,13 +64,20 @@ export default function EventRegistrationSection({
       const playerName = String(formData.get("player-name") ?? "").trim();
       const email = String(formData.get("email") ?? "").trim();
       const phoneNumber = String(formData.get("phone-number") ?? "").trim();
+      const guardianName = String(formData.get("guardian-name") ?? "").trim();
+      const guardianPhoneNumber = String(
+        formData.get("guardian-phone-number") ?? "",
+      ).trim();
 
       setRegistrationState(loading());
 
       const error = await registerForEventTable({
         email,
         eventTableId,
+        guardianName,
+        guardianPhoneNumber,
         locale,
+        participantIsMinor: guardianContactRequired && participantIsMinor,
         phoneNumber,
         playerName,
       });
@@ -73,10 +85,17 @@ export default function EventRegistrationSection({
       if (error) return setRegistrationState(failure(error));
 
       form.reset();
+      setParticipantIsMinor(false);
       setRegistrationState(success(undefined));
       onSuccess();
     },
-    [eventTableId, locale, onSuccess],
+    [
+      eventTableId,
+      guardianContactRequired,
+      locale,
+      onSuccess,
+      participantIsMinor,
+    ],
   );
 
   if (!registrationsOpen) return null;
@@ -114,6 +133,54 @@ export default function EventRegistrationSection({
               </HStack>
 
               <VStack my={2}>
+                {guardianContactRequired && (
+                  <VStack align="stretch" gap={3} w="full">
+                    <Field.Root>
+                      <Checkbox
+                        checked={participantIsMinor}
+                        name="participant-is-minor"
+                        onCheckedChange={(details) =>
+                          setParticipantIsMinor(details.checked === true)
+                        }
+                        size="sm"
+                      >
+                        <Text fontSize="sm">
+                          {t("page.event.registration.participant_is_minor")}
+                        </Text>
+                      </Checkbox>
+                    </Field.Root>
+
+                    {participantIsMinor && (
+                      <HStack align="flex-start" flexWrap="wrap" w="full">
+                        <Field.Root flex="1 1 14rem" minW={0} required>
+                          <Field.Label>
+                            {t("page.event.registration.guardian_name")}
+                            <Field.RequiredIndicator />
+                          </Field.Label>
+                          <Input
+                            name="guardian-name"
+                            pattern="\s*\S.*"
+                            size="sm"
+                          />
+                        </Field.Root>
+
+                        <Field.Root flex="1 1 12rem" minW={0} required>
+                          <Field.Label>
+                            {t("page.event.registration.guardian_phone_number")}
+                            <Field.RequiredIndicator />
+                          </Field.Label>
+                          <Input
+                            name="guardian-phone-number"
+                            pattern="\s*\S.*"
+                            size="sm"
+                            type="tel"
+                          />
+                        </Field.Root>
+                      </HStack>
+                    )}
+                  </VStack>
+                )}
+
                 <Field.Root required>
                   <Checkbox name="accept-terms" required size="sm">
                     <Text fontSize="sm">
