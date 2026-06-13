@@ -5,7 +5,7 @@
 type Locale = "en-GB" | "it-CH";
 
 //------------------------------------------------------------------------------
-// Locale
+// Event Time Zone
 //------------------------------------------------------------------------------
 
 // FIXME: This should be taken as parameter by the Edge Function.
@@ -17,6 +17,7 @@ const EVENT_TIME_ZONE = "Europe/Zurich";
 
 type EmailType =
   | "registration-confirmed"
+  | "registration-confirmed-correction"
   | "registration-removed"
   | "registration-removed-admin-notification";
 
@@ -64,6 +65,9 @@ const MAILJET_TEMPLATE_ID_REGISTRATION_CONFIRMED_EN_GB = Number(
 );
 const MAILJET_TEMPLATE_ID_REGISTRATION_CONFIRMED_IT_CH = Number(
   Deno.env.get("MAILJET_TEMPLATE_ID_REGISTRATION_CONFIRMED_IT_CH"),
+);
+const MAILJET_TEMPLATE_ID_REGISTRATION_CONFIRMED_CORRECTION = Number(
+  Deno.env.get("MAILJET_TEMPLATE_ID_REGISTRATION_CONFIRMED_CORRECTION"),
 );
 const MAILJET_TEMPLATE_ID_REGISTRATION_REMOVED_EN_GB = Number(
   Deno.env.get("MAILJET_TEMPLATE_ID_REGISTRATION_REMOVED_EN_GB"),
@@ -129,6 +133,7 @@ Deno.serve(async (request) => {
 function mailjetMessage(payload: Payload) {
   switch (payload.type) {
     case "registration-confirmed":
+    case "registration-confirmed-correction":
     case "registration-removed":
       return templateMessage(payload);
     case "registration-removed-admin-notification":
@@ -204,6 +209,8 @@ function mailjetTemplateId(type: EmailType, locale: Locale) {
       return locale === "en-GB" ?
           MAILJET_TEMPLATE_ID_REGISTRATION_CONFIRMED_EN_GB
         : MAILJET_TEMPLATE_ID_REGISTRATION_CONFIRMED_IT_CH;
+    case "registration-confirmed-correction":
+      return MAILJET_TEMPLATE_ID_REGISTRATION_CONFIRMED_CORRECTION;
     case "registration-removed":
       return locale === "en-GB" ?
           MAILJET_TEMPLATE_ID_REGISTRATION_REMOVED_EN_GB

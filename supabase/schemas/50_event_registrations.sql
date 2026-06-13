@@ -55,6 +55,7 @@ declare
 begin
   if p_type not in (
     'registration-confirmed',
+    'registration-confirmed-correction',
     'registration-removed',
     'registration-removed-admin-notification'
   ) then
