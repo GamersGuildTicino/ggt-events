@@ -136,6 +136,13 @@ const itCH = {
   "form.game_system.logo_image_url.label": "URL logo",
   "form.game_system.name.label": "Nome",
 
+  "form.home_message.body_en.label": "Messaggio in inglese",
+  "form.home_message.body_it.label": "Messaggio in italiano",
+  "form.home_message.enabled": "Mostra quando non ci sono eventi in programma",
+  "form.home_message.heading": "Messaggio senza eventi in programma",
+  "form.home_message.title_en.label": "Titolo in inglese",
+  "form.home_message.title_it.label": "Titolo in italiano",
+
   "layout.public_footer.copyright": "Gamers Guild Ticino",
   "layout.public_footer.data_and_terms": "Dati e Condizioni",
   "layout.public_footer.instagram": "Instagram",
@@ -157,6 +164,10 @@ const itCH = {
   "page.admin.game_systems.heading": "Sistemi di gioco",
   "page.admin.game_systems.open": "Apri sistemi di gioco",
   "page.admin.heading": "Panoramica",
+  "page.admin.home_message.description":
+    "Modifica il messaggio localizzato mostrato in home quando non ci sono eventi in programma.",
+  "page.admin.home_message.heading": "Messaggio home",
+  "page.admin.home_message.open": "Modifica messaggio",
 
   "page.admin_event.back_to_events": "Torna agli eventi",
   "page.admin_event.breadcrumb.admin": "Panoramica",
@@ -304,6 +315,15 @@ const itCH = {
   "page.admin_game_systems_new.error.missing_user":
     "Devi essere registrato per creare un nuovo sistema di gioco.",
   "page.admin_game_systems_new.heading": "Crea sistema di gioco",
+
+  "page.admin_home_message.back_to_admin": "Torna alla panoramica",
+  "page.admin_home_message.breadcrumb.admin": "Panoramica",
+  "page.admin_home_message.breadcrumb.home_message": "Messaggio home",
+  "page.admin_home_message.error.generic":
+    "Qualcosa è andato storto, per favore prova di nuovo.",
+  "page.admin_home_message.heading": "Messaggio home",
+  "page.admin_home_message.save": "Salva modifiche",
+  "page.admin_home_message.saved": "Messaggio home salvato.",
 
   "page.admin_forgot_password.back_to_login": "Torna al login",
   "page.admin_forgot_password.confirmation":

@@ -131,6 +131,13 @@ const enGB = {
   "form.game_system.logo_image_url.label": "Logo image URL",
   "form.game_system.name.label": "Name",
 
+  "form.home_message.body_en.label": "Message in English",
+  "form.home_message.body_it.label": "Message in Italian",
+  "form.home_message.enabled": "Show when there are no upcoming events",
+  "form.home_message.heading": "No upcoming events message",
+  "form.home_message.title_en.label": "Title in English",
+  "form.home_message.title_it.label": "Title in Italian",
+
   "layout.public_footer.copyright": "Gamers Guild Ticino",
   "layout.public_footer.data_and_terms": "Data & Terms",
   "layout.public_footer.instagram": "Instagram",
@@ -151,6 +158,10 @@ const enGB = {
   "page.admin.game_systems.heading": "Game systems",
   "page.admin.game_systems.open": "Open game systems",
   "page.admin.heading": "Dashboard",
+  "page.admin.home_message.description":
+    "Edit the localized message shown on the home page when no events are scheduled.",
+  "page.admin.home_message.heading": "Home message",
+  "page.admin.home_message.open": "Edit message",
 
   "page.admin_event.back_to_events": "Back to events",
   "page.admin_event.breadcrumb.admin": "Dashboard",
@@ -293,6 +304,15 @@ const enGB = {
   "page.admin_game_systems_new.error.missing_user":
     "You must be logged in to create a new game system.",
   "page.admin_game_systems_new.heading": "Create game system",
+
+  "page.admin_home_message.back_to_admin": "Back to dashboard",
+  "page.admin_home_message.breadcrumb.admin": "Dashboard",
+  "page.admin_home_message.breadcrumb.home_message": "Home message",
+  "page.admin_home_message.error.generic":
+    "Something went wrong, please try again.",
+  "page.admin_home_message.heading": "Home message",
+  "page.admin_home_message.save": "Save changes",
+  "page.admin_home_message.saved": "Home message saved.",
 
   "page.admin_forgot_password.back_to_login": "Back to login",
   "page.admin_forgot_password.confirmation":

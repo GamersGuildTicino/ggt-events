@@ -85,6 +85,10 @@ const AdminResetPasswordPage = lazy(
     import("./routes/pages/admin-reset-password-page/admin-reset-password-page"),
 );
 const AdminPage = lazy(() => import("./routes/pages/admin-page/admin-page"));
+const AdminHomeMessagePage = lazy(
+  () =>
+    import("./routes/pages/admin-home-message-page/admin-home-message-page"),
+);
 const AdminEventsPage = lazy(
   () => import("./routes/pages/admin-events-page/admin-events-page"),
 );
@@ -142,6 +146,7 @@ export const router = createBrowserRouter(
             {
               children: [
                 { index: true, lazy: AdminPage },
+                { lazy: AdminHomeMessagePage, path: "home-message" },
                 { lazy: AdminEventsPage, path: "events" },
                 { lazy: AdminEventsNewPage, path: "events/new" },
                 { lazy: AdminEventPage, path: "events/:eventId" },

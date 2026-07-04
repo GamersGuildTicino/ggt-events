@@ -24,6 +24,24 @@ export default function AdminPage() {
         <Card.Root>
           <Card.Body gap={4}>
             <VStack align="flex-start" gap={2}>
+              <Heading size="md">
+                {t("page.admin.home_message.heading")}
+              </Heading>
+              <Text color="fg.muted" fontSize="sm">
+                {t("page.admin.home_message.description")}
+              </Text>
+            </VStack>
+            <Button asChild size="sm" variant="outline">
+              <RouterLink to="/admin/home-message">
+                {t("page.admin.home_message.open")}
+              </RouterLink>
+            </Button>
+          </Card.Body>
+        </Card.Root>
+
+        <Card.Root>
+          <Card.Body gap={4}>
+            <VStack align="flex-start" gap={2}>
               <Heading size="md">{t("page.admin.events.heading")}</Heading>
               <Text color="fg.muted" fontSize="sm">
                 {t("page.admin.events.description")}
