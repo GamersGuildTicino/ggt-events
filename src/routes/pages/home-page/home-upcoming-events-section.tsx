@@ -1,6 +1,13 @@
 import { Flex, VStack } from "@chakra-ui/react";
+import { useState } from "react";
+import {
+  type HomeMessage,
+  fetchHomeNoUpcomingEventsMessage,
+} from "~/domain/home-messages";
+import { useAsyncEffect } from "~/hooks/use-async-effect";
 import useI18n from "~/i18n/use-i18n";
 import Eyebrow from "~/ui/eyebrow";
+import { type AsyncState, initial, loading } from "~/utils/async-state";
 import HomeUpcomingEventsEmpty from "./home-upcoming-events-empty";
 import HomeUpcomingEventsError from "./home-upcoming-events-error";
 import HomeUpcomingEventsList from "./home-upcoming-events-list";
@@ -20,7 +27,26 @@ export default function HomeUpcomingEventsSection({
   eventsState,
   upcomingEvents,
 }: HomeUpcomingEventsSectionProps) {
-  const { t } = useI18n();
+  const { locale, t } = useI18n();
+  const [homeMessageState, setHomeMessageState] =
+    useState<AsyncState<HomeMessage | null>>(initial());
+
+  useAsyncEffect(async (isActive) => {
+    setHomeMessageState(loading());
+    const homeMessage = await fetchHomeNoUpcomingEventsMessage();
+    if (!isActive()) return;
+    setHomeMessageState(homeMessage);
+  }, []);
+
+  const homeMessage = homeMessageState.isSuccess ? homeMessageState.data : null;
+  const homeMessageTitle = homeMessage?.title[locale].trim();
+  const homeMessageBody = homeMessage?.body[locale].trim();
+  const hasNoUpcomingEvents =
+    eventsState.isSuccess && upcomingEvents.length === 0;
+  const sectionTitle =
+    hasNoUpcomingEvents && homeMessageTitle ? homeMessageTitle : (
+      t("page.home.events.heading")
+    );
 
   return (
     <Flex
@@ -33,7 +59,7 @@ export default function HomeUpcomingEventsSection({
       w="full"
     >
       <VStack align="flex-start" gap={4} w="full">
-        <Eyebrow>{t("page.home.events.heading")}</Eyebrow>
+        <Eyebrow>{sectionTitle}</Eyebrow>
 
         {eventsState.isLoading && <HomeUpcomingEventsLoading />}
 
@@ -42,7 +68,10 @@ export default function HomeUpcomingEventsSection({
         )}
 
         {eventsState.isSuccess && upcomingEvents.length === 0 && (
-          <HomeUpcomingEventsEmpty />
+          <HomeUpcomingEventsEmpty
+            customBody={homeMessageBody}
+            hasCustomTitle={Boolean(homeMessageTitle)}
+          />
         )}
 
         {eventsState.isSuccess && upcomingEvents.length > 0 && (
