@@ -69,6 +69,9 @@ const EventPage = lazy(() => import("./routes/pages/event-page/event-page"));
 const DataAndTerms = lazy(
   () => import("./routes/pages/data-and-terms-page/data-and-terms-page"),
 );
+const MembershipPage = lazy(
+  () => import("./routes/pages/membership-page/membership-page"),
+);
 const RegistrationCancellationPage = lazy(
   () =>
     import("./routes/pages/registration-cancellation-page/registration-cancellation-page"),
@@ -124,6 +127,8 @@ export const router = createBrowserRouter(
         { index: true, lazy: HomePage },
         { lazy: EventPage, path: "events/:eventSlugOrId" },
         { lazy: EventPage, path: "eventi/:eventSlugOrId" },
+        { lazy: MembershipPage, path: "membership" },
+        { lazy: MembershipPage, path: "tesseramento" },
         { lazy: DataAndTerms, path: "data-and-terms" },
         { lazy: DataAndTerms, path: "dati-e-termini" },
         { lazy: RegistrationCancellationPage, path: "registrations/cancel" },

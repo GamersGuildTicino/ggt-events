@@ -34,6 +34,10 @@ const itCH = {
   "enum.event_table_language.spanish": "Spagnolo",
   "enum.event_table_language.unspecified": "Non specificato",
 
+  "enum.membership_payment_method.bank_transfer": "Versamento bancario",
+  "enum.membership_payment_method.cash": "Contante",
+  "enum.membership_payment_method.twint": "TWINT",
+
   "error.events.create": "Impossibile creare l'evento.",
   "error.events.delete": "Impossibile eliminare l'evento.",
   "error.events.fetch_many": "Impossibile caricare gli eventi.",
@@ -497,6 +501,55 @@ Per domande, richieste di accesso, correzione, rimozione dell'iscrizione o anoni
     "Eventi mensili di giochi di ruolo dal vivo in Ticino per giocatori, game master e persone curiose.",
   "page.home.hero.events": "Vedi prossimi eventi",
   "page.home.hero.eyebrow": "Eventi GDR in Ticino",
+
+  "page.membership.card_info":
+    "Il tesseramento non ha scadenza. Puoi rinnovare il tuo sostegno quando vuoi, senza limiti o obblighi.\n\nDopo aver completato il tesseramento, potrai ritirare la tessera fisica durante un qualsiasi evento di Gamers Guild Ticino. Nel frattempo, l'email di conferma è valida come tessera temporanea.\n\nSulla tessera è presente una barra di livello per tenere traccia di quante attività hai svolto con noi. Una volta completata, avrai passato circa un anno di giocate con l'associazione e potrai usarla come promemoria per rinnovare il tuo sostegno, senza impegno.",
+  "page.membership.description":
+    "Diventa tesserato di Gamers Guild Ticino con un'offerta libera.",
+  "page.membership.donation.chf_5.body":
+    "Contribuisci a sostenere l'associazione.",
+  "page.membership.donation.chf_5.title": "CHF 5",
+  "page.membership.donation.chf_10.body":
+    "Ci aiuti a coprire i costi di comunicazione.",
+  "page.membership.donation.chf_10.title": "CHF 10",
+  "page.membership.donation.chf_20.body":
+    "Ci aiuti ad acquistare nuovi giochi e materiale.",
+  "page.membership.donation.chf_20.title": "CHF 20",
+  "page.membership.donation.chf_50.body":
+    "Ci aiuti a partecipare alle fiere e a sviluppare il progetto.",
+  "page.membership.donation.chf_50.title": "CHF 50+",
+  "page.membership.form.accept_terms": "Accetto i ",
+  "page.membership.form.email": "Indirizzo email",
+  "page.membership.form.email.placeholder": "nome@esempio.ch",
+  "page.membership.form.full_name": "Nome e cognome",
+  "page.membership.form.full_name.placeholder": "Mario Rossi",
+  "page.membership.form.home_address": "Indirizzo di casa",
+  "page.membership.form.home_address.placeholder":
+    "Via e numero\nNPA e località",
+  "page.membership.form.newsletter":
+    "Voglio ricevere notizie e aggiornamenti da Gamers Guild Ticino",
+  "page.membership.form.payment_method": "Metodo di pagamento",
+  "page.membership.form.phone_number": "Numero di telefono",
+  "page.membership.form.phone_number.placeholder": "+41 79 000 00 00",
+  "page.membership.form.submit": "Iscriviti all'associazione",
+  "page.membership.form.terms_link":
+    "termini dell'associazione e condizioni sui dati",
+  "page.membership.heading": "Tesserati a Gamers Guild Ticino",
+  "page.membership.info":
+    "Con questo modulo confermi la tua adesione all'associazione Gamers Guild Ticino. Grazie per il tuo prezioso supporto!\n\nLa quota associativa è a offerta libera. Questi sono gli importi suggeriti:",
+  "page.membership.payment.bank_transfer.body":
+    "Gamers Guild Ticino\nVia Maggio 18, 6900 Lugano\nCH13 0900 0000 1687 2277 9\nMotivo versamento: tesseramento GG",
+  "page.membership.payment.bank_transfer.title": "Versamento bancario",
+  "page.membership.payment.cash.body":
+    "Puoi pagare durante un qualsiasi evento di Gamers Guild Ticino.",
+  "page.membership.payment.cash.title": "Contante",
+  "page.membership.payment.heading": "Coordinate di pagamento",
+  "page.membership.payment.twint.body":
+    '+41 79 561 90 15\nScrivere nelle note "Donazione GG!"',
+  "page.membership.payment.twint.title": "TWINT",
+  "page.membership.success":
+    "Tesseramento completato. Una mail di conferma è stata inviata.",
+  "page.membership.url": "/tesseramento",
 
   "page.not_found.heading": "Pagina Non Trovata",
 

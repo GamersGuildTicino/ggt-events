@@ -34,6 +34,10 @@ const enGB = {
   "enum.event_table_language.spanish": "Spanish",
   "enum.event_table_language.unspecified": "Unspecified",
 
+  "enum.membership_payment_method.bank_transfer": "Bank transfer",
+  "enum.membership_payment_method.cash": "Cash",
+  "enum.membership_payment_method.twint": "TWINT",
+
   "error.events.create": "Unable to create event.",
   "error.events.delete": "Unable to delete event.",
   "error.events.fetch_many": "Unable to load events.",
@@ -485,6 +489,52 @@ For questions, access requests, corrections, registration removal requests, or a
     "Monthly live TTRPG events in Ticino for players, game masters, and anyone curious about role-playing games.",
   "page.home.hero.events": "See upcoming events",
   "page.home.hero.eyebrow": "TTRPG events in Ticino",
+
+  "page.membership.card_info":
+    "Membership does not expire. You can renew your support whenever you want, with no limits or deadlines.\n\nAfter completing the registration, you can collect your physical membership card at any Gamers Guild Ticino event. The confirmation email is valid as a temporary membership card.\n\nThe card includes a level bar to track of how many activities you have joined with us. Once filled, you will have spent roughly a year of games with the association, and you can use it as a friendly reminder to renew your support, with no obligation.",
+  "page.membership.description":
+    "Become a member of Gamers Guild Ticino with a free donation.",
+  "page.membership.donation.chf_5.body": "Helps support the association.",
+  "page.membership.donation.chf_5.title": "CHF 5",
+  "page.membership.donation.chf_10.body": "Helps us cover communication costs.",
+  "page.membership.donation.chf_10.title": "CHF 10",
+  "page.membership.donation.chf_20.body":
+    "Helps us buy new games and materials.",
+  "page.membership.donation.chf_20.title": "CHF 20",
+  "page.membership.donation.chf_50.body":
+    "Helps us take part in fairs and develop the project further.",
+  "page.membership.donation.chf_50.title": "CHF 50+",
+  "page.membership.form.accept_terms": "I accept the ",
+  "page.membership.form.email": "Email address",
+  "page.membership.form.email.placeholder": "name@example.com",
+  "page.membership.form.full_name": "Full name",
+  "page.membership.form.full_name.placeholder": "Jane Doe",
+  "page.membership.form.home_address": "Home address",
+  "page.membership.form.home_address.placeholder":
+    "Street and number\nPostcode and city",
+  "page.membership.form.newsletter":
+    "I want to receive news and updates from Gamers Guild Ticino",
+  "page.membership.form.payment_method": "Payment method",
+  "page.membership.form.phone_number": "Phone number",
+  "page.membership.form.phone_number.placeholder": "+41 79 000 00 00",
+  "page.membership.form.submit": "Join the association",
+  "page.membership.form.terms_link": "association terms and data conditions",
+  "page.membership.heading": "Join Gamers Guild Ticino",
+  "page.membership.info":
+    "With this form you confirm your membership in Gamers Guild Ticino. Thank you for your support!\n\nThe membership contribution is a free donation. These are the suggested amounts:",
+  "page.membership.payment.bank_transfer.body":
+    "Gamers Guild Ticino\nVia Maggio 18, 6900 Lugano\nCH13 0900 0000 1687 2277 9\nPayment reason: tesseramento GG",
+  "page.membership.payment.bank_transfer.title": "Bank transfer",
+  "page.membership.payment.cash.body":
+    "You can pay at any Gamers Guild Ticino event.",
+  "page.membership.payment.cash.title": "Cash",
+  "page.membership.payment.heading": "Payment details",
+  "page.membership.payment.twint.body":
+    '+41 79 561 90 15\nPlease write "Donazione GG!" in the payment note.',
+  "page.membership.payment.twint.title": "TWINT",
+  "page.membership.success":
+    "Membership registration completed. A confirmation email has been sent.",
+  "page.membership.url": "/membership",
 
   "page.not_found.heading": "Page Not Found",
   "page.registration_cancellation.confirm": "Cancel registration",
