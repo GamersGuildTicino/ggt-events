@@ -19,6 +19,8 @@ create table public.memberships (
     check (email = lower(btrim(email))),
   constraint memberships_email_not_blank
     check (email <> ''),
+  constraint memberships_email_format
+    check (email ~ '^[^@\s]+@[^@\s]+\.[^@\s]+$'),
   constraint memberships_home_address_not_blank
     check (btrim(home_address) <> ''),
   constraint memberships_phone_number_not_blank
