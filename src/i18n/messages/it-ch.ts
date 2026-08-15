@@ -345,8 +345,17 @@ const itCH = {
   "page.admin_home_message.save": "Salva modifiche",
   "page.admin_home_message.saved": "Messaggio home salvato.",
 
+  "page.admin_memberships.actions": "Azioni tesserati",
   "page.admin_memberships.breadcrumb.admin": "Panoramica",
   "page.admin_memberships.breadcrumb.memberships": "Tesserati",
+  "page.admin_memberships.copy_csv": "Copia come CSV",
+  "page.admin_memberships.copy_csv_success": "Tesserati copiati come CSV.",
+  "page.admin_memberships.copy_emails": "Copia email",
+  "page.admin_memberships.copy_emails_success": "Email dei tesserati copiate.",
+  "page.admin_memberships.copy_error": "Impossibile copiare i tesserati.",
+  "page.admin_memberships.copy_newsletter_emails": "Copia email per newsletter",
+  "page.admin_memberships.copy_newsletter_emails_success":
+    "Email dei tesserati iscritti alla newsletter copiate.",
   "page.admin_memberships.created": "Tesseramento creato.",
   "page.admin_memberships.created_for": 'Tesseramento di "{0}" creato.',
   "page.admin_memberships.delete": "Elimina",

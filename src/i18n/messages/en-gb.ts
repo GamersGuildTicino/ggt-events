@@ -334,8 +334,17 @@ const enGB = {
   "page.admin_home_message.save": "Save changes",
   "page.admin_home_message.saved": "Home message saved.",
 
+  "page.admin_memberships.actions": "Membership actions",
   "page.admin_memberships.breadcrumb.admin": "Dashboard",
   "page.admin_memberships.breadcrumb.memberships": "Memberships",
+  "page.admin_memberships.copy_csv": "Copy as CSV",
+  "page.admin_memberships.copy_csv_success": "Memberships copied as CSV.",
+  "page.admin_memberships.copy_emails": "Copy emails",
+  "page.admin_memberships.copy_emails_success": "Membership emails copied.",
+  "page.admin_memberships.copy_error": "Unable to copy memberships.",
+  "page.admin_memberships.copy_newsletter_emails": "Copy newsletter emails",
+  "page.admin_memberships.copy_newsletter_emails_success":
+    "Newsletter membership emails copied.",
   "page.admin_memberships.created": "Membership created.",
   "page.admin_memberships.created_for": 'Membership for "{0}" created.',
   "page.admin_memberships.delete": "Delete",

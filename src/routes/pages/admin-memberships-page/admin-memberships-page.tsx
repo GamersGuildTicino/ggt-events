@@ -4,14 +4,15 @@ import {
   Dialog,
   HStack,
   Heading,
+  Menu as ChakraMenu,
   Portal,
   Spinner,
   Table,
   Text,
   VStack,
 } from "@chakra-ui/react";
-import { Pencil, Plus, Trash2 } from "lucide-react";
-import { useCallback, useState } from "react";
+import { EllipsisVertical, Pencil, Plus, Trash2 } from "lucide-react";
+import { useCallback, useMemo, useState } from "react";
 import type { AdminMembershipInput, Membership } from "~/domain/memberships";
 import usePageTitle from "~/hooks/use-page-title";
 import useI18n from "~/i18n/use-i18n";
@@ -44,6 +45,15 @@ export default function AdminMembershipsPage() {
   } = useAdminMemberships();
 
   usePageTitle(t("page.admin_memberships.heading"));
+
+  const memberships = useMemo(
+    () => (membershipsState.isSuccess ? membershipsState.data : []),
+    [membershipsState],
+  );
+  const newsletterMemberships = useMemo(
+    () => memberships.filter((membership) => membership.newsletterAccepted),
+    [memberships],
+  );
 
   const openCreateDialog = useCallback(() => {
     resetSaveState();
@@ -131,6 +141,54 @@ export default function AdminMembershipsPage() {
     [confirmAdminMembershipDelete, deleteAdminMembershipEntry, ti],
   );
 
+  const copyTextToClipboard = useCallback(
+    async (value: string, successMessage: string, errorMessage: string) => {
+      try {
+        await navigator.clipboard.writeText(value);
+        toaster.success({
+          description: successMessage,
+          id: "admin-memberships-copy-success",
+        });
+      } catch {
+        toaster.error({
+          description: errorMessage,
+          id: "admin-memberships-copy-error",
+        });
+      }
+    },
+    [],
+  );
+
+  const copyMembershipEmails = useCallback(
+    () =>
+      void copyTextToClipboard(
+        memberships.map((membership) => membership.email).join(", "),
+        t("page.admin_memberships.copy_emails_success"),
+        t("page.admin_memberships.copy_error"),
+      ),
+    [copyTextToClipboard, memberships, t],
+  );
+
+  const copyNewsletterMembershipEmails = useCallback(
+    () =>
+      void copyTextToClipboard(
+        newsletterMemberships.map((membership) => membership.email).join(", "),
+        t("page.admin_memberships.copy_newsletter_emails_success"),
+        t("page.admin_memberships.copy_error"),
+      ),
+    [copyTextToClipboard, newsletterMemberships, t],
+  );
+
+  const copyMembershipsCsv = useCallback(
+    () =>
+      void copyTextToClipboard(
+        membershipsToCsv(memberships, t),
+        t("page.admin_memberships.copy_csv_success"),
+        t("page.admin_memberships.copy_error"),
+      ),
+    [copyTextToClipboard, memberships, t],
+  );
+
   return (
     <VStack align="stretch" gap={3} w="full">
       <AdminBreadcrumb
@@ -143,10 +201,20 @@ export default function AdminMembershipsPage() {
       <HStack align="center" justify="space-between">
         <Heading size="3xl">{t("page.admin_memberships.heading")}</Heading>
 
-        <Button onClick={openCreateDialog} size="sm">
-          <Plus />
-          {t("page.admin_memberships.form.create")}
-        </Button>
+        <HStack>
+          <Button onClick={openCreateDialog} size="sm">
+            <Plus />
+            {t("page.admin_memberships.form.create")}
+          </Button>
+
+          <AdminMembershipsActionsMenu
+            canCopy={memberships.length > 0}
+            canCopyNewsletter={newsletterMemberships.length > 0}
+            onCopyCsv={copyMembershipsCsv}
+            onCopyEmails={copyMembershipEmails}
+            onCopyNewsletterEmails={copyNewsletterMembershipEmails}
+          />
+        </HStack>
       </HStack>
 
       <Dialog.Root
@@ -215,6 +283,69 @@ export default function AdminMembershipsPage() {
         />
       )}
     </VStack>
+  );
+}
+
+//------------------------------------------------------------------------------
+// Admin Memberships Actions Menu
+//------------------------------------------------------------------------------
+
+type AdminMembershipsActionsMenuProps = {
+  canCopy: boolean;
+  canCopyNewsletter: boolean;
+  onCopyCsv: () => void;
+  onCopyEmails: () => void;
+  onCopyNewsletterEmails: () => void;
+};
+
+function AdminMembershipsActionsMenu({
+  canCopy,
+  canCopyNewsletter,
+  onCopyCsv,
+  onCopyEmails,
+  onCopyNewsletterEmails,
+}: AdminMembershipsActionsMenuProps) {
+  const { t } = useI18n();
+
+  return (
+    <ChakraMenu.Root positioning={{ placement: "bottom-end" }}>
+      <ChakraMenu.Trigger asChild>
+        <IconButton
+          Icon={EllipsisVertical}
+          aria-label={t("page.admin_memberships.actions")}
+          size="sm"
+          variant="ghost"
+        />
+      </ChakraMenu.Trigger>
+      <Portal>
+        <ChakraMenu.Positioner>
+          <ChakraMenu.Content minW="14rem">
+            <ChakraMenu.Item
+              disabled={!canCopy}
+              onClick={onCopyEmails}
+              value="copy-emails"
+            >
+              {t("page.admin_memberships.copy_emails")}
+            </ChakraMenu.Item>
+            <ChakraMenu.Item
+              disabled={!canCopyNewsletter}
+              onClick={onCopyNewsletterEmails}
+              value="copy-newsletter-emails"
+            >
+              {t("page.admin_memberships.copy_newsletter_emails")}
+            </ChakraMenu.Item>
+            <ChakraMenu.Separator />
+            <ChakraMenu.Item
+              disabled={!canCopy}
+              onClick={onCopyCsv}
+              value="copy-csv"
+            >
+              {t("page.admin_memberships.copy_csv")}
+            </ChakraMenu.Item>
+          </ChakraMenu.Content>
+        </ChakraMenu.Positioner>
+      </Portal>
+    </ChakraMenu.Root>
   );
 }
 
@@ -322,4 +453,46 @@ function AdminMembershipsTable({
       </Table.Root>
     </Table.ScrollArea>
   );
+}
+
+//------------------------------------------------------------------------------
+// Memberships To CSV
+//------------------------------------------------------------------------------
+
+function membershipsToCsv(
+  memberships: Membership[],
+  t: ReturnType<typeof useI18n>["t"],
+) {
+  const rows = [
+    [
+      t("page.admin_memberships.table.created_at"),
+      t("page.admin_memberships.table.full_name"),
+      t("page.admin_memberships.table.email"),
+      t("page.admin_memberships.table.phone_number"),
+      t("page.admin_memberships.table.home_address"),
+      t("page.admin_memberships.table.payment_method"),
+      t("page.admin_memberships.table.newsletter"),
+    ],
+    ...memberships.map((membership) => [
+      membership.createdAt.toISOString(),
+      membership.fullName,
+      membership.email,
+      membership.phoneNumber ?? "",
+      membership.homeAddress,
+      t(`enum.membership_payment_method.${membership.paymentMethod}`),
+      membership.newsletterAccepted ?
+        t("page.admin_memberships.table.yes")
+      : t("page.admin_memberships.table.no"),
+    ]),
+  ];
+
+  return rows.map((row) => row.map(csvCell).join(",")).join("\n");
+}
+
+//------------------------------------------------------------------------------
+// CSV Cell
+//------------------------------------------------------------------------------
+
+function csvCell(value: string) {
+  return `"${value.replaceAll('"', '""')}"`;
 }
