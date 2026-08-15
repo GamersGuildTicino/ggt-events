@@ -10,7 +10,7 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
-import { Plus, Trash2 } from "lucide-react";
+import { Pencil, Plus, Trash2 } from "lucide-react";
 import { useCallback, useState } from "react";
 import type { AdminMembershipInput, Membership } from "~/domain/memberships";
 import usePageTitle from "~/hooks/use-page-title";
@@ -29,6 +29,9 @@ import useAdminMemberships from "./use-admin-memberships";
 export default function AdminMembershipsPage() {
   const { locale, t, ti } = useI18n();
   const [creating, setCreating] = useState(false);
+  const [editingMembership, setEditingMembership] = useState<Membership | null>(
+    null,
+  );
   const {
     createAdminMembershipEntry,
     deleteAdminMembershipEntry,
@@ -37,14 +40,30 @@ export default function AdminMembershipsPage() {
     membershipsState,
     resetSaveState,
     saveState,
+    updateAdminMembershipEntry,
   } = useAdminMemberships();
 
   usePageTitle(t("page.admin_memberships.heading"));
 
   const openCreateDialog = useCallback(() => {
     resetSaveState();
+    setEditingMembership(null);
     setCreating(true);
   }, [resetSaveState]);
+
+  const openEditDialog = useCallback(
+    (membership: Membership) => {
+      resetSaveState();
+      setCreating(false);
+      setEditingMembership(membership);
+    },
+    [resetSaveState],
+  );
+
+  const closeSaveDialog = useCallback(() => {
+    setCreating(false);
+    setEditingMembership(null);
+  }, []);
 
   const createAdminMembership = useCallback(
     async (membership: AdminMembershipInput) => {
@@ -59,9 +78,32 @@ export default function AdminMembershipsPage() {
         ),
         id: "admin-membership-created",
       });
-      setCreating(false);
+      closeSaveDialog();
     },
-    [createAdminMembershipEntry, ti],
+    [closeSaveDialog, createAdminMembershipEntry, ti],
+  );
+
+  const updateAdminMembership = useCallback(
+    async (membership: AdminMembershipInput) => {
+      if (!editingMembership) return;
+
+      const updated = await updateAdminMembershipEntry(
+        editingMembership.id,
+        membership,
+      );
+
+      if (!updated) return;
+
+      toaster.success({
+        description: ti(
+          "page.admin_memberships.updated_for",
+          membership.fullName,
+        ),
+        id: `admin-membership-updated-${editingMembership.id}`,
+      });
+      closeSaveDialog();
+    },
+    [closeSaveDialog, editingMembership, ti, updateAdminMembershipEntry],
   );
 
   const confirmAdminMembershipDelete = useCallback(
@@ -108,8 +150,10 @@ export default function AdminMembershipsPage() {
       </HStack>
 
       <Dialog.Root
-        onOpenChange={(details) => setCreating(details.open)}
-        open={creating}
+        onOpenChange={(details) => {
+          if (!details.open) closeSaveDialog();
+        }}
+        open={creating || Boolean(editingMembership)}
       >
         <Portal>
           <Dialog.Backdrop />
@@ -117,15 +161,23 @@ export default function AdminMembershipsPage() {
             <Dialog.Content>
               <Dialog.Header>
                 <Dialog.Title>
-                  {t("page.admin_memberships.form.create_heading")}
+                  {editingMembership ?
+                    t("page.admin_memberships.form.edit_heading")
+                  : t("page.admin_memberships.form.create_heading")}
                 </Dialog.Title>
               </Dialog.Header>
               <Dialog.Body>
                 <AdminMembershipForm
                   disabled={saveState.isLoading}
                   error={saveState.hasError ? saveState.error : ""}
-                  onCancelEdit={() => undefined}
-                  onSubmit={createAdminMembership}
+                  initialValue={editingMembership ?? undefined}
+                  key={editingMembership?.id ?? "new"}
+                  onCancelEdit={closeSaveDialog}
+                  onSubmit={
+                    editingMembership ?
+                      updateAdminMembership
+                    : createAdminMembership
+                  }
                   showHeading={false}
                   surface="plain"
                   withinDialog
@@ -159,6 +211,7 @@ export default function AdminMembershipsPage() {
           locale={locale}
           memberships={membershipsState.data}
           onDelete={deleteAdminMembership}
+          onEdit={openEditDialog}
         />
       )}
     </VStack>
@@ -174,6 +227,7 @@ type AdminMembershipsTableProps = {
   locale: string;
   memberships: Membership[];
   onDelete: (membership: Membership) => void;
+  onEdit: (membership: Membership) => void;
 };
 
 function AdminMembershipsTable({
@@ -181,6 +235,7 @@ function AdminMembershipsTable({
   locale,
   memberships,
   onDelete,
+  onEdit,
 }: AdminMembershipsTableProps) {
   const { t } = useI18n();
   const dateFormatter = new Intl.DateTimeFormat(locale, {
@@ -244,6 +299,13 @@ function AdminMembershipsTable({
                 : t("page.admin_memberships.table.no")}
               </Table.Cell>
               <Table.Cell textAlign="end">
+                <IconButton
+                  Icon={Pencil}
+                  aria-label={t("page.admin_memberships.edit")}
+                  onClick={() => onEdit(membership)}
+                  size="xs"
+                  variant="ghost"
+                />
                 <IconButton
                   Icon={Trash2}
                   aria-label={t("page.admin_memberships.delete")}

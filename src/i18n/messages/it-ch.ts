@@ -379,6 +379,7 @@ const itCH = {
   "page.admin_memberships.table.phone_number": "Telefono",
   "page.admin_memberships.table.yes": "Sì",
   "page.admin_memberships.updated": "Tesseramento aggiornato.",
+  "page.admin_memberships.updated_for": 'Tesseramento di "{0}" aggiornato.',
 
   "page.admin_forgot_password.back_to_login": "Torna al login",
   "page.admin_forgot_password.confirmation":

@@ -5,6 +5,7 @@ import {
   createAdminMembership,
   deleteMembership,
   fetchMemberships,
+  updateMembership,
 } from "~/domain/memberships";
 import { useAsyncEffect } from "~/hooks/use-async-effect";
 import {
@@ -78,6 +79,26 @@ export default function useAdminMemberships() {
     [loadMemberships],
   );
 
+  const updateAdminMembershipEntry = useCallback(
+    async (
+      membershipId: Membership["id"],
+      membership: AdminMembershipInput,
+    ) => {
+      setSaveState(loading());
+      const error = await updateMembership({ ...membership, id: membershipId });
+
+      if (error) {
+        setSaveState(failure(error));
+        return false;
+      }
+
+      setSaveState(success(undefined));
+      await loadMemberships();
+      return true;
+    },
+    [loadMemberships],
+  );
+
   const resetSaveState = useCallback(() => {
     setSaveState(initial());
   }, []);
@@ -90,5 +111,6 @@ export default function useAdminMemberships() {
     membershipsState,
     resetSaveState,
     saveState,
+    updateAdminMembershipEntry,
   };
 }

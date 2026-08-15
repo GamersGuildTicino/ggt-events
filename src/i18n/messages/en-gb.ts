@@ -368,6 +368,7 @@ const enGB = {
   "page.admin_memberships.table.phone_number": "Phone",
   "page.admin_memberships.table.yes": "Yes",
   "page.admin_memberships.updated": "Membership updated.",
+  "page.admin_memberships.updated_for": 'Membership for "{0}" updated.',
 
   "page.admin_forgot_password.back_to_login": "Back to login",
   "page.admin_forgot_password.confirmation":
