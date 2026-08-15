@@ -1,8 +1,12 @@
 import { Badge, Heading, Spinner, Table, Text, VStack } from "@chakra-ui/react";
+import { Trash2 } from "lucide-react";
+import { useCallback } from "react";
 import type { Membership } from "~/domain/memberships";
 import usePageTitle from "~/hooks/use-page-title";
 import useI18n from "~/i18n/use-i18n";
 import AppAlert from "~/ui/app-alert";
+import IconButton from "~/ui/icon-button";
+import { toaster } from "~/ui/toaster";
 import AdminBreadcrumb from "../../components/admin-breadcrumb";
 import useAdminMemberships from "./use-admin-memberships";
 
@@ -11,10 +15,40 @@ import useAdminMemberships from "./use-admin-memberships";
 //------------------------------------------------------------------------------
 
 export default function AdminMembershipsPage() {
-  const { locale, t } = useI18n();
-  const { membershipsState } = useAdminMemberships();
+  const { locale, t, ti } = useI18n();
+  const {
+    deleteAdminMembershipEntry,
+    deleteError,
+    deletingMembershipId,
+    membershipsState,
+  } = useAdminMemberships();
 
   usePageTitle(t("page.admin_memberships.heading"));
+
+  const confirmAdminMembershipDelete = useCallback(
+    (membership: Membership) =>
+      window.confirm(
+        ti("page.admin_memberships.delete.confirm", membership.fullName),
+      ),
+    [ti],
+  );
+
+  const deleteAdminMembership = useCallback(
+    async (membership: Membership) => {
+      const deleted = await deleteAdminMembershipEntry(
+        membership.id,
+        confirmAdminMembershipDelete(membership),
+      );
+
+      if (!deleted) return;
+
+      toaster.success({
+        description: ti("page.admin_memberships.deleted", membership.fullName),
+        id: `admin-membership-deleted-${membership.id}`,
+      });
+    },
+    [confirmAdminMembershipDelete, deleteAdminMembershipEntry, ti],
+  );
 
   return (
     <VStack align="stretch" gap={3} w="full">
@@ -33,14 +67,22 @@ export default function AdminMembershipsPage() {
         <AppAlert status="error">{t(membershipsState.error)}</AppAlert>
       )}
 
+      {deleteError && (
+        <AppAlert dismissible status="error">
+          {t(deleteError)}
+        </AppAlert>
+      )}
+
       {membershipsState.isSuccess && membershipsState.data.length === 0 && (
         <Text color="fg.muted">{t("page.admin_memberships.empty")}</Text>
       )}
 
       {membershipsState.isSuccess && membershipsState.data.length > 0 && (
         <AdminMembershipsTable
+          deletingMembershipId={deletingMembershipId}
           locale={locale}
           memberships={membershipsState.data}
+          onDelete={deleteAdminMembership}
         />
       )}
     </VStack>
@@ -52,13 +94,17 @@ export default function AdminMembershipsPage() {
 //------------------------------------------------------------------------------
 
 type AdminMembershipsTableProps = {
+  deletingMembershipId: Membership["id"] | null;
   locale: string;
   memberships: Membership[];
+  onDelete: (membership: Membership) => void;
 };
 
 function AdminMembershipsTable({
+  deletingMembershipId,
   locale,
   memberships,
+  onDelete,
 }: AdminMembershipsTableProps) {
   const { t } = useI18n();
   const dateFormatter = new Intl.DateTimeFormat(locale, {
@@ -92,6 +138,9 @@ function AdminMembershipsTable({
             <Table.ColumnHeader>
               {t("page.admin_memberships.table.newsletter")}
             </Table.ColumnHeader>
+            <Table.ColumnHeader textAlign="end">
+              {t("page.admin_memberships.table.actions")}
+            </Table.ColumnHeader>
           </Table.Row>
         </Table.Header>
         <Table.Body>
@@ -117,6 +166,17 @@ function AdminMembershipsTable({
                 {membership.newsletterAccepted ?
                   t("page.admin_memberships.table.yes")
                 : t("page.admin_memberships.table.no")}
+              </Table.Cell>
+              <Table.Cell textAlign="end">
+                <IconButton
+                  Icon={Trash2}
+                  aria-label={t("page.admin_memberships.delete")}
+                  colorPalette="red"
+                  loading={deletingMembershipId === membership.id}
+                  onClick={() => onDelete(membership)}
+                  size="xs"
+                  variant="ghost"
+                />
               </Table.Cell>
             </Table.Row>
           ))}

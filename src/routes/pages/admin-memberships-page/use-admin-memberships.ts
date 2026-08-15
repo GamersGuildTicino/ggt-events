@@ -1,5 +1,9 @@
-import { useState } from "react";
-import { type Membership, fetchMemberships } from "~/domain/memberships";
+import { useCallback, useState } from "react";
+import {
+  type Membership,
+  deleteMembership,
+  fetchMemberships,
+} from "~/domain/memberships";
 import { useAsyncEffect } from "~/hooks/use-async-effect";
 import { type AsyncState, initial, loading } from "~/utils/async-state";
 
@@ -8,8 +12,18 @@ import { type AsyncState, initial, loading } from "~/utils/async-state";
 //------------------------------------------------------------------------------
 
 export default function useAdminMemberships() {
+  const [deleteError, setDeleteError] = useState("");
+  const [deletingMembershipId, setDeletingMembershipId] = useState<
+    Membership["id"] | null
+  >(null);
   const [membershipsState, setMembershipsState] =
     useState<AsyncState<Membership[]>>(initial());
+
+  const loadMemberships = useCallback(async () => {
+    setMembershipsState(loading());
+    const memberships = await fetchMemberships();
+    setMembershipsState(memberships);
+  }, []);
 
   useAsyncEffect(async (isActive) => {
     setMembershipsState(loading());
@@ -18,7 +32,30 @@ export default function useAdminMemberships() {
     setMembershipsState(memberships);
   }, []);
 
+  const deleteAdminMembershipEntry = useCallback(
+    async (membershipId: Membership["id"], confirmed: boolean) => {
+      if (!confirmed) return false;
+
+      setDeleteError("");
+      setDeletingMembershipId(membershipId);
+      const error = await deleteMembership(membershipId);
+      setDeletingMembershipId(null);
+
+      if (error) {
+        setDeleteError(error);
+        return false;
+      }
+
+      await loadMemberships();
+      return true;
+    },
+    [loadMemberships],
+  );
+
   return {
+    deleteAdminMembershipEntry,
+    deleteError,
+    deletingMembershipId,
     membershipsState,
   };
 }

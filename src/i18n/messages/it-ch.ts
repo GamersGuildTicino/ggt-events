@@ -351,6 +351,7 @@ const itCH = {
   "page.admin_memberships.delete": "Elimina",
   "page.admin_memberships.delete.confirm":
     'Eliminare il tesseramento di "{0}"? Questa azione non può essere annullata.',
+  "page.admin_memberships.deleted": 'Tesseramento di "{0}" eliminato.',
   "page.admin_memberships.edit": "Modifica",
   "page.admin_memberships.empty": "Nessun tesserato.",
   "page.admin_memberships.form.cancel": "Annulla",
@@ -366,6 +367,7 @@ const itCH = {
   "page.admin_memberships.form.save": "Salva modifiche",
   "page.admin_memberships.heading": "Tesserati",
   "page.admin_memberships.newsletter": "Newsletter",
+  "page.admin_memberships.table.actions": "Azioni",
   "page.admin_memberships.table.created_at": "Iscrizione",
   "page.admin_memberships.table.email": "Email",
   "page.admin_memberships.table.full_name": "Nome",
@@ -374,7 +376,7 @@ const itCH = {
   "page.admin_memberships.table.no": "No",
   "page.admin_memberships.table.payment_method": "Pagamento",
   "page.admin_memberships.table.phone_number": "Telefono",
-  "page.admin_memberships.table.yes": "Si",
+  "page.admin_memberships.table.yes": "Sì",
   "page.admin_memberships.updated": "Tesseramento aggiornato.",
 
   "page.admin_forgot_password.back_to_login": "Torna al login",
