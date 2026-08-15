@@ -42,6 +42,22 @@ export default function AdminPage() {
         <Card.Root>
           <Card.Body gap={4}>
             <VStack align="flex-start" gap={2}>
+              <Heading size="md">{t("page.admin.memberships.heading")}</Heading>
+              <Text color="fg.muted" fontSize="sm">
+                {t("page.admin.memberships.description")}
+              </Text>
+            </VStack>
+            <Button asChild size="sm" variant="outline">
+              <RouterLink to="/admin/memberships">
+                {t("page.admin.memberships.open")}
+              </RouterLink>
+            </Button>
+          </Card.Body>
+        </Card.Root>
+
+        <Card.Root>
+          <Card.Body gap={4}>
+            <VStack align="flex-start" gap={2}>
               <Heading size="md">{t("page.admin.events.heading")}</Heading>
               <Text color="fg.muted" fontSize="sm">
                 {t("page.admin.events.description")}
