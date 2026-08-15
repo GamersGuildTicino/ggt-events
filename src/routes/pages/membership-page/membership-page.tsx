@@ -97,35 +97,58 @@ export default function MembershipPage() {
       </VStack>
 
       <Card.Root bg="ggt.surface.bg" borderColor="ggt.surface.border">
+        <Card.Body gap={5}>
+          <VStack align="stretch" gap={3}>
+            <Text>{t("page.membership.info")}</Text>
+
+            <SimpleGrid columns={{ base: 1, md: 2, xl: 4 }} gap={3}>
+              <MembershipInfoCard
+                body={t("page.membership.donation.chf_5.body")}
+                title={t("page.membership.donation.chf_5.title")}
+              />
+              <MembershipInfoCard
+                body={t("page.membership.donation.chf_10.body")}
+                title={t("page.membership.donation.chf_10.title")}
+              />
+              <MembershipInfoCard
+                body={t("page.membership.donation.chf_20.body")}
+                title={t("page.membership.donation.chf_20.title")}
+              />
+              <MembershipInfoCard
+                body={t("page.membership.donation.chf_50.body")}
+                title={t("page.membership.donation.chf_50.title")}
+              />
+            </SimpleGrid>
+
+            <Text whiteSpace="pre-line">{t("page.membership.card_info")}</Text>
+          </VStack>
+
+          <VStack align="stretch" gap={3}>
+            <Heading size="sm">{t("page.membership.payment.heading")}</Heading>
+
+            <SimpleGrid columns={{ base: 1, md: 3 }} gap={3}>
+              <MembershipInfoCard
+                body={t("page.membership.payment.bank_transfer.body")}
+                title={t("page.membership.payment.bank_transfer.title")}
+              />
+              <MembershipInfoCard
+                body={t("page.membership.payment.twint.body")}
+                title={t("page.membership.payment.twint.title")}
+              />
+              <MembershipInfoCard
+                body={t("page.membership.payment.cash.body")}
+                title={t("page.membership.payment.cash.title")}
+              />
+            </SimpleGrid>
+          </VStack>
+        </Card.Body>
+      </Card.Root>
+
+      <Card.Root bg="white" borderColor="ggt.surface.border">
         <Card.Body>
           <form onSubmit={submitMembership}>
             <VStack align="stretch" gap={4}>
-              <VStack align="stretch" gap={3}>
-                <Text>{t("page.membership.info")}</Text>
-
-                <SimpleGrid columns={{ base: 1, md: 2, xl: 4 }} gap={3}>
-                  <MembershipInfoCard
-                    body={t("page.membership.donation.chf_5.body")}
-                    title={t("page.membership.donation.chf_5.title")}
-                  />
-                  <MembershipInfoCard
-                    body={t("page.membership.donation.chf_10.body")}
-                    title={t("page.membership.donation.chf_10.title")}
-                  />
-                  <MembershipInfoCard
-                    body={t("page.membership.donation.chf_20.body")}
-                    title={t("page.membership.donation.chf_20.title")}
-                  />
-                  <MembershipInfoCard
-                    body={t("page.membership.donation.chf_50.body")}
-                    title={t("page.membership.donation.chf_50.title")}
-                  />
-                </SimpleGrid>
-
-                <Text whiteSpace="pre-line">
-                  {t("page.membership.card_info")}
-                </Text>
-              </VStack>
+              <Heading size="md">{t("page.membership.form.heading")}</Heading>
 
               <Field.Root required>
                 <Field.Label>
@@ -193,27 +216,6 @@ export default function MembershipPage() {
                   size="sm"
                 />
               </Field.Root>
-
-              <VStack align="stretch" gap={3}>
-                <Heading size="sm">
-                  {t("page.membership.payment.heading")}
-                </Heading>
-
-                <SimpleGrid columns={{ base: 1, md: 3 }} gap={3}>
-                  <MembershipInfoCard
-                    body={t("page.membership.payment.bank_transfer.body")}
-                    title={t("page.membership.payment.bank_transfer.title")}
-                  />
-                  <MembershipInfoCard
-                    body={t("page.membership.payment.twint.body")}
-                    title={t("page.membership.payment.twint.title")}
-                  />
-                  <MembershipInfoCard
-                    body={t("page.membership.payment.cash.body")}
-                    title={t("page.membership.payment.cash.title")}
-                  />
-                </SimpleGrid>
-              </VStack>
 
               <VStack gap={2}>
                 <Field.Root>
@@ -291,7 +293,7 @@ type MembershipInfoCardProps = {
 
 function MembershipInfoCard({ body, title }: MembershipInfoCardProps) {
   return (
-    <Card.Root bg="bg.panel" borderColor="ggt.surface.border">
+    <Card.Root bg="transparent" borderColor="ggt.surface.border">
       <Card.Body gap={2}>
         <Heading size="sm">{title}</Heading>
         <Text fontSize="sm" whiteSpace="pre-line">

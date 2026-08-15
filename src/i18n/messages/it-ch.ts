@@ -523,6 +523,7 @@ Per domande, richieste di accesso, correzione, rimozione dell'iscrizione o anoni
   "page.membership.form.email.placeholder": "nome@esempio.ch",
   "page.membership.form.full_name": "Nome e cognome",
   "page.membership.form.full_name.placeholder": "Mario Rossi",
+  "page.membership.form.heading": "I tuoi dati",
   "page.membership.form.home_address": "Indirizzo di casa",
   "page.membership.form.home_address.placeholder":
     "Via e numero\nNPA e località",

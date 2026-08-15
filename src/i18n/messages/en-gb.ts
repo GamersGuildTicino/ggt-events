@@ -509,6 +509,7 @@ For questions, access requests, corrections, registration removal requests, or a
   "page.membership.form.email.placeholder": "name@example.com",
   "page.membership.form.full_name": "Full name",
   "page.membership.form.full_name.placeholder": "Jane Doe",
+  "page.membership.form.heading": "Your details",
   "page.membership.form.home_address": "Home address",
   "page.membership.form.home_address.placeholder":
     "Street and number\nPostcode and city",
