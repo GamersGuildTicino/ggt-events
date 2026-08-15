@@ -1,11 +1,19 @@
 import { useCallback, useState } from "react";
 import {
+  type AdminMembershipInput,
   type Membership,
+  createAdminMembership,
   deleteMembership,
   fetchMemberships,
 } from "~/domain/memberships";
 import { useAsyncEffect } from "~/hooks/use-async-effect";
-import { type AsyncState, initial, loading } from "~/utils/async-state";
+import {
+  type AsyncState,
+  failure,
+  initial,
+  loading,
+  success,
+} from "~/utils/async-state";
 
 //------------------------------------------------------------------------------
 // Use Admin Memberships
@@ -18,6 +26,7 @@ export default function useAdminMemberships() {
   >(null);
   const [membershipsState, setMembershipsState] =
     useState<AsyncState<Membership[]>>(initial());
+  const [saveState, setSaveState] = useState<AsyncState>(initial());
 
   const loadMemberships = useCallback(async () => {
     setMembershipsState(loading());
@@ -52,10 +61,34 @@ export default function useAdminMemberships() {
     [loadMemberships],
   );
 
+  const createAdminMembershipEntry = useCallback(
+    async (membership: AdminMembershipInput) => {
+      setSaveState(loading());
+      const error = await createAdminMembership(membership);
+
+      if (error) {
+        setSaveState(failure(error));
+        return false;
+      }
+
+      setSaveState(success(undefined));
+      await loadMemberships();
+      return true;
+    },
+    [loadMemberships],
+  );
+
+  const resetSaveState = useCallback(() => {
+    setSaveState(initial());
+  }, []);
+
   return {
+    createAdminMembershipEntry,
     deleteAdminMembershipEntry,
     deleteError,
     deletingMembershipId,
     membershipsState,
+    resetSaveState,
+    saveState,
   };
 }

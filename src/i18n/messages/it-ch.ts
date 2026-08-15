@@ -348,6 +348,7 @@ const itCH = {
   "page.admin_memberships.breadcrumb.admin": "Panoramica",
   "page.admin_memberships.breadcrumb.memberships": "Tesserati",
   "page.admin_memberships.created": "Tesseramento creato.",
+  "page.admin_memberships.created_for": 'Tesseramento di "{0}" creato.',
   "page.admin_memberships.delete": "Elimina",
   "page.admin_memberships.delete.confirm":
     'Eliminare il tesseramento di "{0}"? Questa azione non può essere annullata.',

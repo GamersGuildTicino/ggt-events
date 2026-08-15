@@ -1,13 +1,25 @@
-import { Badge, Heading, Spinner, Table, Text, VStack } from "@chakra-ui/react";
-import { Trash2 } from "lucide-react";
-import { useCallback } from "react";
-import type { Membership } from "~/domain/memberships";
+import {
+  Badge,
+  Button,
+  Dialog,
+  HStack,
+  Heading,
+  Portal,
+  Spinner,
+  Table,
+  Text,
+  VStack,
+} from "@chakra-ui/react";
+import { Plus, Trash2 } from "lucide-react";
+import { useCallback, useState } from "react";
+import type { AdminMembershipInput, Membership } from "~/domain/memberships";
 import usePageTitle from "~/hooks/use-page-title";
 import useI18n from "~/i18n/use-i18n";
 import AppAlert from "~/ui/app-alert";
 import IconButton from "~/ui/icon-button";
 import { toaster } from "~/ui/toaster";
 import AdminBreadcrumb from "../../components/admin-breadcrumb";
+import AdminMembershipForm from "./admin-membership-form";
 import useAdminMemberships from "./use-admin-memberships";
 
 //------------------------------------------------------------------------------
@@ -16,14 +28,41 @@ import useAdminMemberships from "./use-admin-memberships";
 
 export default function AdminMembershipsPage() {
   const { locale, t, ti } = useI18n();
+  const [creating, setCreating] = useState(false);
   const {
+    createAdminMembershipEntry,
     deleteAdminMembershipEntry,
     deleteError,
     deletingMembershipId,
     membershipsState,
+    resetSaveState,
+    saveState,
   } = useAdminMemberships();
 
   usePageTitle(t("page.admin_memberships.heading"));
+
+  const openCreateDialog = useCallback(() => {
+    resetSaveState();
+    setCreating(true);
+  }, [resetSaveState]);
+
+  const createAdminMembership = useCallback(
+    async (membership: AdminMembershipInput) => {
+      const created = await createAdminMembershipEntry(membership);
+
+      if (!created) return;
+
+      toaster.success({
+        description: ti(
+          "page.admin_memberships.created_for",
+          membership.fullName,
+        ),
+        id: "admin-membership-created",
+      });
+      setCreating(false);
+    },
+    [createAdminMembershipEntry, ti],
+  );
 
   const confirmAdminMembershipDelete = useCallback(
     (membership: Membership) =>
@@ -59,7 +98,44 @@ export default function AdminMembershipsPage() {
         ]}
       />
 
-      <Heading size="3xl">{t("page.admin_memberships.heading")}</Heading>
+      <HStack align="center" justify="space-between">
+        <Heading size="3xl">{t("page.admin_memberships.heading")}</Heading>
+
+        <Button onClick={openCreateDialog} size="sm">
+          <Plus />
+          {t("page.admin_memberships.form.create")}
+        </Button>
+      </HStack>
+
+      <Dialog.Root
+        onOpenChange={(details) => setCreating(details.open)}
+        open={creating}
+      >
+        <Portal>
+          <Dialog.Backdrop />
+          <Dialog.Positioner>
+            <Dialog.Content>
+              <Dialog.Header>
+                <Dialog.Title>
+                  {t("page.admin_memberships.form.create_heading")}
+                </Dialog.Title>
+              </Dialog.Header>
+              <Dialog.Body>
+                <AdminMembershipForm
+                  disabled={saveState.isLoading}
+                  error={saveState.hasError ? saveState.error : ""}
+                  onCancelEdit={() => undefined}
+                  onSubmit={createAdminMembership}
+                  showHeading={false}
+                  surface="plain"
+                  withinDialog
+                />
+              </Dialog.Body>
+              <Dialog.CloseTrigger />
+            </Dialog.Content>
+          </Dialog.Positioner>
+        </Portal>
+      </Dialog.Root>
 
       {membershipsState.isLoading && <Spinner />}
 

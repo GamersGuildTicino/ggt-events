@@ -86,8 +86,14 @@ export async function createMembership({
   paymentMethod,
   phoneNumber,
 }: MembershipInput) {
+  const normalizedEmail = normalizeEmail(email);
+
+  if (!isValidMembershipEmail(normalizedEmail)) {
+    return "error.memberships.invalid_email";
+  }
+
   const { error } = await supabase.rpc("create_membership", {
-    p_email: email,
+    p_email: normalizedEmail,
     p_full_name: fullName,
     p_home_address: homeAddress,
     p_locale: locale,
@@ -119,8 +125,14 @@ export async function createMembership({
 //------------------------------------------------------------------------------
 
 export async function createAdminMembership(membership: AdminMembershipInput) {
+  const email = normalizeEmail(membership.email);
+
+  if (!isValidMembershipEmail(email)) {
+    return "error.memberships.invalid_email";
+  }
+
   const { error } = await supabase.from("memberships").insert({
-    email: normalizeEmail(membership.email),
+    email,
     full_name: membership.fullName.trim(),
     home_address: membership.homeAddress.trim(),
     newsletter_accepted: membership.newsletterAccepted,
@@ -171,10 +183,16 @@ export async function fetchMemberships(): Promise<
 export async function updateMembership(
   membership: Pick<Membership, "id"> & AdminMembershipInput,
 ) {
+  const email = normalizeEmail(membership.email);
+
+  if (!isValidMembershipEmail(email)) {
+    return "error.memberships.invalid_email";
+  }
+
   const { error } = await supabase
     .from("memberships")
     .update({
-      email: normalizeEmail(membership.email),
+      email,
       full_name: membership.fullName.trim(),
       home_address: membership.homeAddress.trim(),
       newsletter_accepted: membership.newsletterAccepted,
@@ -196,6 +214,9 @@ function membershipError(
 ) {
   if (!error) return "";
   if (error.code === "23505") return "error.memberships.email_already_used";
+  if (error.code === "23514" && error.message?.includes("email")) {
+    return "error.memberships.invalid_email";
+  }
   return fallback;
 }
 
@@ -205,6 +226,14 @@ function membershipError(
 
 function normalizeEmail(email: string) {
   return email.trim().toLowerCase();
+}
+
+//------------------------------------------------------------------------------
+// Is Valid Membership Email
+//------------------------------------------------------------------------------
+
+function isValidMembershipEmail(email: string) {
+  return /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email);
 }
 
 //------------------------------------------------------------------------------

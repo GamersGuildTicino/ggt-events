@@ -170,6 +170,7 @@ export default function MembershipPage() {
                 </Field.Label>
                 <Input
                   name="email"
+                  pattern="[^@\s]+@[^@\s]+\.[^@\s]+"
                   placeholder={t("page.membership.form.email.placeholder")}
                   size="sm"
                   type="email"

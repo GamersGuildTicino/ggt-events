@@ -337,6 +337,7 @@ const enGB = {
   "page.admin_memberships.breadcrumb.admin": "Dashboard",
   "page.admin_memberships.breadcrumb.memberships": "Memberships",
   "page.admin_memberships.created": "Membership created.",
+  "page.admin_memberships.created_for": 'Membership for "{0}" created.',
   "page.admin_memberships.delete": "Delete",
   "page.admin_memberships.delete.confirm":
     'Delete the membership for "{0}"? This cannot be undone.',
