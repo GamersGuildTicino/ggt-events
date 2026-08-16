@@ -5,8 +5,8 @@ import {
   HStack,
   Heading,
   Input,
+  SimpleGrid,
   Text,
-  Textarea,
   VStack,
 } from "@chakra-ui/react";
 import { useCallback } from "react";
@@ -68,18 +68,33 @@ export default function AdminMembershipForm({
           </Heading>
         )}
 
-        <Field.Root disabled={disabled} required>
-          <Field.Label>
-            {t("page.admin_memberships.form.full_name")}
-            <Field.RequiredIndicator />
-          </Field.Label>
-          <Input
-            defaultValue={initialValue?.fullName}
-            name="full-name"
-            pattern="\s*\S.*"
-            size="sm"
-          />
-        </Field.Root>
+        <SimpleGrid columns={{ base: 1, md: 2 }} gap={3}>
+          <Field.Root disabled={disabled} required>
+            <Field.Label>
+              {t("page.admin_memberships.form.first_name")}
+              <Field.RequiredIndicator />
+            </Field.Label>
+            <Input
+              defaultValue={initialValue?.firstName}
+              name="first-name"
+              pattern="\s*\S.*"
+              size="sm"
+            />
+          </Field.Root>
+
+          <Field.Root disabled={disabled} required>
+            <Field.Label>
+              {t("page.admin_memberships.form.last_name")}
+              <Field.RequiredIndicator />
+            </Field.Label>
+            <Input
+              defaultValue={initialValue?.lastName}
+              name="last-name"
+              pattern="\s*\S.*"
+              size="sm"
+            />
+          </Field.Root>
+        </SimpleGrid>
 
         <Field.Root disabled={disabled} required>
           <Field.Label>
@@ -109,15 +124,44 @@ export default function AdminMembershipForm({
 
         <Field.Root disabled={disabled} required>
           <Field.Label>
-            {t("page.admin_memberships.form.home_address")}
+            {t("page.admin_memberships.form.street")}
             <Field.RequiredIndicator />
           </Field.Label>
-          <Textarea
-            defaultValue={initialValue?.homeAddress}
-            name="home-address"
+          <Input
+            defaultValue={initialValue?.street}
+            name="street"
+            pattern="\s*\S.*"
             size="sm"
           />
         </Field.Root>
+
+        <SimpleGrid columns={{ base: 1, md: 2 }} gap={3}>
+          <Field.Root disabled={disabled} required>
+            <Field.Label>
+              {t("page.admin_memberships.form.postal_code")}
+              <Field.RequiredIndicator />
+            </Field.Label>
+            <Input
+              defaultValue={initialValue?.postalCode}
+              name="postal-code"
+              pattern="\s*\S.*"
+              size="sm"
+            />
+          </Field.Root>
+
+          <Field.Root disabled={disabled} required>
+            <Field.Label>
+              {t("page.admin_memberships.form.city")}
+              <Field.RequiredIndicator />
+            </Field.Label>
+            <Input
+              defaultValue={initialValue?.city}
+              name="city"
+              pattern="\s*\S.*"
+              size="sm"
+            />
+          </Field.Root>
+        </SimpleGrid>
 
         <Field.Root disabled={disabled} required>
           <Field.Label>
@@ -194,11 +238,14 @@ function adminMembershipFormValueFromForm(
   const getString = (key: string) => String(formData.get(key) ?? "").trim();
 
   return {
+    city: getString("city"),
     email: getString("email"),
-    fullName: getString("full-name"),
-    homeAddress: getString("home-address"),
+    firstName: getString("first-name"),
+    lastName: getString("last-name"),
     newsletterAccepted: formData.has("newsletter-accepted"),
     paymentMethod: getString("payment-method") as MembershipPaymentMethod,
     phoneNumber: getString("phone-number"),
+    postalCode: getString("postal-code"),
+    street: getString("street"),
   };
 }

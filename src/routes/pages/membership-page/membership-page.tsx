@@ -8,7 +8,6 @@ import {
   Link,
   SimpleGrid,
   Text,
-  Textarea,
   VStack,
 } from "@chakra-ui/react";
 import { ChevronLeft } from "lucide-react";
@@ -50,10 +49,13 @@ export default function MembershipPage() {
 
       const form = e.currentTarget;
       const formData = new FormData(form);
-      const fullName = String(formData.get("full-name") ?? "").trim();
+      const firstName = String(formData.get("first-name") ?? "").trim();
+      const lastName = String(formData.get("last-name") ?? "").trim();
       const email = String(formData.get("email") ?? "").trim();
       const phoneNumber = String(formData.get("phone-number") ?? "").trim();
-      const homeAddress = String(formData.get("home-address") ?? "").trim();
+      const street = String(formData.get("street") ?? "").trim();
+      const postalCode = String(formData.get("postal-code") ?? "").trim();
+      const city = String(formData.get("city") ?? "").trim();
       const paymentMethod = String(
         formData.get("payment-method") ?? "twint",
       ) as MembershipPaymentMethod;
@@ -62,13 +64,16 @@ export default function MembershipPage() {
       setMembershipState(loading());
 
       const error = await createMembership({
+        city,
         email,
-        fullName,
-        homeAddress,
+        firstName,
+        lastName,
         locale,
         newsletterAccepted,
         paymentMethod,
         phoneNumber,
+        postalCode,
+        street,
       });
 
       if (error) return setMembershipState(failure(error));
@@ -150,18 +155,37 @@ export default function MembershipPage() {
             <VStack align="stretch" gap={4}>
               <Heading size="md">{t("page.membership.form.heading")}</Heading>
 
-              <Field.Root required>
-                <Field.Label>
-                  {t("page.membership.form.full_name")}
-                  <Field.RequiredIndicator />
-                </Field.Label>
-                <Input
-                  name="full-name"
-                  pattern="\s*\S.*"
-                  placeholder={t("page.membership.form.full_name.placeholder")}
-                  size="sm"
-                />
-              </Field.Root>
+              <SimpleGrid columns={{ base: 1, md: 2 }} gap={3}>
+                <Field.Root required>
+                  <Field.Label>
+                    {t("page.membership.form.first_name")}
+                    <Field.RequiredIndicator />
+                  </Field.Label>
+                  <Input
+                    name="first-name"
+                    pattern="\s*\S.*"
+                    placeholder={t(
+                      "page.membership.form.first_name.placeholder",
+                    )}
+                    size="sm"
+                  />
+                </Field.Root>
+
+                <Field.Root required>
+                  <Field.Label>
+                    {t("page.membership.form.last_name")}
+                    <Field.RequiredIndicator />
+                  </Field.Label>
+                  <Input
+                    name="last-name"
+                    pattern="\s*\S.*"
+                    placeholder={t(
+                      "page.membership.form.last_name.placeholder",
+                    )}
+                    size="sm"
+                  />
+                </Field.Root>
+              </SimpleGrid>
 
               <Field.Root required>
                 <Field.Label>
@@ -193,17 +217,46 @@ export default function MembershipPage() {
 
               <Field.Root required>
                 <Field.Label>
-                  {t("page.membership.form.home_address")}
+                  {t("page.membership.form.street")}
                   <Field.RequiredIndicator />
                 </Field.Label>
-                <Textarea
-                  name="home-address"
-                  placeholder={t(
-                    "page.membership.form.home_address.placeholder",
-                  )}
+                <Input
+                  name="street"
+                  pattern="\s*\S.*"
+                  placeholder={t("page.membership.form.street.placeholder")}
                   size="sm"
                 />
               </Field.Root>
+
+              <SimpleGrid columns={{ base: 1, md: 2 }} gap={3}>
+                <Field.Root required>
+                  <Field.Label>
+                    {t("page.membership.form.postal_code")}
+                    <Field.RequiredIndicator />
+                  </Field.Label>
+                  <Input
+                    name="postal-code"
+                    pattern="\s*\S.*"
+                    placeholder={t(
+                      "page.membership.form.postal_code.placeholder",
+                    )}
+                    size="sm"
+                  />
+                </Field.Root>
+
+                <Field.Root required>
+                  <Field.Label>
+                    {t("page.membership.form.city")}
+                    <Field.RequiredIndicator />
+                  </Field.Label>
+                  <Input
+                    name="city"
+                    pattern="\s*\S.*"
+                    placeholder={t("page.membership.form.city.placeholder")}
+                    size="sm"
+                  />
+                </Field.Root>
+              </SimpleGrid>
 
               <Field.Root required>
                 <Field.Label>

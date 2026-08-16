@@ -15,60 +15,84 @@ import type { MembershipPaymentMethod } from "./enums/membership-payment-method"
 //------------------------------------------------------------------------------
 
 export const membershipSchema = z.object({
+  city: z.string(),
   createdAt: z.date(),
   email: z.string(),
+  firstName: z.string(),
   fullName: z.string(),
   homeAddress: z.string(),
   id: z.uuid(),
+  lastName: z.string(),
   newsletterAccepted: z.boolean(),
   paymentMethod: membershipPaymentMethodSchema,
   phoneNumber: z.string().nullable(),
+  postalCode: z.string(),
+  street: z.string(),
   updatedAt: z.date(),
 });
 
 export type Membership = z.infer<typeof membershipSchema>;
 
 export type MembershipInput = {
+  city: string;
   email: string;
-  fullName: string;
-  homeAddress: string;
+  firstName: string;
+  lastName: string;
   locale: Locale;
   newsletterAccepted: boolean;
   paymentMethod: MembershipPaymentMethod;
   phoneNumber: string;
+  postalCode: string;
+  street: string;
 };
 
 export type AdminMembershipInput = Omit<
-  Membership,
-  "createdAt" | "id" | "updatedAt"
->;
+  MembershipInput,
+  "locale" | "phoneNumber"
+> & {
+  phoneNumber: string | null;
+};
 
 //------------------------------------------------------------------------------
 // Membership Row
 //------------------------------------------------------------------------------
 
 export const membershipRowSchema = z.object({
+  city: z.string(),
   created_at: z.string(),
   email: z.string(),
+  first_name: z.string(),
   full_name: z.string(),
   home_address: z.string(),
   id: z.uuid(),
+  last_name: z.string(),
   newsletter_accepted: z.boolean(),
   payment_method: membershipPaymentMethodSchema,
   phone_number: z.string().nullable(),
+  postal_code: z.string(),
+  street: z.string(),
   updated_at: z.string(),
 });
 
 export const membershipFromRowSchema = membershipRowSchema.transform(
   (row): Membership => ({
+    city: row.city,
     createdAt: new Date(row.created_at),
     email: row.email,
-    fullName: row.full_name,
-    homeAddress: row.home_address,
+    firstName: row.first_name,
+    fullName: formatMembershipFullName(row.first_name, row.last_name),
+    homeAddress: formatMembershipHomeAddress(
+      row.street,
+      row.postal_code,
+      row.city,
+    ),
     id: row.id,
+    lastName: row.last_name,
     newsletterAccepted: row.newsletter_accepted,
     paymentMethod: row.payment_method,
     phoneNumber: row.phone_number,
+    postalCode: row.postal_code,
+    street: row.street,
     updatedAt: new Date(row.updated_at),
   }),
 );
@@ -78,13 +102,16 @@ export const membershipFromRowSchema = membershipRowSchema.transform(
 //------------------------------------------------------------------------------
 
 export async function createMembership({
+  city,
   email,
-  fullName,
-  homeAddress,
+  firstName,
+  lastName,
   locale,
   newsletterAccepted,
   paymentMethod,
   phoneNumber,
+  postalCode,
+  street,
 }: MembershipInput) {
   const normalizedEmail = normalizeEmail(email);
 
@@ -92,14 +119,30 @@ export async function createMembership({
     return "error.memberships.invalid_email";
   }
 
+  const validationError = validateMembershipInput({
+    city,
+    email,
+    firstName,
+    lastName,
+    newsletterAccepted,
+    paymentMethod,
+    phoneNumber,
+    postalCode,
+    street,
+  });
+  if (validationError) return validationError;
+
   const { error } = await supabase.rpc("create_membership", {
+    p_city: city,
     p_email: normalizedEmail,
-    p_full_name: fullName,
-    p_home_address: homeAddress,
+    p_first_name: firstName,
+    p_last_name: lastName,
     p_locale: locale,
     p_newsletter_accepted: newsletterAccepted,
     p_payment_method: paymentMethod,
     p_phone_number: phoneNumber,
+    p_postal_code: postalCode,
+    p_street: street,
   });
 
   if (!error) return "";
@@ -126,18 +169,35 @@ export async function createMembership({
 
 export async function createAdminMembership(membership: AdminMembershipInput) {
   const email = normalizeEmail(membership.email);
+  const fullName = formatMembershipFullName(
+    membership.firstName,
+    membership.lastName,
+  );
+  const homeAddress = formatMembershipHomeAddress(
+    membership.street,
+    membership.postalCode,
+    membership.city,
+  );
 
   if (!isValidMembershipEmail(email)) {
     return "error.memberships.invalid_email";
   }
 
+  const validationError = validateMembershipInput(membership);
+  if (validationError) return validationError;
+
   const { error } = await supabase.from("memberships").insert({
+    city: membership.city.trim(),
     email,
-    full_name: membership.fullName.trim(),
-    home_address: membership.homeAddress.trim(),
+    first_name: membership.firstName.trim(),
+    full_name: fullName,
+    home_address: homeAddress,
+    last_name: membership.lastName.trim(),
     newsletter_accepted: membership.newsletterAccepted,
     payment_method: membership.paymentMethod,
     phone_number: normalizeOptionalString(membership.phoneNumber ?? ""),
+    postal_code: membership.postalCode.trim(),
+    street: membership.street.trim(),
   });
 
   return membershipError(error, "error.memberships.create");
@@ -184,20 +244,37 @@ export async function updateMembership(
   membership: Pick<Membership, "id"> & AdminMembershipInput,
 ) {
   const email = normalizeEmail(membership.email);
+  const fullName = formatMembershipFullName(
+    membership.firstName,
+    membership.lastName,
+  );
+  const homeAddress = formatMembershipHomeAddress(
+    membership.street,
+    membership.postalCode,
+    membership.city,
+  );
 
   if (!isValidMembershipEmail(email)) {
     return "error.memberships.invalid_email";
   }
 
+  const validationError = validateMembershipInput(membership);
+  if (validationError) return validationError;
+
   const { error } = await supabase
     .from("memberships")
     .update({
+      city: membership.city.trim(),
       email,
-      full_name: membership.fullName.trim(),
-      home_address: membership.homeAddress.trim(),
+      first_name: membership.firstName.trim(),
+      full_name: fullName,
+      home_address: homeAddress,
+      last_name: membership.lastName.trim(),
       newsletter_accepted: membership.newsletterAccepted,
       payment_method: membership.paymentMethod,
       phone_number: normalizeOptionalString(membership.phoneNumber ?? ""),
+      postal_code: membership.postalCode.trim(),
+      street: membership.street.trim(),
     })
     .eq("id", membership.id);
 
@@ -226,6 +303,54 @@ function membershipError(
 
 function normalizeEmail(email: string) {
   return email.trim().toLowerCase();
+}
+
+//------------------------------------------------------------------------------
+// Validate Membership Input
+//------------------------------------------------------------------------------
+
+function validateMembershipInput(membership: AdminMembershipInput) {
+  if (!membership.firstName.trim() || !membership.lastName.trim()) {
+    return "error.memberships.invalid_name";
+  }
+
+  if (
+    !membership.street.trim() ||
+    !membership.postalCode.trim() ||
+    !membership.city.trim()
+  ) {
+    return "error.memberships.invalid_home_address";
+  }
+
+  return "";
+}
+
+//------------------------------------------------------------------------------
+// Format Membership Full Name
+//------------------------------------------------------------------------------
+
+function formatMembershipFullName(firstName: string, lastName: string) {
+  return [firstName, lastName]
+    .map((part) => part.trim())
+    .filter(Boolean)
+    .join(" ");
+}
+
+//------------------------------------------------------------------------------
+// Format Membership Home Address
+//------------------------------------------------------------------------------
+
+function formatMembershipHomeAddress(
+  street: string,
+  postalCode: string,
+  city: string,
+) {
+  return [
+    street.trim(),
+    [postalCode.trim(), city.trim()].filter(Boolean).join(" "),
+  ]
+    .filter(Boolean)
+    .join("\n");
 }
 
 //------------------------------------------------------------------------------

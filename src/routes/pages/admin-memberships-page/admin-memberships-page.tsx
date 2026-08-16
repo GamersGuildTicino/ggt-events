@@ -92,7 +92,7 @@ export default function AdminMembershipsPage() {
       toaster.success({
         description: ti(
           "page.admin_memberships.created_for",
-          membership.fullName,
+          membershipDisplayName(membership),
         ),
         id: "admin-membership-created",
       });
@@ -115,7 +115,7 @@ export default function AdminMembershipsPage() {
       toaster.success({
         description: ti(
           "page.admin_memberships.updated_for",
-          membership.fullName,
+          membershipDisplayName(membership),
         ),
         id: `admin-membership-updated-${editingMembership.id}`,
       });
@@ -416,11 +416,20 @@ function AdminMembershipsTable({
             </Table.ColumnHeader>
             <Table.ColumnHeader>
               <MembershipSortButton
-                active={sort.field === "fullName"}
+                active={sort.field === "firstName"}
                 direction={sort.direction}
-                onClick={() => toggleSort("fullName")}
+                onClick={() => toggleSort("firstName")}
               >
-                {t("page.admin_memberships.table.full_name")}
+                {t("page.admin_memberships.table.first_name")}
+              </MembershipSortButton>
+            </Table.ColumnHeader>
+            <Table.ColumnHeader>
+              <MembershipSortButton
+                active={sort.field === "lastName"}
+                direction={sort.direction}
+                onClick={() => toggleSort("lastName")}
+              >
+                {t("page.admin_memberships.table.last_name")}
               </MembershipSortButton>
             </Table.ColumnHeader>
             <Table.ColumnHeader>
@@ -430,7 +439,13 @@ function AdminMembershipsTable({
               {t("page.admin_memberships.table.phone_number")}
             </Table.ColumnHeader>
             <Table.ColumnHeader>
-              {t("page.admin_memberships.table.home_address")}
+              {t("page.admin_memberships.table.street")}
+            </Table.ColumnHeader>
+            <Table.ColumnHeader>
+              {t("page.admin_memberships.table.postal_code")}
+            </Table.ColumnHeader>
+            <Table.ColumnHeader>
+              {t("page.admin_memberships.table.city")}
             </Table.ColumnHeader>
             <Table.ColumnHeader>
               {t("page.admin_memberships.table.payment_method")}
@@ -449,12 +464,19 @@ function AdminMembershipsTable({
               <Table.Cell whiteSpace="nowrap">
                 {dateFormatter.format(membership.createdAt)}
               </Table.Cell>
-              <Table.Cell fontWeight="medium">{membership.fullName}</Table.Cell>
+              <Table.Cell fontWeight="medium">
+                {membership.firstName}
+              </Table.Cell>
+              <Table.Cell fontWeight="medium">{membership.lastName}</Table.Cell>
               <Table.Cell>{membership.email}</Table.Cell>
               <Table.Cell>{membership.phoneNumber || "-"}</Table.Cell>
-              <Table.Cell maxW="20rem" whiteSpace="pre">
-                {membership.homeAddress}
+              <Table.Cell maxW="20rem" whiteSpace="nowrap">
+                {membership.street}
               </Table.Cell>
+              <Table.Cell whiteSpace="nowrap">
+                {membership.postalCode}
+              </Table.Cell>
+              <Table.Cell whiteSpace="nowrap">{membership.city}</Table.Cell>
               <Table.Cell>
                 <Badge variant="surface">
                   {t(
@@ -499,7 +521,7 @@ function AdminMembershipsTable({
 
 type MembershipSort = {
   direction: "asc" | "desc";
-  field: "createdAt" | "fullName";
+  field: "createdAt" | "firstName" | "lastName";
 };
 
 type MembershipSortButtonProps = {
@@ -552,7 +574,11 @@ function sortMemberships(
       return (a.createdAt.getTime() - b.createdAt.getTime()) * direction;
     }
 
-    return a.fullName.localeCompare(b.fullName, locale) * direction;
+    if (sort.field === "firstName") {
+      return a.firstName.localeCompare(b.firstName, locale) * direction;
+    }
+
+    return a.lastName.localeCompare(b.lastName, locale) * direction;
   });
 }
 
@@ -567,19 +593,25 @@ function membershipsToCsv(
   const rows = [
     [
       t("page.admin_memberships.table.created_at"),
-      t("page.admin_memberships.table.full_name"),
+      t("page.admin_memberships.table.first_name"),
+      t("page.admin_memberships.table.last_name"),
       t("page.admin_memberships.table.email"),
       t("page.admin_memberships.table.phone_number"),
-      t("page.admin_memberships.table.home_address"),
+      t("page.admin_memberships.table.street"),
+      t("page.admin_memberships.table.postal_code"),
+      t("page.admin_memberships.table.city"),
       t("page.admin_memberships.table.payment_method"),
       t("page.admin_memberships.table.newsletter"),
     ],
     ...memberships.map((membership) => [
       membership.createdAt.toISOString(),
-      membership.fullName,
+      membership.firstName,
+      membership.lastName,
       membership.email,
       membership.phoneNumber ?? "",
-      membership.homeAddress,
+      membership.street,
+      membership.postalCode,
+      membership.city,
       t(`enum.membership_payment_method.${membership.paymentMethod}`),
       membership.newsletterAccepted ?
         t("page.admin_memberships.table.yes")
@@ -596,4 +628,15 @@ function membershipsToCsv(
 
 function csvCell(value: string) {
   return `"${value.replaceAll('"', '""')}"`;
+}
+
+//------------------------------------------------------------------------------
+// Membership Display Name
+//------------------------------------------------------------------------------
+
+function membershipDisplayName(membership: AdminMembershipInput) {
+  return [membership.firstName, membership.lastName]
+    .map((part) => part.trim())
+    .filter(Boolean)
+    .join(" ");
 }

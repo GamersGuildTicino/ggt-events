@@ -4,15 +4,24 @@
 
 create table public.memberships (
   id uuid primary key default gen_random_uuid(),
+  first_name text not null,
+  last_name text not null,
   full_name text not null,
   email text not null,
   phone_number text,
+  street text not null,
+  postal_code text not null,
+  city text not null,
   home_address text not null,
   payment_method public.membership_payment_method not null,
   newsletter_accepted boolean not null default false,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now(),
 
+  constraint memberships_first_name_not_blank
+    check (btrim(first_name) <> ''),
+  constraint memberships_last_name_not_blank
+    check (btrim(last_name) <> ''),
   constraint memberships_full_name_not_blank
     check (btrim(full_name) <> ''),
   constraint memberships_email_normalized
@@ -21,6 +30,12 @@ create table public.memberships (
     check (email <> ''),
   constraint memberships_email_format
     check (email ~ '^[^@\s]+@[^@\s]+\.[^@\s]+$'),
+  constraint memberships_street_not_blank
+    check (btrim(street) <> ''),
+  constraint memberships_postal_code_not_blank
+    check (btrim(postal_code) <> ''),
+  constraint memberships_city_not_blank
+    check (btrim(city) <> ''),
   constraint memberships_home_address_not_blank
     check (btrim(home_address) <> ''),
   constraint memberships_phone_number_not_blank
@@ -98,7 +113,7 @@ begin
       'locale', p_locale,
       'membership', jsonb_build_object(
         'email', p_membership.email,
-        'fullName', p_membership.full_name,
+        'fullName', concat_ws(' ', p_membership.first_name, p_membership.last_name),
         'paymentMethod', p_membership.payment_method
       ),
       'type', p_type
@@ -115,10 +130,13 @@ $$;
 --------------------------------------------------------------------------------
 
 create or replace function public.create_membership(
-  p_full_name text,
+  p_first_name text,
+  p_last_name text,
   p_email text,
   p_phone_number text,
-  p_home_address text,
+  p_street text,
+  p_postal_code text,
+  p_city text,
   p_payment_method text,
   p_newsletter_accepted boolean default false,
   p_locale text default 'en-GB'
@@ -129,23 +147,33 @@ security definer
 set search_path = public, extensions
 as $$
 declare
+  v_city text;
   v_email text;
+  v_first_name text;
   v_full_name text;
   v_home_address text;
+  v_last_name text;
   v_locale text;
   v_membership public.memberships;
   v_newsletter_accepted boolean;
   v_payment_method public.membership_payment_method;
   v_phone_number text;
+  v_postal_code text;
+  v_street text;
 begin
-  v_full_name := btrim(coalesce(p_full_name, ''));
+  v_first_name := btrim(coalesce(p_first_name, ''));
+  v_last_name := btrim(coalesce(p_last_name, ''));
   v_email := lower(btrim(coalesce(p_email, '')));
   v_phone_number := nullif(btrim(coalesce(p_phone_number, '')), '');
-  v_home_address := btrim(coalesce(p_home_address, ''));
+  v_street := btrim(coalesce(p_street, ''));
+  v_postal_code := btrim(coalesce(p_postal_code, ''));
+  v_city := btrim(coalesce(p_city, ''));
   v_newsletter_accepted := coalesce(p_newsletter_accepted, false);
   v_locale := coalesce(p_locale, 'en-GB');
+  v_full_name := concat_ws(' ', v_first_name, v_last_name);
+  v_home_address := concat_ws(E'\n', v_street, concat_ws(' ', v_postal_code, v_city));
 
-  if v_full_name = '' then
+  if v_first_name = '' or v_last_name = '' then
     raise exception using message = 'invalid_name';
   end if;
 
@@ -153,7 +181,7 @@ begin
     raise exception using message = 'invalid_email';
   end if;
 
-  if v_home_address = '' then
+  if v_street = '' or v_postal_code = '' or v_city = '' then
     raise exception using message = 'invalid_home_address';
   end if;
 
@@ -178,17 +206,27 @@ begin
   end if;
 
   insert into public.memberships (
+    first_name,
+    last_name,
     full_name,
     email,
     phone_number,
+    street,
+    postal_code,
+    city,
     home_address,
     payment_method,
     newsletter_accepted
   )
   values (
+    v_first_name,
+    v_last_name,
     v_full_name,
     v_email,
     v_phone_number,
+    v_street,
+    v_postal_code,
+    v_city,
     v_home_address,
     v_payment_method,
     v_newsletter_accepted
@@ -209,8 +247,8 @@ exception
 end;
 $$;
 
-grant execute on function public.create_membership(text, text, text, text, text, boolean, text) to anon;
-grant execute on function public.create_membership(text, text, text, text, text, boolean, text) to authenticated;
+grant execute on function public.create_membership(text, text, text, text, text, text, text, text, boolean, text) to anon;
+grant execute on function public.create_membership(text, text, text, text, text, text, text, text, boolean, text) to authenticated;
 
 --------------------------------------------------------------------------------
 -- RLS Policies
