@@ -1,7 +1,7 @@
 import {
-  Badge,
   Button,
   Dialog,
+  Drawer,
   HStack,
   Heading,
   Menu as ChakraMenu,
@@ -19,6 +19,7 @@ import {
   Pencil,
   Plus,
   Trash2,
+  X,
 } from "lucide-react";
 import { type ReactNode, useCallback, useMemo, useState } from "react";
 import type { AdminMembershipInput, Membership } from "~/domain/memberships";
@@ -377,6 +378,8 @@ function AdminMembershipsTable({
   onEdit,
 }: AdminMembershipsTableProps) {
   const { t } = useI18n();
+  const [selectedMembership, setSelectedMembership] =
+    useState<Membership | null>(null);
   const [sort, setSort] = useState<MembershipSort>({
     direction: "desc",
     field: "createdAt",
@@ -400,118 +403,211 @@ function AdminMembershipsTable({
     }));
   }, []);
 
+  const closeMembershipDetails = useCallback(() => {
+    setSelectedMembership(null);
+  }, []);
+
   return (
-    <Table.ScrollArea>
-      <Table.Root size="sm">
-        <Table.Header>
-          <Table.Row>
-            <Table.ColumnHeader>
-              <MembershipSortButton
-                active={sort.field === "createdAt"}
-                direction={sort.direction}
-                onClick={() => toggleSort("createdAt")}
-              >
-                {t("page.admin_memberships.table.created_at")}
-              </MembershipSortButton>
-            </Table.ColumnHeader>
-            <Table.ColumnHeader>
-              <MembershipSortButton
-                active={sort.field === "firstName"}
-                direction={sort.direction}
-                onClick={() => toggleSort("firstName")}
-              >
-                {t("page.admin_memberships.table.first_name")}
-              </MembershipSortButton>
-            </Table.ColumnHeader>
-            <Table.ColumnHeader>
-              <MembershipSortButton
-                active={sort.field === "lastName"}
-                direction={sort.direction}
-                onClick={() => toggleSort("lastName")}
-              >
-                {t("page.admin_memberships.table.last_name")}
-              </MembershipSortButton>
-            </Table.ColumnHeader>
-            <Table.ColumnHeader>
-              {t("page.admin_memberships.table.email")}
-            </Table.ColumnHeader>
-            <Table.ColumnHeader>
-              {t("page.admin_memberships.table.phone_number")}
-            </Table.ColumnHeader>
-            <Table.ColumnHeader>
-              {t("page.admin_memberships.table.street")}
-            </Table.ColumnHeader>
-            <Table.ColumnHeader>
-              {t("page.admin_memberships.table.postal_code")}
-            </Table.ColumnHeader>
-            <Table.ColumnHeader>
-              {t("page.admin_memberships.table.city")}
-            </Table.ColumnHeader>
-            <Table.ColumnHeader>
-              {t("page.admin_memberships.table.payment_method")}
-            </Table.ColumnHeader>
-            <Table.ColumnHeader>
-              {t("page.admin_memberships.table.newsletter")}
-            </Table.ColumnHeader>
-            <Table.ColumnHeader textAlign="end">
-              {t("page.admin_memberships.table.actions")}
-            </Table.ColumnHeader>
-          </Table.Row>
-        </Table.Header>
-        <Table.Body>
-          {sortedMemberships.map((membership) => (
-            <Table.Row key={membership.id}>
-              <Table.Cell whiteSpace="nowrap">
-                {dateFormatter.format(membership.createdAt)}
-              </Table.Cell>
-              <Table.Cell fontWeight="medium">
-                {membership.firstName}
-              </Table.Cell>
-              <Table.Cell fontWeight="medium">{membership.lastName}</Table.Cell>
-              <Table.Cell>{membership.email}</Table.Cell>
-              <Table.Cell>{membership.phoneNumber || "-"}</Table.Cell>
-              <Table.Cell maxW="20rem" whiteSpace="nowrap">
-                {membership.street}
-              </Table.Cell>
-              <Table.Cell whiteSpace="nowrap">
-                {membership.postalCode}
-              </Table.Cell>
-              <Table.Cell whiteSpace="nowrap">{membership.city}</Table.Cell>
-              <Table.Cell>
-                <Badge variant="surface">
-                  {t(
-                    `enum.membership_payment_method.${membership.paymentMethod}`,
-                  )}
-                </Badge>
-              </Table.Cell>
-              <Table.Cell>
-                {membership.newsletterAccepted ?
-                  t("page.admin_memberships.table.yes")
-                : t("page.admin_memberships.table.no")}
-              </Table.Cell>
-              <Table.Cell textAlign="end">
-                <IconButton
-                  Icon={Pencil}
-                  aria-label={t("page.admin_memberships.edit")}
-                  onClick={() => onEdit(membership)}
-                  size="xs"
-                  variant="ghost"
-                />
-                <IconButton
-                  Icon={Trash2}
-                  aria-label={t("page.admin_memberships.delete")}
-                  colorPalette="red"
-                  loading={deletingMembershipId === membership.id}
-                  onClick={() => onDelete(membership)}
-                  size="xs"
-                  variant="ghost"
-                />
-              </Table.Cell>
+    <>
+      <Table.ScrollArea>
+        <Table.Root size="sm">
+          <Table.Header>
+            <Table.Row>
+              <Table.ColumnHeader>
+                <MembershipSortButton
+                  active={sort.field === "createdAt"}
+                  direction={sort.direction}
+                  onClick={() => toggleSort("createdAt")}
+                >
+                  {t("page.admin_memberships.table.created_at")}
+                </MembershipSortButton>
+              </Table.ColumnHeader>
+              <Table.ColumnHeader>
+                <MembershipSortButton
+                  active={sort.field === "firstName"}
+                  direction={sort.direction}
+                  onClick={() => toggleSort("firstName")}
+                >
+                  {t("page.admin_memberships.table.first_name")}
+                </MembershipSortButton>
+              </Table.ColumnHeader>
+              <Table.ColumnHeader>
+                <MembershipSortButton
+                  active={sort.field === "lastName"}
+                  direction={sort.direction}
+                  onClick={() => toggleSort("lastName")}
+                >
+                  {t("page.admin_memberships.table.last_name")}
+                </MembershipSortButton>
+              </Table.ColumnHeader>
+              <Table.ColumnHeader>
+                {t("page.admin_memberships.table.email")}
+              </Table.ColumnHeader>
+              <Table.ColumnHeader>
+                {t("page.admin_memberships.table.newsletter")}
+              </Table.ColumnHeader>
+              <Table.ColumnHeader textAlign="end">
+                {t("page.admin_memberships.table.actions")}
+              </Table.ColumnHeader>
             </Table.Row>
-          ))}
-        </Table.Body>
-      </Table.Root>
-    </Table.ScrollArea>
+          </Table.Header>
+          <Table.Body>
+            {sortedMemberships.map((membership) => (
+              <Table.Row
+                cursor="pointer"
+                key={membership.id}
+                onClick={() => setSelectedMembership(membership)}
+              >
+                <Table.Cell whiteSpace="nowrap">
+                  {dateFormatter.format(membership.createdAt)}
+                </Table.Cell>
+                <Table.Cell fontWeight="medium">
+                  {membership.firstName}
+                </Table.Cell>
+                <Table.Cell fontWeight="medium">
+                  {membership.lastName}
+                </Table.Cell>
+                <Table.Cell>{membership.email}</Table.Cell>
+                <Table.Cell>
+                  {membership.newsletterAccepted ?
+                    t("page.admin_memberships.table.yes")
+                  : t("page.admin_memberships.table.no")}
+                </Table.Cell>
+                <Table.Cell
+                  onClick={(e) => e.stopPropagation()}
+                  textAlign="end"
+                >
+                  <IconButton
+                    Icon={Pencil}
+                    aria-label={t("page.admin_memberships.edit")}
+                    onClick={() => onEdit(membership)}
+                    size="xs"
+                    variant="ghost"
+                  />
+                  <IconButton
+                    Icon={Trash2}
+                    aria-label={t("page.admin_memberships.delete")}
+                    colorPalette="red"
+                    loading={deletingMembershipId === membership.id}
+                    onClick={() => onDelete(membership)}
+                    size="xs"
+                    variant="ghost"
+                  />
+                </Table.Cell>
+              </Table.Row>
+            ))}
+          </Table.Body>
+        </Table.Root>
+      </Table.ScrollArea>
+
+      <Drawer.Root
+        onOpenChange={(details) => {
+          if (!details.open) closeMembershipDetails();
+        }}
+        open={Boolean(selectedMembership)}
+        size="sm"
+      >
+        <Portal>
+          <Drawer.Backdrop />
+          <Drawer.Positioner>
+            <Drawer.Content>
+              <Drawer.Header>
+                <HStack justify="space-between" w="full">
+                  <Drawer.Title>
+                    {selectedMembership?.fullName ??
+                      t("page.admin_memberships.details")}
+                  </Drawer.Title>
+                  <Drawer.CloseTrigger asChild>
+                    <IconButton
+                      Icon={X}
+                      aria-label={t("page.admin_memberships.details.close")}
+                      size="sm"
+                      variant="ghost"
+                    />
+                  </Drawer.CloseTrigger>
+                </HStack>
+              </Drawer.Header>
+              <Drawer.Body>
+                {selectedMembership && (
+                  <VStack align="stretch" gap={5}>
+                    <VStack align="stretch" gap={3}>
+                      <MembershipDetail
+                        label={t("page.admin_memberships.table.email")}
+                        value={selectedMembership.email}
+                      />
+                      <MembershipDetail
+                        label={t("page.admin_memberships.table.phone_number")}
+                        value={selectedMembership.phoneNumber || "-"}
+                      />
+                    </VStack>
+
+                    <VStack align="stretch" gap={3}>
+                      <MembershipDetail
+                        label={t("page.admin_memberships.table.street")}
+                        value={selectedMembership.street}
+                      />
+                      <HStack align="flex-start" gap={6}>
+                        <MembershipDetail
+                          label={t("page.admin_memberships.table.postal_code")}
+                          value={selectedMembership.postalCode}
+                        />
+                        <MembershipDetail
+                          label={t("page.admin_memberships.table.city")}
+                          value={selectedMembership.city}
+                        />
+                      </HStack>
+                    </VStack>
+
+                    <VStack align="stretch" gap={3}>
+                      <MembershipDetail
+                        label={t("page.admin_memberships.table.payment_method")}
+                        value={t(
+                          `enum.membership_payment_method.${selectedMembership.paymentMethod}`,
+                        )}
+                      />
+                      <MembershipDetail
+                        label={t("page.admin_memberships.table.newsletter")}
+                        value={
+                          selectedMembership.newsletterAccepted ?
+                            t("page.admin_memberships.table.yes")
+                          : t("page.admin_memberships.table.no")
+                        }
+                      />
+                      <MembershipDetail
+                        label={t("page.admin_memberships.table.created_at")}
+                        value={dateFormatter.format(
+                          selectedMembership.createdAt,
+                        )}
+                      />
+                    </VStack>
+                  </VStack>
+                )}
+              </Drawer.Body>
+            </Drawer.Content>
+          </Drawer.Positioner>
+        </Portal>
+      </Drawer.Root>
+    </>
+  );
+}
+
+//------------------------------------------------------------------------------
+// Membership Detail
+//------------------------------------------------------------------------------
+
+type MembershipDetailProps = {
+  label: string;
+  value: string;
+};
+
+function MembershipDetail({ label, value }: MembershipDetailProps) {
+  return (
+    <VStack align="flex-start" gap={1} minW="12rem">
+      <Text fontSize="xs" fontWeight="medium">
+        {label}
+      </Text>
+      <Text whiteSpace="pre-wrap">{value}</Text>
+    </VStack>
   );
 }
 

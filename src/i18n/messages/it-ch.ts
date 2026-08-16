@@ -363,6 +363,7 @@ const itCH = {
   "page.admin_memberships.delete.confirm":
     'Eliminare il tesseramento di "{0}"? Questa azione non può essere annullata.',
   "page.admin_memberships.deleted": 'Tesseramento di "{0}" eliminato.',
+  "page.admin_memberships.details.close": "Chiudi dettagli tesserato",
   "page.admin_memberships.edit": "Modifica",
   "page.admin_memberships.empty": "Nessun tesserato.",
   "page.admin_memberships.form.cancel": "Annulla",
@@ -386,6 +387,7 @@ const itCH = {
   "page.admin_memberships.table.created_at": "Iscrizione",
   "page.admin_memberships.table.email": "Email",
   "page.admin_memberships.table.first_name": "Nome",
+  "page.admin_memberships.table.home_address": "Indirizzo",
   "page.admin_memberships.table.last_name": "Cognome",
   "page.admin_memberships.table.newsletter": "Newsletter",
   "page.admin_memberships.table.no": "No",

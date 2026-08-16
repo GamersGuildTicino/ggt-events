@@ -352,6 +352,7 @@ const enGB = {
   "page.admin_memberships.delete.confirm":
     'Delete the membership for "{0}"? This cannot be undone.',
   "page.admin_memberships.deleted": 'Membership for "{0}" deleted.',
+  "page.admin_memberships.details.close": "Close membership details",
   "page.admin_memberships.edit": "Edit",
   "page.admin_memberships.empty": "No memberships yet.",
   "page.admin_memberships.form.cancel": "Cancel",
@@ -375,6 +376,7 @@ const enGB = {
   "page.admin_memberships.table.created_at": "Joined",
   "page.admin_memberships.table.email": "Email",
   "page.admin_memberships.table.first_name": "First name",
+  "page.admin_memberships.table.home_address": "Home address",
   "page.admin_memberships.table.last_name": "Last name",
   "page.admin_memberships.table.newsletter": "Newsletter",
   "page.admin_memberships.table.no": "No",
