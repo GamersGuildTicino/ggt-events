@@ -11,8 +11,16 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
-import { EllipsisVertical, Pencil, Plus, Trash2 } from "lucide-react";
-import { useCallback, useMemo, useState } from "react";
+import {
+  ArrowDown,
+  ArrowUp,
+  ChevronsUpDown,
+  EllipsisVertical,
+  Pencil,
+  Plus,
+  Trash2,
+} from "lucide-react";
+import { type ReactNode, useCallback, useMemo, useState } from "react";
 import type { AdminMembershipInput, Membership } from "~/domain/memberships";
 import usePageTitle from "~/hooks/use-page-title";
 import useI18n from "~/i18n/use-i18n";
@@ -369,10 +377,28 @@ function AdminMembershipsTable({
   onEdit,
 }: AdminMembershipsTableProps) {
   const { t } = useI18n();
+  const [sort, setSort] = useState<MembershipSort>({
+    direction: "desc",
+    field: "createdAt",
+  });
   const dateFormatter = new Intl.DateTimeFormat(locale, {
     dateStyle: "medium",
     timeStyle: "short",
   });
+  const sortedMemberships = useMemo(
+    () => sortMemberships(memberships, sort, locale),
+    [locale, memberships, sort],
+  );
+
+  const toggleSort = useCallback((field: MembershipSort["field"]) => {
+    setSort((currentSort) => ({
+      direction:
+        currentSort.field === field && currentSort.direction === "asc" ?
+          "desc"
+        : "asc",
+      field,
+    }));
+  }, []);
 
   return (
     <Table.ScrollArea>
@@ -380,10 +406,22 @@ function AdminMembershipsTable({
         <Table.Header>
           <Table.Row>
             <Table.ColumnHeader>
-              {t("page.admin_memberships.table.created_at")}
+              <MembershipSortButton
+                active={sort.field === "createdAt"}
+                direction={sort.direction}
+                onClick={() => toggleSort("createdAt")}
+              >
+                {t("page.admin_memberships.table.created_at")}
+              </MembershipSortButton>
             </Table.ColumnHeader>
             <Table.ColumnHeader>
-              {t("page.admin_memberships.table.full_name")}
+              <MembershipSortButton
+                active={sort.field === "fullName"}
+                direction={sort.direction}
+                onClick={() => toggleSort("fullName")}
+              >
+                {t("page.admin_memberships.table.full_name")}
+              </MembershipSortButton>
             </Table.ColumnHeader>
             <Table.ColumnHeader>
               {t("page.admin_memberships.table.email")}
@@ -406,7 +444,7 @@ function AdminMembershipsTable({
           </Table.Row>
         </Table.Header>
         <Table.Body>
-          {memberships.map((membership) => (
+          {sortedMemberships.map((membership) => (
             <Table.Row key={membership.id}>
               <Table.Cell whiteSpace="nowrap">
                 {dateFormatter.format(membership.createdAt)}
@@ -453,6 +491,69 @@ function AdminMembershipsTable({
       </Table.Root>
     </Table.ScrollArea>
   );
+}
+
+//------------------------------------------------------------------------------
+// Membership Sort Button
+//------------------------------------------------------------------------------
+
+type MembershipSort = {
+  direction: "asc" | "desc";
+  field: "createdAt" | "fullName";
+};
+
+type MembershipSortButtonProps = {
+  active: boolean;
+  children: ReactNode;
+  direction: MembershipSort["direction"];
+  onClick: () => void;
+};
+
+function MembershipSortButton({
+  active,
+  children,
+  direction,
+  onClick,
+}: MembershipSortButtonProps) {
+  const Icon =
+    !active ? ChevronsUpDown
+    : direction === "asc" ? ArrowUp
+    : ArrowDown;
+
+  return (
+    <Button
+      fontWeight="inherit"
+      justifyContent="space-between"
+      onClick={onClick}
+      px={0}
+      size="xs"
+      variant="ghost"
+      w="full"
+    >
+      {children}
+      <Icon />
+    </Button>
+  );
+}
+
+//------------------------------------------------------------------------------
+// Sort Memberships
+//------------------------------------------------------------------------------
+
+function sortMemberships(
+  memberships: Membership[],
+  sort: MembershipSort,
+  locale: string,
+) {
+  const direction = sort.direction === "asc" ? 1 : -1;
+
+  return [...memberships].sort((a, b) => {
+    if (sort.field === "createdAt") {
+      return (a.createdAt.getTime() - b.createdAt.getTime()) * direction;
+    }
+
+    return a.fullName.localeCompare(b.fullName, locale) * direction;
+  });
 }
 
 //------------------------------------------------------------------------------
