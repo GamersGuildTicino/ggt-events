@@ -150,6 +150,8 @@ MAILJET_FROM_EMAIL=...
 MAILJET_FROM_NAME=...
 MAILJET_REPLY_TO_EMAIL=...
 MAILJET_REPLY_TO_NAME=...
+MAILJET_TEMPLATE_ID_MEMBERSHIP_CONFIRMED_EN_GB=...
+MAILJET_TEMPLATE_ID_MEMBERSHIP_CONFIRMED_IT_CH=...
 MAILJET_TEMPLATE_ID_REGISTRATION_CONFIRMED_EN_GB=...
 MAILJET_TEMPLATE_ID_REGISTRATION_CONFIRMED_IT_CH=...
 MAILJET_TEMPLATE_ID_REGISTRATION_REMOVED_EN_GB=...
@@ -163,6 +165,8 @@ TRANSACTIONAL_EMAIL_SECRET=...
 - `MAILJET_FROM_NAME`: sender display name
 - `MAILJET_REPLY_TO_EMAIL`: reply-to mailbox shown to recipients
 - `MAILJET_REPLY_TO_NAME`: reply-to display name
+- `MAILJET_TEMPLATE_ID_MEMBERSHIP_CONFIRMED_EN_GB`: Mailjet template id for English membership confirmations
+- `MAILJET_TEMPLATE_ID_MEMBERSHIP_CONFIRMED_IT_CH`: Mailjet template id for Italian membership confirmations
 - `MAILJET_TEMPLATE_ID_REGISTRATION_CONFIRMED_EN_GB`: Mailjet template id for English registration confirmations
 - `MAILJET_TEMPLATE_ID_REGISTRATION_CONFIRMED_IT_CH`: Mailjet template id for Italian registration confirmations
 - `MAILJET_TEMPLATE_ID_REGISTRATION_REMOVED_EN_GB`: Mailjet template id for English registration removals
@@ -171,8 +175,10 @@ TRANSACTIONAL_EMAIL_SECRET=...
 
 `TRANSACTIONAL_EMAIL_SECRET` is not related to Mailjet credentials.
 
-Mailjet transactional templates are selected by email type and locale. The Edge Function currently expects four templates:
+Mailjet transactional templates are selected by email type and locale. The Edge Function currently expects six templates:
 
+- `membership-confirmed` / `en-GB`
+- `membership-confirmed` / `it-CH`
 - `registration-confirmed` / `en-GB`
 - `registration-confirmed` / `it-CH`
 - `registration-removed` / `en-GB`
@@ -180,11 +186,19 @@ Mailjet transactional templates are selected by email type and locale. The Edge 
 
 The function passes these template variables:
 
+- `city`
 - `cancellationUrl`
+- `email`
 - `eventTitle`
+- `firstName`
+- `fullName`
 - `gameMasterName`
+- `lastName`
 - `location`
+- `paymentMethod`
 - `playerName`
+- `postalCode`
+- `street`
 - `tableTitle`
 - `timeSlot`
 

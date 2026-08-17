@@ -112,9 +112,14 @@ begin
     body := jsonb_build_object(
       'locale', p_locale,
       'membership', jsonb_build_object(
+        'city', p_membership.city,
         'email', p_membership.email,
+        'firstName', p_membership.first_name,
         'fullName', concat_ws(' ', p_membership.first_name, p_membership.last_name),
-        'paymentMethod', p_membership.payment_method
+        'lastName', p_membership.last_name,
+        'paymentMethod', p_membership.payment_method,
+        'postalCode', p_membership.postal_code,
+        'street', p_membership.street
       ),
       'type', p_type
     )

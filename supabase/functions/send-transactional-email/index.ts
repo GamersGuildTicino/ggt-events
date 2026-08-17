@@ -16,6 +16,7 @@ const EVENT_TIME_ZONE = "Europe/Zurich";
 //------------------------------------------------------------------------------
 
 type EmailType =
+  | "membership-confirmed"
   | "registration-confirmed"
   | "registration-confirmed-correction"
   | "registration-removed"
@@ -26,22 +27,32 @@ type EmailType =
 //------------------------------------------------------------------------------
 
 type Payload = {
-  event: {
+  event?: {
     locationAddress: string;
     locationName: string;
     title: string;
   };
   locale: Locale;
-  registration: {
+  membership?: {
+    city: string;
+    email: string;
+    firstName: string;
+    fullName: string;
+    lastName: string;
+    paymentMethod: "twint" | "bank_transfer" | "cash";
+    postalCode: string;
+    street: string;
+  };
+  registration?: {
     cancellationUrl?: string;
     email: string;
     playerName: string;
   };
-  table: {
+  table?: {
     gameMasterName: string;
     title: string;
   };
-  timeSlot: {
+  timeSlot?: {
     endsAt: string;
     startsAt: string;
   };
@@ -60,6 +71,12 @@ const MAILJET_REPLY_TO_EMAIL =
 const MAILJET_REPLY_TO_NAME =
   Deno.env.get("MAILJET_REPLY_TO_NAME") ?? MAILJET_FROM_NAME;
 const MAILJET_SECRET_KEY = Deno.env.get("MAILJET_SECRET_KEY") ?? "";
+const MAILJET_TEMPLATE_ID_MEMBERSHIP_CONFIRMED_EN_GB = Number(
+  Deno.env.get("MAILJET_TEMPLATE_ID_MEMBERSHIP_CONFIRMED_EN_GB"),
+);
+const MAILJET_TEMPLATE_ID_MEMBERSHIP_CONFIRMED_IT_CH = Number(
+  Deno.env.get("MAILJET_TEMPLATE_ID_MEMBERSHIP_CONFIRMED_IT_CH"),
+);
 const MAILJET_TEMPLATE_ID_REGISTRATION_CONFIRMED_EN_GB = Number(
   Deno.env.get("MAILJET_TEMPLATE_ID_REGISTRATION_CONFIRMED_EN_GB"),
 );
@@ -132,6 +149,7 @@ Deno.serve(async (request) => {
 
 function mailjetMessage(payload: Payload) {
   switch (payload.type) {
+    case "membership-confirmed":
     case "registration-confirmed":
     case "registration-confirmed-correction":
     case "registration-removed":
@@ -146,6 +164,10 @@ function mailjetMessage(payload: Payload) {
 //------------------------------------------------------------------------------
 
 function templateMessage(payload: Payload) {
+  if (!hasTemplatePayload(payload)) {
+    return null;
+  }
+
   const templateId = mailjetTemplateId(payload.type, payload.locale);
 
   if (!templateId) {
@@ -165,8 +187,8 @@ function templateMessage(payload: Payload) {
     TemplateLanguage: true,
     To: [
       {
-        Email: payload.registration.email,
-        Name: payload.registration.playerName,
+        Email: templateRecipientEmail(payload),
+        Name: templateRecipientName(payload),
       },
     ],
     Variables: templateVariables(payload),
@@ -178,6 +200,15 @@ function templateMessage(payload: Payload) {
 //------------------------------------------------------------------------------
 
 function registrationRemovedAdminNotificationMessage(payload: Payload) {
+  if (
+    !payload.registration ||
+    !payload.event ||
+    !payload.table ||
+    !payload.timeSlot
+  ) {
+    return null;
+  }
+
   const timeSlot = formatTimeSlot(payload.locale, payload.timeSlot);
   const location = formatLocation(payload.event);
 
@@ -205,6 +236,10 @@ function registrationRemovedAdminNotificationMessage(payload: Payload) {
 
 function mailjetTemplateId(type: EmailType, locale: Locale) {
   switch (type) {
+    case "membership-confirmed":
+      return locale === "en-GB" ?
+          MAILJET_TEMPLATE_ID_MEMBERSHIP_CONFIRMED_EN_GB
+        : MAILJET_TEMPLATE_ID_MEMBERSHIP_CONFIRMED_IT_CH;
     case "registration-confirmed":
       return locale === "en-GB" ?
           MAILJET_TEMPLATE_ID_REGISTRATION_CONFIRMED_EN_GB
@@ -222,7 +257,7 @@ function mailjetTemplateId(type: EmailType, locale: Locale) {
 // Format Location
 //------------------------------------------------------------------------------
 
-function formatLocation(event: Payload["event"]) {
+function formatLocation(event: NonNullable<Payload["event"]>) {
   return [event.locationName, event.locationAddress].filter(Boolean).join(", ");
 }
 
@@ -231,6 +266,8 @@ function formatLocation(event: Payload["event"]) {
 //------------------------------------------------------------------------------
 
 function formatTimeSlot(locale: Locale, timeSlot: Payload["timeSlot"]) {
+  if (!timeSlot) return "";
+
   const startsAt = new Date(timeSlot.startsAt);
   const endsAt = new Date(timeSlot.endsAt);
 
@@ -248,6 +285,24 @@ function formatTimeSlot(locale: Locale, timeSlot: Payload["timeSlot"]) {
 }
 
 //------------------------------------------------------------------------------
+// Format Payment Method
+//------------------------------------------------------------------------------
+
+function formatPaymentMethod(
+  locale: Locale,
+  paymentMethod: NonNullable<Payload["membership"]>["paymentMethod"],
+) {
+  switch (paymentMethod) {
+    case "twint":
+      return "TWINT";
+    case "bank_transfer":
+      return locale === "en-GB" ? "bank transfer" : "versamento bancario";
+    case "cash":
+      return locale === "en-GB" ? "cash" : "contante";
+  }
+}
+
+//------------------------------------------------------------------------------
 // Basic Authorization
 //------------------------------------------------------------------------------
 
@@ -256,10 +311,75 @@ function basicAuthorization(username: string, password: string) {
 }
 
 //------------------------------------------------------------------------------
+// Has Template Payload
+//------------------------------------------------------------------------------
+
+function hasTemplatePayload(payload: Payload) {
+  if (payload.type === "membership-confirmed") {
+    return Boolean(payload.membership);
+  }
+
+  return Boolean(
+    payload.registration && payload.event && payload.table && payload.timeSlot,
+  );
+}
+
+//------------------------------------------------------------------------------
+// Template Recipient Email
+//------------------------------------------------------------------------------
+
+function templateRecipientEmail(payload: Payload) {
+  if (payload.type === "membership-confirmed") {
+    return payload.membership?.email ?? "";
+  }
+
+  return payload.registration?.email ?? "";
+}
+
+//------------------------------------------------------------------------------
+// Template Recipient Name
+//------------------------------------------------------------------------------
+
+function templateRecipientName(payload: Payload) {
+  if (payload.type === "membership-confirmed") {
+    return payload.membership?.fullName ?? "";
+  }
+
+  return payload.registration?.playerName ?? "";
+}
+
+//------------------------------------------------------------------------------
 // Template Variables
 //------------------------------------------------------------------------------
 
 function templateVariables(payload: Payload) {
+  if (payload.type === "membership-confirmed") {
+    if (!payload.membership) return {};
+
+    return {
+      city: payload.membership.city,
+      email: payload.membership.email,
+      firstName: payload.membership.firstName,
+      fullName: payload.membership.fullName,
+      lastName: payload.membership.lastName,
+      paymentMethod: formatPaymentMethod(
+        payload.locale,
+        payload.membership.paymentMethod,
+      ),
+      postalCode: payload.membership.postalCode,
+      street: payload.membership.street,
+    };
+  }
+
+  if (
+    !payload.registration ||
+    !payload.event ||
+    !payload.table ||
+    !payload.timeSlot
+  ) {
+    return {};
+  }
+
   return {
     cancellationUrl: payload.registration.cancellationUrl ?? "",
     eventTitle: payload.event.title,
