@@ -65,8 +65,6 @@ export const membershipRowSchema = z.object({
   created_at: z.string(),
   email: z.string(),
   first_name: z.string(),
-  full_name: z.string(),
-  home_address: z.string(),
   id: z.uuid(),
   last_name: z.string(),
   newsletter_accepted: z.boolean(),
@@ -216,16 +214,6 @@ export async function createAdminMembership(
   membership: AdminMembershipCreateInput,
 ) {
   const email = normalizeEmail(membership.email);
-  const fullName = formatMembershipFullName(
-    membership.firstName,
-    membership.lastName,
-  );
-  const homeAddress = formatMembershipHomeAddress(
-    membership.street,
-    membership.postalCode,
-    membership.city,
-  );
-
   if (!isValidMembershipEmail(email)) {
     return "error.memberships.invalid_email";
   }
@@ -245,8 +233,6 @@ export async function createAdminMembership(
       city: membership.city.trim(),
       email,
       first_name: membership.firstName.trim(),
-      full_name: fullName,
-      home_address: homeAddress,
       last_name: membership.lastName.trim(),
       newsletter_accepted: membership.newsletterAccepted,
       phone_number: normalizeOptionalString(membership.phoneNumber ?? ""),
@@ -356,16 +342,6 @@ export async function updateMembership(
   membership: Pick<Membership, "id"> & AdminMembershipInput,
 ) {
   const email = normalizeEmail(membership.email);
-  const fullName = formatMembershipFullName(
-    membership.firstName,
-    membership.lastName,
-  );
-  const homeAddress = formatMembershipHomeAddress(
-    membership.street,
-    membership.postalCode,
-    membership.city,
-  );
-
   if (!isValidMembershipEmail(email)) {
     return "error.memberships.invalid_email";
   }
@@ -379,8 +355,6 @@ export async function updateMembership(
       city: membership.city.trim(),
       email,
       first_name: membership.firstName.trim(),
-      full_name: fullName,
-      home_address: homeAddress,
       last_name: membership.lastName.trim(),
       newsletter_accepted: membership.newsletterAccepted,
       phone_number: normalizeOptionalString(membership.phoneNumber ?? ""),

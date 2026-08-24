@@ -6,13 +6,11 @@ create table public.memberships (
   id uuid primary key default gen_random_uuid(),
   first_name text not null,
   last_name text not null,
-  full_name text not null,
   email text not null,
   phone_number text,
   street text not null,
   postal_code text not null,
   city text not null,
-  home_address text not null,
   newsletter_accepted boolean not null default false,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now(),
@@ -21,8 +19,6 @@ create table public.memberships (
     check (btrim(first_name) <> ''),
   constraint memberships_last_name_not_blank
     check (btrim(last_name) <> ''),
-  constraint memberships_full_name_not_blank
-    check (btrim(full_name) <> ''),
   constraint memberships_email_normalized
     check (email = lower(btrim(email))),
   constraint memberships_email_not_blank
@@ -35,8 +31,6 @@ create table public.memberships (
     check (btrim(postal_code) <> ''),
   constraint memberships_city_not_blank
     check (btrim(city) <> ''),
-  constraint memberships_home_address_not_blank
-    check (btrim(home_address) <> ''),
   constraint memberships_phone_number_not_blank
     check (phone_number is null or btrim(phone_number) <> '')
 );
@@ -180,8 +174,6 @@ declare
   v_city text;
   v_email text;
   v_first_name text;
-  v_full_name text;
-  v_home_address text;
   v_last_name text;
   v_locale text;
   v_membership public.memberships;
@@ -200,8 +192,6 @@ begin
   v_city := btrim(coalesce(p_city, ''));
   v_newsletter_accepted := coalesce(p_newsletter_accepted, false);
   v_locale := coalesce(p_locale, 'en-GB');
-  v_full_name := concat_ws(' ', v_first_name, v_last_name);
-  v_home_address := concat_ws(E'\n', v_street, concat_ws(' ', v_postal_code, v_city));
 
   if v_first_name = '' or v_last_name = '' then
     raise exception using message = 'invalid_name';
@@ -238,25 +228,21 @@ begin
   insert into public.memberships (
     first_name,
     last_name,
-    full_name,
     email,
     phone_number,
     street,
     postal_code,
     city,
-    home_address,
     newsletter_accepted
   )
   values (
     v_first_name,
     v_last_name,
-    v_full_name,
     v_email,
     v_phone_number,
     v_street,
     v_postal_code,
     v_city,
-    v_home_address,
     v_newsletter_accepted
   )
   returning *
