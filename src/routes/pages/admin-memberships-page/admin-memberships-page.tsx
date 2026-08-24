@@ -1,7 +1,6 @@
 import {
   Button,
   Dialog,
-  Drawer,
   HStack,
   Heading,
   Menu as ChakraMenu,
@@ -19,10 +18,14 @@ import {
   Pencil,
   Plus,
   Trash2,
-  X,
 } from "lucide-react";
 import { type ReactNode, useCallback, useMemo, useState } from "react";
-import type { AdminMembershipInput, Membership } from "~/domain/memberships";
+import { useNavigate } from "react-router";
+import type {
+  AdminMembershipCreateInput,
+  AdminMembershipInput,
+  Membership,
+} from "~/domain/memberships";
 import usePageTitle from "~/hooks/use-page-title";
 import useI18n from "~/i18n/use-i18n";
 import AppAlert from "~/ui/app-alert";
@@ -85,7 +88,9 @@ export default function AdminMembershipsPage() {
   }, []);
 
   const createAdminMembership = useCallback(
-    async (membership: AdminMembershipInput) => {
+    async (membership: AdminMembershipCreateInput | AdminMembershipInput) => {
+      if (!("paymentMethod" in membership)) return;
+
       const created = await createAdminMembershipEntry(membership);
 
       if (!created) return;
@@ -103,7 +108,7 @@ export default function AdminMembershipsPage() {
   );
 
   const updateAdminMembership = useCallback(
-    async (membership: AdminMembershipInput) => {
+    async (membership: AdminMembershipCreateInput | AdminMembershipInput) => {
       if (!editingMembership) return;
 
       const updated = await updateAdminMembershipEntry(
@@ -211,7 +216,7 @@ export default function AdminMembershipsPage() {
         <Heading size="3xl">{t("page.admin_memberships.heading")}</Heading>
 
         <HStack>
-          <Button onClick={openCreateDialog} size="sm">
+          <Button onClick={openCreateDialog} size="xs">
             <Plus />
             {t("page.admin_memberships.form.create")}
           </Button>
@@ -322,7 +327,7 @@ function AdminMembershipsActionsMenu({
         <IconButton
           Icon={EllipsisVertical}
           aria-label={t("page.admin_memberships.actions")}
-          size="sm"
+          size="xs"
           variant="ghost"
         />
       </ChakraMenu.Trigger>
@@ -378,15 +383,10 @@ function AdminMembershipsTable({
   onEdit,
 }: AdminMembershipsTableProps) {
   const { t } = useI18n();
-  const [selectedMembership, setSelectedMembership] =
-    useState<Membership | null>(null);
+  const navigate = useNavigate();
   const [sort, setSort] = useState<MembershipSort>({
     direction: "desc",
     field: "createdAt",
-  });
-  const dateFormatter = new Intl.DateTimeFormat(locale, {
-    dateStyle: "medium",
-    timeStyle: "short",
   });
   const sortedMemberships = useMemo(
     () => sortMemberships(memberships, sort, locale),
@@ -403,211 +403,125 @@ function AdminMembershipsTable({
     }));
   }, []);
 
-  const closeMembershipDetails = useCallback(() => {
-    setSelectedMembership(null);
-  }, []);
-
   return (
-    <>
-      <Table.ScrollArea>
-        <Table.Root size="sm">
-          <Table.Header>
-            <Table.Row>
-              <Table.ColumnHeader>
-                <MembershipSortButton
-                  active={sort.field === "createdAt"}
-                  direction={sort.direction}
-                  onClick={() => toggleSort("createdAt")}
-                >
-                  {t("page.admin_memberships.table.created_at")}
-                </MembershipSortButton>
-              </Table.ColumnHeader>
-              <Table.ColumnHeader>
-                <MembershipSortButton
-                  active={sort.field === "firstName"}
-                  direction={sort.direction}
-                  onClick={() => toggleSort("firstName")}
-                >
-                  {t("page.admin_memberships.table.first_name")}
-                </MembershipSortButton>
-              </Table.ColumnHeader>
-              <Table.ColumnHeader>
-                <MembershipSortButton
-                  active={sort.field === "lastName"}
-                  direction={sort.direction}
-                  onClick={() => toggleSort("lastName")}
-                >
-                  {t("page.admin_memberships.table.last_name")}
-                </MembershipSortButton>
-              </Table.ColumnHeader>
-              <Table.ColumnHeader>
-                {t("page.admin_memberships.table.email")}
-              </Table.ColumnHeader>
-              <Table.ColumnHeader>
-                {t("page.admin_memberships.table.newsletter")}
-              </Table.ColumnHeader>
-              <Table.ColumnHeader textAlign="end">
-                {t("page.admin_memberships.table.actions")}
-              </Table.ColumnHeader>
-            </Table.Row>
-          </Table.Header>
-          <Table.Body>
-            {sortedMemberships.map((membership) => (
-              <Table.Row
-                cursor="pointer"
-                key={membership.id}
-                onClick={() => setSelectedMembership(membership)}
+    <Table.ScrollArea>
+      <Table.Root size="sm">
+        <Table.Header>
+          <Table.Row>
+            <Table.ColumnHeader>
+              <MembershipSortButton
+                active={sort.field === "createdAt"}
+                direction={sort.direction}
+                onClick={() => toggleSort("createdAt")}
               >
-                <Table.Cell whiteSpace="nowrap">
-                  {dateFormatter.format(membership.createdAt)}
-                </Table.Cell>
-                <Table.Cell fontWeight="medium">
-                  {membership.firstName}
-                </Table.Cell>
-                <Table.Cell fontWeight="medium">
-                  {membership.lastName}
-                </Table.Cell>
-                <Table.Cell>{membership.email}</Table.Cell>
-                <Table.Cell>
-                  {membership.newsletterAccepted ?
-                    t("page.admin_memberships.table.yes")
-                  : t("page.admin_memberships.table.no")}
-                </Table.Cell>
-                <Table.Cell
-                  onClick={(e) => e.stopPropagation()}
-                  textAlign="end"
-                >
-                  <IconButton
-                    Icon={Pencil}
-                    aria-label={t("page.admin_memberships.edit")}
-                    onClick={() => onEdit(membership)}
-                    size="xs"
-                    variant="ghost"
-                  />
-                  <IconButton
-                    Icon={Trash2}
-                    aria-label={t("page.admin_memberships.delete")}
-                    colorPalette="red"
-                    loading={deletingMembershipId === membership.id}
-                    onClick={() => onDelete(membership)}
-                    size="xs"
-                    variant="ghost"
-                  />
-                </Table.Cell>
-              </Table.Row>
-            ))}
-          </Table.Body>
-        </Table.Root>
-      </Table.ScrollArea>
-
-      <Drawer.Root
-        onOpenChange={(details) => {
-          if (!details.open) closeMembershipDetails();
-        }}
-        open={Boolean(selectedMembership)}
-        size="sm"
-      >
-        <Portal>
-          <Drawer.Backdrop />
-          <Drawer.Positioner>
-            <Drawer.Content>
-              <Drawer.Header>
-                <HStack justify="space-between" w="full">
-                  <Drawer.Title>
-                    {selectedMembership?.fullName ??
-                      t("page.admin_memberships.details")}
-                  </Drawer.Title>
-                  <Drawer.CloseTrigger asChild>
-                    <IconButton
-                      Icon={X}
-                      aria-label={t("page.admin_memberships.details.close")}
-                      size="sm"
-                      variant="ghost"
-                    />
-                  </Drawer.CloseTrigger>
-                </HStack>
-              </Drawer.Header>
-              <Drawer.Body>
-                {selectedMembership && (
-                  <VStack align="stretch" gap={5}>
-                    <VStack align="stretch" gap={3}>
-                      <MembershipDetail
-                        label={t("page.admin_memberships.table.email")}
-                        value={selectedMembership.email}
-                      />
-                      <MembershipDetail
-                        label={t("page.admin_memberships.table.phone_number")}
-                        value={selectedMembership.phoneNumber || "-"}
-                      />
-                    </VStack>
-
-                    <VStack align="stretch" gap={3}>
-                      <MembershipDetail
-                        label={t("page.admin_memberships.table.street")}
-                        value={selectedMembership.street}
-                      />
-                      <HStack align="flex-start" gap={6}>
-                        <MembershipDetail
-                          label={t("page.admin_memberships.table.postal_code")}
-                          value={selectedMembership.postalCode}
-                        />
-                        <MembershipDetail
-                          label={t("page.admin_memberships.table.city")}
-                          value={selectedMembership.city}
-                        />
-                      </HStack>
-                    </VStack>
-
-                    <VStack align="stretch" gap={3}>
-                      <MembershipDetail
-                        label={t("page.admin_memberships.table.payment_method")}
-                        value={t(
-                          `enum.membership_payment_method.${selectedMembership.paymentMethod}`,
-                        )}
-                      />
-                      <MembershipDetail
-                        label={t("page.admin_memberships.table.newsletter")}
-                        value={
-                          selectedMembership.newsletterAccepted ?
-                            t("page.admin_memberships.table.yes")
-                          : t("page.admin_memberships.table.no")
-                        }
-                      />
-                      <MembershipDetail
-                        label={t("page.admin_memberships.table.created_at")}
-                        value={dateFormatter.format(
-                          selectedMembership.createdAt,
-                        )}
-                      />
-                    </VStack>
-                  </VStack>
-                )}
-              </Drawer.Body>
-            </Drawer.Content>
-          </Drawer.Positioner>
-        </Portal>
-      </Drawer.Root>
-    </>
+                {t("page.admin_memberships.table.created_at")}
+              </MembershipSortButton>
+            </Table.ColumnHeader>
+            <Table.ColumnHeader>
+              <MembershipSortButton
+                active={sort.field === "firstName"}
+                direction={sort.direction}
+                onClick={() => toggleSort("firstName")}
+              >
+                {t("page.admin_memberships.table.first_name")}
+              </MembershipSortButton>
+            </Table.ColumnHeader>
+            <Table.ColumnHeader>
+              <MembershipSortButton
+                active={sort.field === "lastName"}
+                direction={sort.direction}
+                onClick={() => toggleSort("lastName")}
+              >
+                {t("page.admin_memberships.table.last_name")}
+              </MembershipSortButton>
+            </Table.ColumnHeader>
+            <Table.ColumnHeader>
+              <MembershipTableHeaderLabel>
+                {t("page.admin_memberships.table.email")}
+              </MembershipTableHeaderLabel>
+            </Table.ColumnHeader>
+            <Table.ColumnHeader>
+              <MembershipTableHeaderLabel>
+                {t("page.admin_memberships.table.newsletter")}
+              </MembershipTableHeaderLabel>
+            </Table.ColumnHeader>
+            <Table.ColumnHeader textAlign="end">
+              <MembershipTableHeaderLabel justifyContent="flex-end">
+                {t("page.admin_memberships.table.actions")}
+              </MembershipTableHeaderLabel>
+            </Table.ColumnHeader>
+          </Table.Row>
+        </Table.Header>
+        <Table.Body>
+          {sortedMemberships.map((membership) => (
+            <Table.Row
+              cursor="pointer"
+              key={membership.id}
+              onClick={() => navigate(`/admin/memberships/${membership.id}`)}
+            >
+              <Table.Cell whiteSpace="nowrap">
+                {formatIsoDate(membership.createdAt)}
+              </Table.Cell>
+              <Table.Cell fontWeight="medium">
+                {membership.firstName}
+              </Table.Cell>
+              <Table.Cell fontWeight="medium">{membership.lastName}</Table.Cell>
+              <Table.Cell>{membership.email}</Table.Cell>
+              <Table.Cell>
+                {membership.newsletterAccepted ?
+                  t("page.admin_memberships.table.yes")
+                : t("page.admin_memberships.table.no")}
+              </Table.Cell>
+              <Table.Cell onClick={(e) => e.stopPropagation()} textAlign="end">
+                <IconButton
+                  Icon={Pencil}
+                  aria-label={t("page.admin_memberships.edit")}
+                  onClick={() => onEdit(membership)}
+                  size="xs"
+                  variant="ghost"
+                />
+                <IconButton
+                  Icon={Trash2}
+                  aria-label={t("page.admin_memberships.delete")}
+                  colorPalette="red"
+                  loading={deletingMembershipId === membership.id}
+                  onClick={() => onDelete(membership)}
+                  size="xs"
+                  variant="ghost"
+                />
+              </Table.Cell>
+            </Table.Row>
+          ))}
+        </Table.Body>
+      </Table.Root>
+    </Table.ScrollArea>
   );
 }
 
 //------------------------------------------------------------------------------
-// Membership Detail
+// Membership Table Header Label
 //------------------------------------------------------------------------------
 
-type MembershipDetailProps = {
-  label: string;
-  value: string;
+type MembershipTableHeaderLabelProps = {
+  children: ReactNode;
+  justifyContent?: "flex-start" | "flex-end";
 };
 
-function MembershipDetail({ label, value }: MembershipDetailProps) {
+function MembershipTableHeaderLabel({
+  children,
+  justifyContent = "flex-start",
+}: MembershipTableHeaderLabelProps) {
   return (
-    <VStack align="flex-start" gap={1} minW="12rem">
-      <Text fontSize="xs" fontWeight="medium">
-        {label}
-      </Text>
-      <Text whiteSpace="pre-wrap">{value}</Text>
-    </VStack>
+    <HStack
+      fontSize="xs"
+      fontWeight="inherit"
+      h="8"
+      justifyContent={justifyContent}
+      px={0}
+      w="full"
+    >
+      {children}
+    </HStack>
   );
 }
 
@@ -696,7 +610,6 @@ function membershipsToCsv(
       t("page.admin_memberships.table.street"),
       t("page.admin_memberships.table.postal_code"),
       t("page.admin_memberships.table.city"),
-      t("page.admin_memberships.table.payment_method"),
       t("page.admin_memberships.table.newsletter"),
     ],
     ...memberships.map((membership) => [
@@ -708,7 +621,6 @@ function membershipsToCsv(
       membership.street,
       membership.postalCode,
       membership.city,
-      t(`enum.membership_payment_method.${membership.paymentMethod}`),
       membership.newsletterAccepted ?
         t("page.admin_memberships.table.yes")
       : t("page.admin_memberships.table.no"),
@@ -724,6 +636,14 @@ function membershipsToCsv(
 
 function csvCell(value: string) {
   return `"${value.replaceAll('"', '""')}"`;
+}
+
+//------------------------------------------------------------------------------
+// Format ISO Date
+//------------------------------------------------------------------------------
+
+function formatIsoDate(date: Date) {
+  return date.toISOString().slice(0, 10);
 }
 
 //------------------------------------------------------------------------------

@@ -104,13 +104,25 @@ const itCH = {
   "error.memberships.email_already_used":
     "Quest'email è già stata usata per un tesseramento.",
   "error.memberships.fetch_many": "Impossibile caricare i tesserati.",
+  "error.memberships.fetch_one": "Impossibile caricare il tesserato.",
   "error.memberships.invalid_email": "Inserisci un indirizzo email valido.",
   "error.memberships.invalid_home_address":
     "Inserisci un indirizzo di casa completo.",
   "error.memberships.invalid_name": "Inserisci nome e cognome.",
   "error.memberships.invalid_payment_method": "Scegli un metodo di pagamento.",
   "error.memberships.parse_many": "I dati dei tesserati non sono validi.",
+  "error.memberships.parse_one": "I dati del tesserato non sono validi.",
   "error.memberships.update": "Impossibile aggiornare il tesseramento.",
+
+  "error.membership_payments.create": "Impossibile aggiungere il pagamento.",
+  "error.membership_payments.delete": "Impossibile eliminare il pagamento.",
+  "error.membership_payments.fetch_many": "Impossibile caricare i pagamenti.",
+  "error.membership_payments.invalid_amount": "Inserisci un importo valido.",
+  "error.membership_payments.invalid_date": "Inserisci una data valida.",
+  "error.membership_payments.invalid_method": "Scegli un metodo di pagamento.",
+  "error.membership_payments.parse_many":
+    "I dati dei pagamenti non sono validi.",
+  "error.membership_payments.update": "Impossibile aggiornare il pagamento.",
 
   "form.event_details.description.label": "Descrizione",
   "form.event_details.heading": "Dettagli",
@@ -369,7 +381,7 @@ const itCH = {
   "page.admin_memberships.empty": "Nessun tesserato.",
   "page.admin_memberships.form.cancel": "Annulla",
   "page.admin_memberships.form.city": "Città",
-  "page.admin_memberships.form.create": "Aggiungi tesserato",
+  "page.admin_memberships.form.create": "Aggiungi",
   "page.admin_memberships.form.create_heading": "Aggiungi tesserato",
   "page.admin_memberships.form.edit_heading": "Modifica tesserato",
   "page.admin_memberships.form.email": "Indirizzo email",
@@ -399,6 +411,27 @@ const itCH = {
   "page.admin_memberships.table.yes": "Sì",
   "page.admin_memberships.updated": "Tesseramento aggiornato.",
   "page.admin_memberships.updated_for": 'Tesseramento di "{0}" aggiornato.',
+
+  "page.admin_membership.heading_fallback": "Dettaglio tesserato",
+  "page.admin_membership.payments.add": "Aggiungi",
+  "page.admin_membership.payments.amount": "Importo",
+  "page.admin_membership.payments.cancel": "Annulla",
+  "page.admin_membership.payments.create": "Aggiungi pagamento",
+  "page.admin_membership.payments.create_heading": "Aggiungi pagamento",
+  "page.admin_membership.payments.created": "Pagamento aggiunto.",
+  "page.admin_membership.payments.date": "Data",
+  "page.admin_membership.payments.delete": "Elimina pagamento",
+  "page.admin_membership.payments.delete.confirm":
+    "Eliminare questo pagamento? Questa azione non può essere annullata.",
+  "page.admin_membership.payments.deleted": "Pagamento eliminato.",
+  "page.admin_membership.payments.edit": "Modifica pagamento",
+  "page.admin_membership.payments.edit_heading": "Modifica pagamento",
+  "page.admin_membership.payments.empty": "Nessun pagamento registrato.",
+  "page.admin_membership.payments.heading": "Pagamenti",
+  "page.admin_membership.payments.method": "Metodo",
+  "page.admin_membership.payments.save": "Salva modifiche",
+  "page.admin_membership.payments.time": "Ora",
+  "page.admin_membership.payments.updated": "Pagamento aggiornato.",
 
   "page.admin_forgot_password.back_to_login": "Torna al login",
   "page.admin_forgot_password.confirmation":

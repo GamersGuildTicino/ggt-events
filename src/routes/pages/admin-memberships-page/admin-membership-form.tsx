@@ -14,7 +14,10 @@ import {
   type MembershipPaymentMethod,
   useMembershipPaymentMethodOptions,
 } from "~/domain/enums/membership-payment-method";
-import type { AdminMembershipInput } from "~/domain/memberships";
+import type {
+  AdminMembershipCreateInput,
+  AdminMembershipInput,
+} from "~/domain/memberships";
 import useI18n from "~/i18n/use-i18n";
 import AppAlert from "~/ui/app-alert";
 import Checkbox from "~/ui/checkbox";
@@ -32,7 +35,7 @@ type AdminMembershipFormProps = {
   surface?: "card" | "plain";
   withinDialog?: boolean;
   onCancelEdit: () => void;
-  onSubmit: (value: AdminMembershipInput) => void;
+  onSubmit: (value: AdminMembershipCreateInput | AdminMembershipInput) => void;
 };
 
 export default function AdminMembershipForm({
@@ -52,9 +55,9 @@ export default function AdminMembershipForm({
   const submitMembershipForm = useCallback(
     (e: React.SubmitEvent<HTMLFormElement>) => {
       e.preventDefault();
-      onSubmit(adminMembershipFormValueFromForm(e.currentTarget));
+      onSubmit(adminMembershipFormValueFromForm(e.currentTarget, !editing));
     },
-    [onSubmit],
+    [editing, onSubmit],
   );
 
   const form = (
@@ -163,19 +166,21 @@ export default function AdminMembershipForm({
           </Field.Root>
         </SimpleGrid>
 
-        <Field.Root disabled={disabled} required>
-          <Field.Label>
-            {t("page.admin_memberships.form.payment_method")}
-            <Field.RequiredIndicator />
-          </Field.Label>
-          <SelectEnum<MembershipPaymentMethod>
-            defaultValue={initialValue?.paymentMethod ?? "twint"}
-            name="payment-method"
-            options={paymentMethodOptions}
-            size="sm"
-            withinDialog={withinDialog}
-          />
-        </Field.Root>
+        {!editing && (
+          <Field.Root disabled={disabled} required>
+            <Field.Label>
+              {t("page.admin_memberships.form.payment_method")}
+              <Field.RequiredIndicator />
+            </Field.Label>
+            <SelectEnum<MembershipPaymentMethod>
+              defaultValue="twint"
+              name="payment-method"
+              options={paymentMethodOptions}
+              size="sm"
+              withinDialog={withinDialog}
+            />
+          </Field.Root>
+        )}
 
         <Field.Root disabled={disabled}>
           <Checkbox
@@ -233,19 +238,26 @@ export default function AdminMembershipForm({
 
 function adminMembershipFormValueFromForm(
   form: HTMLFormElement,
-): AdminMembershipInput {
+  includePaymentMethod: boolean,
+): AdminMembershipCreateInput | AdminMembershipInput {
   const formData = new FormData(form);
   const getString = (key: string) => String(formData.get(key) ?? "").trim();
 
-  return {
+  const membership = {
     city: getString("city"),
     email: getString("email"),
     firstName: getString("first-name"),
     lastName: getString("last-name"),
     newsletterAccepted: formData.has("newsletter-accepted"),
-    paymentMethod: getString("payment-method") as MembershipPaymentMethod,
     phoneNumber: getString("phone-number"),
     postalCode: getString("postal-code"),
     street: getString("street"),
+  };
+
+  if (!includePaymentMethod) return membership;
+
+  return {
+    ...membership,
+    paymentMethod: getString("payment-method") as MembershipPaymentMethod,
   };
 }

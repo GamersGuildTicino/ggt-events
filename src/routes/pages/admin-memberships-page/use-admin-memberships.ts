@@ -1,5 +1,6 @@
 import { useCallback, useState } from "react";
 import {
+  type AdminMembershipCreateInput,
   type AdminMembershipInput,
   type Membership,
   createAdminMembership,
@@ -63,7 +64,7 @@ export default function useAdminMemberships() {
   );
 
   const createAdminMembershipEntry = useCallback(
-    async (membership: AdminMembershipInput) => {
+    async (membership: AdminMembershipCreateInput) => {
       setSaveState(loading());
       const error = await createAdminMembership(membership);
 

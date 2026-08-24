@@ -98,6 +98,9 @@ const AdminHomeMessagePage = lazy(
 const AdminMembershipsPage = lazy(
   () => import("./routes/pages/admin-memberships-page/admin-memberships-page"),
 );
+const AdminMembershipPage = lazy(
+  () => import("./routes/pages/admin-membership-page/admin-membership-page"),
+);
 const AdminEventsPage = lazy(
   () => import("./routes/pages/admin-events-page/admin-events-page"),
 );
@@ -161,6 +164,10 @@ export const router = createBrowserRouter(
                 { index: true, lazy: AdminPage },
                 { lazy: AdminHomeMessagePage, path: "home-message" },
                 { lazy: AdminMembershipsPage, path: "memberships" },
+                {
+                  lazy: AdminMembershipPage,
+                  path: "memberships/:membershipId",
+                },
                 { lazy: AdminEventsPage, path: "events" },
                 { lazy: AdminEventsNewPage, path: "events/new" },
                 { lazy: AdminEventPage, path: "events/:eventId" },
