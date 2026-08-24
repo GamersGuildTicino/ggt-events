@@ -157,6 +157,7 @@ const enGB = {
 
   "layout.public_footer.copyright": "Gamers Guild Ticino",
   "layout.public_footer.data_and_terms": "Data & Terms",
+  "layout.public_footer.donations": "Donations",
   "layout.public_footer.instagram": "Instagram",
   "layout.public_footer.whatsapp": "WhatsApp",
 
@@ -559,6 +560,13 @@ For questions, access requests, corrections, registration removal requests, or a
     "Monthly live TTRPG events in Ticino for players, game masters, and anyone curious about role-playing games.",
   "page.home.hero.events": "See upcoming events",
   "page.home.hero.eyebrow": "TTRPG events in Ticino",
+
+  "page.donation.description":
+    "Support Gamers Guild Ticino activities with a free donation.",
+  "page.donation.heading": "Donations",
+  "page.donation.info":
+    "Gamers Guild Ticino is a non-profit association. Donations help us organize events, buy games and materials, take part in fairs, and grow the project.\n\nYou can donate any amount you like. These are a few suggested values:",
+  "page.donation.url": "/donations",
 
   "page.membership.card_info":
     "Membership does not expire. You can renew your support whenever you want, with no limits or deadlines.\n\nAfter completing the registration, you can collect your physical membership card at any Gamers Guild Ticino event. The confirmation email is valid as a temporary membership card.\n\nThe card includes a level bar to track of how many activities you have joined with us. Once filled, you will have spent roughly a year of games with the association, and you can use it as a friendly reminder to renew your support, with no obligation.",

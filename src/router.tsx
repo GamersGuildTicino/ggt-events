@@ -72,6 +72,9 @@ const DataAndTerms = lazy(
 const MembershipPage = lazy(
   () => import("./routes/pages/membership-page/membership-page"),
 );
+const DonationPage = lazy(
+  () => import("./routes/pages/donation-page/donation-page"),
+);
 const RegistrationCancellationPage = lazy(
   () =>
     import("./routes/pages/registration-cancellation-page/registration-cancellation-page"),
@@ -130,6 +133,8 @@ export const router = createBrowserRouter(
         { index: true, lazy: HomePage },
         { lazy: EventPage, path: "events/:eventSlugOrId" },
         { lazy: EventPage, path: "eventi/:eventSlugOrId" },
+        { lazy: DonationPage, path: "donations" },
+        { lazy: DonationPage, path: "donazioni" },
         { lazy: MembershipPage, path: "membership" },
         { lazy: MembershipPage, path: "tesseramento" },
         { lazy: DataAndTerms, path: "data-and-terms" },

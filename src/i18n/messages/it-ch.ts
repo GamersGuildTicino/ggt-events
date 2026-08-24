@@ -162,6 +162,7 @@ const itCH = {
 
   "layout.public_footer.copyright": "Gamers Guild Ticino",
   "layout.public_footer.data_and_terms": "Dati e Condizioni",
+  "layout.public_footer.donations": "Donazioni",
   "layout.public_footer.instagram": "Instagram",
   "layout.public_footer.whatsapp": "WhatsApp",
 
@@ -571,6 +572,13 @@ Per domande, richieste di accesso, correzione, rimozione dell'iscrizione o anoni
     "Eventi mensili di giochi di ruolo dal vivo in Ticino per giocatori, game master e persone curiose.",
   "page.home.hero.events": "Vedi prossimi eventi",
   "page.home.hero.eyebrow": "Eventi GDR in Ticino",
+
+  "page.donation.description":
+    "Sostieni le attività di Gamers Guild Ticino con una donazione libera.",
+  "page.donation.heading": "Donazioni",
+  "page.donation.info":
+    "Gamers Guild Ticino è un'associazione senza scopo di lucro. Le donazioni ci aiutano a organizzare eventi, acquistare giochi e materiale, partecipare a fiere e far crescere il progetto.\n\nPuoi donare l'importo che preferisci. Questi sono alcuni valori suggeriti:",
+  "page.donation.url": "/donazioni",
 
   "page.membership.card_info":
     "Il tesseramento non ha scadenza. Puoi rinnovare il tuo sostegno quando vuoi, senza limiti o obblighi.\n\nDopo aver completato il tesseramento, potrai ritirare la tessera fisica durante un qualsiasi evento di Gamers Guild Ticino. Nel frattempo, l'email di conferma è valida come tessera temporanea.\n\nSulla tessera è presente una barra di livello per tenere traccia di quante attività hai svolto con noi. Una volta completata, avrai passato circa un anno di giocate con l'associazione e potrai usarla come promemoria per rinnovare il tuo sostegno, senza impegno.",

@@ -31,6 +31,8 @@ import {
   loading,
   success,
 } from "~/utils/async-state";
+import MembershipDonationCards from "./membership-donation-cards";
+import MembershipPaymentCards from "./membership-payment-cards";
 
 //------------------------------------------------------------------------------
 // Membership Page
@@ -106,24 +108,7 @@ export default function MembershipPage() {
           <VStack align="stretch" gap={3}>
             <Text>{t("page.membership.info")}</Text>
 
-            <SimpleGrid columns={{ base: 1, md: 2, xl: 4 }} gap={3}>
-              <MembershipInfoCard
-                body={t("page.membership.donation.chf_5.body")}
-                title={t("page.membership.donation.chf_5.title")}
-              />
-              <MembershipInfoCard
-                body={t("page.membership.donation.chf_10.body")}
-                title={t("page.membership.donation.chf_10.title")}
-              />
-              <MembershipInfoCard
-                body={t("page.membership.donation.chf_20.body")}
-                title={t("page.membership.donation.chf_20.title")}
-              />
-              <MembershipInfoCard
-                body={t("page.membership.donation.chf_50.body")}
-                title={t("page.membership.donation.chf_50.title")}
-              />
-            </SimpleGrid>
+            <MembershipDonationCards />
 
             <Text whiteSpace="pre-line">{t("page.membership.card_info")}</Text>
           </VStack>
@@ -131,20 +116,7 @@ export default function MembershipPage() {
           <VStack align="stretch" gap={3}>
             <Heading size="sm">{t("page.membership.payment.heading")}</Heading>
 
-            <SimpleGrid columns={{ base: 1, md: 3 }} gap={3}>
-              <MembershipInfoCard
-                body={t("page.membership.payment.bank_transfer.body")}
-                title={t("page.membership.payment.bank_transfer.title")}
-              />
-              <MembershipInfoCard
-                body={t("page.membership.payment.twint.body")}
-                title={t("page.membership.payment.twint.title")}
-              />
-              <MembershipInfoCard
-                body={t("page.membership.payment.cash.body")}
-                title={t("page.membership.payment.cash.title")}
-              />
-            </SimpleGrid>
+            <MembershipPaymentCards />
           </VStack>
         </Card.Body>
       </Card.Root>
@@ -335,25 +307,3 @@ const localeSelectCss = {
     borderColor: "black",
   },
 };
-
-//------------------------------------------------------------------------------
-// Membership Info Card
-//------------------------------------------------------------------------------
-
-type MembershipInfoCardProps = {
-  body: string;
-  title: string;
-};
-
-function MembershipInfoCard({ body, title }: MembershipInfoCardProps) {
-  return (
-    <Card.Root bg="transparent" borderColor="ggt.surface.border">
-      <Card.Body gap={2}>
-        <Heading size="sm">{title}</Heading>
-        <Text fontSize="sm" whiteSpace="pre-line">
-          {body}
-        </Text>
-      </Card.Body>
-    </Card.Root>
-  );
-}
