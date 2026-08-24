@@ -100,26 +100,24 @@ export default function MembershipPage() {
 
       <VStack align="stretch" gap={2}>
         <Heading size="3xl">{t("page.membership.heading")}</Heading>
-        <Text color="fg.muted">{t("page.membership.description")}</Text>
+        <Text>{t("page.membership.description")}</Text>
       </VStack>
 
-      <Card.Root bg="ggt.surface.bg" borderColor="ggt.surface.border">
-        <Card.Body gap={5}>
-          <VStack align="stretch" gap={3}>
-            <Text>{t("page.membership.info")}</Text>
+      <VStack align="stretch" gap={6}>
+        <VStack align="stretch" gap={4}>
+          <Text>{t("page.membership.info")}</Text>
 
-            <MembershipDonationCards />
+          <MembershipDonationCards />
 
-            <Text whiteSpace="pre-line">{t("page.membership.card_info")}</Text>
-          </VStack>
+          <Text whiteSpace="pre-line">{t("page.membership.card_info")}</Text>
+        </VStack>
 
-          <VStack align="stretch" gap={3}>
-            <Heading size="sm">{t("page.membership.payment.heading")}</Heading>
+        <VStack align="stretch" gap={4}>
+          <Heading size="md">{t("page.membership.payment.heading")}</Heading>
 
-            <MembershipPaymentCards />
-          </VStack>
-        </Card.Body>
-      </Card.Root>
+          <MembershipPaymentCards />
+        </VStack>
+      </VStack>
 
       <Card.Root bg="white" borderColor="ggt.surface.border">
         <Card.Body>

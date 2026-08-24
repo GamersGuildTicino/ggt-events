@@ -1,4 +1,4 @@
-import { Button, Card, HStack, Heading, Text, VStack } from "@chakra-ui/react";
+import { Button, HStack, Heading, Text, VStack } from "@chakra-ui/react";
 import { ChevronLeft } from "lucide-react";
 import { Link as RouterLink } from "react-router";
 import usePageTitle from "~/hooks/use-page-title";
@@ -33,19 +33,17 @@ export default function DonationPage() {
         <Text>{t("page.donation.description")}</Text>
       </VStack>
 
-      <Card.Root bg="ggt.surface.bg" borderColor="ggt.surface.border">
-        <Card.Body gap={5}>
-          <VStack align="stretch" gap={3}>
-            <Text whiteSpace="pre-line">{t("page.donation.info")}</Text>
-            <MembershipDonationCards />
-          </VStack>
+      <VStack align="stretch" gap={6}>
+        <VStack align="stretch" gap={4}>
+          <Text whiteSpace="pre-line">{t("page.donation.info")}</Text>
+          <MembershipDonationCards />
+        </VStack>
 
-          <VStack align="stretch" gap={3}>
-            <Heading size="sm">{t("page.membership.payment.heading")}</Heading>
-            <MembershipPaymentCards />
-          </VStack>
-        </Card.Body>
-      </Card.Root>
+        <VStack align="stretch" gap={4}>
+          <Heading size="md">{t("page.membership.payment.heading")}</Heading>
+          <MembershipPaymentCards />
+        </VStack>
+      </VStack>
     </VStack>
   );
 }
