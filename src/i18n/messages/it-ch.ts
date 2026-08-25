@@ -569,7 +569,7 @@ Per domande, richieste di accesso, correzione, rimozione dell'iscrizione o anoni
   "page.home.about.description":
     "Gamers Guild Ticino riunisce persone attorno a storie condivise, dadi e giochi di ruolo dal vivo.",
   "page.home.about.heading": "Giocare storie insieme",
-  "page.home.actions.contact.cta": "Contattaci",
+  "page.home.actions.contact.cta": "Email",
   "page.home.actions.contact.description":
     "Per domande, collaborazioni o proposte, scrivici oppure seguici sui nostri canali.",
   "page.home.actions.contact.title": "Seguici o scrivici",

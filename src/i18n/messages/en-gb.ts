@@ -556,7 +556,7 @@ For questions, access requests, corrections, registration removal requests, or a
   "page.home.about.description":
     "Gamers Guild Ticino brings people together around shared stories, dice, and live tabletop role-playing games.",
   "page.home.about.heading": "Play stories together",
-  "page.home.actions.contact.cta": "Contact us",
+  "page.home.actions.contact.cta": "Email",
   "page.home.actions.contact.description":
     "For questions, collaborations, or proposals, write to us or follow our channels.",
   "page.home.actions.contact.title": "Follow or write to us",

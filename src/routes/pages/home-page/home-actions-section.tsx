@@ -57,8 +57,8 @@ export default function HomeActionsSection() {
           <Text>{t("page.home.actions.contact.description")}</Text>
         </VStack>
 
-        {(instagramLink || whatsAppLink) && (
-          <Box display="flex" gap={5} justifyContent="center">
+        {(instagramLink || whatsAppLink || infoAddress) && (
+          <Box display="flex" flexWrap="wrap" gap={3} justifyContent="center">
             {instagramLink && (
               <ContactIconLink
                 href={instagramLink}
@@ -74,15 +74,15 @@ export default function HomeActionsSection() {
                 label={t("layout.public_footer.whatsapp")}
               />
             )}
-          </Box>
-        )}
 
-        {infoAddress && (
-          <Button asChild size="sm" variant="solid">
-            <a href={`mailto:${infoAddress}`}>
-              {t("page.home.actions.contact.cta")}
-            </a>
-          </Button>
+            {infoAddress && (
+              <ContactIconLink
+                href={`mailto:${infoAddress}`}
+                imageSrc="/images/mail_logo.svg"
+                label={t("page.home.actions.contact.cta")}
+              />
+            )}
+          </Box>
         )}
       </VStack>
     </SimpleGrid>
@@ -129,10 +129,6 @@ function HomeActionCard({ cta, description, title, to }: HomeActionCardProps) {
   );
 }
 
-//------------------------------------------------------------------------------
-// Contact Icon Link
-//------------------------------------------------------------------------------
-
 type ContactIconLinkProps = {
   href: string;
   imageSrc: string;
@@ -155,6 +151,8 @@ function ContactIconLink({ href, imageSrc, label }: ContactIconLinkProps) {
       justifyContent="center"
       rel="noreferrer"
       target="_blank"
+      textAlign="center"
+      w="4.75rem"
     >
       <Image alt="" h="1.5rem" src={imageSrc} w="1.5rem" />
       {label}
