@@ -9,7 +9,7 @@ export default function MembershipDonationCards() {
   const { t } = useI18n();
 
   return (
-    <SimpleGrid columns={{ base: 1, md: 2, xl: 4 }} gap={3}>
+    <SimpleGrid columns={{ base: 2, xl: 4 }} gap={3}>
       <DonationAmount
         accentColor="ggt.fg.primary"
         body={t("page.membership.donation.chf_5.body")}
@@ -55,8 +55,12 @@ function DonationAmount({ accentColor, body, title }: DonationAmountProps) {
       overflow="hidden"
     >
       <Box bg={accentColor} h={1.5} />
-      <Box p={4}>
-        <Text color="black" fontSize="2xl" fontWeight="bold">
+      <Box p={{ base: 3, md: 4 }}>
+        <Text
+          color="black"
+          fontSize={{ base: "xl", md: "2xl" }}
+          fontWeight="bold"
+        >
           {title}
         </Text>
         <Text color="black" fontSize="sm" mt={2}>
