@@ -30,19 +30,19 @@ export default function HomePage() {
         <HomeHero />
       </HomeBand>
 
-      <HomeBand backgroundColor="white">
+      <HomeBand backgroundColor="ggt.page.bg">
         <HomeUpcomingEventsSection
           eventsState={eventsState}
           upcomingEvents={upcomingEvents}
         />
       </HomeBand>
 
-      <HomeBand backgroundColor="ggt.page.bg">
-        <HomeActionsSection />
-      </HomeBand>
-
       <HomeBand backgroundColor="white">
         <HomeEventsInfoPanel />
+      </HomeBand>
+
+      <HomeBand backgroundColor="ggt.page.bg">
+        <HomeActionsSection />
       </HomeBand>
     </VStack>
   );

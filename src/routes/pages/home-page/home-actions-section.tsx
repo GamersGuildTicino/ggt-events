@@ -8,8 +8,6 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
-import { HeartHandshake, IdCard, Mail } from "lucide-react";
-import type { LucideIcon } from "lucide-react";
 import { Link as RouterLink } from "react-router";
 import useI18n from "~/i18n/use-i18n";
 
@@ -26,19 +24,15 @@ export default function HomeActionsSection() {
   return (
     <SimpleGrid columns={{ base: 1, md: 3 }} gap={4} w="full">
       <HomeActionCard
-        accentColor="#65bff7"
         cta={t("page.home.actions.membership.cta")}
         description={t("page.home.actions.membership.description")}
-        icon={IdCard}
         title={t("page.home.actions.membership.title")}
         to={t("page.membership.url")}
       />
 
       <HomeActionCard
-        accentColor="#d64545"
         cta={t("page.home.actions.donation.cta")}
         description={t("page.home.actions.donation.description")}
-        icon={HeartHandshake}
         title={t("page.home.actions.donation.title")}
         to={t("page.donation.url")}
       />
@@ -52,12 +46,14 @@ export default function HomeActionsSection() {
         minH="13rem"
         p={5}
       >
-        <Box color="fg" lineHeight={0}>
-          <Mail size={24} />
-        </Box>
-
         <VStack align="flex-start" flex={1} gap={2}>
-          <Heading size="md">{t("page.home.actions.contact.title")}</Heading>
+          <Heading
+            fontFamily="'Shrikhand', Georgia, serif"
+            fontWeight="light"
+            size="lg"
+          >
+            {t("page.home.actions.contact.title")}
+          </Heading>
           <Text>{t("page.home.actions.contact.description")}</Text>
         </VStack>
 
@@ -98,22 +94,13 @@ export default function HomeActionsSection() {
 //------------------------------------------------------------------------------
 
 type HomeActionCardProps = {
-  accentColor: string;
   cta: string;
   description: string;
-  icon: LucideIcon;
   title: string;
   to: string;
 };
 
-function HomeActionCard({
-  accentColor,
-  cta,
-  description,
-  icon: Icon,
-  title,
-  to,
-}: HomeActionCardProps) {
+function HomeActionCard({ cta, description, title, to }: HomeActionCardProps) {
   return (
     <VStack
       align="stretch"
@@ -124,12 +111,14 @@ function HomeActionCard({
       minH="13rem"
       p={5}
     >
-      <Box color={accentColor} lineHeight={0}>
-        <Icon size={26} />
-      </Box>
-
       <VStack align="flex-start" flex={1} gap={2}>
-        <Heading size="md">{title}</Heading>
+        <Heading
+          fontFamily="'Shrikhand', Georgia, serif"
+          fontWeight="light"
+          size="lg"
+        >
+          {title}
+        </Heading>
         <Text>{description}</Text>
       </VStack>
 

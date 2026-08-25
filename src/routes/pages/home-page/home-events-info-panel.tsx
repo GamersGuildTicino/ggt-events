@@ -11,10 +11,16 @@ export default function HomeEventsInfoPanel() {
   return (
     <VStack align="stretch" bg="transparent" flex={1} gap={5} w="full">
       <VStack align="stretch" gap={5} maxW="64rem" mx="auto" w="full">
-        <VStack align="flex-start" gap={2}>
-          <Heading size="2xl">{t("page.home.events.info_eyebrow")}</Heading>
+        <VStack align="flex-start" gap={4}>
+          <Heading
+            fontFamily="'Shrikhand', Georgia, serif"
+            fontWeight="light"
+            size="4xl"
+          >
+            {t("page.home.events.info_eyebrow")}
+          </Heading>
 
-          <Text fontSize={{ base: "md", md: "lg" }}>
+          <Text fontSize={{ base: "md", md: "lg" }} whiteSpace="pre-line">
             {t("page.home.events.info_intro")}
           </Text>
         </VStack>

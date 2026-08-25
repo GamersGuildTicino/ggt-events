@@ -1,42 +1,22 @@
-import {
-  Box,
-  HStack,
-  Heading,
-  Image,
-  Span,
-  Text,
-  VStack,
-} from "@chakra-ui/react";
+import { Box, HStack, Heading, Image, Span, VStack } from "@chakra-ui/react";
 import LocaleSelect from "~/i18n/locale-select";
-import useI18n from "~/i18n/use-i18n";
 
 //------------------------------------------------------------------------------
 // Home Hero
 //------------------------------------------------------------------------------
 
 export default function HomeHero() {
-  const { t } = useI18n();
-
   return (
     <Box
       backgroundPosition="center"
       backgroundSize="cover"
-      bgImage={`
-        linear-gradient(180deg, rgba(255, 255, 255, 0.72), rgba(255, 255, 255, 0.54)),
-        url("/images/banner.jpg")
-      `}
+      bgImage='url("/images/banner.jpg")'
       color="fg"
       minH={{ base: "23rem", md: "30rem" }}
       overflow="hidden"
       position="relative"
       w="full"
     >
-      <Box
-        bgImage="linear-gradient(180deg, transparent 0%, rgba(173, 220, 249, 0.45) 100%)"
-        inset={0}
-        position="absolute"
-      />
-
       <VStack
         align="stretch"
         h="full"
@@ -85,28 +65,6 @@ export default function HomeHero() {
               <Span color="ggt.fg.secondary">G</Span>uild{" "}
               <Span color="ggt.fg.secondary">T</Span>icino
             </Heading>
-
-            <Text
-              fontSize={{ base: "lg", md: "xl" }}
-              maxW="34em"
-              textShadow="
-                -2px -2px 0 white,
-                0 -2px 0 white,
-                2px -2px 0 white,
-                -2px 0 0 white,
-                2px 0 0 white,
-                -2px 2px 0 white,
-                0 2px 0 white,
-                2px 2px 0 white,
-                -1px -1px 0 white,
-                1px -1px 0 white,
-                -1px 1px 0 white,
-                1px 1px 0 white,
-                0 0 0.35rem white
-              "
-            >
-              {t("page.home.hero.description")}
-            </Text>
           </VStack>
         </VStack>
 
@@ -122,7 +80,7 @@ export default function HomeHero() {
 
 const localeSelectCss = {
   "& [data-part='trigger']": {
-    backgroundColor: "rgba(255, 255, 255, 0.84)",
+    backgroundColor: "white",
     borderColor: "black",
     color: "black",
   },

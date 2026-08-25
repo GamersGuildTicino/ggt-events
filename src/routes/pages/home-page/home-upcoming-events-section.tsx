@@ -50,7 +50,12 @@ export default function HomeUpcomingEventsSection({
   return (
     <Flex id="upcoming-events" w="full">
       <VStack align="center" gap={6} w="full">
-        <Heading size="2xl" textAlign="center">
+        <Heading
+          fontFamily="'Shrikhand', Georgia, serif"
+          fontWeight="light"
+          size="4xl"
+          textAlign="center"
+        >
           {sectionTitle}
         </Heading>
 

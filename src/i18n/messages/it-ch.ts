@@ -577,7 +577,7 @@ Per domande, richieste di accesso, correzione, rimozione dell'iscrizione o anoni
   "page.home.actions.donation.description":
     "Sostieni l'associazione con una donazione libera o rinnova simbolicamente il tuo tesseramento.",
   "page.home.actions.donation.title": "Sostieni il progetto",
-  "page.home.actions.membership.cta": "Tesserati",
+  "page.home.actions.membership.cta": "Iscriviti",
   "page.home.actions.membership.description":
     "Diventa membro di Gamers Guild Ticino con un'offerta libera, senza scadenze o obblighi di rinnovo.",
   "page.home.actions.membership.title": "Entra nell'associazione",
@@ -594,9 +594,9 @@ Per domande, richieste di accesso, correzione, rimozione dell'iscrizione o anoni
     "Scegli un evento, consulta i tavoli disponibili e riserva il tuo posto quando le iscrizioni sono aperte.",
   "page.home.events.empty": "Nessun evento in programma.",
   "page.home.events.heading": "Prossimi eventi",
-  "page.home.events.info_eyebrow": "Come funziona",
+  "page.home.events.info_eyebrow": "Chi siamo",
   "page.home.events.info_intro":
-    "Gamers Guild Ticino è un'associazione senza scopo di lucro che promuove la cultura e la diffusione dei giochi di ruolo, favorendo la socializzazione, l'aggregazione e la condivisione della passione per il gioco attraverso eventi e iniziative aperte.",
+    "Gamers Guild Ticino organizza eventi mensili di giochi di ruolo dal vivo in Ticino per giocatori, game master e persone curiose.\n\nSiamo un'associazione senza scopo di lucro che promuove la cultura e la diffusione dei giochi di ruolo, favorendo la socializzazione, l'aggregazione e la condivisione della passione per il gioco attraverso eventi e iniziative aperte.",
   "page.home.events.info_step_1": "Ogni evento può ospitare uno o più tavoli.",
   "page.home.events.info_step_2":
     "Apri un evento per vedere tavoli, game master e requisiti.",
