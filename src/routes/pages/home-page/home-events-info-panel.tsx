@@ -1,6 +1,5 @@
-import { Link, List, Separator, Text, VStack } from "@chakra-ui/react";
+import { Heading, List, Text, VStack } from "@chakra-ui/react";
 import useI18n from "~/i18n/use-i18n";
-import Eyebrow from "~/ui/eyebrow";
 
 //------------------------------------------------------------------------------
 // Home Events Info Panel
@@ -8,38 +7,28 @@ import Eyebrow from "~/ui/eyebrow";
 
 export default function HomeEventsInfoPanel() {
   const { t } = useI18n();
-  const infoAddress = import.meta.env["VITE_INFO_ADDRESS"];
 
   return (
-    <VStack
-      align="stretch"
-      bg="ggt.surface.bg"
-      borderColor="ggt.surface.border"
-      borderWidth="1px"
-      flex={1}
-      p={6}
-      w="full"
-    >
-      <Eyebrow>{t("page.home.events.info_eyebrow")}</Eyebrow>
+    <VStack align="stretch" bg="transparent" flex={1} gap={5} w="full">
+      <VStack align="stretch" gap={5} maxW="64rem" mx="auto" w="full">
+        <VStack align="flex-start" gap={2}>
+          <Heading size="2xl">{t("page.home.events.info_eyebrow")}</Heading>
 
-      <Text>{t("page.home.events.info_intro")}</Text>
+          <Text fontSize={{ base: "md", md: "lg" }}>
+            {t("page.home.events.info_intro")}
+          </Text>
+        </VStack>
 
-      <List.Root gap={1.5} lineHeight={1.2} variant="plain">
-        <List.Item>• {t("page.home.events.info_step_1")}</List.Item>
-        <List.Item>• {t("page.home.events.info_step_2")}</List.Item>
-        <List.Item>• {t("page.home.events.info_step_3")}</List.Item>
-      </List.Root>
-
-      <Separator my={2} />
-
-      <VStack align="flex-start" gap={1}>
-        <Text color="fg.muted" fontSize="sm">
-          {t("page.home.events.contact_text")}
-        </Text>
-
-        <Link href={`mailto:${infoAddress}`}>
-          {t("page.home.events.contact_cta")}
-        </Link>
+        <List.Root
+          fontSize={{ base: "md", md: "lg" }}
+          gap={2}
+          lineHeight={1.25}
+          variant="plain"
+        >
+          <List.Item>• {t("page.home.events.info_step_1")}</List.Item>
+          <List.Item>• {t("page.home.events.info_step_2")}</List.Item>
+          <List.Item>• {t("page.home.events.info_step_3")}</List.Item>
+        </List.Root>
       </VStack>
     </VStack>
   );

@@ -556,6 +556,18 @@ For questions, access requests, corrections, registration removal requests, or a
   "page.home.about.description":
     "Gamers Guild Ticino brings people together around shared stories, dice, and live tabletop role-playing games.",
   "page.home.about.heading": "Play stories together",
+  "page.home.actions.contact.cta": "Contact us",
+  "page.home.actions.contact.description":
+    "For questions, collaborations, or proposals, write to us or follow our channels.",
+  "page.home.actions.contact.title": "Follow or write to us",
+  "page.home.actions.donation.cta": "Donate or renew",
+  "page.home.actions.donation.description":
+    "Support the association with a free donation or symbolically renew your membership.",
+  "page.home.actions.donation.title": "Support the project",
+  "page.home.actions.membership.cta": "Join",
+  "page.home.actions.membership.description":
+    "Become a member of Gamers Guild Ticino with a free donation, no expiry date and no renewal obligation.",
+  "page.home.actions.membership.title": "Join the association",
   "page.home.event.url": "/events/{0}",
   "page.home.events.contact_cta": "Contact us",
   "page.home.events.contact_text":

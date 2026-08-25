@@ -9,7 +9,14 @@ import PublicFooter from "./public-footer";
 export default function PublicLayout() {
   return (
     <VStack backgroundColor="ggt.page.bg" gap={0} minH="100vh">
-      <Flex flex="1" justify="center" p={{ base: 4, md: 8 }} w="full">
+      <Flex
+        flex="1"
+        justify="center"
+        pb={0}
+        pt={0}
+        px={{ base: 4, md: 8 }}
+        w="full"
+      >
         <Flex maxW="72em" w="full">
           <Outlet />
         </Flex>

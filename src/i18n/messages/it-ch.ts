@@ -569,6 +569,18 @@ Per domande, richieste di accesso, correzione, rimozione dell'iscrizione o anoni
   "page.home.about.description":
     "Gamers Guild Ticino riunisce persone attorno a storie condivise, dadi e giochi di ruolo dal vivo.",
   "page.home.about.heading": "Giocare storie insieme",
+  "page.home.actions.contact.cta": "Contattaci",
+  "page.home.actions.contact.description":
+    "Per domande, collaborazioni o proposte, scrivici oppure seguici sui nostri canali.",
+  "page.home.actions.contact.title": "Seguici o scrivici",
+  "page.home.actions.donation.cta": "Dona o rinnova",
+  "page.home.actions.donation.description":
+    "Sostieni l'associazione con una donazione libera o rinnova simbolicamente il tuo tesseramento.",
+  "page.home.actions.donation.title": "Sostieni il progetto",
+  "page.home.actions.membership.cta": "Tesserati",
+  "page.home.actions.membership.description":
+    "Diventa membro di Gamers Guild Ticino con un'offerta libera, senza scadenze o obblighi di rinnovo.",
+  "page.home.actions.membership.title": "Entra nell'associazione",
   "page.home.event.url": "/eventi/{0}",
   "page.home.events.contact_cta": "Contattaci",
   "page.home.events.contact_text":

@@ -16,14 +16,11 @@ import { formatHomeTimeSlotRange } from "./home-page-format";
 
 type HomeEventCardProps = {
   event: Event;
-  isFirst: boolean;
-  isLast: boolean;
   timeSlots: EventTimeSlot[];
 };
 
 export default function HomeEventCard({
   event,
-  isLast,
   timeSlots,
 }: HomeEventCardProps) {
   const { locale, t, ti } = useI18n();
@@ -44,53 +41,27 @@ export default function HomeEventCard({
       )
     : t("page.home.events.registrations_closed");
 
-  const lineBgColor =
-    isLast ?
-      `linear-gradient(
-        token(colors.ggt.surface.border) 0%,
-        color-mix(in srgb, token(colors.ggt.surface.border) 87%, transparent) 15%,
-        transparent 100%
-      )`
-    : "ggt.surface.border";
-
   const statusDotColor =
     event.registrationsOpen ? "green.500"
     : showOpeningDate ? "blue.500"
     : "gray.400";
 
   return (
-    <>
-      <VStack align="flex-end" gap={0}>
+    <HStack
+      align="flex-start"
+      bg="white"
+      borderColor="ggt.surface.border"
+      borderWidth="1px"
+      gap={{ base: 4, md: 5 }}
+      h="full"
+      p={{ base: 4, md: 5 }}
+    >
+      <Box flexShrink={0}>
         <HomeDateBadge date={firstTimeSlot.startsAt} locale={locale} />
-      </VStack>
+      </Box>
 
-      <VStack
-        align="center"
-        gap={0}
-        mb={isLast ? 6 : 0}
-        position="relative"
-        w="1.5rem"
-      >
-        <Box
-          bgColor="ggt.border.primary"
-          borderRadius="full"
-          h="0.8rem"
-          w="0.8rem"
-        />
-        <Box bgColor="ggt.surface.border" flex={1} w="2px" />
-        <Box
-          bg={lineBgColor}
-          bottom={0}
-          h={6}
-          position="absolute"
-          transform="translateY(100%)"
-          w="2px"
-          zIndex={1}
-        />
-      </VStack>
-
-      <VStack align="flex-start" mt={-1.5}>
-        <Link asChild fontWeight="semibold">
+      <VStack align="flex-start" flex={1} gap={3} minW={0}>
+        <Link asChild fontSize="lg" fontWeight="semibold" lineHeight={1.15}>
           <RouterLink to={eventPath}>{event.title}</RouterLink>
         </Link>
 
@@ -112,12 +83,12 @@ export default function HomeEventCard({
           </Text>
         </HStack>
 
-        <VStack align="flex-start" gap={1}>
-          <Text color="fg.muted" fontSize="sm">
+        <VStack align="flex-start" gap={1} w="full">
+          <Text fontSize="sm">
             {formatHomeTimeSlotRange(timeSlots, locale)}
           </Text>
 
-          <Text color="fg.muted" fontSize="sm">
+          <Text fontSize="sm">
             {[event.locationName, event.locationAddress]
               .filter(Boolean)
               .join(", ")}
@@ -139,6 +110,6 @@ export default function HomeEventCard({
           </RouterLink>
         </Link>
       </VStack>
-    </>
+    </HStack>
   );
 }
