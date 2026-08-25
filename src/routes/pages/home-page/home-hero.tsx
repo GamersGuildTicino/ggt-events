@@ -58,7 +58,7 @@ export default function HomeHero() {
                 WebkitTextStrokeWidth={2.5}
                 color="ggt.fg.primary"
                 fontFamily="'Shrikhand', Georgia, serif"
-                fontSize={{ base: "4xl", md: "7xl" }}
+                fontSize={{ base: "6xl", md: "7xl" }}
                 fontWeight="light"
                 lineHeight={1}
               >
