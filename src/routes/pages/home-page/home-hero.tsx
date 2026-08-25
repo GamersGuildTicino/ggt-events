@@ -1,4 +1,5 @@
 import { Box, HStack, Heading, Image, Span, VStack } from "@chakra-ui/react";
+import type { PropsWithChildren } from "react";
 import LocaleSelect from "~/i18n/locale-select";
 
 //------------------------------------------------------------------------------
@@ -20,7 +21,6 @@ export default function HomeHero() {
       <VStack
         align="stretch"
         h="full"
-        justify="space-between"
         minH={{ base: "23rem", md: "30rem" }}
         p={{ base: 5, md: 8 }}
         position="relative"
@@ -30,7 +30,13 @@ export default function HomeHero() {
           <LocaleSelect css={localeSelectCss} />
         </HStack>
 
-        <VStack align="center" gap={3} textAlign="center">
+        <VStack
+          align="center"
+          flex={1}
+          gap={3}
+          justify="center"
+          textAlign="center"
+        >
           <Image
             alt="Gamers Guild Ticino"
             boxSize={{ base: "4.5rem", md: "7.5rem" }}
@@ -40,38 +46,39 @@ export default function HomeHero() {
           />
 
           <VStack align="center" gap={2}>
-            <Heading
-              fontFamily="'Shrikhand', Georgia, serif"
-              fontSize={{ base: "4xl", md: "7xl" }}
-              fontWeight="light"
-              lineHeight={1}
-              textShadow="
-                -2px -2px 0 white,
-                0 -2px 0 white,
-                2px -2px 0 white,
-                -2px 0 0 white,
-                2px 0 0 white,
-                -2px 2px 0 white,
-                0 2px 0 white,
-                2px 2px 0 white,
-                -1px -1px 0 white,
-                1px -1px 0 white,
-                -1px 1px 0 white,
-                1px 1px 0 white,
-                0 0 0.45rem white
-              "
+            <Box
+              bgColor="rgba(255, 255, 255, 0.75)"
+              borderColor="black"
+              borderWidth={2.5}
+              px={8}
+              py={3}
             >
-              <Span color="ggt.fg.secondary">G</Span>amers{" "}
-              <Span color="ggt.fg.secondary">G</Span>uild{" "}
-              <Span color="ggt.fg.secondary">T</Span>icino
-            </Heading>
+              <Heading
+                WebkitTextStrokeColor="black"
+                WebkitTextStrokeWidth={2.5}
+                color="ggt.fg.primary"
+                fontFamily="'Shrikhand', Georgia, serif"
+                fontSize={{ base: "4xl", md: "7xl" }}
+                fontWeight="light"
+                lineHeight={1}
+              >
+                <Capital>G</Capital>amers <Capital>G</Capital>uild{" "}
+                <Capital>T</Capital>icino
+              </Heading>
+            </Box>
           </VStack>
         </VStack>
-
-        <Box />
       </VStack>
     </Box>
   );
+}
+
+//------------------------------------------------------------------------------
+// Capital
+//------------------------------------------------------------------------------
+
+function Capital({ children }: PropsWithChildren) {
+  return <Span color="ggt.fg.secondary">{children}</Span>;
 }
 
 //------------------------------------------------------------------------------
