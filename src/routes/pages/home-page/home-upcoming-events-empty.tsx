@@ -17,9 +17,23 @@ export default function HomeUpcomingEventsEmpty({
   const { t } = useI18n();
 
   if (!customBody && !hasCustomTitle)
-    return <Text>{t("page.home.events.empty")}</Text>;
+    return (
+      <Text fontSize={{ base: "lg", md: "xl" }} fontWeight="semibold">
+        {t("page.home.events.empty")}
+      </Text>
+    );
 
   if (!customBody) return null;
 
-  return <Text whiteSpace="pre-line">{customBody}</Text>;
+  return (
+    <Text
+      fontSize={{ base: "lg", md: "xl" }}
+      lineHeight={1.4}
+      maxW="42rem"
+      textAlign="center"
+      whiteSpace="pre-line"
+    >
+      {customBody}
+    </Text>
+  );
 }
