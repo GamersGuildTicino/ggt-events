@@ -630,6 +630,8 @@ Per domande, richieste di accesso, correzione, rimozione dell'iscrizione o anoni
     "Ci aiuti a partecipare alle fiere e a sviluppare il progetto.",
   "page.membership.donation.chf_50.title": "CHF 50+",
   "page.membership.form.accept_terms": "Accetto i ",
+  "page.membership.form.amount": "Importo",
+  "page.membership.form.amount.placeholder": "0.00",
   "page.membership.form.city": "Città",
   "page.membership.form.city.placeholder": "Lugano",
   "page.membership.form.email": "Indirizzo email",

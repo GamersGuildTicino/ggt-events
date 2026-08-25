@@ -61,6 +61,7 @@ export default function MembershipPage() {
       const paymentMethod = String(
         formData.get("payment-method") ?? "twint",
       ) as MembershipPaymentMethod;
+      const paymentAmount = paymentAmountFromFormData(formData);
       const newsletterAccepted = formData.has("newsletter-accepted");
 
       setMembershipState(loading());
@@ -72,6 +73,7 @@ export default function MembershipPage() {
         lastName,
         locale,
         newsletterAccepted,
+        paymentAmount,
         paymentMethod,
         phoneNumber,
         postalCode,
@@ -228,18 +230,32 @@ export default function MembershipPage() {
                 </Field.Root>
               </SimpleGrid>
 
-              <Field.Root required>
-                <Field.Label>
-                  {t("page.membership.form.payment_method")}
-                  <Field.RequiredIndicator />
-                </Field.Label>
-                <SelectEnum<MembershipPaymentMethod>
-                  defaultValue="twint"
-                  name="payment-method"
-                  options={paymentMethodOptions}
-                  size="sm"
-                />
-              </Field.Root>
+              <SimpleGrid columns={{ base: 1, md: 2 }} gap={3}>
+                <Field.Root required>
+                  <Field.Label>
+                    {t("page.membership.form.payment_method")}
+                    <Field.RequiredIndicator />
+                  </Field.Label>
+                  <SelectEnum<MembershipPaymentMethod>
+                    defaultValue="twint"
+                    name="payment-method"
+                    options={paymentMethodOptions}
+                    size="sm"
+                  />
+                </Field.Root>
+
+                <Field.Root>
+                  <Field.Label>{t("page.membership.form.amount")}</Field.Label>
+                  <Input
+                    min={0}
+                    name="payment-amount"
+                    placeholder={t("page.membership.form.amount.placeholder")}
+                    size="sm"
+                    step="0.05"
+                    type="number"
+                  />
+                </Field.Root>
+              </SimpleGrid>
 
               <VStack gap={2}>
                 <Field.Root>
@@ -305,3 +321,12 @@ const localeSelectCss = {
     borderColor: "black",
   },
 };
+
+//------------------------------------------------------------------------------
+// Payment Amount From Form Data
+//------------------------------------------------------------------------------
+
+function paymentAmountFromFormData(formData: FormData) {
+  const value = String(formData.get("payment-amount") ?? "").trim();
+  return value ? Number(value) : 0;
+}

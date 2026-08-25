@@ -615,6 +615,8 @@ For questions, access requests, corrections, registration removal requests, or a
     "Helps us take part in fairs and develop the project further.",
   "page.membership.donation.chf_50.title": "CHF 50+",
   "page.membership.form.accept_terms": "I accept the ",
+  "page.membership.form.amount": "Amount",
+  "page.membership.form.amount.placeholder": "0.00",
   "page.membership.form.city": "City",
   "page.membership.form.city.placeholder": "Lugano",
   "page.membership.form.email": "Email address",

@@ -39,6 +39,7 @@ export type MembershipInput = {
   lastName: string;
   locale: Locale;
   newsletterAccepted: boolean;
+  paymentAmount: number;
   paymentMethod: MembershipPaymentMethod;
   phoneNumber: string;
   postalCode: string;
@@ -47,7 +48,7 @@ export type MembershipInput = {
 
 export type AdminMembershipInput = Omit<
   MembershipInput,
-  "locale" | "paymentMethod" | "phoneNumber"
+  "locale" | "paymentAmount" | "paymentMethod" | "phoneNumber"
 > & {
   phoneNumber: string | null;
 };
@@ -107,6 +108,7 @@ export async function createMembership({
   lastName,
   locale,
   newsletterAccepted,
+  paymentAmount,
   paymentMethod,
   phoneNumber,
   postalCode,
@@ -130,6 +132,10 @@ export async function createMembership({
   });
   if (validationError) return validationError;
 
+  if (!Number.isFinite(paymentAmount) || paymentAmount < 0) {
+    return "error.membership_payments.invalid_amount";
+  }
+
   const { error } = await supabase.rpc("create_membership", {
     p_city: city,
     p_email: normalizedEmail,
@@ -137,6 +143,7 @@ export async function createMembership({
     p_last_name: lastName,
     p_locale: locale,
     p_newsletter_accepted: newsletterAccepted,
+    p_payment_amount: paymentAmount,
     p_payment_method: paymentMethod,
     p_phone_number: phoneNumber,
     p_postal_code: postalCode,
@@ -156,6 +163,8 @@ export async function createMembership({
       return "error.memberships.invalid_name";
     case "invalid_payment_method":
       return "error.memberships.invalid_payment_method";
+    case "invalid_payment_amount":
+      return "error.membership_payments.invalid_amount";
     default:
       return "error.memberships.create";
   }

@@ -162,6 +162,7 @@ create or replace function public.create_membership(
   p_postal_code text,
   p_city text,
   p_payment_method text,
+  p_payment_amount numeric default 0,
   p_newsletter_accepted boolean default false,
   p_locale text default 'en-GB'
 )
@@ -178,6 +179,7 @@ declare
   v_locale text;
   v_membership public.memberships;
   v_newsletter_accepted boolean;
+  v_payment_amount numeric;
   v_payment_method public.membership_payment_method;
   v_phone_number text;
   v_postal_code text;
@@ -191,6 +193,7 @@ begin
   v_postal_code := btrim(coalesce(p_postal_code, ''));
   v_city := btrim(coalesce(p_city, ''));
   v_newsletter_accepted := coalesce(p_newsletter_accepted, false);
+  v_payment_amount := coalesce(p_payment_amount, 0);
   v_locale := coalesce(p_locale, 'en-GB');
 
   if v_first_name = '' or v_last_name = '' then
@@ -207,6 +210,10 @@ begin
 
   if p_payment_method is null or p_payment_method not in ('twint', 'bank_transfer', 'cash') then
     raise exception using message = 'invalid_payment_method';
+  end if;
+
+  if v_payment_amount < 0 then
+    raise exception using message = 'invalid_payment_amount';
   end if;
 
   if v_locale not in ('en-GB', 'it-CH') then
@@ -255,7 +262,7 @@ begin
     paid_at
   )
   values (
-    0,
+    v_payment_amount,
     v_membership.id,
     v_payment_method,
     v_membership.created_at
@@ -275,8 +282,8 @@ exception
 end;
 $$;
 
-grant execute on function public.create_membership(text, text, text, text, text, text, text, text, boolean, text) to anon;
-grant execute on function public.create_membership(text, text, text, text, text, text, text, text, boolean, text) to authenticated;
+grant execute on function public.create_membership(text, text, text, text, text, text, text, text, numeric, boolean, text) to anon;
+grant execute on function public.create_membership(text, text, text, text, text, text, text, text, numeric, boolean, text) to authenticated;
 
 --------------------------------------------------------------------------------
 -- RLS Policies
