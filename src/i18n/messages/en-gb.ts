@@ -597,7 +597,7 @@ For questions, access requests, corrections, registration removal requests, or a
     "Support Gamers Guild Ticino activities with a free donation.",
   "page.donation.heading": "Donations",
   "page.donation.info":
-    "Gamers Guild Ticino is a non-profit association. Donations help us organize events, buy games and materials, take part in fairs, and grow the project.\n\nYou can donate any amount you like to support us or to symbolically renew your membership. These are a few suggested values:",
+    "Gamers Guild Ticino is a non-profit association. Donations help us organize events, buy games and materials, take part in fairs, and grow the project.\n\nYou can donate any amount you like to support us or to symbolically renew your membership.",
   "page.donation.url": "/donations",
 
   "page.membership.card_info":

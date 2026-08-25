@@ -4,7 +4,6 @@ import { Link as RouterLink } from "react-router";
 import usePageTitle from "~/hooks/use-page-title";
 import LocaleSelect from "~/i18n/locale-select";
 import useI18n from "~/i18n/use-i18n";
-import MembershipDonationCards from "../membership-page/membership-donation-cards";
 import MembershipPaymentCards from "../membership-page/membership-payment-cards";
 
 //------------------------------------------------------------------------------
@@ -34,10 +33,7 @@ export default function DonationPage() {
       </VStack>
 
       <VStack align="stretch" gap={6}>
-        <VStack align="stretch" gap={4}>
-          <Text whiteSpace="pre-line">{t("page.donation.info")}</Text>
-          <MembershipDonationCards />
-        </VStack>
+        <Text whiteSpace="pre-line">{t("page.donation.info")}</Text>
 
         <VStack align="stretch" gap={4}>
           <Heading size="md">{t("page.membership.payment.heading")}</Heading>

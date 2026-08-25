@@ -610,7 +610,7 @@ Per domande, richieste di accesso, correzione, rimozione dell'iscrizione o anoni
     "Sostieni le attività di Gamers Guild Ticino con una donazione libera.",
   "page.donation.heading": "Donazioni",
   "page.donation.info":
-    "Gamers Guild Ticino è un'associazione senza scopo di lucro. Le donazioni ci aiutano a organizzare eventi, acquistare giochi e materiale, partecipare a fiere e far crescere il progetto.\n\nPuoi donare l'importo che preferisci per sostenerci o per rinnovare simbolicamente la tua iscrizione. Questi sono alcuni valori suggeriti:",
+    "Gamers Guild Ticino è un'associazione senza scopo di lucro. Le donazioni ci aiutano a organizzare eventi, acquistare giochi e materiale, partecipare a fiere e far crescere il progetto.\n\nPuoi donare l'importo che preferisci per sostenerci o per rinnovare simbolicamente la tua iscrizione.",
   "page.donation.url": "/donazioni",
 
   "page.membership.card_info":
