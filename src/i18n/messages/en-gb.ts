@@ -562,7 +562,7 @@ For questions, access requests, corrections, registration removal requests, or a
     "Questions, proposals, or do you want to join the association?",
   "page.home.events.contacts_follow": "Follow us",
   "page.home.events.contacts_join": "Join the association",
-  "page.home.events.contacts_join_cta": "Open membership form",
+  "page.home.events.contacts_join_cta": "Join us",
   "page.home.events.contacts_join_description":
     "Fill in the form to become a member of Gamers Guild Ticino.",
   "page.home.events.description":

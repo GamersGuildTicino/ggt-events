@@ -7,6 +7,7 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
+import { Link as RouterLink } from "react-router";
 import useI18n from "~/i18n/use-i18n";
 import Eyebrow from "~/ui/eyebrow";
 
@@ -16,10 +17,8 @@ import Eyebrow from "~/ui/eyebrow";
 
 export default function HomeEventsContactsPanel() {
   const { t } = useI18n();
-  const membershipFormLink = import.meta.env["VITE_MEMBERSHIP_FORM_LINK"];
   const instagramLink = import.meta.env["VITE_INSTAGRAM_LINK"];
   const whatsAppLink = import.meta.env["VITE_WHATS_APP_LINK"];
-  if (!instagramLink && !membershipFormLink && !whatsAppLink) return null;
 
   return (
     <Flex
@@ -67,27 +66,25 @@ export default function HomeEventsContactsPanel() {
         </VStack>
       )}
 
-      {membershipFormLink && (
-        <VStack
-          align="stretch"
-          bgColor="ggt.surface.bg"
-          borderColor="ggt.surface.border"
-          borderWidth="1px"
-          flex={1}
-          gap={4}
-          p={6}
-        >
-          <Eyebrow>{t("page.home.events.contacts_join")}</Eyebrow>
-          <Text color="fg.muted" fontSize="sm">
-            {t("page.home.events.contacts_join_description")}
-          </Text>
-          <Button asChild size="sm" variant="outline">
-            <a href={membershipFormLink} rel="noreferrer" target="_blank">
-              {t("page.home.events.contacts_join_cta")}
-            </a>
-          </Button>
-        </VStack>
-      )}
+      <VStack
+        align="stretch"
+        bgColor="ggt.surface.bg"
+        borderColor="ggt.surface.border"
+        borderWidth="1px"
+        flex={1}
+        gap={4}
+        p={6}
+      >
+        <Eyebrow>{t("page.home.events.contacts_join")}</Eyebrow>
+        <Text color="fg.muted" fontSize="sm">
+          {t("page.home.events.contacts_join_description")}
+        </Text>
+        <Button asChild size="sm" variant="outline">
+          <RouterLink to={t("page.membership.url")}>
+            {t("page.home.events.contacts_join_cta")}
+          </RouterLink>
+        </Button>
+      </VStack>
     </Flex>
   );
 }
