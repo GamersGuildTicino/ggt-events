@@ -22,11 +22,8 @@ export default function HomeHero() {
       backgroundPosition="center"
       backgroundSize="cover"
       bgImage={`
-        linear-gradient(180deg, rgba(173, 220, 249, 0.86), rgba(173, 220, 249, 0.62)),
-        radial-gradient(circle at 18% 24%, rgba(255, 255, 255, 0.9), transparent 18%),
-        radial-gradient(circle at 78% 18%, rgba(230, 139, 182, 0.42), transparent 22%),
-        radial-gradient(circle at 72% 76%, rgba(101, 191, 247, 0.72), transparent 28%),
-        linear-gradient(135deg, #addcf9 0%, #f7fbff 48%, #c9ecff 100%)
+        linear-gradient(180deg, rgba(255, 255, 255, 0.72), rgba(255, 255, 255, 0.54)),
+        url("/images/banner.jpg")
       `}
       color="fg"
       minH={{ base: "23rem", md: "30rem" }}
@@ -35,9 +32,8 @@ export default function HomeHero() {
       w="full"
     >
       <Box
-        bgImage="linear-gradient(135deg, rgba(255,255,255,0.26) 0 10%, transparent 10% 20%, rgba(255,255,255,0.2) 20% 30%, transparent 30% 100%)"
+        bgImage="linear-gradient(180deg, transparent 0%, rgba(173, 220, 249, 0.45) 100%)"
         inset={0}
-        opacity={0.38}
         position="absolute"
       />
 
@@ -69,13 +65,46 @@ export default function HomeHero() {
               fontSize={{ base: "4xl", md: "7xl" }}
               fontWeight="light"
               lineHeight={1}
+              textShadow="
+                -2px -2px 0 white,
+                0 -2px 0 white,
+                2px -2px 0 white,
+                -2px 0 0 white,
+                2px 0 0 white,
+                -2px 2px 0 white,
+                0 2px 0 white,
+                2px 2px 0 white,
+                -1px -1px 0 white,
+                1px -1px 0 white,
+                -1px 1px 0 white,
+                1px 1px 0 white,
+                0 0 0.45rem white
+              "
             >
               <Span color="ggt.fg.secondary">G</Span>amers{" "}
               <Span color="ggt.fg.secondary">G</Span>uild{" "}
               <Span color="ggt.fg.secondary">T</Span>icino
             </Heading>
 
-            <Text fontSize={{ base: "lg", md: "xl" }} maxW="34em">
+            <Text
+              fontSize={{ base: "lg", md: "xl" }}
+              maxW="34em"
+              textShadow="
+                -2px -2px 0 white,
+                0 -2px 0 white,
+                2px -2px 0 white,
+                -2px 0 0 white,
+                2px 0 0 white,
+                -2px 2px 0 white,
+                0 2px 0 white,
+                2px 2px 0 white,
+                -1px -1px 0 white,
+                1px -1px 0 white,
+                -1px 1px 0 white,
+                1px 1px 0 white,
+                0 0 0.35rem white
+              "
+            >
               {t("page.home.hero.description")}
             </Text>
           </VStack>

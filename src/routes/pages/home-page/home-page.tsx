@@ -19,7 +19,13 @@ export default function HomePage() {
   usePageTitle(t("page.home.heading"));
 
   return (
-    <VStack align="center" gap={0} w="full">
+    <VStack
+      align="center"
+      gap={0}
+      mb={{ base: "-1rem", md: "-2rem" }}
+      mt={{ base: "-1rem", md: "-2rem" }}
+      w="full"
+    >
       <HomeBand backgroundColor="transparent" fullWidthContent p={0}>
         <HomeHero />
       </HomeBand>
