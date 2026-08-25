@@ -13,8 +13,16 @@ type HomeUpcomingEventsListProps = {
 export default function HomeUpcomingEventsList({
   upcomingEvents,
 }: HomeUpcomingEventsListProps) {
+  const hasSingleEvent = upcomingEvents.length === 1;
+
   return (
-    <SimpleGrid columns={{ base: 1, lg: 2 }} gap={4} w="full">
+    <SimpleGrid
+      columns={{ base: 1, lg: hasSingleEvent ? 1 : 2 }}
+      gap={4}
+      maxW={hasSingleEvent ? "36rem" : undefined}
+      mx={hasSingleEvent ? "auto" : undefined}
+      w="full"
+    >
       {upcomingEvents.map(({ event, timeSlots }) => (
         <HomeEventCard event={event} key={event.id} timeSlots={timeSlots} />
       ))}

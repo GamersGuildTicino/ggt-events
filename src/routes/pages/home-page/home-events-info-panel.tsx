@@ -35,6 +35,10 @@ export default function HomeEventsInfoPanel() {
           <List.Item>• {t("page.home.events.info_step_2")}</List.Item>
           <List.Item>• {t("page.home.events.info_step_3")}</List.Item>
         </List.Root>
+
+        <Text fontSize={{ base: "md", md: "lg" }}>
+          {t("page.home.events.info_footer")}
+        </Text>
       </VStack>
     </VStack>
   );

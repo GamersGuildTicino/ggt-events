@@ -560,11 +560,11 @@ For questions, access requests, corrections, registration removal requests, or a
   "page.home.actions.contact.description":
     "For questions, collaborations, or proposals, write to us or follow our channels.",
   "page.home.actions.contact.title": "Follow or write to us",
-  "page.home.actions.donation.cta": "Donate or renew",
+  "page.home.actions.donation.cta": "Donate or Renew",
   "page.home.actions.donation.description":
     "Support the association with a free donation or symbolically renew your membership.",
-  "page.home.actions.donation.title": "Support the project",
-  "page.home.actions.membership.cta": "Register",
+  "page.home.actions.donation.title": "Support us",
+  "page.home.actions.membership.cta": "Become Member",
   "page.home.actions.membership.description":
     "Become a member of Gamers Guild Ticino with a free donation, no expiry date and no renewal obligation.",
   "page.home.actions.membership.title": "Join the association",
@@ -582,6 +582,8 @@ For questions, access requests, corrections, registration removal requests, or a
   "page.home.events.empty": "No upcoming events.",
   "page.home.events.heading": "Upcoming events",
   "page.home.events.info_eyebrow": "About us",
+  "page.home.events.info_footer":
+    "Never played before? Come and try, new players are always welcome!",
   "page.home.events.info_intro":
     "Gamers Guild Ticino organizes monthly live TTRPG events in Ticino for players, game masters, and anyone curious about role-playing games.\n\nWe are a non-profit association that promotes the culture and diffusion of role-playing games, encouraging socialization, community building, and sharing a passion for play through events and open initiatives.",
   "page.home.events.info_step_1": "Each event may host one or more tables.",

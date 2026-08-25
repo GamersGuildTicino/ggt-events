@@ -26,6 +26,7 @@ export default function HomeActionsSection() {
   return (
     <SimpleGrid columns={{ base: 1, md: 3 }} gap={4} w="full">
       <HomeActionCard
+        buttonColorPalette="green"
         cta={t("page.home.actions.membership.cta")}
         description={t("page.home.actions.membership.description")}
         title={t("page.home.actions.membership.title")}
