@@ -51,7 +51,9 @@ export default function HomeEventCard({
       align="flex-start"
       bg="white"
       borderColor="ggt.surface.border"
+      borderRadius="0.35rem"
       borderWidth="1px"
+      boxShadow="0 0.5rem 1.25rem rgba(14, 66, 99, 0.12)"
       gap={{ base: 4, md: 5 }}
       h="full"
       p={{ base: 4, md: 5 }}

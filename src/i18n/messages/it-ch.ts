@@ -573,7 +573,7 @@ Per domande, richieste di accesso, correzione, rimozione dell'iscrizione o anoni
   "page.home.actions.contact.description":
     "Per domande, collaborazioni o proposte, scrivici oppure seguici sui nostri canali.",
   "page.home.actions.contact.title": "Seguici o scrivici",
-  "page.home.actions.donation.cta": "Dona o rinnova",
+  "page.home.actions.donation.cta": "Dona o Rinnova",
   "page.home.actions.donation.description":
     "Sostieni l'associazione con una donazione libera o rinnova simbolicamente il tuo tesseramento.",
   "page.home.actions.donation.title": "Sostieni il progetto",

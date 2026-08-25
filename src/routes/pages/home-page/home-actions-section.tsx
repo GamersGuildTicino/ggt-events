@@ -8,6 +8,8 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
+import { Heart } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 import { Link as RouterLink } from "react-router";
 import useI18n from "~/i18n/use-i18n";
 
@@ -31,7 +33,9 @@ export default function HomeActionsSection() {
       />
 
       <HomeActionCard
+        buttonColorPalette="pink"
         cta={t("page.home.actions.donation.cta")}
+        ctaIcon={Heart}
         description={t("page.home.actions.donation.description")}
         title={t("page.home.actions.donation.title")}
         to={t("page.donation.url")}
@@ -41,7 +45,9 @@ export default function HomeActionsSection() {
         align="stretch"
         bg="white"
         borderColor="ggt.surface.border"
+        borderRadius="0.35rem"
         borderWidth="1px"
+        boxShadow="0 0.5rem 1.25rem rgba(14, 66, 99, 0.12)"
         gap={5}
         minH="13rem"
         p={5}
@@ -50,7 +56,7 @@ export default function HomeActionsSection() {
           <Heading
             fontFamily="'Shrikhand', Georgia, serif"
             fontWeight="light"
-            size="lg"
+            size="xl"
           >
             {t("page.home.actions.contact.title")}
           </Heading>
@@ -94,19 +100,30 @@ export default function HomeActionsSection() {
 //------------------------------------------------------------------------------
 
 type HomeActionCardProps = {
+  buttonColorPalette?: string;
   cta: string;
+  ctaIcon?: LucideIcon;
   description: string;
   title: string;
   to: string;
 };
 
-function HomeActionCard({ cta, description, title, to }: HomeActionCardProps) {
+function HomeActionCard({
+  buttonColorPalette,
+  cta,
+  ctaIcon: CtaIcon,
+  description,
+  title,
+  to,
+}: HomeActionCardProps) {
   return (
     <VStack
       align="stretch"
       bg="white"
       borderColor="ggt.surface.border"
+      borderRadius="0.35rem"
       borderWidth="1px"
+      boxShadow="0 0.5rem 1.25rem rgba(14, 66, 99, 0.12)"
       gap={5}
       minH="13rem"
       p={5}
@@ -115,15 +132,23 @@ function HomeActionCard({ cta, description, title, to }: HomeActionCardProps) {
         <Heading
           fontFamily="'Shrikhand', Georgia, serif"
           fontWeight="light"
-          size="lg"
+          size="xl"
         >
           {title}
         </Heading>
         <Text>{description}</Text>
       </VStack>
 
-      <Button asChild size="sm" variant="solid">
-        <RouterLink to={to}>{cta}</RouterLink>
+      <Button
+        asChild
+        colorPalette={buttonColorPalette}
+        size="sm"
+        variant="solid"
+      >
+        <RouterLink to={to}>
+          {CtaIcon && <CtaIcon size={16} />}
+          {cta}
+        </RouterLink>
       </Button>
     </VStack>
   );
