@@ -105,21 +105,9 @@ export default function MembershipPage() {
         <Text>{t("page.membership.description")}</Text>
       </VStack>
 
-      <VStack align="stretch" gap={6}>
-        <VStack align="stretch" gap={4}>
-          <Text>{t("page.membership.info")}</Text>
+      <Text whiteSpace="pre-line">{t("page.membership.card_info")}</Text>
 
-          <MembershipDonationCards />
-
-          <Text whiteSpace="pre-line">{t("page.membership.card_info")}</Text>
-        </VStack>
-
-        <VStack align="stretch" gap={4}>
-          <Heading size="md">{t("page.membership.payment.heading")}</Heading>
-
-          <MembershipPaymentCards />
-        </VStack>
-      </VStack>
+      <Text>{t("page.membership.info")}</Text>
 
       <Card.Root bg="white" borderColor="ggt.surface.border">
         <Card.Body>
@@ -308,6 +296,20 @@ export default function MembershipPage() {
           </form>
         </Card.Body>
       </Card.Root>
+
+      <VStack align="stretch" gap={6}>
+        <VStack align="stretch" gap={4}>
+          <Text>{t("page.membership.donation.info")}</Text>
+
+          <MembershipDonationCards />
+        </VStack>
+
+        <VStack align="stretch" gap={4}>
+          <Heading size="md">{t("page.membership.payment.heading")}</Heading>
+
+          <MembershipPaymentCards />
+        </VStack>
+      </VStack>
     </VStack>
   );
 }

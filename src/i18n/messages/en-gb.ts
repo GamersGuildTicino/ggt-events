@@ -628,6 +628,8 @@ For questions, access requests, corrections, registration removal requests, or a
   "page.membership.donation.chf_50.body":
     "Helps us take part in fairs and develop the project further.",
   "page.membership.donation.chf_50.title": "CHF 50+",
+  "page.membership.donation.info":
+    "The membership contribution is a free donation. These are the suggested amounts:",
   "page.membership.form.accept_terms": "I accept the ",
   "page.membership.form.amount": "Amount",
   "page.membership.form.amount.placeholder": "0.00",
@@ -653,7 +655,7 @@ For questions, access requests, corrections, registration removal requests, or a
   "page.membership.form.terms_link": "association terms and data conditions",
   "page.membership.heading": "Join Gamers Guild Ticino",
   "page.membership.info":
-    "With this form you confirm your membership in Gamers Guild Ticino. Thank you for your support!\n\nThe membership contribution is a free donation. These are the suggested amounts:",
+    "With this form you confirm your membership in Gamers Guild Ticino.",
   "page.membership.payment.bank_transfer.body":
     "Gamers Guild Ticino\nVia Maggio 18, 6900 Lugano\nCH13 0900 0000 1687 2277 9\nPayment reason: tesseramento GG",
   "page.membership.payment.bank_transfer.title": "Bank transfer",

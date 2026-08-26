@@ -643,6 +643,8 @@ Per domande, richieste di accesso, correzione, rimozione dell'iscrizione o anoni
   "page.membership.donation.chf_50.body":
     "Ci aiuti a partecipare alle fiere e a sviluppare il progetto.",
   "page.membership.donation.chf_50.title": "CHF 50+",
+  "page.membership.donation.info":
+    "La quota associativa è a offerta libera. Questi sono gli importi suggeriti:",
   "page.membership.form.accept_terms": "Accetto i ",
   "page.membership.form.amount": "Importo",
   "page.membership.form.amount.placeholder": "0.00",
@@ -669,7 +671,7 @@ Per domande, richieste di accesso, correzione, rimozione dell'iscrizione o anoni
     "termini dell'associazione e condizioni sui dati",
   "page.membership.heading": "Tesserati a Gamers Guild Ticino",
   "page.membership.info":
-    "Con questo modulo confermi la tua adesione all'associazione Gamers Guild Ticino. Grazie per il tuo prezioso supporto!\n\nLa quota associativa è a offerta libera. Questi sono gli importi suggeriti:",
+    "Con questo modulo confermi la tua adesione all'associazione Gamers Guild Ticino.",
   "page.membership.payment.bank_transfer.body":
     "Gamers Guild Ticino\nVia Maggio 18, 6900 Lugano\nCH13 0900 0000 1687 2277 9\nMotivo versamento: tesseramento GG",
   "page.membership.payment.bank_transfer.title": "Versamento bancario",
