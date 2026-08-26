@@ -29,6 +29,7 @@ export default function HomeActionsSection() {
         buttonColorPalette="green"
         cta={t("page.home.actions.membership.cta")}
         description={t("page.home.actions.membership.description")}
+        imageSrc="/images/promo_1.jpg"
         title={t("page.home.actions.membership.title")}
         to={t("page.membership.url")}
       />
@@ -38,6 +39,7 @@ export default function HomeActionsSection() {
         cta={t("page.home.actions.donation.cta")}
         ctaIcon={Heart}
         description={t("page.home.actions.donation.description")}
+        imageSrc="/images/promo_2.jpg"
         title={t("page.home.actions.donation.title")}
         to={t("page.donation.url")}
       />
@@ -51,9 +53,11 @@ export default function HomeActionsSection() {
         boxShadow="0 0.5rem 1.25rem rgba(14, 66, 99, 0.12)"
         gap={5}
         minH="13rem"
-        p={5}
+        overflow="hidden"
       >
-        <VStack align="flex-start" flex={1} gap={2}>
+        <ActionCardImage imageSrc="/images/promo_3.jpg" />
+
+        <VStack align="flex-start" flex={1} gap={2} px={5}>
           <Heading
             fontFamily="'Shrikhand', Georgia, serif"
             fontWeight="light"
@@ -65,7 +69,14 @@ export default function HomeActionsSection() {
         </VStack>
 
         {(instagramLink || whatsAppLink || infoAddress) && (
-          <Box display="flex" flexWrap="wrap" gap={3} justifyContent="center">
+          <Box
+            display="flex"
+            flexWrap="wrap"
+            gap={3}
+            justifyContent="center"
+            pb={5}
+            px={5}
+          >
             {instagramLink && (
               <ContactIconLink
                 href={instagramLink}
@@ -105,6 +116,7 @@ type HomeActionCardProps = {
   cta: string;
   ctaIcon?: LucideIcon;
   description: string;
+  imageSrc: string;
   title: string;
   to: string;
 };
@@ -114,6 +126,7 @@ function HomeActionCard({
   cta,
   ctaIcon: CtaIcon,
   description,
+  imageSrc,
   title,
   to,
 }: HomeActionCardProps) {
@@ -127,9 +140,11 @@ function HomeActionCard({
       boxShadow="0 0.5rem 1.25rem rgba(14, 66, 99, 0.12)"
       gap={5}
       minH="13rem"
-      p={5}
+      overflow="hidden"
     >
-      <VStack align="flex-start" flex={1} gap={2}>
+      <ActionCardImage imageSrc={imageSrc} />
+
+      <VStack align="flex-start" flex={1} gap={2} px={5}>
         <Heading
           fontFamily="'Shrikhand', Georgia, serif"
           fontWeight="light"
@@ -140,18 +155,41 @@ function HomeActionCard({
         <Text>{description}</Text>
       </VStack>
 
-      <Button
-        asChild
-        colorPalette={buttonColorPalette}
-        size="sm"
-        variant="solid"
-      >
-        <RouterLink to={to}>
-          {CtaIcon && <CtaIcon size={16} />}
-          {cta}
-        </RouterLink>
-      </Button>
+      <Box pb={5} px={5}>
+        <Button
+          asChild
+          colorPalette={buttonColorPalette}
+          size="sm"
+          variant="solid"
+          w="full"
+        >
+          <RouterLink to={to}>
+            {CtaIcon && <CtaIcon size={16} />}
+            {cta}
+          </RouterLink>
+        </Button>
+      </Box>
     </VStack>
+  );
+}
+
+//------------------------------------------------------------------------------
+// Action Card Image
+//------------------------------------------------------------------------------
+
+type ActionCardImageProps = {
+  imageSrc: string;
+};
+
+function ActionCardImage({ imageSrc }: ActionCardImageProps) {
+  return (
+    <Image
+      alt=""
+      aspectRatio={16 / 9}
+      objectFit="cover"
+      src={imageSrc}
+      w="full"
+    />
   );
 }
 
