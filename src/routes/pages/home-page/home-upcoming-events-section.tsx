@@ -53,7 +53,7 @@ export default function HomeUpcomingEventsSection({
         <Heading
           fontFamily="'Shrikhand', Georgia, serif"
           fontWeight="light"
-          size={hasNoUpcomingEvents ? "5xl" : "4xl"}
+          size="4xl"
           textAlign="center"
         >
           {sectionTitle}

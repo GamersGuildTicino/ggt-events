@@ -598,7 +598,7 @@ Per domande, richieste di accesso, correzione, rimozione dell'iscrizione o anoni
   "page.home.events.info_footer":
     "Non hai mai giocato? Vieni a provare, i nuovi giocatori sono sempre benvenuti!",
   "page.home.events.info_intro":
-    "Gamers Guild Ticino organizza eventi mensili di giochi di ruolo dal vivo in Ticino per giocatori, game master e persone curiose.\n\nSiamo un'associazione senza scopo di lucro che promuove la cultura e la diffusione dei giochi di ruolo, favorendo la socializzazione, l'aggregazione e la condivisione della passione per il gioco attraverso eventi e iniziative aperte.",
+    "Siamo un'associazione senza scopo di lucro che promuove la cultura e la diffusione dei giochi di ruolo, favorendo la socializzazione, l'aggregazione e la condivisione della passione per il gioco attraverso eventi e iniziative aperte.",
   "page.home.events.info_step_1": "Ogni evento può ospitare uno o più tavoli.",
   "page.home.events.info_step_2":
     "Apri un evento per vedere tavoli, game master e requisiti.",

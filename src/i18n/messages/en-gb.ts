@@ -585,7 +585,7 @@ For questions, access requests, corrections, registration removal requests, or a
   "page.home.events.info_footer":
     "Never played before? Come and try, new players are always welcome!",
   "page.home.events.info_intro":
-    "Gamers Guild Ticino organizes monthly live TTRPG events in Ticino for players, game masters, and anyone curious about role-playing games.\n\nWe are a non-profit association that promotes the culture and diffusion of role-playing games, encouraging socialization, community building, and sharing a passion for play through events and open initiatives.",
+    "We are a non-profit association that promotes the culture and diffusion of role-playing games, encouraging socialization, community building, and sharing a passion for play through events and open initiatives.",
   "page.home.events.info_step_1": "Each event may host one or more tables.",
   "page.home.events.info_step_2":
     "Open an event to see tables, game masters, and requirements.",

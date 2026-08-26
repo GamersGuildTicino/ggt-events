@@ -1,17 +1,26 @@
-import { Box, HStack, Heading, Image, Span, VStack } from "@chakra-ui/react";
+import {
+  Box,
+  HStack,
+  Heading,
+  Image,
+  Span,
+  Text,
+  VStack,
+} from "@chakra-ui/react";
 import type { PropsWithChildren } from "react";
 import LocaleSelect from "~/i18n/locale-select";
+import useI18n from "~/i18n/use-i18n";
 
 //------------------------------------------------------------------------------
 // Home Hero
 //------------------------------------------------------------------------------
 
 export default function HomeHero() {
+  const { t } = useI18n();
+
   return (
     <Box
-      backgroundPosition="center"
-      backgroundSize="cover"
-      bgImage='url("/images/banner.jpg")'
+      bg="ggt.page.bg"
       color="fg"
       minH={{ base: "23rem", md: "30rem" }}
       overflow="hidden"
@@ -46,26 +55,20 @@ export default function HomeHero() {
           />
 
           <VStack align="center" gap={2}>
-            <Box
-              bgColor="rgba(255, 255, 255, 0.75)"
-              borderColor="black"
-              borderWidth={2.5}
-              px={8}
-              py={3}
+            <Heading
+              color="black"
+              fontFamily="'Shrikhand', Georgia, serif"
+              fontSize={{ base: "6xl", md: "7xl" }}
+              fontWeight="light"
+              lineHeight={1}
             >
-              <Heading
-                WebkitTextStrokeColor="black"
-                WebkitTextStrokeWidth={2.5}
-                color="ggt.fg.primary"
-                fontFamily="'Shrikhand', Georgia, serif"
-                fontSize={{ base: "6xl", md: "7xl" }}
-                fontWeight="light"
-                lineHeight={1}
-              >
-                <Capital>G</Capital>amers <Capital>G</Capital>uild{" "}
-                <Capital>T</Capital>icino
-              </Heading>
-            </Box>
+              <Capital>G</Capital>amers <Capital>G</Capital>uild{" "}
+              <Capital>T</Capital>icino
+            </Heading>
+
+            <Text fontSize={{ base: "lg", md: "xl" }} maxW="42rem">
+              {t("page.home.hero.description")}
+            </Text>
           </VStack>
         </VStack>
       </VStack>
@@ -78,7 +81,15 @@ export default function HomeHero() {
 //------------------------------------------------------------------------------
 
 function Capital({ children }: PropsWithChildren) {
-  return <Span color="ggt.fg.secondary">{children}</Span>;
+  return (
+    <Span
+      WebkitTextStrokeColor="black"
+      WebkitTextStrokeWidth={3}
+      color="ggt.fg.secondary"
+    >
+      {children}
+    </Span>
+  );
 }
 
 //------------------------------------------------------------------------------
