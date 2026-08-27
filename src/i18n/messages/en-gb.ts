@@ -580,6 +580,9 @@ For questions, access requests, corrections, registration removal requests, or a
   "page.home.events.description":
     "Pick an event, browse the available tables, and reserve your seat when registrations are open.",
   "page.home.events.empty": "No upcoming events.",
+  "page.home.events.error.description":
+    "Something went wrong. Try reloading the page in a moment.",
+  "page.home.events.error.heading": "We could not load the events.",
   "page.home.events.heading": "Upcoming events",
   "page.home.events.info_eyebrow": "About us",
   "page.home.events.info_footer":

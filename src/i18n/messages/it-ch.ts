@@ -593,6 +593,9 @@ Per domande, richieste di accesso, correzione, rimozione dell'iscrizione o anoni
   "page.home.events.description":
     "Scegli un evento, consulta i tavoli disponibili e riserva il tuo posto quando le iscrizioni sono aperte.",
   "page.home.events.empty": "Nessun evento in programma.",
+  "page.home.events.error.description":
+    "Si è verificato un errore durante il caricamento degli eventi, prova a ricaricare la pagina.",
+  "page.home.events.error.heading": "Non siamo riusciti a caricare gli eventi.",
   "page.home.events.heading": "Prossimi eventi",
   "page.home.events.info_eyebrow": "Chi siamo",
   "page.home.events.info_footer":

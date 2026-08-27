@@ -61,9 +61,7 @@ export default function HomeUpcomingEventsSection({
 
         {eventsState.isLoading && <HomeUpcomingEventsLoading />}
 
-        {eventsState.hasError && (
-          <HomeUpcomingEventsError error={eventsState.error} />
-        )}
+        {eventsState.hasError && <HomeUpcomingEventsError />}
 
         {eventsState.isSuccess && upcomingEvents.length === 0 && (
           <HomeUpcomingEventsEmpty
