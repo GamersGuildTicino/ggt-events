@@ -5,6 +5,7 @@ import {
   Heading,
   Input,
   Textarea,
+  VStack,
 } from "@chakra-ui/react";
 import type { DateValue } from "@chakra-ui/react";
 import { CalendarDate } from "@internationalized/date";
@@ -35,6 +36,7 @@ export type EventDetailsFormValue = Pick<
   | "registrationsOpen"
   | "shortDescription"
   | "slug"
+  | "tablesPublished"
   | "title"
   | "visibility"
 >;
@@ -211,15 +213,27 @@ export default function EventDetailsForm({
             </Field.Root>
           </HStack>
 
-          <Field.Root disabled={disabled} my={2}>
-            <Checkbox
-              defaultChecked={initialValue?.registrationsOpen}
-              name="registrations-open"
-              size="sm"
-            >
-              {t("form.event_details.registrations_open")}
-            </Checkbox>
-          </Field.Root>
+          <VStack align="flex-start" gap={1} my={1}>
+            <Field.Root disabled={disabled}>
+              <Checkbox
+                defaultChecked={initialValue?.tablesPublished ?? true}
+                name="tables-published"
+                size="sm"
+              >
+                {t("form.event_details.tables_published")}
+              </Checkbox>
+            </Field.Root>
+
+            <Field.Root disabled={disabled}>
+              <Checkbox
+                defaultChecked={initialValue?.registrationsOpen}
+                name="registrations-open"
+                size="sm"
+              >
+                {t("form.event_details.registrations_open")}
+              </Checkbox>
+            </Field.Root>
+          </VStack>
 
           {message}
 
@@ -253,6 +267,7 @@ function eventDetailsFormValueFromForm(
     ),
     shortDescription: getString("short-description"),
     slug: normalizeSlug(getString("slug")),
+    tablesPublished: formData.get("tables-published") === "on",
     title: getString("title"),
     visibility: formData.get("visibility") as EventVisibility,
   };

@@ -10,7 +10,10 @@ export function shouldShowRegistrationOpeningDate(
   event: Event,
   timeSlots: EventTimeSlot[],
 ) {
-  return !event.registrationsOpen && !isEventOver(timeSlots);
+  return (
+    !(event.registrationsOpen && event.tablesPublished) &&
+    !isEventOver(timeSlots)
+  );
 }
 
 //------------------------------------------------------------------------------

@@ -30,10 +30,11 @@ export default function HomeEventCard({
   const firstTimeSlot = timeSlots[0];
   if (!firstTimeSlot) return null;
 
+  const registrationsOpen = event.registrationsOpen && event.tablesPublished;
   const showOpeningDate = shouldShowRegistrationOpeningDate(event, timeSlots);
 
   const statusLabel =
-    event.registrationsOpen ? t("page.home.events.registrations_open")
+    registrationsOpen ? t("page.home.events.registrations_open")
     : showOpeningDate ?
       ti(
         "page.home.events.registrations_open_at",
@@ -42,7 +43,7 @@ export default function HomeEventCard({
     : t("page.home.events.registrations_closed");
 
   const statusDotColor =
-    event.registrationsOpen ? "green.500"
+    registrationsOpen ? "green.500"
     : showOpeningDate ? "blue.500"
     : "gray.400";
 
@@ -106,7 +107,7 @@ export default function HomeEventCard({
           textTransform="uppercase"
         >
           <RouterLink to={eventPath}>
-            {event.registrationsOpen ?
+            {registrationsOpen ?
               t("page.home.events.open_and_register")
             : t("page.home.events.open")}
           </RouterLink>

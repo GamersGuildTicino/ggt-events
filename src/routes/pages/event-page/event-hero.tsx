@@ -44,6 +44,7 @@ export default function EventHero({
     event,
     timeSlots,
   );
+  const registrationsOpen = event.registrationsOpen && event.tablesPublished;
 
   const [statusColor, statusLabel, statusDescription] =
     eventOver ?
@@ -52,7 +53,7 @@ export default function EventHero({
         t("page.event.event_over"),
         t("page.event.hero.event_over"),
       ]
-    : event.registrationsOpen ?
+    : registrationsOpen ?
       [
         "green.500",
         t("page.event.registrations_open"),

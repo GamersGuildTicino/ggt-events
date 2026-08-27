@@ -256,7 +256,10 @@ begin
     raise exception using message = 'event_not_found';
   end if;
 
-  if not v_event.registrations_open or v_event.visibility = 'private' then
+  if not v_event.registrations_open
+    or v_event.visibility = 'private'
+    or not v_event.tables_published
+  then
     raise exception using message = 'registrations_closed';
   end if;
 
@@ -614,6 +617,7 @@ as $$
   join public.events on events.id = event_time_slots.event_id
   join public.game_systems on game_systems.id = event_tables.game_system_id
   where event_time_slots.event_id = p_event_id
+    and events.tables_published
   order by game_systems.name asc, event_tables.title asc;
 $$;
 

@@ -71,7 +71,11 @@ export default function EventTablesSection({
       {eventTablesState.isSuccess && eventTablesState.data.length === 0 && (
         <Card.Root borderStyle="dashed">
           <Card.Body>
-            <Text color="fg.muted">{t("page.event.tables.empty")}</Text>
+            <Text color="fg.muted">
+              {event.tablesPublished ?
+                t("page.event.tables.empty")
+              : t("page.event.tables.unpublished")}
+            </Text>
           </Card.Body>
         </Card.Root>
       )}

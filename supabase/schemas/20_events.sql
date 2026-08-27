@@ -13,6 +13,7 @@ create table public.events (
   location_address text not null,
   registrations_open boolean not null default false,
   registrations_open_at timestamptz not null,
+  tables_published boolean not null default true,
   visibility public.event_visibility not null default 'private',
   created_by uuid not null references auth.users (id),
   created_at timestamptz not null default now(),
@@ -47,6 +48,7 @@ begin
   where registrations_open = false
     and registrations_open_at <= now()
     and visibility <> 'private'
+    and tables_published
     and exists (
       select 1
       from public.event_time_slots

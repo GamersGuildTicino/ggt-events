@@ -138,6 +138,7 @@ const itCH = {
   "form.event_details.slug.label": "Slug",
   "form.event_details.starts_at_date.label": "Data",
   "form.event_details.starts_at_time.label": "Ora",
+  "form.event_details.tables_published": "Tavoli pubblicati",
   "form.event_details.title.label": "Titolo",
   "form.event_details.visibility.label": "Visibilità",
 
@@ -556,6 +557,7 @@ Per domande, richieste di accesso, correzione, rimozione dell'iscrizione o anoni
   "page.event.tables.notes": "Note",
   "page.event.tables.seats": "Posti",
   "page.event.tables.show_details": "Mostra dettagli",
+  "page.event.tables.unpublished": "I tavoli saranno pubblicati prossimamente.",
 
   "page.home.about.card_1.description":
     "Avventure autoconclusive e brevi campagne, con tavoli per gusti ed esperienze diverse.",

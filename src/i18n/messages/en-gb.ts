@@ -132,6 +132,7 @@ const enGB = {
   "form.event_details.slug.label": "Slug",
   "form.event_details.starts_at_date.label": "Date",
   "form.event_details.starts_at_time.label": "Time",
+  "form.event_details.tables_published": "Tables published",
   "form.event_details.title.label": "Title",
   "form.event_details.visibility.label": "Visibility",
 
@@ -543,6 +544,7 @@ For questions, access requests, corrections, registration removal requests, or a
   "page.event.tables.notes": "Notes",
   "page.event.tables.seats": "Seats",
   "page.event.tables.show_details": "Show details",
+  "page.event.tables.unpublished": "Tables will be published soon.",
 
   "page.home.about.card_1.description":
     "One-shot adventures and short campaigns, with tables for different tastes and experience levels.",

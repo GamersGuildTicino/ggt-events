@@ -52,6 +52,7 @@ using (
     join public.events on events.id = event_time_slots.event_id
     where event_time_slots.id = event_tables.time_slot_id
       and events.visibility in ('public', 'restricted')
+      and events.tables_published
   )
 );
 
