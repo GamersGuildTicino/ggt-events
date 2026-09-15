@@ -148,6 +148,7 @@ const itCH = {
   "form.event_table.game_master_name.label": "Game master",
   "form.event_table.game_system.label": "Sistema di gioco",
   "form.event_table.image_url.label": "URL immagine",
+  "form.event_table.is_visible.label": "Tavolo visibile",
   "form.event_table.language.label": "Lingua",
   "form.event_table.max_players.label": "Giocatori max",
   "form.event_table.min_players.label": "Giocatori min",
@@ -231,6 +232,7 @@ const itCH = {
   "page.admin_event.tables.error.missing_user":
     "Devi essere registrato per creare un tavolo.",
   "page.admin_event.tables.game_master": "Game Master: {0}",
+  "page.admin_event.tables.hidden": "Nascosto",
   "page.admin_event.tables.hide_description": "Nascondi dettagli",
   "page.admin_event.tables.new": "Nuovo tavolo",
   "page.admin_event.tables.no_game_systems":

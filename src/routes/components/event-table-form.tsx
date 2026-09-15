@@ -17,6 +17,7 @@ import type { EventTable } from "~/domain/event-tables";
 import type { EventTimeSlot } from "~/domain/event-time-slots";
 import type { GameSystem } from "~/domain/game-systems";
 import useI18n from "~/i18n/use-i18n";
+import Checkbox from "~/ui/checkbox";
 import Form from "~/ui/form";
 import SelectEnum from "~/ui/select-enum";
 
@@ -32,6 +33,7 @@ export type EventTableFormValue = Pick<
   | "gameMasterName"
   | "gameSystemId"
   | "imageUrl"
+  | "isVisible"
   | "language"
   | "maxPlayers"
   | "minPlayers"
@@ -245,6 +247,15 @@ export default function EventTableForm({
 
       {message}
 
+      <Checkbox
+        defaultChecked={initialValue?.isVisible ?? true}
+        disabled={disabled}
+        name="is-visible"
+        size="sm"
+      >
+        {t("form.event_table.is_visible.label")}
+      </Checkbox>
+
       <HStack>{actions}</HStack>
     </Form>
   );
@@ -266,6 +277,7 @@ function eventTableFormValueFromForm(form: HTMLFormElement) {
     gameMasterName: getString("game-master-name"),
     gameSystemId: getString("game-system-id"),
     imageUrl: getString("image-url"),
+    isVisible: formData.has("is-visible"),
     language: getString("language") as EventTableLanguage,
     maxPlayers: getNumber("max-players"),
     minPlayers: getNumber("min-players"),

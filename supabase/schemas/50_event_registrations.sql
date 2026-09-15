@@ -259,6 +259,7 @@ begin
   if not v_event.registrations_open
     or v_event.visibility = 'private'
     or not v_event.tables_published
+    or not v_event_table.is_visible
   then
     raise exception using message = 'registrations_closed';
   end if;
@@ -583,7 +584,8 @@ returns table (
   created_by uuid,
   created_at timestamptz,
   updated_at timestamptz,
-  registration_count integer
+  registration_count integer,
+  is_visible boolean
 )
 language sql
 stable
@@ -611,13 +613,15 @@ as $$
       select count(*)::integer
       from public.event_registrations
       where event_registrations.event_table_id = event_tables.id
-    ) as registration_count
+    ) as registration_count,
+    event_tables.is_visible
   from public.event_tables
   join public.event_time_slots on event_time_slots.id = event_tables.time_slot_id
   join public.events on events.id = event_time_slots.event_id
   join public.game_systems on game_systems.id = event_tables.game_system_id
   where event_time_slots.event_id = p_event_id
     and events.tables_published
+    and event_tables.is_visible
   order by game_systems.name asc, event_tables.title asc;
 $$;
 

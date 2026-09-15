@@ -14,6 +14,7 @@ create table public.event_tables (
   age_requirement public.event_table_age_requirement not null default 'age_14_plus',
   language public.event_table_language not null default 'italian',
   notes text not null default '',
+  is_visible boolean not null default true,
   min_players integer not null,
   max_players integer not null,
   created_by uuid not null references auth.users (id),
@@ -46,6 +47,7 @@ on public.event_tables
 for select
 to anon, authenticated
 using (
+  event_tables.is_visible and
   exists (
     select 1
     from public.event_time_slots

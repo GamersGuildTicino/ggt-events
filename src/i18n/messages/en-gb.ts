@@ -142,6 +142,7 @@ const enGB = {
   "form.event_table.game_master_name.label": "Game master",
   "form.event_table.game_system.label": "Game system",
   "form.event_table.image_url.label": "Image URL",
+  "form.event_table.is_visible.label": "Table visible",
   "form.event_table.language.label": "Language",
   "form.event_table.max_players.label": "Max players",
   "form.event_table.min_players.label": "Min players",
@@ -223,6 +224,7 @@ const enGB = {
   "page.admin_event.tables.error.missing_user":
     "You must be logged in to create a table.",
   "page.admin_event.tables.game_master": "Game Master: {0}",
+  "page.admin_event.tables.hidden": "Hidden",
   "page.admin_event.tables.hide_description": "Hide details",
   "page.admin_event.tables.new": "New table",
   "page.admin_event.tables.no_game_systems":

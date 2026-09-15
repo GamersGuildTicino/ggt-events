@@ -1,4 +1,5 @@
 import {
+  Badge,
   Button,
   Card,
   HStack,
@@ -7,6 +8,7 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
+import { EyeOff } from "lucide-react";
 import { useCallback, useState } from "react";
 import type { EventRegistration } from "~/domain/event-registrations";
 import type { EventTable } from "~/domain/event-tables";
@@ -121,7 +123,15 @@ export default function AdminEventTableCard({
         <VStack align="stretch" gap={2}>
           <HStack align="stretch" justify="space-between" w="full" wrap="wrap">
             <VStack align="flex-start" gap={0.5}>
-              <Heading size="md">{`${gameSystemName}`}</Heading>
+              <HStack gap={3} wrap="wrap">
+                <Heading size="md">{`${gameSystemName}`}</Heading>
+                {!eventTable.isVisible && (
+                  <Badge colorPalette="orange" size="xs" variant="solid">
+                    <EyeOff aria-hidden="true" size={14} />
+                    {t("page.admin_event.tables.hidden")}
+                  </Badge>
+                )}
+              </HStack>
 
               <Text color="fg.muted" fontSize="sm">
                 {eventTable.title}
