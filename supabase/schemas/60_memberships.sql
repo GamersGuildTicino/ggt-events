@@ -25,12 +25,6 @@ create table public.memberships (
     check (email <> ''),
   constraint memberships_email_format
     check (email ~ '^[^@\s]+@[^@\s]+\.[^@\s]+$'),
-  constraint memberships_street_not_blank
-    check (btrim(street) <> ''),
-  constraint memberships_postal_code_not_blank
-    check (btrim(postal_code) <> ''),
-  constraint memberships_city_not_blank
-    check (btrim(city) <> ''),
   constraint memberships_phone_number_not_blank
     check (phone_number is null or btrim(phone_number) <> '')
 );

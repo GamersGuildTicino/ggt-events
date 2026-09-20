@@ -1,0 +1,4 @@
+alter table public.memberships
+drop constraint memberships_street_not_blank,
+drop constraint memberships_postal_code_not_blank,
+drop constraint memberships_city_not_blank;
