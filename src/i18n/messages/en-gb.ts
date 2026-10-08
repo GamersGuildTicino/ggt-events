@@ -552,6 +552,7 @@ For questions, access requests, corrections, registration removal requests, or a
   "page.event.tables.no_game_system": "Without Game System",
   "page.event.tables.notes": "Notes",
   "page.event.tables.seats": "Seats",
+  "page.event.tables.session": "Session",
   "page.event.tables.show_details": "Show details",
   "page.event.tables.unpublished": "Tables will be published soon.",
 

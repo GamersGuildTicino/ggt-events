@@ -1,4 +1,12 @@
-import { Card, Heading, Spinner, Text, VStack } from "@chakra-ui/react";
+import {
+  Card,
+  HStack,
+  Heading,
+  Separator,
+  Spinner,
+  Text,
+  VStack,
+} from "@chakra-ui/react";
 import { useMemo } from "react";
 import type { PublicEventTable } from "~/domain/event-tables";
 import type { EventTimeSlot } from "~/domain/event-time-slots";
@@ -51,8 +59,6 @@ export default function EventTablesSection({
 
   return (
     <VStack align="stretch" gap={4} id="tables">
-      <Heading size="2xl">{t("page.event.tables.heading")}</Heading>
-
       {eventTablesState.isLoading && <Spinner />}
       {eventTimeSlotsState.isLoading && <Spinner />}
 
@@ -89,22 +95,34 @@ export default function EventTablesSection({
               if (tables.length === 0) return null;
 
               return (
-                <VStack align="stretch" gap={3} key={timeSlot.id}>
-                  {(eventTimeSlotsState.data.length > 1 ||
-                    timeSlot.title ||
-                    timeSlot.description) && (
-                    <VStack align="flex-start" gap={0}>
-                      {timeSlot.title && (
-                        <Heading size="md">{timeSlot.title}</Heading>
-                      )}
-                      <Heading size="md">
-                        {formatSlot(timeSlot, locale, showSlotDate)}
+                <VStack align="stretch" gap={4} key={timeSlot.id}>
+                  <VStack align="stretch" gap={3}>
+                    <HStack align="baseline" gap={4} wrap="wrap">
+                      <Heading
+                        fontFamily="'Bricolage Grotesque', sans-serif"
+                        fontSize={{ base: "2xl", md: "3xl" }}
+                      >
+                        {timeSlot.title || t("page.event.tables.heading")}
                       </Heading>
-                      {timeSlot.description && (
-                        <Text color="fg.muted">{timeSlot.description}</Text>
-                      )}
-                    </VStack>
-                  )}
+
+                      <Text
+                        color="ggt.fg.strong"
+                        fontSize={{ base: "lg", md: "xl" }}
+                        fontWeight="semibold"
+                      >
+                        {formatSlot(timeSlot, locale, showSlotDate)}
+                      </Text>
+                    </HStack>
+
+                    <Separator
+                      borderColor="ggt.border.primary"
+                      borderTopWidth="2px"
+                    />
+
+                    {timeSlot.description && (
+                      <Text color="fg.muted">{timeSlot.description}</Text>
+                    )}
+                  </VStack>
 
                   <AdminContentColumns minColumnWidth="22rem">
                     {tables.map((eventTable) => (

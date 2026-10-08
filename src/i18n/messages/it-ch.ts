@@ -565,6 +565,7 @@ Per domande, richieste di accesso, correzione, rimozione dell'iscrizione o anoni
   "page.event.tables.no_game_system": "Senza Sistema di Gioco",
   "page.event.tables.notes": "Note",
   "page.event.tables.seats": "Posti",
+  "page.event.tables.session": "Sessione",
   "page.event.tables.show_details": "Mostra dettagli",
   "page.event.tables.unpublished": "I tavoli saranno pubblicati prossimamente.",
 

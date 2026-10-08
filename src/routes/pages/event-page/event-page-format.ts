@@ -26,7 +26,7 @@ export function formatSlot(
   locale: string,
   showDate: boolean,
 ) {
-  const time = `${formatTime(timeSlot.startsAt, locale)}-${formatTime(timeSlot.endsAt, locale)}`;
+  const time = `${formatTime(timeSlot.startsAt, locale)} – ${formatTime(timeSlot.endsAt, locale)}`;
   if (!showDate) return time;
 
   const date = capitalize(

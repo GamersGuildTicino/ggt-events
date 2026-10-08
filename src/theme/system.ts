@@ -35,6 +35,7 @@ export const system = createSystem(defaultConfig, {
           fg: {
             primary: { value: "#65bff7" },
             secondary: { value: "#e68bb6" },
+            strong: { value: "#07324d" },
           },
           footer: {
             bg: { value: "#0e4263" },
