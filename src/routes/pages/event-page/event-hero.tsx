@@ -97,7 +97,7 @@ export default function EventHero({
         maxW="72em"
         mx="auto"
         position="relative"
-        px={8}
+        px={{ base: 4, md: 8 }}
         w="full"
       >
         <HStack justify="space-between" w="full">
