@@ -65,6 +65,9 @@ export default function AdminEventTimeSlotCard({
           />
         : <HStack justify="space-between">
             <VStack align="flex-start" gap={0}>
+              {timeSlot.title && (
+                <Text fontWeight="semibold">{timeSlot.title}</Text>
+              )}
               <Text fontWeight="medium">
                 {formatAdminEventTimeSlot(timeSlot, locale)}
               </Text>

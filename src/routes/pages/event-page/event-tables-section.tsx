@@ -91,8 +91,12 @@ export default function EventTablesSection({
               return (
                 <VStack align="stretch" gap={3} key={timeSlot.id}>
                   {(eventTimeSlotsState.data.length > 1 ||
+                    timeSlot.title ||
                     timeSlot.description) && (
                     <VStack align="flex-start" gap={0}>
+                      {timeSlot.title && (
+                        <Heading size="md">{timeSlot.title}</Heading>
+                      )}
                       <Heading size="md">
                         {formatSlot(timeSlot, locale, showSlotDate)}
                       </Heading>

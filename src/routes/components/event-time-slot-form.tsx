@@ -19,7 +19,7 @@ import Form from "~/ui/form";
 
 export type EventTimeSlotFormValue = Pick<
   EventTimeSlot,
-  "description" | "endsAt" | "startsAt"
+  "description" | "endsAt" | "startsAt" | "title"
 >;
 
 //------------------------------------------------------------------------------
@@ -63,6 +63,16 @@ export default function EventTimeSlotForm({
       onSubmit={submitEventTimeSlotForm}
       w="full"
     >
+      <Field.Root disabled={disabled}>
+        <Field.Label>{t("form.event_time_slot.title.label")}</Field.Label>
+        <Input
+          defaultValue={initialValue?.title}
+          name="title"
+          placeholder={t("form.event_time_slot.title.placeholder")}
+          size="sm"
+        />
+      </Field.Root>
+
       <Field.Root disabled={disabled} required>
         <Field.Label>
           {t("form.event_time_slot.date.label")}
@@ -140,11 +150,13 @@ function eventTimeSlotFormValueFromForm(
   const startsAtTime = formData.get("starts-at-time");
   const endsAtTime = formData.get("ends-at-time");
   const description = String(formData.get("description") ?? "").trim();
+  const title = String(formData.get("title") ?? "").trim();
 
   return {
     description,
     endsAt: new Date(`${date}T${endsAtTime}`),
     startsAt: new Date(`${date}T${startsAtTime}`),
+    title,
   };
 }
 

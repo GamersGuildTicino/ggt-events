@@ -20,6 +20,7 @@ export const eventTimeSlotSchema = z.object({
   eventId: z.uuid(),
   id: z.uuid(),
   startsAt: z.date(),
+  title: z.string(),
   updatedAt: z.date(),
 });
 
@@ -37,6 +38,7 @@ export const eventTimeSlotRowSchema = z.object({
   event_id: z.uuid(),
   id: z.uuid(),
   starts_at: z.string(),
+  title: z.string(),
   updated_at: z.string(),
 });
 
@@ -55,6 +57,7 @@ export const eventTimeSlotFromRowSchema = eventTimeSlotRowSchema.transform(
     eventId: row.event_id,
     id: row.id,
     startsAt: new Date(row.starts_at),
+    title: row.title,
     updatedAt: new Date(row.updated_at),
   }),
 );
@@ -72,6 +75,7 @@ export async function createEventTimeSlot(
     ends_at: eventTimeSlot.endsAt.toISOString(),
     event_id: eventTimeSlot.eventId,
     starts_at: eventTimeSlot.startsAt.toISOString(),
+    title: eventTimeSlot.title,
   });
 
   return error ? "error.event_time_slots.create" : "";
@@ -130,6 +134,7 @@ export async function updateEventTimeSlot(
       description: eventTimeSlot.description,
       ends_at: eventTimeSlot.endsAt.toISOString(),
       starts_at: eventTimeSlot.startsAt.toISOString(),
+      title: eventTimeSlot.title,
     })
     .eq("id", eventTimeSlot.id);
 

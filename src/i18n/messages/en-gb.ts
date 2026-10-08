@@ -156,6 +156,8 @@ const enGB = {
   "form.event_time_slot.description.placeholder": "Optional description",
   "form.event_time_slot.ends_at_time.label": "End time",
   "form.event_time_slot.starts_at_time.label": "Start time",
+  "form.event_time_slot.title.label": "Title",
+  "form.event_time_slot.title.placeholder": "Optional title",
 
   "form.game_system.background_image_url.label": "Background image URL",
   "form.game_system.cover_image_url.label": "Cover image URL",

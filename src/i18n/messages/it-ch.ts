@@ -162,6 +162,8 @@ const itCH = {
   "form.event_time_slot.description.placeholder": "Descrizione opzionale",
   "form.event_time_slot.ends_at_time.label": "Ora di fine",
   "form.event_time_slot.starts_at_time.label": "Ora di inizio",
+  "form.event_time_slot.title.label": "Titolo",
+  "form.event_time_slot.title.placeholder": "Titolo opzionale",
 
   "form.game_system.background_image_url.label": "URL immagine di sfondo",
   "form.game_system.cover_image_url.label": "URL copertina",

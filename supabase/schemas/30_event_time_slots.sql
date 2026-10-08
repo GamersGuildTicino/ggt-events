@@ -8,6 +8,7 @@ create table public.event_time_slots (
   description text not null default '',
   starts_at timestamptz not null,
   ends_at timestamptz not null,
+  title text not null default '',
   created_by uuid not null references auth.users (id),
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now(),
