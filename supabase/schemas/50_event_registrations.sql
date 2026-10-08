@@ -199,6 +199,7 @@ declare
   v_email text;
   v_guardian_name text;
   v_guardian_phone_number text;
+  v_is_admin boolean;
   v_participant_is_minor boolean;
   v_phone_number text;
   v_player_name text;
@@ -211,6 +212,7 @@ begin
   v_participant_is_minor := coalesce(p_participant_is_minor, false);
   v_guardian_name := btrim(coalesce(p_guardian_name, ''));
   v_guardian_phone_number := btrim(coalesce(p_guardian_phone_number, ''));
+  v_is_admin := auth.uid() is not null and public.is_admin();
 
   if v_player_name = '' then
     raise exception using message = 'invalid_name';
@@ -256,10 +258,12 @@ begin
     raise exception using message = 'event_not_found';
   end if;
 
-  if not v_event.registrations_open
+  if not v_is_admin and (
+    not v_event.registrations_open
     or v_event.visibility = 'private'
     or not v_event.tables_published
     or not v_event_table.is_visible
+  )
   then
     raise exception using message = 'registrations_closed';
   end if;
