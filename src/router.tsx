@@ -3,6 +3,7 @@ import { createBrowserRouter } from "react-router";
 import AdminAuthLayout from "./routes/layouts/admin-auth-layout";
 import AdminLayout from "./routes/layouts/admin-layout";
 import AdminProtectedLayout from "./routes/layouts/admin-protected-layout";
+import PublicEventLayout from "./routes/layouts/public-event-layout";
 import PublicLayout from "./routes/layouts/public-layout";
 
 //------------------------------------------------------------------------------
@@ -134,8 +135,6 @@ export const router = createBrowserRouter(
     { lazy: HomePage, path: "/" },
     {
       children: [
-        { lazy: EventPage, path: "events/:eventSlugOrId" },
-        { lazy: EventPage, path: "eventi/:eventSlugOrId" },
         { lazy: DonationPage, path: "donations" },
         { lazy: DonationPage, path: "donazioni" },
         { lazy: MembershipPage, path: "membership" },
@@ -146,6 +145,13 @@ export const router = createBrowserRouter(
         { lazy: RegistrationCancellationPage, path: "iscrizioni/cancella" },
       ],
       element: <PublicLayout />,
+    },
+    {
+      children: [
+        { lazy: EventPage, path: "events/:eventSlugOrId" },
+        { lazy: EventPage, path: "eventi/:eventSlugOrId" },
+      ],
+      element: <PublicEventLayout />,
     },
     {
       children: [

@@ -2,15 +2,15 @@ import {
   Badge,
   Box,
   Button,
-  Card,
-  Grid,
   HStack,
   Heading,
   Span,
   Text,
   VStack,
 } from "@chakra-ui/react";
+import { ArrowLeft, CalendarDays, Clock3, MapPin } from "lucide-react";
 import type { ReactNode } from "react";
+import { Link as RouterLink } from "react-router";
 import {
   formatRegistrationOpeningDateLong,
   formatRegistrationOpeningDateShort,
@@ -18,9 +18,9 @@ import {
 } from "~/domain/event-registration-opening";
 import { type EventTimeSlot, isEventOver } from "~/domain/event-time-slots";
 import type { Event } from "~/domain/events";
+import LocaleSelect from "~/i18n/locale-select";
 import useI18n from "~/i18n/use-i18n";
 import RichText from "~/ui/rich-text";
-import EventDetailRow from "./event-detail-row";
 import { formatDateRange, formatTimeRange } from "./event-page-format";
 
 //------------------------------------------------------------------------------
@@ -46,21 +46,27 @@ export default function EventHero({
   );
   const registrationsOpen = event.registrationsOpen && event.tablesPublished;
 
-  const [statusColor, statusLabel, statusDescription] =
+  const [statusBg, statusColor, statusDot, statusLabel, statusDescription] =
     eventOver ?
       [
+        "orange.100",
+        "orange.800",
         "orange.500",
         t("page.event.event_over"),
         t("page.event.hero.event_over"),
       ]
     : registrationsOpen ?
       [
+        "green.100",
+        "green.800",
         "green.500",
         t("page.event.registrations_open"),
         t("page.event.hero.registration_open"),
       ]
     : [
-        "blue.500",
+        showRegistrationOpeningDate ? "blue.100" : "gray.100",
+        showRegistrationOpeningDate ? "blue.800" : "gray.700",
+        showRegistrationOpeningDate ? "blue.500" : "gray.500",
         ti(
           "page.event.registrations_open_at",
           formatRegistrationOpeningDateShort(event.registrationsOpenAt, locale),
@@ -80,56 +86,53 @@ export default function EventHero({
     <Box
       backgroundPosition="center"
       backgroundSize="cover"
-      bg={
-        event.imageUrl ?
-          "rgba(18, 24, 38, 0.72)"
-        : "linear-gradient(135deg, #121826 0%, #233a5f 52%, #3d7f89 100%)"
-      }
-      bgImage={
-        event.imageUrl ?
-          `linear-gradient(180deg, rgba(18, 24, 38, 0.72) 0%, rgba(18, 24, 38, 0.58) 100%), url("${event.imageUrl}")`
-        : undefined
-      }
-      borderRadius="3xl"
+      bg={event.imageUrl ? "rgba(18, 24, 38, 0.72)" : "#124a68"}
+      bgImage={event.imageUrl ? `url("${event.imageUrl}")` : undefined}
       color="white"
       overflow="hidden"
       position="relative"
-      px={{ base: 6, md: 10 }}
-      py={{ base: 8, md: 12 }}
+      py={{ base: 8, md: 8 }}
     >
-      <Box
-        bg="cyan.300"
-        borderRadius="full"
-        filter="blur(24px)"
-        h="16rem"
-        opacity={0.22}
-        position="absolute"
-        right="-5rem"
-        top="-6rem"
-        w="16rem"
-      />
-      <Box
-        borderColor="whiteAlpha.300"
-        borderRadius="2xl"
-        borderWidth="1px"
-        bottom="-5rem"
-        h="14rem"
-        left="-4rem"
-        opacity={0.4}
-        position="absolute"
-        transform="rotate(-12deg)"
-        w="14rem"
-      />
-
-      <Grid
-        alignItems="stretch"
-        gap={6}
+      <VStack
+        align="stretch"
+        gap={8}
+        maxW="72em"
+        mx="auto"
         position="relative"
-        templateColumns={{ base: "1fr", lg: "1.2fr 0.8fr" }}
+        px={8}
+        w="full"
       >
-        <VStack align="flex-start" gap={5} justify="center">
-          <Badge bg={statusColor} color="white" px={3} rounded="full">
-            {statusLabel}
+        <HStack justify="space-between" w="full">
+          <Button
+            _hover={{ bg: "transparent" }}
+            asChild
+            color="white"
+            cursor="pointer"
+            fontWeight="semibold"
+            p={0}
+            variant="plain"
+          >
+            <RouterLink to="/">
+              <ArrowLeft color="var(--chakra-colors-ggt-fg-primary)" />
+              {t("page.event.back_to_home")}
+            </RouterLink>
+          </Button>
+          <LocaleSelect css={localeSelectCss} />
+        </HStack>
+
+        <VStack align="stretch" gap={5}>
+          <Badge
+            alignSelf="flex-start"
+            bg={statusBg}
+            color={statusColor}
+            px={3}
+            py={2}
+            rounded="full"
+          >
+            <HStack gap={2}>
+              <Box bg={statusDot} borderRadius="full" h="0.6rem" w="0.6rem" />
+              <Text>{statusLabel}</Text>
+            </HStack>
           </Badge>
 
           <VStack align="flex-start" gap={3}>
@@ -149,7 +152,6 @@ export default function EventHero({
               color="whiteAlpha.800"
               fontSize="sm"
               lineHeight={1.2}
-              maxW="34em"
               patterns={accentPatterns}
               text={statusDescription}
             />
@@ -174,35 +176,37 @@ export default function EventHero({
               </Button>
             )}
           </HStack>
-        </VStack>
-
-        <Card.Root
-          bg="whiteAlpha.200"
-          borderColor="whiteAlpha.300"
-          color="white"
-        >
-          <Card.Body gap={4}>
-            <EventDetailRow
-              label={t("page.event.details.date")}
-              value={formatDateRange(timeSlots, locale)}
-            />
-            <EventDetailRow
-              label={t("page.event.details.time")}
-              value={formatTimeRange(timeSlots, locale)}
-            />
-            <EventDetailRow
-              label={t("page.event.details.location")}
-              value={event.locationName}
-            />
-            {event.locationAddress && (
-              <EventDetailRow
-                label={t("page.event.details.address")}
-                value={event.locationAddress}
+          <HStack gapX={{ base: 6, md: 10 }} wrap="wrap">
+            <HStack align="center" flex="0 1 auto" gap={3} minW={0}>
+              <CalendarDays
+                aria-hidden="true"
+                color="var(--chakra-colors-ggt-fg-primary)"
+                size={18}
               />
-            )}
-          </Card.Body>
-        </Card.Root>
-      </Grid>
+              <Text>{formatDateRange(timeSlots, locale)}</Text>
+            </HStack>
+            <HStack align="center" flex="0 1 auto" gap={3} minW={0}>
+              <Clock3
+                aria-hidden="true"
+                color="var(--chakra-colors-ggt-fg-primary)"
+                size={18}
+              />
+              <Text>{formatTimeRange(timeSlots, locale)}</Text>
+            </HStack>
+            <HStack align="center" flex="0 1 auto" gap={3} minW={0}>
+              <MapPin
+                aria-hidden="true"
+                color="var(--chakra-colors-ggt-fg-primary)"
+                size={18}
+              />
+              <Text overflowWrap="anywhere">
+                {event.locationName}
+                {event.locationAddress && `, ${event.locationAddress}`}
+              </Text>
+            </HStack>
+          </HStack>
+        </VStack>
+      </VStack>
     </Box>
   );
 }
@@ -221,3 +225,12 @@ const accentPatterns = [
     ),
   },
 ];
+
+const localeSelectCss = {
+  "& [data-part='indicator']": {
+    color: "white",
+  },
+  "& [data-part='trigger']": {
+    borderColor: "white",
+  },
+};

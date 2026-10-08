@@ -1,15 +1,6 @@
-import {
-  Button,
-  Center,
-  HStack,
-  Spinner,
-  Text,
-  VStack,
-} from "@chakra-ui/react";
-import { ChevronLeft } from "lucide-react";
-import { Link as RouterLink, useParams } from "react-router";
+import { Center, Spinner, Text, VStack } from "@chakra-ui/react";
+import { useParams } from "react-router";
 import usePageTitle from "~/hooks/use-page-title";
-import LocaleSelect from "~/i18n/locale-select";
 import useI18n from "~/i18n/use-i18n";
 import AppAlert from "~/ui/app-alert";
 import EventHero from "./event-hero";
@@ -44,16 +35,6 @@ export default function EventPage() {
 
   return (
     <VStack align="stretch" gap={6} w="full">
-      <HStack justify="space-between" w="full">
-        <Button asChild size="sm" variant="ghost">
-          <RouterLink to="/">
-            <ChevronLeft />
-            {t("page.event.back_to_home")}
-          </RouterLink>
-        </Button>
-        <LocaleSelect css={localeSelectCss} />
-      </HStack>
-
       {eventState.isLoading && (
         <Center flex={1}>
           <Spinner />
@@ -74,22 +55,32 @@ export default function EventPage() {
             }
           />
 
-          {eventState.data.description && (
-            <Text whiteSpace="pre-line">{eventState.data.description}</Text>
-          )}
+          <VStack
+            align="stretch"
+            gap={6}
+            maxW="72em"
+            mx="auto"
+            pb={{ base: 8, md: 12 }}
+            px={{ base: 4, md: 8 }}
+            w="full"
+          >
+            {eventState.data.description && (
+              <Text whiteSpace="pre-line">{eventState.data.description}</Text>
+            )}
 
-          {eventState.data.hasTables && (
-            <EventTablesSection
-              event={eventState.data}
-              eventTablesState={eventTablesState}
-              eventTimeSlotsState={eventTimeSlotsState}
-              gameSystemById={gameSystemById}
-              gameSystemsState={gameSystemsState}
-              onRegistrationSuccess={incrementRegistrationCount}
-            />
-          )}
+            {eventState.data.hasTables && (
+              <EventTablesSection
+                event={eventState.data}
+                eventTablesState={eventTablesState}
+                eventTimeSlotsState={eventTimeSlotsState}
+                gameSystemById={gameSystemById}
+                gameSystemsState={gameSystemsState}
+                onRegistrationSuccess={incrementRegistrationCount}
+              />
+            )}
 
-          {eventHasMap && <EventMapSection event={eventState.data} />}
+            {eventHasMap && <EventMapSection event={eventState.data} />}
+          </VStack>
         </>
       )}
     </VStack>
@@ -103,13 +94,3 @@ export default function EventPage() {
 function hasEventMap(locationName: string, locationAddress: string) {
   return Boolean(locationName || locationAddress);
 }
-
-//------------------------------------------------------------------------------
-// Locale Select CSS
-//------------------------------------------------------------------------------
-
-const localeSelectCss = {
-  "& [data-part='trigger']": {
-    borderColor: "black",
-  },
-};
