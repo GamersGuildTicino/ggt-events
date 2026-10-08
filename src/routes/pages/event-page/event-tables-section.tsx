@@ -96,7 +96,7 @@ export default function EventTablesSection({
 
               return (
                 <VStack align="stretch" gap={4} key={timeSlot.id}>
-                  <VStack align="stretch" gap={3}>
+                  <VStack align="stretch" gap={1}>
                     <HStack align="baseline" gap={4} wrap="wrap">
                       <Heading
                         fontFamily="'Bricolage Grotesque', sans-serif"
@@ -120,7 +120,9 @@ export default function EventTablesSection({
                     />
 
                     {timeSlot.description && (
-                      <Text color="fg.muted">{timeSlot.description}</Text>
+                      <Text color="fg.muted" mt={2}>
+                        {timeSlot.description}
+                      </Text>
                     )}
                   </VStack>
 

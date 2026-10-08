@@ -27,7 +27,9 @@ export default function EventMapSection({ event }: EventMapSectionProps) {
   return (
     <VStack align="stretch" gap={4} id="map">
       <HStack align="center" justify="space-between" wrap="wrap">
-        <Heading size="2xl">{t("page.event.map.heading")}</Heading>
+        <Heading fontFamily="'Bricolage Grotesque', sans-serif" size="2xl">
+          {t("page.event.map.heading")}
+        </Heading>
 
         <Button asChild borderColor="black" size="xs" variant="outline">
           <a href={googleMapsUrl} rel="noreferrer" target="_blank">
