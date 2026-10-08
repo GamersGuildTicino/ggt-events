@@ -152,6 +152,8 @@ const enGB = {
   "form.event_table.title.label": "Title",
 
   "form.event_time_slot.date.label": "Date",
+  "form.event_time_slot.description.label": "Description",
+  "form.event_time_slot.description.placeholder": "Optional description",
   "form.event_time_slot.ends_at_time.label": "End time",
   "form.event_time_slot.starts_at_time.label": "Start time",
 

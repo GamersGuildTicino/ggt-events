@@ -15,6 +15,7 @@ import type { Event } from "./events";
 export const eventTimeSlotSchema = z.object({
   createdAt: z.date(),
   createdBy: z.uuid(),
+  description: z.string(),
   endsAt: z.date(),
   eventId: z.uuid(),
   id: z.uuid(),
@@ -31,6 +32,7 @@ export type EventTimeSlot = z.infer<typeof eventTimeSlotSchema>;
 export const eventTimeSlotRowSchema = z.object({
   created_at: z.string(),
   created_by: z.uuid(),
+  description: z.string(),
   ends_at: z.string(),
   event_id: z.uuid(),
   id: z.uuid(),
@@ -48,6 +50,7 @@ export const eventTimeSlotFromRowSchema = eventTimeSlotRowSchema.transform(
   (row): EventTimeSlot => ({
     createdAt: new Date(row.created_at),
     createdBy: row.created_by,
+    description: row.description,
     endsAt: new Date(row.ends_at),
     eventId: row.event_id,
     id: row.id,
@@ -65,6 +68,7 @@ export async function createEventTimeSlot(
 ) {
   const { error } = await supabase.from("event_time_slots").insert({
     created_by: eventTimeSlot.createdBy,
+    description: eventTimeSlot.description,
     ends_at: eventTimeSlot.endsAt.toISOString(),
     event_id: eventTimeSlot.eventId,
     starts_at: eventTimeSlot.startsAt.toISOString(),
@@ -123,6 +127,7 @@ export async function updateEventTimeSlot(
   const { error } = await supabase
     .from("event_time_slots")
     .update({
+      description: eventTimeSlot.description,
       ends_at: eventTimeSlot.endsAt.toISOString(),
       starts_at: eventTimeSlot.startsAt.toISOString(),
     })

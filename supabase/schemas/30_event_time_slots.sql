@@ -5,6 +5,7 @@
 create table public.event_time_slots (
   id uuid primary key default gen_random_uuid(),
   event_id uuid not null references public.events (id) on delete cascade,
+  description text not null default '',
   starts_at timestamptz not null,
   ends_at timestamptz not null,
   created_by uuid not null references auth.users (id),

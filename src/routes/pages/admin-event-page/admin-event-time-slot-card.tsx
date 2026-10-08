@@ -1,4 +1,4 @@
-import { Button, Card, HStack, Text } from "@chakra-ui/react";
+import { Button, Card, HStack, Text, VStack } from "@chakra-ui/react";
 import type { EventTimeSlot } from "~/domain/event-time-slots";
 import useI18n from "~/i18n/use-i18n";
 import AppAlert from "~/ui/app-alert";
@@ -64,9 +64,16 @@ export default function AdminEventTimeSlotCard({
             onSubmit={(value) => onUpdate(timeSlot, value)}
           />
         : <HStack justify="space-between">
-            <Text fontWeight="medium">
-              {formatAdminEventTimeSlot(timeSlot, locale)}
-            </Text>
+            <VStack align="flex-start" gap={0}>
+              <Text fontWeight="medium">
+                {formatAdminEventTimeSlot(timeSlot, locale)}
+              </Text>
+              {timeSlot.description && (
+                <Text color="fg.muted" fontSize="sm">
+                  {timeSlot.description}
+                </Text>
+              )}
+            </VStack>
 
             <HStack gap={2}>
               <Button

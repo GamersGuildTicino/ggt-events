@@ -90,10 +90,16 @@ export default function EventTablesSection({
 
               return (
                 <VStack align="stretch" gap={3} key={timeSlot.id}>
-                  {eventTimeSlotsState.data.length > 1 && (
-                    <Heading size="md">
-                      {formatSlot(timeSlot, locale, showSlotDate)}
-                    </Heading>
+                  {(eventTimeSlotsState.data.length > 1 ||
+                    timeSlot.description) && (
+                    <VStack align="flex-start" gap={0}>
+                      <Heading size="md">
+                        {formatSlot(timeSlot, locale, showSlotDate)}
+                      </Heading>
+                      {timeSlot.description && (
+                        <Text color="fg.muted">{timeSlot.description}</Text>
+                      )}
+                    </VStack>
                   )}
 
                   <AdminContentColumns minColumnWidth="22rem">

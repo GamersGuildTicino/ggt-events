@@ -1,4 +1,10 @@
-import { type DateValue, Field, HStack, Input } from "@chakra-ui/react";
+import {
+  type DateValue,
+  Field,
+  HStack,
+  Input,
+  Textarea,
+} from "@chakra-ui/react";
 import { CalendarDate } from "@internationalized/date";
 import type { ReactNode } from "react";
 import { useCallback } from "react";
@@ -11,7 +17,10 @@ import Form from "~/ui/form";
 // Event Time Slot Form Value
 //------------------------------------------------------------------------------
 
-export type EventTimeSlotFormValue = Pick<EventTimeSlot, "endsAt" | "startsAt">;
+export type EventTimeSlotFormValue = Pick<
+  EventTimeSlot,
+  "description" | "endsAt" | "startsAt"
+>;
 
 //------------------------------------------------------------------------------
 // Event Time Slot Form
@@ -102,6 +111,16 @@ export default function EventTimeSlotForm({
         </Field.Root>
       </HStack>
 
+      <Field.Root disabled={disabled}>
+        <Field.Label>{t("form.event_time_slot.description.label")}</Field.Label>
+        <Textarea
+          defaultValue={initialValue?.description}
+          name="description"
+          placeholder={t("form.event_time_slot.description.placeholder")}
+          size="sm"
+        />
+      </Field.Root>
+
       {message}
 
       <HStack>{actions}</HStack>
@@ -120,8 +139,10 @@ function eventTimeSlotFormValueFromForm(
   const date = formData.get("date");
   const startsAtTime = formData.get("starts-at-time");
   const endsAtTime = formData.get("ends-at-time");
+  const description = String(formData.get("description") ?? "").trim();
 
   return {
+    description,
     endsAt: new Date(`${date}T${endsAtTime}`),
     startsAt: new Date(`${date}T${startsAtTime}`),
   };

@@ -158,6 +158,8 @@ const itCH = {
   "form.event_table.title.label": "Titolo",
 
   "form.event_time_slot.date.label": "Data",
+  "form.event_time_slot.description.label": "Descrizione",
+  "form.event_time_slot.description.placeholder": "Descrizione opzionale",
   "form.event_time_slot.ends_at_time.label": "Ora di fine",
   "form.event_time_slot.starts_at_time.label": "Ora di inizio",
 
