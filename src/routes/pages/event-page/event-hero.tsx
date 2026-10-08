@@ -137,8 +137,8 @@ export default function EventHero({
 
           <VStack align="flex-start" gap={3}>
             <Heading
+              fontFamily="'Bricolage Grotesque', sans-serif"
               fontSize={{ base: "4xl", md: "5xl" }}
-              letterSpacing="-0.05em"
               lineHeight={1}
             >
               {event.title}
