@@ -21,6 +21,7 @@ import type { EventSummaryStats } from "./use-admin-events";
 //------------------------------------------------------------------------------
 
 type AdminEventCardProps = {
+  canManage: boolean;
   event: Event;
   locale: string;
   onComposeEmail: (event: Event) => void;
@@ -31,6 +32,7 @@ type AdminEventCardProps = {
 };
 
 export default function AdminEventCard({
+  canManage,
   event,
   locale,
   onComposeEmail,
@@ -100,13 +102,15 @@ export default function AdminEventCard({
                 </RouterLink>
               </Button>
 
-              <AdminEventCardMenu
-                canEmail={Boolean(stats && stats.emails.length > 0)}
-                event={event}
-                onComposeEmail={onComposeEmail}
-                onCopyEmails={onCopyEmails}
-                onDelete={onDelete}
-              />
+              {canManage && (
+                <AdminEventCardMenu
+                  canEmail={Boolean(stats && stats.emails.length > 0)}
+                  event={event}
+                  onComposeEmail={onComposeEmail}
+                  onCopyEmails={onCopyEmails}
+                  onDelete={onDelete}
+                />
+              )}
             </HStack>
           </VStack>
         </HStack>

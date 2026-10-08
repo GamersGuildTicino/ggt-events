@@ -8,7 +8,7 @@ import {
   type EventTimeSlot,
   fetchEventTimeSlots,
 } from "~/domain/event-time-slots";
-import { type Event, deleteEvent, fetchEvents } from "~/domain/events";
+import { type Event, deleteEvent, fetchAdminEvents } from "~/domain/events";
 import { useAsyncEffect } from "~/hooks/use-async-effect";
 import type { Locale } from "~/i18n/locale";
 import { type AsyncState, initial, loading } from "~/utils/async-state";
@@ -147,7 +147,7 @@ export default function useAdminEvents(locale: Locale) {
 
   const loadEvents = useCallback(async () => {
     setEventsState(loading());
-    const events = await fetchEvents();
+    const events = await fetchAdminEvents();
     setEventsState(events);
     if (events.isSuccess) await loadEventMeta(events.data);
   }, [loadEventMeta]);
@@ -155,7 +155,7 @@ export default function useAdminEvents(locale: Locale) {
   useAsyncEffect(
     async (isActive) => {
       setEventsState(loading());
-      const events = await fetchEvents();
+      const events = await fetchAdminEvents();
       if (!isActive()) return;
       setEventsState(events);
       if (!events.isSuccess) return;

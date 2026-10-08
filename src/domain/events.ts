@@ -227,6 +227,23 @@ export async function fetchEvents(): Promise<
 }
 
 //------------------------------------------------------------------------------
+// Fetch Admin Events
+//------------------------------------------------------------------------------
+
+export async function fetchAdminEvents(): Promise<
+  AsyncStateSuccess<Event[]> | AsyncStateFailure
+> {
+  const { data, error } = await supabase.rpc("fetch_admin_events");
+
+  if (error) return failure("error.events.fetch_many");
+
+  const events = z.array(eventFromRowSchema).safeParse(data);
+  if (events.error) return failure("error.events.parse_many");
+
+  return success(events.data);
+}
+
+//------------------------------------------------------------------------------
 // Fetch Public Events
 //------------------------------------------------------------------------------
 

@@ -38,6 +38,7 @@ type AdminEventTimeSlotsSectionProps = {
     typeof useAdminEventTimeSlots
   >["updateAdminEventTimeSlot"];
   updateState: ReturnType<typeof useAdminEventTimeSlots>["updateState"];
+  readOnly?: boolean;
 };
 
 export default function AdminEventTimeSlotsSection({
@@ -52,6 +53,7 @@ export default function AdminEventTimeSlotsSection({
   setUpdateState,
   updateAdminEventTimeSlot,
   updateState,
+  readOnly = false,
 }: AdminEventTimeSlotsSectionProps) {
   const { locale, t, ti } = useI18n();
 
@@ -68,30 +70,38 @@ export default function AdminEventTimeSlotsSection({
 
   return (
     <VStack align="stretch" gap={4} w="full">
-      <Card.Root>
-        <Card.Body>
-          <VStack align="stretch" gap={3} w="full">
-            <Heading size="md">{t("page.admin_event.time_slots.new")}</Heading>
+      {!readOnly && (
+        <Card.Root>
+          <Card.Body>
+            <VStack align="stretch" gap={3} w="full">
+              <Heading size="md">
+                {t("page.admin_event.time_slots.new")}
+              </Heading>
 
-            <EventTimeSlotForm
-              actions={
-                <Button loading={createState.isLoading} size="sm" type="submit">
-                  {t("page.admin_event.time_slots.create")}
-                </Button>
-              }
-              disabled={createState.isLoading}
-              message={
-                createState.hasError ?
-                  <AppAlert dismissible status="error">
-                    {t(createState.error)}
-                  </AppAlert>
-                : undefined
-              }
-              onSubmit={createAdminEventTimeSlot}
-            />
-          </VStack>
-        </Card.Body>
-      </Card.Root>
+              <EventTimeSlotForm
+                actions={
+                  <Button
+                    loading={createState.isLoading}
+                    size="sm"
+                    type="submit"
+                  >
+                    {t("page.admin_event.time_slots.create")}
+                  </Button>
+                }
+                disabled={createState.isLoading}
+                message={
+                  createState.hasError ?
+                    <AppAlert dismissible status="error">
+                      {t(createState.error)}
+                    </AppAlert>
+                  : undefined
+                }
+                onSubmit={createAdminEventTimeSlot}
+              />
+            </VStack>
+          </Card.Body>
+        </Card.Root>
+      )}
 
       <VStack align="stretch" gap={3}>
         {eventTimeSlotsState.isLoading && <Spinner />}
@@ -128,6 +138,7 @@ export default function AdminEventTimeSlotsSection({
               }
               onEdit={() => setEditingTimeSlotId(timeSlot.id)}
               onUpdate={updateAdminEventTimeSlot}
+              readOnly={readOnly}
               setUpdateState={setUpdateState}
               timeSlot={timeSlot}
               updateState={updateState}

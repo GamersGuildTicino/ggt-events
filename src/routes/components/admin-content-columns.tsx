@@ -19,7 +19,7 @@ export default function AdminContentColumns({
 
   return (
     <Grid
-      alignItems="flex-start"
+      alignItems="stretch"
       gap={4}
       justifyContent="start"
       templateColumns={`repeat(auto-fill, minmax(${columnWidth}, 1fr))`}

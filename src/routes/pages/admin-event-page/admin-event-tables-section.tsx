@@ -15,11 +15,13 @@ import useAdminEventTables from "./use-admin-event-tables";
 
 export type AdminEventTablesSectionProps = {
   eventId: Event["id"];
+  readOnly?: boolean;
   timeSlots: EventTimeSlot[];
 };
 
 export default function AdminEventTablesSection({
   eventId,
+  readOnly = false,
   timeSlots,
 }: AdminEventTablesSectionProps) {
   const { locale, t, ti } = useI18n();
@@ -54,60 +56,62 @@ export default function AdminEventTablesSection({
 
   return (
     <VStack align="stretch" gap={4} w="full">
-      <Card.Root>
-        <Card.Body>
-          <VStack align="stretch" gap={3} w="full">
-            <Heading size="md">{t("page.admin_event.tables.new")}</Heading>
+      {!readOnly && (
+        <Card.Root>
+          <Card.Body>
+            <VStack align="stretch" gap={3} w="full">
+              <Heading size="md">{t("page.admin_event.tables.new")}</Heading>
 
-            {gameSystemsState.isLoading && <Spinner />}
+              {gameSystemsState.isLoading && <Spinner />}
 
-            {gameSystemsState.hasError && (
-              <AppAlert status="error">{t(gameSystemsState.error)}</AppAlert>
-            )}
+              {gameSystemsState.hasError && (
+                <AppAlert status="error">{t(gameSystemsState.error)}</AppAlert>
+              )}
 
-            {gameSystemsState.isSuccess &&
-              gameSystemsState.data.length === 0 && (
+              {gameSystemsState.isSuccess &&
+                gameSystemsState.data.length === 0 && (
+                  <Text color="fg.muted">
+                    {t("page.admin_event.tables.no_game_systems")}
+                  </Text>
+                )}
+
+              {timeSlots.length === 0 && (
                 <Text color="fg.muted">
-                  {t("page.admin_event.tables.no_game_systems")}
+                  {t("page.admin_event.tables.no_time_slots")}
                 </Text>
               )}
 
-            {timeSlots.length === 0 && (
-              <Text color="fg.muted">
-                {t("page.admin_event.tables.no_time_slots")}
-              </Text>
-            )}
-
-            {gameSystemsState.isSuccess &&
-              gameSystemsState.data.length > 0 &&
-              timeSlots.length > 0 && (
-                <EventTableForm
-                  actions={
-                    <Button
-                      loading={createState.isLoading}
-                      size="sm"
-                      type="submit"
-                    >
-                      {t("page.admin_event.tables.create")}
-                    </Button>
-                  }
-                  disabled={createState.isLoading}
-                  gameSystems={gameSystemsState.data}
-                  key={createFormKey}
-                  message={
-                    createState.hasError ?
-                      <AppAlert dismissible status="error">
-                        {t(createState.error)}
-                      </AppAlert>
-                    : undefined
-                  }
-                  onSubmit={createAdminEventTable}
-                  timeSlots={timeSlots}
-                />
-              )}
-          </VStack>
-        </Card.Body>
-      </Card.Root>
+              {gameSystemsState.isSuccess &&
+                gameSystemsState.data.length > 0 &&
+                timeSlots.length > 0 && (
+                  <EventTableForm
+                    actions={
+                      <Button
+                        loading={createState.isLoading}
+                        size="sm"
+                        type="submit"
+                      >
+                        {t("page.admin_event.tables.create")}
+                      </Button>
+                    }
+                    disabled={createState.isLoading}
+                    gameSystems={gameSystemsState.data}
+                    key={createFormKey}
+                    message={
+                      createState.hasError ?
+                        <AppAlert dismissible status="error">
+                          {t(createState.error)}
+                        </AppAlert>
+                      : undefined
+                    }
+                    onSubmit={createAdminEventTable}
+                    timeSlots={timeSlots}
+                  />
+                )}
+            </VStack>
+          </Card.Body>
+        </Card.Root>
+      )}
 
       <VStack align="stretch" gap={3} w="full">
         {eventTablesState.isLoading && <Spinner />}
@@ -152,6 +156,7 @@ export default function AdminEventTablesSection({
                   setEditingEventTableId(eventTable.id);
                 }}
                 onUpdate={updateAdminEventTable}
+                readOnly={readOnly}
                 registrations={registrationsByTableId.get(eventTable.id) ?? []}
                 registrationsState={eventRegistrationsState}
                 timeSlots={timeSlots}

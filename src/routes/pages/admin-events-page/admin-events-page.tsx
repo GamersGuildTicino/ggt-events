@@ -8,6 +8,7 @@ import {
 } from "@chakra-ui/react";
 import { useCallback } from "react";
 import { Link as RouterLink } from "react-router";
+import useAdminAccess from "~/auth/use-admin-access";
 import usePageTitle from "~/hooks/use-page-title";
 import useI18n from "~/i18n/use-i18n";
 import AppAlert from "~/ui/app-alert";
@@ -23,6 +24,7 @@ import useAdminEvents from "./use-admin-events";
 
 export default function AdminEventsPage() {
   const { locale, t, ti } = useI18n();
+  const access = useAdminAccess();
   const {
     anonymizeOldAdminEventRegistrations,
     anonymizeOldRegistrationsState,
@@ -138,22 +140,24 @@ export default function AdminEventsPage() {
       <HStack align="center" justify="space-between">
         <Heading size="3xl">{t("page.admin_events.heading")}</Heading>
 
-        <HStack>
-          <Button
-            loading={anonymizeOldRegistrationsState.isLoading}
-            onClick={anonymizeOldRegistrations}
-            size="xs"
-            variant="outline"
-          >
-            {t("page.admin_events.anonymize_old")}
-          </Button>
+        {access.isSuccess && access.data.isAdmin && (
+          <HStack>
+            <Button
+              loading={anonymizeOldRegistrationsState.isLoading}
+              onClick={anonymizeOldRegistrations}
+              size="xs"
+              variant="outline"
+            >
+              {t("page.admin_events.anonymize_old")}
+            </Button>
 
-          <Button asChild size="xs">
-            <RouterLink to="/admin/events/new">
-              {t("page.admin_events.new")}
-            </RouterLink>
-          </Button>
-        </HStack>
+            <Button asChild size="xs">
+              <RouterLink to="/admin/events/new">
+                {t("page.admin_events.new")}
+              </RouterLink>
+            </Button>
+          </HStack>
+        )}
       </HStack>
 
       {eventsState.isLoading && <Spinner />}
@@ -193,6 +197,7 @@ export default function AdminEventsPage() {
         <AdminContentColumns>
           {sortedEvents.map((event) => (
             <AdminEventCard
+              canManage={access.isSuccess && access.data.isAdmin}
               event={event}
               key={event.id}
               locale={locale}

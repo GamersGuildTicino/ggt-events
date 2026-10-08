@@ -22,6 +22,7 @@ type AdminEventTimeSlotCardProps = {
   setUpdateState: (state: AsyncState) => void;
   timeSlot: EventTimeSlot;
   updateState: AsyncState;
+  readOnly?: boolean;
 };
 
 export default function AdminEventTimeSlotCard({
@@ -34,13 +35,14 @@ export default function AdminEventTimeSlotCard({
   setUpdateState,
   timeSlot,
   updateState,
+  readOnly = false,
 }: AdminEventTimeSlotCardProps) {
   const { locale, t } = useI18n();
 
   return (
     <Card.Root>
       <Card.Body gap={3}>
-        {editing ?
+        {editing && !readOnly ?
           <EventTimeSlotForm
             actions={
               <>
@@ -78,27 +80,29 @@ export default function AdminEventTimeSlotCard({
               )}
             </VStack>
 
-            <HStack gap={2}>
-              <Button
-                onClick={() => {
-                  setUpdateState(initial());
-                  onEdit();
-                }}
-                size="xs"
-                variant="outline"
-              >
-                {t("page.admin_event.time_slots.edit")}
-              </Button>
-              <Button
-                colorPalette="red"
-                loading={deleting}
-                onClick={() => onDelete(timeSlot)}
-                size="xs"
-                variant="outline"
-              >
-                {t("page.admin_event.time_slots.delete")}
-              </Button>
-            </HStack>
+            {!readOnly && (
+              <HStack gap={2}>
+                <Button
+                  onClick={() => {
+                    setUpdateState(initial());
+                    onEdit();
+                  }}
+                  size="xs"
+                  variant="outline"
+                >
+                  {t("page.admin_event.time_slots.edit")}
+                </Button>
+                <Button
+                  colorPalette="red"
+                  loading={deleting}
+                  onClick={() => onDelete(timeSlot)}
+                  size="xs"
+                  variant="outline"
+                >
+                  {t("page.admin_event.time_slots.delete")}
+                </Button>
+              </HStack>
+            )}
           </HStack>
         }
       </Card.Body>

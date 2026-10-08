@@ -38,6 +38,7 @@ type AdminEventTableRegistrationsSectionProps = {
   onDeleteRegistration: (registration: EventRegistration) => Promise<string>;
   registrations: EventRegistration[];
   registrationsState: AsyncState<EventRegistration[]>;
+  readOnly?: boolean;
 };
 
 export default function AdminEventTableRegistrationsSection({
@@ -47,6 +48,7 @@ export default function AdminEventTableRegistrationsSection({
   onDeleteRegistration,
   registrations,
   registrationsState,
+  readOnly = false,
 }: AdminEventTableRegistrationsSectionProps) {
   const { t, ti } = useI18n();
   const [createRegistrationState, setCreateRegistrationState] =
@@ -180,20 +182,22 @@ export default function AdminEventTableRegistrationsSection({
                   )}
                 </VStack>
 
-                <Button
-                  colorPalette="red"
-                  disabled={Boolean(registration.anonymizedAt)}
-                  loading={deletingRegistrationId === registration.id}
-                  onClick={() => deleteAdminEventRegistration(registration)}
-                  size="xs"
-                  variant="outline"
-                >
-                  {t("page.admin_event.tables.registrations.delete")}
-                </Button>
+                {!readOnly && (
+                  <Button
+                    colorPalette="red"
+                    disabled={Boolean(registration.anonymizedAt)}
+                    loading={deletingRegistrationId === registration.id}
+                    onClick={() => deleteAdminEventRegistration(registration)}
+                    size="xs"
+                    variant="outline"
+                  >
+                    {t("page.admin_event.tables.registrations.delete")}
+                  </Button>
+                )}
               </HStack>
             ))}
 
-          {!registrationsState.hasError && hasFreeSeats && (
+          {!readOnly && !registrationsState.hasError && hasFreeSeats && (
             <AdminEventTableRegistrationForm
               onSubmit={createAdminEventRegistration}
               submitting={createRegistrationState.isLoading}

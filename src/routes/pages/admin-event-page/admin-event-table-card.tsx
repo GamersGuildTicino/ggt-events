@@ -52,6 +52,7 @@ type AdminEventTableCardProps = {
   onUpdate: (eventTable: EventTable, value: EventTableFormValue) => void;
   registrations: EventRegistration[];
   registrationsState: AsyncState<EventRegistration[]>;
+  readOnly?: boolean;
   timeSlots: EventTimeSlot[];
   updateState: AsyncState;
 };
@@ -70,6 +71,7 @@ export default function AdminEventTableCard({
   onUpdate,
   registrations,
   registrationsState,
+  readOnly = false,
   timeSlots,
   updateState,
 }: AdminEventTableCardProps) {
@@ -84,7 +86,7 @@ export default function AdminEventTableCard({
     setDetailsVisible((currentDetailsVisible) => !currentDetailsVisible);
   }, []);
 
-  if (editing) {
+  if (editing && !readOnly) {
     return (
       <Card.Root>
         <Card.Body gap={3}>
@@ -170,20 +172,22 @@ export default function AdminEventTableCard({
             </VStack>
 
             <VStack align="flex-end" flex={1} justify="space-between">
-              <HStack gap={2}>
-                <Button onClick={onEdit} size="xs" variant="outline">
-                  {t("page.admin_event.tables.edit")}
-                </Button>
-                <Button
-                  colorPalette="red"
-                  loading={deleting}
-                  onClick={() => onDelete(eventTable)}
-                  size="xs"
-                  variant="outline"
-                >
-                  {t("page.admin_event.tables.delete")}
-                </Button>
-              </HStack>
+              {!readOnly && (
+                <HStack gap={2}>
+                  <Button onClick={onEdit} size="xs" variant="outline">
+                    {t("page.admin_event.tables.edit")}
+                  </Button>
+                  <Button
+                    colorPalette="red"
+                    loading={deleting}
+                    onClick={() => onDelete(eventTable)}
+                    size="xs"
+                    variant="outline"
+                  >
+                    {t("page.admin_event.tables.delete")}
+                  </Button>
+                </HStack>
+              )}
 
               {hasDetails && (
                 <Button
@@ -229,6 +233,7 @@ export default function AdminEventTableCard({
             hasFreeSeats={hasFreeSeats}
             onCreateRegistration={onCreateRegistration}
             onDeleteRegistration={onDeleteRegistration}
+            readOnly={readOnly}
             registrations={registrations}
             registrationsState={registrationsState}
           />

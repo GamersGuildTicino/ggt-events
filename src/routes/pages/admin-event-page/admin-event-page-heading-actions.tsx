@@ -17,6 +17,7 @@ import IconButton from "~/ui/icon-button";
 //------------------------------------------------------------------------------
 
 type AdminEventPageHeadingActionsProps = {
+  canManage: boolean;
   eventHasEmails: boolean;
   eventId?: string;
   onComposeEmail: () => void;
@@ -25,6 +26,7 @@ type AdminEventPageHeadingActionsProps = {
 };
 
 export default function AdminEventPageHeadingActions({
+  canManage,
   eventHasEmails,
   eventId,
   onComposeEmail,
@@ -50,36 +52,38 @@ export default function AdminEventPageHeadingActions({
         </Button>
       )}
 
-      <ChakraMenu.Root positioning={{ placement: "bottom-end" }}>
-        <ChakraMenu.Trigger asChild>
-          <IconButton
-            Icon={EllipsisVertical}
-            aria-label={t("page.admin_events.more")}
-            size="sm"
-            variant="ghost"
-          />
-        </ChakraMenu.Trigger>
-        <Portal>
-          <ChakraMenu.Positioner>
-            <ChakraMenu.Content minW="12rem">
-              <ChakraMenu.Item
-                disabled={!eventHasEmails}
-                onClick={onComposeEmail}
-                value="compose-email"
-              >
-                {t("page.admin_events.compose_email")}
-              </ChakraMenu.Item>
-              <ChakraMenu.Item
-                disabled={!eventHasEmails}
-                onClick={onCopyEmails}
-                value="copy-emails"
-              >
-                {t("page.admin_events.copy_emails")}
-              </ChakraMenu.Item>
-            </ChakraMenu.Content>
-          </ChakraMenu.Positioner>
-        </Portal>
-      </ChakraMenu.Root>
+      {canManage && (
+        <ChakraMenu.Root positioning={{ placement: "bottom-end" }}>
+          <ChakraMenu.Trigger asChild>
+            <IconButton
+              Icon={EllipsisVertical}
+              aria-label={t("page.admin_events.more")}
+              size="sm"
+              variant="ghost"
+            />
+          </ChakraMenu.Trigger>
+          <Portal>
+            <ChakraMenu.Positioner>
+              <ChakraMenu.Content minW="12rem">
+                <ChakraMenu.Item
+                  disabled={!eventHasEmails}
+                  onClick={onComposeEmail}
+                  value="compose-email"
+                >
+                  {t("page.admin_events.compose_email")}
+                </ChakraMenu.Item>
+                <ChakraMenu.Item
+                  disabled={!eventHasEmails}
+                  onClick={onCopyEmails}
+                  value="copy-emails"
+                >
+                  {t("page.admin_events.copy_emails")}
+                </ChakraMenu.Item>
+              </ChakraMenu.Content>
+            </ChakraMenu.Positioner>
+          </Portal>
+        </ChakraMenu.Root>
+      )}
     </HStack>
   );
 }

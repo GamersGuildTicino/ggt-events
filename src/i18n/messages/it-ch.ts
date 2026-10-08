@@ -46,6 +46,8 @@ const itCH = {
   "error.events.parse_one": "I dati dell'evento non sono validi.",
   "error.events.update": "Impossibile aggiornare l'evento.",
 
+  "error.admin_access.fetch": "Impossibile determinare i tuoi permessi admin.",
+
   "error.event_tables.create": "Impossibile creare il tavolo.",
   "error.event_tables.delete": "Impossibile eliminare il tavolo.",
   "error.event_tables.fetch_many": "Impossibile caricare i tavoli.",
@@ -80,6 +82,13 @@ const itCH = {
   "error.event_registrations.table_full": "Questo tavolo è già al completo.",
   "error.event_registrations.time_slot_closed":
     "Questa fascia oraria non è più aperta alle iscrizioni.",
+
+  "error.event_managers.assign":
+    "Impossibile aggiornare l'assegnazione del Game Master.",
+  "error.event_managers.fetch_many": "Impossibile caricare i Game Master.",
+  "error.event_managers.invite": "Impossibile invitare il Game Master.",
+  "error.event_managers.parse_many": "I dati dei Game Master non sono validi.",
+  "error.event_managers.remove": "Impossibile rimuovere il Game Master.",
 
   "error.event_time_slots.create": "Impossibile creare la fascia oraria.",
   "error.event_time_slots.delete": "Impossibile eliminare la fascia oraria.",
@@ -196,6 +205,10 @@ const itCH = {
     "Visualizza e gestisci gli eventi esistenti.",
   "page.admin.events.heading": "Eventi",
   "page.admin.events.open": "Apri eventi",
+  "page.admin.game_masters.description":
+    "Invita e gestisci le utenze che possono aiutare a gestire gli eventi assegnati.",
+  "page.admin.game_masters.heading": "Game Master",
+  "page.admin.game_masters.open": "Apri Game Master",
   "page.admin.game_systems.description":
     "Gestisci i sistemi di gioco riutilizzabili per i tavoli.",
   "page.admin.game_systems.heading": "Sistemi di gioco",
@@ -220,6 +233,11 @@ const itCH = {
   "page.admin_event.event_over": "Evento concluso",
   "page.admin_event.event_over_notice":
     "Tutte le fasce orarie sono nel passato. Le iscrizioni pubbliche non sono piu disponibili.",
+  "page.admin_event.game_masters.add": "Aggiungi",
+  "page.admin_event.game_masters.empty": "Nessun Game Master assegnato.",
+  "page.admin_event.game_masters.heading": "Game Masters",
+  "page.admin_event.game_masters.remove": "Rimuovi",
+  "page.admin_event.game_masters.select": "Game Master",
   "page.admin_event.heading": "Gestisci evento",
   "page.admin_event.preview": "Anteprima",
   "page.admin_event.registrations_open_at_notice":
@@ -419,6 +437,22 @@ const itCH = {
   "page.admin_memberships.table.yes": "Sì",
   "page.admin_memberships.updated": "Tesseramento aggiornato.",
   "page.admin_memberships.updated_for": 'Tesseramento di "{0}" aggiornato.',
+
+  "page.admin_game_masters.actions": "Azioni",
+  "page.admin_game_masters.add": "Invita Game Master",
+  "page.admin_game_masters.breadcrumb.admin": "Panoramica",
+  "page.admin_game_masters.email": "Indirizzo email",
+  "page.admin_game_masters.email_placeholder": "nome@esempio.com",
+  "page.admin_game_masters.empty": "Nessun Game Master.",
+  "page.admin_game_masters.events": "Eventi",
+  "page.admin_game_masters.heading": "Game Master",
+  "page.admin_game_masters.invited": "Game Master invitato.",
+  "page.admin_game_masters.name": "Nome",
+  "page.admin_game_masters.name_placeholder": "Nome del Game Master",
+  "page.admin_game_masters.remove": "Rimuovi Game Master",
+  "page.admin_game_masters.remove.confirm":
+    "Rimuovere questo Game Master? Perderà l'accesso a tutti gli eventi assegnati.",
+  "page.admin_game_masters.removed": "Game Master rimosso.",
 
   "page.admin_membership.heading_fallback": "Dettaglio tesserato",
   "page.admin_membership.payments.add": "Aggiungi",

@@ -8,6 +8,7 @@ import {
 } from "@chakra-ui/react";
 import { useCallback, useState } from "react";
 import { Link as RouterLink, useParams } from "react-router";
+import useAdminAccess from "~/auth/use-admin-access";
 import {
   formatRegistrationOpeningDateMedium,
   shouldShowRegistrationOpeningDate,
@@ -30,6 +31,7 @@ import AdminBreadcrumb from "../../components/admin-breadcrumb";
 import EventDetailsForm, {
   type EventDetailsFormValue,
 } from "../../components/event-details-form";
+import AdminEventManagersSection from "./admin-event-managers-section";
 import AdminEventPageHeadingActions from "./admin-event-page-heading-actions";
 import AdminEventTablesSection from "./admin-event-tables-section";
 import AdminEventTimeSlotsSection from "./admin-event-time-slots-section";
@@ -44,6 +46,7 @@ import useAdminEventTimeSlots from "./use-admin-event-time-slots";
 export default function AdminEventPage() {
   const { eventId } = useParams();
   const { locale, t, ti } = useI18n();
+  const access = useAdminAccess();
   const [saveState, setSaveState] = useState<AsyncState>(initial());
   const { eventState, setEventState } = useAdminEvent(eventId);
   const {
@@ -66,6 +69,13 @@ export default function AdminEventPage() {
     : t("page.admin_event.heading");
 
   usePageTitle(pageTitle);
+
+  const isAdmin = access.isSuccess && access.data.isAdmin;
+  const eventReadOnly =
+    access.isSuccess &&
+    access.data.isEventManager &&
+    eventTimeSlotsState.isSuccess &&
+    isEventOver(eventTimeSlotsState.data);
 
   const updateAdminEvent = useCallback(
     async (eventDetails: EventDetailsFormValue) => {
@@ -148,15 +158,18 @@ export default function AdminEventPage() {
       <HStack align="center" justify="space-between">
         <Heading size="3xl">{t("page.admin_event.heading")}</Heading>
 
-        {eventTimeSlotsState.isSuccess && eventState.isSuccess && (
-          <AdminEventPageHeadingActions
-            eventHasEmails={eventHasEmails}
-            eventId={eventId}
-            onComposeEmail={composeAdminEventEmail}
-            onCopyEmails={copyAdminEventEmails}
-            timeSlots={eventTimeSlotsState.data}
-          />
-        )}
+        {access.isSuccess &&
+          eventTimeSlotsState.isSuccess &&
+          eventState.isSuccess && (
+            <AdminEventPageHeadingActions
+              canManage={isAdmin}
+              eventHasEmails={eventHasEmails}
+              eventId={eventId}
+              onComposeEmail={composeAdminEventEmail}
+              onCopyEmails={copyAdminEventEmails}
+              timeSlots={eventTimeSlotsState.data}
+            />
+          )}
       </HStack>
 
       {eventState.isLoading && <Spinner />}
@@ -176,9 +189,15 @@ export default function AdminEventPage() {
             <EventDetailsForm
               actions={
                 <HStack>
-                  <Button loading={saveState.isLoading} size="sm" type="submit">
-                    {t("page.admin_event.save")}
-                  </Button>
+                  {isAdmin && (
+                    <Button
+                      loading={saveState.isLoading}
+                      size="sm"
+                      type="submit"
+                    >
+                      {t("page.admin_event.save")}
+                    </Button>
+                  )}
 
                   <Button asChild size="sm" variant="outline">
                     <RouterLink to="/admin/events">
@@ -187,7 +206,7 @@ export default function AdminEventPage() {
                   </Button>
                 </HStack>
               }
-              disabled={saveState.isLoading}
+              disabled={saveState.isLoading || !isAdmin}
               initialValue={eventState.data}
               message={
                 saveState.hasError ?
@@ -199,6 +218,10 @@ export default function AdminEventPage() {
               onSubmit={updateAdminEvent}
             />
 
+            {isAdmin && (
+              <AdminEventManagersSection eventId={eventState.data.id} />
+            )}
+
             <AdminEventTimeSlotsSection
               createAdminEventTimeSlot={createAdminEventTimeSlot}
               createState={createState}
@@ -207,6 +230,7 @@ export default function AdminEventPage() {
               deletingTimeSlotId={deletingTimeSlotId}
               editingTimeSlotId={editingTimeSlotId}
               eventTimeSlotsState={eventTimeSlotsState}
+              readOnly={eventReadOnly}
               setEditingTimeSlotId={setEditingTimeSlotId}
               setUpdateState={setUpdateState}
               updateAdminEventTimeSlot={updateAdminEventTimeSlot}
@@ -248,6 +272,7 @@ export default function AdminEventPage() {
               eventTimeSlotsState.data.length > 0 && (
                 <AdminEventTablesSection
                   eventId={eventState.data.id}
+                  readOnly={eventReadOnly}
                   timeSlots={eventTimeSlotsState.data}
                 />
               )}

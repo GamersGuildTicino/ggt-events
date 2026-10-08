@@ -46,6 +46,8 @@ const enGB = {
   "error.events.parse_one": "Event data is invalid.",
   "error.events.update": "Unable to update event.",
 
+  "error.admin_access.fetch": "Unable to determine your admin access.",
+
   "error.event_tables.create": "Unable to create table.",
   "error.event_tables.delete": "Unable to delete table.",
   "error.event_tables.fetch_many": "Unable to load tables.",
@@ -79,6 +81,13 @@ const enGB = {
   "error.event_registrations.table_full": "This table is already full.",
   "error.event_registrations.time_slot_closed":
     "This time slot is no longer open for registration.",
+
+  "error.event_managers.assign":
+    "Unable to update the event manager assignment.",
+  "error.event_managers.fetch_many": "Unable to load event managers.",
+  "error.event_managers.invite": "Unable to invite the event manager.",
+  "error.event_managers.parse_many": "Event manager data is invalid.",
+  "error.event_managers.remove": "Unable to remove the event manager.",
 
   "error.event_time_slots.create": "Unable to create time slot.",
   "error.event_time_slots.delete": "Unable to delete time slot.",
@@ -189,6 +198,10 @@ const enGB = {
   "page.admin.events.description": "View and manage existing events.",
   "page.admin.events.heading": "Events",
   "page.admin.events.open": "Open events",
+  "page.admin.game_masters.description":
+    "Invite and manage users who can help run assigned events.",
+  "page.admin.game_masters.heading": "Game Masters",
+  "page.admin.game_masters.open": "Open Game Masters",
   "page.admin.game_systems.description":
     "Manage reusable game systems for event tables.",
   "page.admin.game_systems.heading": "Game systems",
@@ -212,6 +225,11 @@ const enGB = {
   "page.admin_event.event_over": "Event over",
   "page.admin_event.event_over_notice":
     "All time slots are in the past. Public registrations are no longer available.",
+  "page.admin_event.game_masters.add": "Add",
+  "page.admin_event.game_masters.empty": "No Game Masters assigned.",
+  "page.admin_event.game_masters.heading": "Game Masters",
+  "page.admin_event.game_masters.remove": "Remove",
+  "page.admin_event.game_masters.select": "Game Master",
   "page.admin_event.heading": "Manage event",
   "page.admin_event.preview": "Preview",
   "page.admin_event.registrations_open_at_notice":
@@ -407,6 +425,22 @@ const enGB = {
   "page.admin_memberships.table.yes": "Yes",
   "page.admin_memberships.updated": "Membership updated.",
   "page.admin_memberships.updated_for": 'Membership for "{0}" updated.',
+
+  "page.admin_game_masters.actions": "Actions",
+  "page.admin_game_masters.add": "Invite Game Master",
+  "page.admin_game_masters.breadcrumb.admin": "Dashboard",
+  "page.admin_game_masters.email": "Email address",
+  "page.admin_game_masters.email_placeholder": "name@example.com",
+  "page.admin_game_masters.empty": "No Game Masters yet.",
+  "page.admin_game_masters.events": "Events",
+  "page.admin_game_masters.heading": "Game Masters",
+  "page.admin_game_masters.invited": "Game Master invited.",
+  "page.admin_game_masters.name": "Name",
+  "page.admin_game_masters.name_placeholder": "Game Master name",
+  "page.admin_game_masters.remove": "Remove Game Master",
+  "page.admin_game_masters.remove.confirm":
+    "Remove this Game Master? They will lose access to all assigned events.",
+  "page.admin_game_masters.removed": "Game Master removed.",
 
   "page.admin_membership.heading_fallback": "Membership details",
   "page.admin_membership.payments.add": "Add",
