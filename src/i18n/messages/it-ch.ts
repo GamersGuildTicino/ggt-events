@@ -125,6 +125,7 @@ const itCH = {
   "error.membership_payments.update": "Impossibile aggiornare il pagamento.",
 
   "form.event_details.description.label": "Descrizione",
+  "form.event_details.has_tables": "Questo evento ha dei tavoli",
   "form.event_details.heading": "Dettagli",
   "form.event_details.image_url.label": "URL immagine",
   "form.event_details.location_address.label": "Indirizzo",

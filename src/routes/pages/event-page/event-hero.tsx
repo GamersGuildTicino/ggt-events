@@ -156,9 +156,11 @@ export default function EventHero({
           </VStack>
 
           <HStack wrap="wrap">
-            <Button asChild size="sm" variant="subtle">
-              <a href="#tables">{t("page.event.tables.jump_tables")}</a>
-            </Button>
+            {event.hasTables && (
+              <Button asChild size="sm" variant="subtle">
+                <a href="#tables">{t("page.event.tables.jump_tables")}</a>
+              </Button>
+            )}
 
             {hasMap && (
               <Button

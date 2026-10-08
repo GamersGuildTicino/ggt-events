@@ -78,14 +78,16 @@ export default function EventPage() {
             <Text whiteSpace="pre-line">{eventState.data.description}</Text>
           )}
 
-          <EventTablesSection
-            event={eventState.data}
-            eventTablesState={eventTablesState}
-            eventTimeSlotsState={eventTimeSlotsState}
-            gameSystemById={gameSystemById}
-            gameSystemsState={gameSystemsState}
-            onRegistrationSuccess={incrementRegistrationCount}
-          />
+          {eventState.data.hasTables && (
+            <EventTablesSection
+              event={eventState.data}
+              eventTablesState={eventTablesState}
+              eventTimeSlotsState={eventTimeSlotsState}
+              gameSystemById={gameSystemById}
+              gameSystemsState={gameSystemsState}
+              onRegistrationSuccess={incrementRegistrationCount}
+            />
+          )}
 
           {eventHasMap && <EventMapSection event={eventState.data} />}
         </>

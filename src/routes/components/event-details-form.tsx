@@ -30,6 +30,7 @@ export type EventDetailsFormValue = Pick<
   Event,
   | "description"
   | "imageUrl"
+  | "hasTables"
   | "locationAddress"
   | "locationName"
   | "registrationsOpenAt"
@@ -216,6 +217,16 @@ export default function EventDetailsForm({
           <VStack align="flex-start" gap={1} my={1}>
             <Field.Root disabled={disabled}>
               <Checkbox
+                defaultChecked={initialValue?.hasTables ?? true}
+                name="has-tables"
+                size="sm"
+              >
+                {t("form.event_details.has_tables")}
+              </Checkbox>
+            </Field.Root>
+
+            <Field.Root disabled={disabled}>
+              <Checkbox
                 defaultChecked={initialValue?.tablesPublished ?? true}
                 name="tables-published"
                 size="sm"
@@ -256,6 +267,7 @@ function eventDetailsFormValueFromForm(
 
   return {
     description: getString("description"),
+    hasTables: formData.get("has-tables") === "on",
     imageUrl: getString("image-url"),
     locationAddress: getString("location-address"),
     locationName: getString("location-name"),

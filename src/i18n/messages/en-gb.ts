@@ -120,6 +120,7 @@ const enGB = {
   "error.membership_payments.update": "Unable to update the payment.",
 
   "form.event_details.description.label": "Description",
+  "form.event_details.has_tables": "This event has tables",
   "form.event_details.heading": "Details",
   "form.event_details.image_url.label": "Image URL",
   "form.event_details.location_address.label": "Address",

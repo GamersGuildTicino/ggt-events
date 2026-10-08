@@ -8,6 +8,7 @@ create table public.events (
   short_description text not null default '',
   description text not null default '',
   image_url text not null default '',
+  has_tables boolean not null default true,
   slug text not null unique,
   location_name text not null,
   location_address text not null,

@@ -16,6 +16,7 @@ export const eventSchema = z.object({
   createdAt: z.date(),
   createdBy: z.uuid(),
   description: z.string(),
+  hasTables: z.boolean(),
   id: z.uuid(),
   imageUrl: z.string(),
   locationAddress: z.string(),
@@ -40,6 +41,7 @@ export const eventRowSchema = z.object({
   created_at: z.string(),
   created_by: z.uuid(),
   description: z.string(),
+  has_tables: z.boolean(),
   id: z.uuid(),
   image_url: z.string(),
   location_address: z.string(),
@@ -65,6 +67,7 @@ export const eventFromRowSchema = eventRowSchema.transform(
     createdAt: new Date(row.created_at),
     createdBy: row.created_by,
     description: row.description,
+    hasTables: row.has_tables,
     id: row.id,
     imageUrl: row.image_url,
     locationAddress: row.location_address,
@@ -89,6 +92,7 @@ export const eventToRowSchema = eventSchema.transform(
     created_at: event.createdAt.toISOString(),
     created_by: event.createdBy,
     description: event.description,
+    has_tables: event.hasTables,
     id: event.id,
     image_url: event.imageUrl,
     location_address: event.locationAddress,
@@ -114,6 +118,7 @@ export async function createEvent(
   const { error } = await supabase.from("events").insert({
     created_by: event.createdBy,
     description: event.description,
+    has_tables: event.hasTables,
     image_url: event.imageUrl,
     location_address: event.locationAddress,
     location_name: event.locationName,
@@ -254,6 +259,7 @@ export async function updateEvent(
     .from("events")
     .update({
       description: event.description,
+      has_tables: event.hasTables,
       image_url: event.imageUrl,
       location_address: event.locationAddress,
       location_name: event.locationName,
