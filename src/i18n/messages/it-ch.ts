@@ -201,6 +201,7 @@ const itCH = {
   "page.admin.create_event.heading": "Crea evento",
   "page.admin.create_event.open": "Nuovo evento",
   "page.admin.description": "Gestisci eventi e iscrizioni per GGT.",
+  "page.admin.empty": "Non hai accesso a nessuna sezione amministrativa.",
   "page.admin.events.description":
     "Visualizza e gestisci gli eventi esistenti.",
   "page.admin.events.heading": "Eventi",

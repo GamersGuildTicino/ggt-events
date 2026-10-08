@@ -26,7 +26,5 @@ export default function AdminProtectedLayout() {
         <AppAlert status="error">{t(access.error)}</AppAlert>
       </Center>
     );
-  if (!access.data.isAdmin && !access.data.isEventManager)
-    return <Navigate replace to="/" />;
   return <Outlet />;
 }

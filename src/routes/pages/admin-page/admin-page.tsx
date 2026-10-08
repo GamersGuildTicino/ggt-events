@@ -1,4 +1,12 @@
-import { Button, Card, Heading, Spinner, Text, VStack } from "@chakra-ui/react";
+import {
+  Button,
+  Card,
+  Center,
+  Heading,
+  Spinner,
+  Text,
+  VStack,
+} from "@chakra-ui/react";
 import { Link as RouterLink } from "react-router";
 import useAdminAccess from "~/auth/use-admin-access";
 import usePageTitle from "~/hooks/use-page-title";
@@ -19,6 +27,12 @@ export default function AdminPage() {
   if (access.isLoading || access.status === "initial") return <Spinner />;
   if (access.hasError)
     return <AppAlert status="error">{t(access.error)}</AppAlert>;
+  if (!access.data.isAdmin && !access.data.isEventManager)
+    return (
+      <Center minH="30vh" w="full">
+        <Text>{t("page.admin.empty")}</Text>
+      </Center>
+    );
 
   return (
     <VStack align="stretch" gap={6} w="full">

@@ -156,12 +156,13 @@ export async function createEventTable(
 //------------------------------------------------------------------------------
 
 export async function deleteEventTable(eventTableId: EventTable["id"]) {
-  const { error } = await supabase
+  const { data, error } = await supabase
     .from("event_tables")
     .delete()
-    .eq("id", eventTableId);
+    .eq("id", eventTableId)
+    .select("id");
 
-  return error ? "error.event_tables.delete" : "";
+  return error || data.length !== 1 ? "error.event_tables.delete" : "";
 }
 
 //------------------------------------------------------------------------------

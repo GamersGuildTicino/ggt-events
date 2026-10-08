@@ -195,6 +195,7 @@ const enGB = {
   "page.admin.create_event.heading": "Create event",
   "page.admin.create_event.open": "New event",
   "page.admin.description": "Manage events and registrations for GGT.",
+  "page.admin.empty": "You do not have access to any admin sections.",
   "page.admin.events.description": "View and manage existing events.",
   "page.admin.events.heading": "Events",
   "page.admin.events.open": "Open events",
