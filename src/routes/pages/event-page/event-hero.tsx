@@ -40,10 +40,8 @@ export default function EventHero({
 }: EventHeroProps) {
   const { locale, t, ti } = useI18n();
   const eventOver = isEventOver(timeSlots);
-  const showRegistrationOpeningDate = shouldShowRegistrationOpeningDate(
-    event,
-    timeSlots,
-  );
+  const showRegistrationOpeningDate =
+    event.hasTables && shouldShowRegistrationOpeningDate(event, timeSlots);
   const registrationsOpen = event.registrationsOpen && event.tablesPublished;
 
   const [statusBg, statusColor, statusDot, statusLabel, statusDescription] =
@@ -121,19 +119,21 @@ export default function EventHero({
         </HStack>
 
         <VStack align="stretch" gap={5}>
-          <Badge
-            alignSelf="flex-start"
-            bg={statusBg}
-            color={statusColor}
-            px={3}
-            py={2}
-            rounded="full"
-          >
-            <HStack gap={2}>
-              <Box bg={statusDot} borderRadius="full" h="0.6rem" w="0.6rem" />
-              <Text>{statusLabel}</Text>
-            </HStack>
-          </Badge>
+          {event.hasTables && (
+            <Badge
+              alignSelf="flex-start"
+              bg={statusBg}
+              color={statusColor}
+              px={3}
+              py={2}
+              rounded="full"
+            >
+              <HStack gap={2}>
+                <Box bg={statusDot} borderRadius="full" h="0.6rem" w="0.6rem" />
+                <Text>{statusLabel}</Text>
+              </HStack>
+            </Badge>
+          )}
 
           <VStack align="flex-start" gap={3}>
             <Heading
@@ -153,7 +153,11 @@ export default function EventHero({
               fontSize="sm"
               lineHeight={1.2}
               patterns={accentPatterns}
-              text={statusDescription}
+              text={
+                event.hasTables ? statusDescription : (
+                  t("page.event.hero.no_tables")
+                )
+              }
             />
           </VStack>
 

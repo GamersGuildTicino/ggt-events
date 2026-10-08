@@ -507,6 +507,8 @@ For questions, access requests, corrections, registration removal requests, or a
   "page.event.event_over": "Event over",
   "page.event.hero.event_over":
     "This event has already ended. You can still browse the tables that were part of it.",
+  "page.event.hero.no_tables":
+    "No registration is needed for this event. Just come along and join us.",
   "page.event.hero.registration_closed":
     "Registrations are not open right now. You can still browse the available tables.",
   "page.event.hero.registration_open":

@@ -521,6 +521,8 @@ Per domande, richieste di accesso, correzione, rimozione dell'iscrizione o anoni
   "page.event.event_over": "Evento concluso",
   "page.event.hero.event_over":
     "Questo evento è già terminato. Puoi comunque consultare i tavoli che ne facevano parte.",
+  "page.event.hero.no_tables":
+    "Per questo evento non è necessaria l'iscrizione. Vieni pure a trovarci.",
   "page.event.hero.registration_closed":
     "Le iscrizioni non sono aperte al momento. Puoi comunque consultare i tavoli disponibili.",
   "page.event.hero.registration_open":

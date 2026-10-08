@@ -31,7 +31,8 @@ export default function HomeEventCard({
   if (!firstTimeSlot) return null;
 
   const registrationsOpen = event.registrationsOpen && event.tablesPublished;
-  const showOpeningDate = shouldShowRegistrationOpeningDate(event, timeSlots);
+  const showOpeningDate =
+    event.hasTables && shouldShowRegistrationOpeningDate(event, timeSlots);
 
   const statusLabel =
     registrationsOpen ? t("page.home.events.registrations_open")
@@ -68,23 +69,25 @@ export default function HomeEventCard({
           <RouterLink to={eventPath}>{event.title}</RouterLink>
         </Link>
 
-        <HStack color="fg.muted" gap={2}>
-          <Box
-            bgColor={statusDotColor}
-            borderRadius="full"
-            flexShrink={0}
-            h="0.55rem"
-            w="0.55rem"
-          />
-          <Text
-            fontSize="xs"
-            fontWeight="medium"
-            letterSpacing="0.08em"
-            textTransform="uppercase"
-          >
-            {statusLabel}
-          </Text>
-        </HStack>
+        {event.hasTables && (
+          <HStack color="fg.muted" gap={2}>
+            <Box
+              bgColor={statusDotColor}
+              borderRadius="full"
+              flexShrink={0}
+              h="0.55rem"
+              w="0.55rem"
+            />
+            <Text
+              fontSize="xs"
+              fontWeight="medium"
+              letterSpacing="0.08em"
+              textTransform="uppercase"
+            >
+              {statusLabel}
+            </Text>
+          </HStack>
+        )}
 
         <VStack align="flex-start" gap={1} w="full">
           <Text fontSize="sm">
