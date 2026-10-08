@@ -557,7 +557,8 @@ Per domande, richieste di accesso, correzione, rimozione dell'iscrizione o anoni
   "page.event.tables.choose": "Iscriviti",
   "page.event.tables.close": "Chiudi",
   "page.event.tables.closed": "Chiuso",
-  "page.event.tables.empty": "Nessun tavolo.",
+  "page.event.tables.empty":
+    "I tavoli per questo evento non sono ancora disponibili.",
   "page.event.tables.game_master": "Game Master: {0}",
   "page.event.tables.heading": "Tavoli",
   "page.event.tables.hide_details": "Nascondi dettagli",

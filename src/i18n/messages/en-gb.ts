@@ -544,7 +544,7 @@ For questions, access requests, corrections, registration removal requests, or a
   "page.event.tables.choose": "Register",
   "page.event.tables.close": "Close",
   "page.event.tables.closed": "Closed",
-  "page.event.tables.empty": "No tables yet.",
+  "page.event.tables.empty": "No tables are available for this event yet.",
   "page.event.tables.game_master": "Game Master: {0}",
   "page.event.tables.heading": "Tables",
   "page.event.tables.hide_details": "Hide details",

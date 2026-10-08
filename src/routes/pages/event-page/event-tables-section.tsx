@@ -1,5 +1,4 @@
 import {
-  Card,
   HStack,
   Heading,
   Separator,
@@ -75,15 +74,13 @@ export default function EventTablesSection({
       )}
 
       {eventTablesState.isSuccess && eventTablesState.data.length === 0 && (
-        <Card.Root borderStyle="dashed">
-          <Card.Body>
-            <Text color="fg.muted">
-              {event.tablesPublished ?
-                t("page.event.tables.empty")
-              : t("page.event.tables.unpublished")}
-            </Text>
-          </Card.Body>
-        </Card.Root>
+        <VStack align="center" gap={2} py={8} textAlign="center">
+          <Text color="fg.muted" fontSize="lg">
+            {event.tablesPublished ?
+              t("page.event.tables.empty")
+            : t("page.event.tables.unpublished")}
+          </Text>
+        </VStack>
       )}
 
       {eventTablesState.isSuccess &&
