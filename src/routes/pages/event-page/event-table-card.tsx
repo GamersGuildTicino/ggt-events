@@ -18,7 +18,11 @@ import ImageWithFallback from "~/ui/image-with-fallback";
 import EventTableAgeRequirementBadge from "../../components/event-table-age-requirement-badge";
 import EventTableExperienceLevelBadge from "../../components/event-table-experience-level-badge";
 import EventTableLanguageBadge from "../../components/event-table-language-badge";
-import { isPastTimeSlot, seatAvailabilityColor } from "./event-page-format";
+import {
+  formatTimeRange,
+  isPastTimeSlot,
+  seatAvailabilityColor,
+} from "./event-page-format";
 import EventRegistrationSection from "./event-registration-section";
 
 //------------------------------------------------------------------------------
@@ -40,7 +44,7 @@ export default function EventTableCard({
   registrationsOpen,
   timeSlot,
 }: EventTableCardProps) {
-  const { t, ti, tpi } = useI18n();
+  const { locale, t, ti, tpi } = useI18n();
   const [detailsVisible, setDetailsVisible] = useState(false);
   const [registrationVisible, setRegistrationVisible] = useState(false);
   const [registrationSucceeded, setRegistrationSucceeded] = useState(false);
@@ -235,9 +239,15 @@ export default function EventTableCard({
         <EventRegistrationSection
           ageRequirement={eventTable.ageRequirement}
           eventTableId={eventTable.id}
+          eventTableTitle={eventTable.title}
+          gameMasterName={eventTable.gameMasterName}
+          gameSystemName={
+            gameSystem?.name ?? t("page.event.tables.no_game_system")
+          }
           onCancel={hideEventRegistration}
           onSuccess={completeEventRegistration}
           registrationsOpen={canRegister}
+          timeSlotLabel={`${timeSlot.title ? `${timeSlot.title}, ` : ""}${formatTimeRange([timeSlot], locale)}`}
           visible={registrationVisible}
         />
       </Card.Body>

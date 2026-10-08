@@ -47,7 +47,7 @@ export function formatTimeRange(timeSlots: EventTimeSlot[], locale: string) {
   const lastTimeSlot = timeSlots.at(-1);
   if (!firstTimeSlot || !lastTimeSlot) return "";
 
-  return `${formatTime(firstTimeSlot.startsAt, locale)} - ${formatTime(lastTimeSlot.endsAt, locale)}`;
+  return `${formatTime(firstTimeSlot.startsAt, locale)} – ${formatTime(lastTimeSlot.endsAt, locale)}`;
 }
 
 //------------------------------------------------------------------------------

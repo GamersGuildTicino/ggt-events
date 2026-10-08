@@ -1,10 +1,11 @@
 import {
   Button,
-  Card,
+  Dialog,
   Field,
   HStack,
   Input,
   Link,
+  Portal,
   Text,
   VStack,
 } from "@chakra-ui/react";
@@ -35,18 +36,26 @@ import {
 type EventRegistrationSectionProps = {
   ageRequirement: EventTableAgeRequirement;
   eventTableId: PublicEventTable["id"];
+  eventTableTitle: string;
+  gameMasterName: string;
+  gameSystemName: string;
   onCancel: () => void;
   onSuccess: () => void;
   registrationsOpen: boolean;
+  timeSlotLabel: string;
   visible: boolean;
 };
 
 export default function EventRegistrationSection({
   ageRequirement,
   eventTableId,
+  eventTableTitle,
+  gameMasterName,
+  gameSystemName,
   onCancel,
   onSuccess,
   registrationsOpen,
+  timeSlotLabel,
   visible,
 }: EventRegistrationSectionProps) {
   const { locale, t } = useI18n();
@@ -99,150 +108,176 @@ export default function EventRegistrationSection({
   );
 
   if (!registrationsOpen) return null;
-  if (!visible && !registrationState.hasError) return null;
+  if (!visible) return null;
 
   return (
-    <Card.Footer bg="bg.panel" borderRadius="md" borderWidth="1px" pt={4}>
-      <VStack align="stretch" gap={3} w="full">
-        {visible && (
-          <form onSubmit={registerToEventTable}>
-            <VStack align="stretch">
-              <Field.Root required>
-                <Field.Label>
-                  {t("page.event.registration.email")}
-                  <Field.RequiredIndicator />
-                </Field.Label>
-                <Input name="email" size="sm" type="email" />
-              </Field.Root>
+    <Dialog.Root
+      onOpenChange={(details) => {
+        if (!details.open) onCancel();
+      }}
+      open
+    >
+      <Portal>
+        <Dialog.Backdrop />
+        <Dialog.Positioner p={{ base: 4, md: 0 }}>
+          <Dialog.Content>
+            <Dialog.Header>
+              <VStack align="flex-start" gap={1}>
+                <Text color="fg.muted" fontSize="sm">
+                  {timeSlotLabel}
+                </Text>
+                <Dialog.Title fontSize="xl">{eventTableTitle}</Dialog.Title>
+                <Text color="fg.muted" fontSize="sm">
+                  {gameSystemName} · GM {gameMasterName}
+                </Text>
+              </VStack>
+            </Dialog.Header>
+            <Dialog.Body>
+              <form onSubmit={registerToEventTable}>
+                <VStack align="stretch">
+                  <Field.Root required>
+                    <Field.Label>
+                      {t("page.event.registration.email")}
+                      <Field.RequiredIndicator />
+                    </Field.Label>
+                    <Input name="email" size="sm" type="email" />
+                  </Field.Root>
 
-              <HStack align="flex-start" flexWrap="wrap" w="full">
-                <Field.Root flex="1 1 14rem" minW={0} required>
-                  <Field.Label>
-                    {t("page.event.registration.name")}
-                    <Field.RequiredIndicator />
-                  </Field.Label>
-                  <Input name="player-name" pattern="\s*\S.*" size="sm" />
-                </Field.Root>
+                  <HStack align="flex-start" flexWrap="wrap" w="full">
+                    <Field.Root minW={0} required>
+                      <Field.Label>
+                        {t("page.event.registration.name")}
+                        <Field.RequiredIndicator />
+                      </Field.Label>
+                      <Input name="player-name" pattern="\s*\S.*" size="sm" />
+                    </Field.Root>
 
-                <Field.Root flex="1 1 12rem" minW={0}>
-                  <Field.Label>
-                    {t("page.event.registration.phone_number")}
-                  </Field.Label>
-                  <Input name="phone-number" size="sm" type="tel" />
-                </Field.Root>
-              </HStack>
+                    <Field.Root minW={0}>
+                      <Field.Label>
+                        {t("page.event.registration.phone_number")}
+                      </Field.Label>
+                      <Input name="phone-number" size="sm" type="tel" />
+                    </Field.Root>
+                  </HStack>
 
-              <VStack my={2}>
-                {guardianContactRequired && (
-                  <VStack align="stretch" gap={3} w="full">
-                    <Field.Root>
-                      <Checkbox
-                        checked={participantIsMinor}
-                        name="participant-is-minor"
-                        onCheckedChange={(details) =>
-                          setParticipantIsMinor(details.checked === true)
-                        }
-                        size="sm"
-                      >
-                        <Text fontSize="sm">
-                          {t("page.event.registration.participant_is_minor")}
+                  <VStack gap={4} my={4}>
+                    {guardianContactRequired && (
+                      <VStack align="stretch" gap={3} w="full">
+                        <Field.Root>
+                          <Checkbox
+                            checked={participantIsMinor}
+                            name="participant-is-minor"
+                            onCheckedChange={(details) =>
+                              setParticipantIsMinor(details.checked === true)
+                            }
+                            size="sm"
+                          >
+                            <Text fontSize="sm" fontWeight="normal">
+                              {t(
+                                "page.event.registration.participant_is_minor",
+                              )}
+                            </Text>
+                          </Checkbox>
+                        </Field.Root>
+
+                        {participantIsMinor && (
+                          <VStack align="stretch" gap={3} w="full">
+                            <Field.Root required>
+                              <Field.Label>
+                                {t("page.event.registration.guardian_name")}
+                                <Field.RequiredIndicator />
+                              </Field.Label>
+                              <Input
+                                name="guardian-name"
+                                pattern="\s*\S.*"
+                                size="sm"
+                              />
+                            </Field.Root>
+
+                            <Field.Root required>
+                              <Field.Label>
+                                {t(
+                                  "page.event.registration.guardian_phone_number",
+                                )}
+                                <Field.RequiredIndicator />
+                              </Field.Label>
+                              <Input
+                                name="guardian-phone-number"
+                                pattern="\s*\S.*"
+                                size="sm"
+                                type="tel"
+                              />
+                            </Field.Root>
+                          </VStack>
+                        )}
+                      </VStack>
+                    )}
+
+                    <Field.Root required>
+                      <Checkbox name="accept-terms" required size="sm">
+                        <Text fontSize="sm" fontWeight="normal">
+                          {t("page.event.registration.accept_terms")}
+                          <Link asChild color="ggt.fg.primary" fontSize="sm">
+                            <RouterLink
+                              target="_blank"
+                              to={t("page.data_and_terms.url")}
+                            >
+                              {t("page.event.registration.terms_link")}
+                            </RouterLink>
+                          </Link>
                         </Text>
                       </Checkbox>
                     </Field.Root>
 
-                    {participantIsMinor && (
-                      <HStack align="flex-start" flexWrap="wrap" w="full">
-                        <Field.Root flex="1 1 14rem" minW={0} required>
-                          <Field.Label>
-                            {t("page.event.registration.guardian_name")}
-                            <Field.RequiredIndicator />
-                          </Field.Label>
-                          <Input
-                            name="guardian-name"
-                            pattern="\s*\S.*"
-                            size="sm"
-                          />
-                        </Field.Root>
-
-                        <Field.Root flex="1 1 12rem" minW={0} required>
-                          <Field.Label>
-                            {t("page.event.registration.guardian_phone_number")}
-                            <Field.RequiredIndicator />
-                          </Field.Label>
-                          <Input
-                            name="guardian-phone-number"
-                            pattern="\s*\S.*"
-                            size="sm"
-                            type="tel"
-                          />
-                        </Field.Root>
-                      </HStack>
+                    {isKidsAgeRequirement(ageRequirement) && (
+                      <Field.Root required>
+                        <Checkbox name="guardian-confirmed" required size="sm">
+                          <Text fontSize="sm" fontWeight="normal">
+                            {t("page.event.registration.guardian_confirmation")}
+                          </Text>
+                        </Checkbox>
+                      </Field.Root>
                     )}
+
+                    <Field.Root required>
+                      <Checkbox name="accept-time" required size="sm">
+                        <Text fontSize="sm">
+                          {t("page.event.registration.accept_time")}
+                        </Text>
+                      </Checkbox>
+                    </Field.Root>
                   </VStack>
-                )}
 
-                <Field.Root required>
-                  <Checkbox name="accept-terms" required size="sm">
-                    <Text fontSize="sm">
-                      {t("page.event.registration.accept_terms")}
-                      <Link asChild color="ggt.fg.primary" fontSize="sm">
-                        <RouterLink
-                          target="_blank"
-                          to={t("page.data_and_terms.url")}
-                        >
-                          {t("page.event.registration.terms_link")}
-                        </RouterLink>
-                      </Link>
-                    </Text>
-                  </Checkbox>
-                </Field.Root>
+                  {registrationState.hasError && (
+                    <AppAlert dismissible status="error">
+                      {t(registrationState.error)}
+                    </AppAlert>
+                  )}
 
-                {isKidsAgeRequirement(ageRequirement) && (
-                  <Field.Root required>
-                    <Checkbox name="guardian-confirmed" required size="sm">
-                      <Text fontSize="sm">
-                        {t("page.event.registration.guardian_confirmation")}
-                      </Text>
-                    </Checkbox>
-                  </Field.Root>
-                )}
-
-                <Field.Root required>
-                  <Checkbox name="accept-time" required size="sm">
-                    <Text fontSize="sm">
-                      {t("page.event.registration.accept_time")}
-                    </Text>
-                  </Checkbox>
-                </Field.Root>
-              </VStack>
-
-              {registrationState.hasError && (
-                <AppAlert dismissible status="error">
-                  {t(registrationState.error)}
-                </AppAlert>
-              )}
-
-              <HStack wrap="wrap">
-                <Button
-                  loading={registrationState.isLoading}
-                  size="sm"
-                  type="submit"
-                >
-                  {t("page.event.registration.submit")}
-                </Button>
-                <Button
-                  onClick={onCancel}
-                  size="sm"
-                  type="button"
-                  variant="outline"
-                >
-                  {t("page.event.registration.cancel")}
-                </Button>
-              </HStack>
-            </VStack>
-          </form>
-        )}
-      </VStack>
-    </Card.Footer>
+                  <HStack justify="flex-end" wrap="wrap">
+                    <Button
+                      onClick={onCancel}
+                      size="sm"
+                      type="button"
+                      variant="outline"
+                    >
+                      {t("page.event.registration.cancel")}
+                    </Button>
+                    <Button
+                      loading={registrationState.isLoading}
+                      size="sm"
+                      type="submit"
+                    >
+                      {t("page.event.registration.submit")}
+                    </Button>
+                  </HStack>
+                </VStack>
+              </form>
+            </Dialog.Body>
+            <Dialog.CloseTrigger />
+          </Dialog.Content>
+        </Dialog.Positioner>
+      </Portal>
+    </Dialog.Root>
   );
 }
