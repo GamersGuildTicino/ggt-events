@@ -37,8 +37,8 @@ type EventRegistrationSectionProps = {
   ageRequirement: EventTableAgeRequirement;
   eventTableId: PublicEventTable["id"];
   eventTableTitle: string;
-  gameMasterName: string;
-  gameSystemName: string;
+  gameMasterName: string | null;
+  gameSystemName: string | null;
   onCancel: () => void;
   onSuccess: () => void;
   registrationsOpen: boolean;
@@ -127,9 +127,13 @@ export default function EventRegistrationSection({
                   {timeSlotLabel}
                 </Text>
                 <Dialog.Title fontSize="xl">{eventTableTitle}</Dialog.Title>
-                <Text color="fg.muted" fontSize="sm">
-                  {gameSystemName} · GM {gameMasterName}
-                </Text>
+                {(gameSystemName || gameMasterName) && (
+                  <Text color="fg.muted" fontSize="sm">
+                    {[gameSystemName, gameMasterName && `GM ${gameMasterName}`]
+                      .filter(Boolean)
+                      .join(" · ")}
+                  </Text>
+                )}
               </VStack>
             </Dialog.Header>
             <Dialog.Body>

@@ -151,6 +151,7 @@ const enGB = {
   "form.event_table.experience_level.label": "Experience level",
   "form.event_table.game_master_name.label": "Game master",
   "form.event_table.game_system.label": "Game system",
+  "form.event_table.game_system.none": "No game system",
   "form.event_table.image_url.label": "Image URL",
   "form.event_table.is_visible.label": "Table visible",
   "form.event_table.language.label": "Language",

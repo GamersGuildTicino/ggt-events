@@ -127,7 +127,11 @@ export default function EventTablesSection({
                     {tables.map((eventTable) => (
                       <EventTableCard
                         eventTable={eventTable}
-                        gameSystem={gameSystemById.get(eventTable.gameSystemId)}
+                        gameSystem={
+                          eventTable.gameSystemId ?
+                            gameSystemById.get(eventTable.gameSystemId)
+                          : undefined
+                        }
                         key={eventTable.id}
                         onRegistrationSuccess={onRegistrationSuccess}
                         registrationsOpen={event.registrationsOpen}

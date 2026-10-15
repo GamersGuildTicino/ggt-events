@@ -126,7 +126,9 @@ export default function AdminEventTableCard({
           <HStack align="stretch" justify="space-between" w="full" wrap="wrap">
             <VStack align="flex-start" gap={0.5}>
               <HStack gap={3} wrap="wrap">
-                <Heading size="md">{`${gameSystemName}`}</Heading>
+                <Heading size="md">
+                  {gameSystemName || t("page.event.tables.no_game_system")}
+                </Heading>
                 {!eventTable.isVisible && (
                   <Badge colorPalette="orange" size="xs" variant="solid">
                     <EyeOff aria-hidden="true" size={14} />
@@ -138,12 +140,14 @@ export default function AdminEventTableCard({
               <Text color="fg.muted" fontSize="sm">
                 {eventTable.title}
               </Text>
-              <Text color="fg.muted" fontSize="sm">
-                {ti(
-                  "page.admin_event.tables.game_master",
-                  eventTable.gameMasterName,
-                )}
-              </Text>
+              {eventTable.gameMasterName && (
+                <Text color="fg.muted" fontSize="sm">
+                  {ti(
+                    "page.admin_event.tables.game_master",
+                    eventTable.gameMasterName,
+                  )}
+                </Text>
+              )}
               <HStack gap={2}>
                 <Text fontSize="sm">
                   {formatPlayerCount({ ...eventTable, t, ti })}

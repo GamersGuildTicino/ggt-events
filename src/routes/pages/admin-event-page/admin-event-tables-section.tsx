@@ -68,46 +68,37 @@ export default function AdminEventTablesSection({
                 <AppAlert status="error">{t(gameSystemsState.error)}</AppAlert>
               )}
 
-              {gameSystemsState.isSuccess &&
-                gameSystemsState.data.length === 0 && (
-                  <Text color="fg.muted">
-                    {t("page.admin_event.tables.no_game_systems")}
-                  </Text>
-                )}
-
               {timeSlots.length === 0 && (
                 <Text color="fg.muted">
                   {t("page.admin_event.tables.no_time_slots")}
                 </Text>
               )}
 
-              {gameSystemsState.isSuccess &&
-                gameSystemsState.data.length > 0 &&
-                timeSlots.length > 0 && (
-                  <EventTableForm
-                    actions={
-                      <Button
-                        loading={createState.isLoading}
-                        size="sm"
-                        type="submit"
-                      >
-                        {t("page.admin_event.tables.create")}
-                      </Button>
-                    }
-                    disabled={createState.isLoading}
-                    gameSystems={gameSystemsState.data}
-                    key={createFormKey}
-                    message={
-                      createState.hasError ?
-                        <AppAlert dismissible status="error">
-                          {t(createState.error)}
-                        </AppAlert>
-                      : undefined
-                    }
-                    onSubmit={createAdminEventTable}
-                    timeSlots={timeSlots}
-                  />
-                )}
+              {gameSystemsState.isSuccess && timeSlots.length > 0 && (
+                <EventTableForm
+                  actions={
+                    <Button
+                      loading={createState.isLoading}
+                      size="sm"
+                      type="submit"
+                    >
+                      {t("page.admin_event.tables.create")}
+                    </Button>
+                  }
+                  disabled={createState.isLoading}
+                  gameSystems={gameSystemsState.data}
+                  key={createFormKey}
+                  message={
+                    createState.hasError ?
+                      <AppAlert dismissible status="error">
+                        {t(createState.error)}
+                      </AppAlert>
+                    : undefined
+                  }
+                  onSubmit={createAdminEventTable}
+                  timeSlots={timeSlots}
+                />
+              )}
             </VStack>
           </Card.Body>
         </Card.Root>
@@ -134,7 +125,9 @@ export default function AdminEventTablesSection({
                 editing={editingEventTableId === eventTable.id}
                 eventTable={eventTable}
                 gameSystemName={
-                  gameSystemById.get(eventTable.gameSystemId)?.name ?? ""
+                  eventTable.gameSystemId ?
+                    (gameSystemById.get(eventTable.gameSystemId)?.name ?? "")
+                  : ""
                 }
                 gameSystems={
                   gameSystemsState.isSuccess ? gameSystemsState.data : []

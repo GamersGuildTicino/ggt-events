@@ -81,11 +81,18 @@ export default function EventTableCard({
       _hover={{ borderColor: "ggt.border.primary" }}
       bg="ggt.surface.bg"
       borderColor="ggt.surface.border"
+      display="flex"
+      h="full"
       overflow="hidden"
       transition="border-color 160ms ease"
     >
-      <Card.Body backgroundPosition="center" backgroundSize="cover" gap={4}>
-        <VStack align="flex-start" gap={2} w="full">
+      <Card.Body
+        backgroundPosition="center"
+        backgroundSize="cover"
+        flex={1}
+        gap={4}
+      >
+        <VStack align="flex-start" flex={1} gap={2} w="full">
           <HStack
             align="flex-start"
             gap={4}
@@ -109,9 +116,7 @@ export default function EventTableCard({
                 size="lg"
                 textTransform="uppercase"
               >
-                {gameSystem?.name ?? (
-                  <i>{t("page.event.tables.no_game_system")}</i>
-                )}
+                {gameSystem?.name ?? eventTable.title}
               </Heading>
 
               <VStack
@@ -119,15 +124,19 @@ export default function EventTableCard({
                 gap={0}
                 w="ful"
               >
-                <Text color="fg.muted" fontSize="xs" fontWeight="semibold">
-                  {eventTable.title}
-                </Text>
-                <Text color="fg.muted" fontSize="xs">
-                  {ti(
-                    "page.event.tables.game_master",
-                    eventTable.gameMasterName,
-                  )}
-                </Text>
+                {gameSystem?.name && (
+                  <Text color="fg.muted" fontSize="xs" fontWeight="semibold">
+                    {eventTable.title}
+                  </Text>
+                )}
+                {eventTable.gameMasterName && (
+                  <Text color="fg.muted" fontSize="xs">
+                    {ti(
+                      "page.event.tables.game_master",
+                      eventTable.gameMasterName,
+                    )}
+                  </Text>
+                )}
               </VStack>
             </VStack>
 
@@ -241,9 +250,7 @@ export default function EventTableCard({
           eventTableId={eventTable.id}
           eventTableTitle={eventTable.title}
           gameMasterName={eventTable.gameMasterName}
-          gameSystemName={
-            gameSystem?.name ?? t("page.event.tables.no_game_system")
-          }
+          gameSystemName={gameSystem?.name ?? null}
           onCancel={hideEventRegistration}
           onSuccess={completeEventRegistration}
           registrationsOpen={canRegister}

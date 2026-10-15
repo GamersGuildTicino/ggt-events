@@ -108,12 +108,14 @@ export default function RegistrationCancellationPage() {
                   visibleCancellation.tableTitle,
                 )}
               </Text>
-              <Text color="fg.muted">
-                {ti(
-                  "page.registration_cancellation.game_master",
-                  visibleCancellation.gameMasterName,
-                )}
-              </Text>
+              {visibleCancellation.gameMasterName && (
+                <Text color="fg.muted">
+                  {ti(
+                    "page.registration_cancellation.game_master",
+                    visibleCancellation.gameMasterName,
+                  )}
+                </Text>
+              )}
               <Text color="fg.muted">
                 {formatCancellationTimeSlot(visibleCancellation, locale)}
               </Text>

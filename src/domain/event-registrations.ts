@@ -44,7 +44,7 @@ export type EventRegistrationInput = {
 
 export const eventRegistrationCancellationRowSchema = z.object({
   event_title: z.string(),
-  game_master_name: z.string(),
+  game_master_name: z.string().nullable(),
   location_address: z.string(),
   location_name: z.string(),
   player_name: z.string(),

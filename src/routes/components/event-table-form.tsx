@@ -104,31 +104,33 @@ export default function EventTableForm({
           />
         </Field.Root>
 
-        <Field.Root disabled={disabled} required>
-          <Field.Label>
-            {t("form.event_table.game_system.label")}
-            <Field.RequiredIndicator />
-          </Field.Label>
+        <Field.Root disabled={disabled}>
+          <Field.Label>{t("form.event_table.game_system.label")}</Field.Label>
           <SelectEnum<string>
-            defaultValue={initialValue?.gameSystemId ?? gameSystems[0]?.id}
+            defaultValue={initialValue?.gameSystemId ?? ""}
             name="game-system-id"
-            options={gameSystems.map((gameSystem) => ({
-              label: gameSystem.name,
-              value: gameSystem.id,
-            }))}
+            options={[
+              {
+                label: t("form.event_table.game_system.none"),
+                value: "",
+              },
+              ...gameSystems.map((gameSystem) => ({
+                label: gameSystem.name,
+                value: gameSystem.id,
+              })),
+            ]}
             size="sm"
           />
         </Field.Root>
       </HStack>
 
       <HStack w="full">
-        <Field.Root disabled={disabled} required>
+        <Field.Root disabled={disabled}>
           <Field.Label>
             {t("form.event_table.game_master_name.label")}
-            <Field.RequiredIndicator />
           </Field.Label>
           <Input
-            defaultValue={initialValue?.gameMasterName}
+            defaultValue={initialValue?.gameMasterName ?? ""}
             name="game-master-name"
             pattern="\s*\S.*"
             size="sm"
@@ -274,8 +276,8 @@ function eventTableFormValueFromForm(form: HTMLFormElement) {
     ageRequirement: getString("age-requirement") as EventTableAgeRequirement,
     description: getString("description"),
     experienceLevel: getString("experience-level") as EventTableExperienceLevel,
-    gameMasterName: getString("game-master-name"),
-    gameSystemId: getString("game-system-id"),
+    gameMasterName: getString("game-master-name") || null,
+    gameSystemId: getString("game-system-id") || null,
     imageUrl: getString("image-url"),
     isVisible: formData.has("is-visible"),
     language: getString("language") as EventTableLanguage,

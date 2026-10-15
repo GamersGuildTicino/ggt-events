@@ -20,8 +20,8 @@ export const eventTableSchema = z.object({
   createdBy: z.uuid(),
   description: z.string(),
   experienceLevel: eventTableExperienceLevelSchema,
-  gameMasterName: z.string(),
-  gameSystemId: z.uuid(),
+  gameMasterName: z.string().nullable(),
+  gameSystemId: z.uuid().nullable(),
   id: z.uuid(),
   imageUrl: z.string(),
   isVisible: z.boolean(),
@@ -52,8 +52,8 @@ export const eventTableRowSchema = z.object({
   created_by: z.uuid(),
   description: z.string(),
   experience_level: eventTableExperienceLevelSchema,
-  game_master_name: z.string(),
-  game_system_id: z.uuid(),
+  game_master_name: z.string().nullable(),
+  game_system_id: z.uuid().nullable(),
   id: z.uuid(),
   image_url: z.string(),
   is_visible: z.boolean(),
@@ -174,7 +174,7 @@ export async function fetchEventTables(
 ): Promise<AsyncStateSuccess<EventTable[]> | AsyncStateFailure> {
   const { data, error } = await supabase
     .from("event_tables")
-    .select("*, event_time_slots!inner(event_id), game_systems!inner(name)")
+    .select("*, event_time_slots!inner(event_id), game_systems(name)")
     .eq("event_time_slots.event_id", eventId)
     .order("game_systems(name)", { ascending: true })
     .order("title", { ascending: true });

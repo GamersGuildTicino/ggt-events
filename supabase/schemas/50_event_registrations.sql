@@ -623,7 +623,7 @@ as $$
   from public.event_tables
   join public.event_time_slots on event_time_slots.id = event_tables.time_slot_id
   join public.events on events.id = event_time_slots.event_id
-  join public.game_systems on game_systems.id = event_tables.game_system_id
+  left join public.game_systems on game_systems.id = event_tables.game_system_id
   where event_time_slots.event_id = p_event_id
     and (
       (
@@ -636,7 +636,7 @@ as $$
         and public.can_manage_event(events.id)
       )
     )
-  order by game_systems.name asc, event_tables.title asc;
+  order by game_systems.name asc nulls last, event_tables.title asc;
 $$;
 
 grant execute on function public.fetch_public_event_tables(uuid) to anon;
