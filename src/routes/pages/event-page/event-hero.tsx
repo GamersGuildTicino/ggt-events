@@ -4,6 +4,7 @@ import {
   Button,
   HStack,
   Heading,
+  Image,
   Span,
   Text,
   VStack,
@@ -82,15 +83,31 @@ export default function EventHero({
 
   return (
     <Box
-      backgroundPosition="center"
-      backgroundSize="cover"
-      bg={event.imageUrl ? "rgba(18, 24, 38, 0.72)" : "#124a68"}
-      bgImage={event.imageUrl ? `url("${event.imageUrl}")` : undefined}
+      bg="ggt.bg.hero"
       color="white"
       overflow="hidden"
       position="relative"
       py={{ base: 8, md: 8 }}
     >
+      {event.imageUrl && (
+        <Box inset={0} position="absolute" zIndex={0}>
+          <Image
+            alt=""
+            aria-hidden="true"
+            h="full"
+            objectFit="cover"
+            objectPosition="50% center"
+            src={event.imageUrl}
+            w="full"
+          />
+          <Box
+            bg="ggt.bg.hero"
+            inset={0}
+            mixBlendMode="multiply"
+            position="absolute"
+          />
+        </Box>
+      )}
       <VStack
         align="stretch"
         gap={8}
@@ -99,6 +116,7 @@ export default function EventHero({
         position="relative"
         px={{ base: 4, md: 8 }}
         w="full"
+        zIndex={2}
       >
         <HStack justify="space-between" w="full">
           <Button

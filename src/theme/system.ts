@@ -29,6 +29,9 @@ export const system = createSystem(defaultConfig, {
     tokens: {
       colors: {
         ggt: {
+          bg: {
+            hero: { value: "#124a68" },
+          },
           border: {
             primary: { value: "#458db9" },
           },
