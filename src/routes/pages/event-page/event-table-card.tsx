@@ -140,25 +140,7 @@ export default function EventTableCard({
               </VStack>
             </VStack>
 
-            <VStack
-              align={{ sm: "flex-end", xs: "center" }}
-              gap={1}
-              maxW={{ sm: "30%", xs: "100%" }}
-            >
-              <HStack
-                gap={1}
-                justify={{ sm: "flex-end", xs: "center" }}
-                wrap="wrap"
-              >
-                <EventTableAgeRequirementBadge
-                  ageRequirement={eventTable.ageRequirement}
-                />
-                <EventTableExperienceLevelBadge
-                  experienceLevel={eventTable.experienceLevel}
-                />
-                <EventTableLanguageBadge language={eventTable.language} />
-              </HStack>
-
+            <VStack align={{ sm: "flex-end", xs: "center" }}>
               {hasDetails && (
                 <Button
                   display={{ sm: "none", xs: "inline-flex" }}
@@ -202,6 +184,16 @@ export default function EventTableCard({
             )}
           </VStack>
         </VStack>
+
+        <HStack gap={1} justify="flex-end" w="full" wrap="wrap">
+          <EventTableAgeRequirementBadge
+            ageRequirement={eventTable.ageRequirement}
+          />
+          <EventTableExperienceLevelBadge
+            experienceLevel={eventTable.experienceLevel}
+          />
+          <EventTableLanguageBadge language={eventTable.language} />
+        </HStack>
 
         <Separator />
 
