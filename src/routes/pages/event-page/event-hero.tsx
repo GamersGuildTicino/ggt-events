@@ -11,6 +11,7 @@ import {
 } from "@chakra-ui/react";
 import { ArrowLeft, CalendarDays, Clock3, MapPin } from "lucide-react";
 import type { ReactNode } from "react";
+import { useState } from "react";
 import { Link as RouterLink } from "react-router";
 import {
   formatRegistrationOpeningDateLong,
@@ -40,6 +41,8 @@ export default function EventHero({
   timeSlots,
 }: EventHeroProps) {
   const { locale, t, ti } = useI18n();
+  const [failedImageUrl, setFailedImageUrl] = useState<string | null>(null);
+  const imageUrl = event.imageUrl.trim();
   const eventOver = isEventOver(timeSlots);
   const showRegistrationOpeningDate =
     event.hasTables && shouldShowRegistrationOpeningDate(event, timeSlots);
@@ -89,7 +92,7 @@ export default function EventHero({
       position="relative"
       py={{ base: 8, md: 8 }}
     >
-      {event.imageUrl && (
+      {imageUrl && failedImageUrl !== imageUrl && (
         <Box inset={0} position="absolute" zIndex={0}>
           <Image
             alt=""
@@ -97,7 +100,8 @@ export default function EventHero({
             h="full"
             objectFit="cover"
             objectPosition="50% center"
-            src={event.imageUrl}
+            onError={() => setFailedImageUrl(imageUrl)}
+            src={imageUrl}
             w="full"
           />
           <Box
