@@ -208,6 +208,7 @@ export default function AdminEventPage() {
               }
               disabled={saveState.isLoading || !isAdmin}
               initialValue={eventState.data}
+              key={eventState.data.id}
               message={
                 saveState.hasError ?
                   <AppAlert dismissible status="error">
