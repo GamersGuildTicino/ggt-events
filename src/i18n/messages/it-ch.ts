@@ -133,6 +133,8 @@ const itCH = {
     "I dati dei pagamenti non sono validi.",
   "error.membership_payments.update": "Impossibile aggiornare il pagamento.",
 
+  "form.event_details.description.bold": "Grassetto",
+  "form.event_details.description.italic": "Corsivo",
   "form.event_details.description.label": "Descrizione",
   "form.event_details.has_tables": "Questo evento ha dei tavoli",
   "form.event_details.heading": "Dettagli",

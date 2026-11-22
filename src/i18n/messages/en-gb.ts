@@ -128,6 +128,8 @@ const enGB = {
   "error.membership_payments.parse_many": "Payments data is invalid.",
   "error.membership_payments.update": "Unable to update the payment.",
 
+  "form.event_details.description.bold": "Bold",
+  "form.event_details.description.italic": "Italic",
   "form.event_details.description.label": "Description",
   "form.event_details.has_tables": "This event has tables",
   "form.event_details.heading": "Details",

@@ -1,8 +1,9 @@
-import { Center, Spinner, Text, VStack } from "@chakra-ui/react";
+import { Center, Spinner, VStack } from "@chakra-ui/react";
 import { useParams } from "react-router";
 import usePageTitle from "~/hooks/use-page-title";
 import useI18n from "~/i18n/use-i18n";
 import AppAlert from "~/ui/app-alert";
+import RichText, { type RichTextPattern } from "~/ui/rich-text";
 import EventHero from "./event-hero";
 import EventMapSection from "./event-map-section";
 import EventTablesSection from "./event-tables-section";
@@ -65,7 +66,12 @@ export default function EventPage() {
             w="full"
           >
             {eventState.data.description && (
-              <Text whiteSpace="pre-line">{eventState.data.description}</Text>
+              <RichText
+                display="block"
+                patterns={eventDescriptionPatterns}
+                text={eventState.data.description}
+                whiteSpace="pre-line"
+              />
             )}
 
             {eventState.data.hasTables && (
@@ -86,6 +92,17 @@ export default function EventPage() {
     </VStack>
   );
 }
+
+const eventDescriptionPatterns: RichTextPattern[] = [
+  {
+    regex: /\*\*(.+?)\*\*/,
+    render: (value) => <strong>{value}</strong>,
+  },
+  {
+    regex: /__(.+?)__/,
+    render: (value) => <em>{value}</em>,
+  },
+];
 
 //------------------------------------------------------------------------------
 // Has Event Map

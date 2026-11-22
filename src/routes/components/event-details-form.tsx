@@ -9,6 +9,7 @@ import {
 } from "@chakra-ui/react";
 import type { DateValue } from "@chakra-ui/react";
 import { CalendarDate } from "@internationalized/date";
+import { Bold, Italic } from "lucide-react";
 import type { ReactNode } from "react";
 import { useCallback } from "react";
 import {
@@ -20,7 +21,9 @@ import useI18n from "~/i18n/use-i18n";
 import Checkbox from "~/ui/checkbox";
 import DatePicker from "~/ui/date-picker";
 import Form from "~/ui/form";
+import IconButton from "~/ui/icon-button";
 import SelectEnum from "~/ui/select-enum";
+import useTextareaHistory from "./use-textarea-history";
 
 //------------------------------------------------------------------------------
 // Event Details Form Value
@@ -65,7 +68,15 @@ export default function EventDetailsForm({
   onSubmit,
 }: EventDetailsFormProps) {
   const { t } = useI18n();
+  const {
+    handleChange: handleDescriptionChange,
+    handleKeyDown: handleDescriptionKeyDown,
+    textareaRef: descriptionRef,
+    value: description,
+    wrapSelection: formatDescription,
+  } = useTextareaHistory(initialValue?.description ?? "");
   const eventVisibilityOptions = useEventVisibilityOptions();
+
   const submitEventDetailsForm = useCallback(
     (e: React.SubmitEvent<HTMLFormElement>) => {
       e.preventDefault();
@@ -121,13 +132,51 @@ export default function EventDetailsForm({
           </Field.Root>
 
           <Field.Root disabled={disabled}>
-            <Field.Label>
-              {t("form.event_details.description.label")}
-            </Field.Label>
+            <HStack align="center" justify="space-between" w="full">
+              <Field.Label mb={0}>
+                {t("form.event_details.description.label")}
+              </Field.Label>
+              <HStack gap={1}>
+                <IconButton
+                  Icon={Bold}
+                  aria-label={t("form.event_details.description.bold")}
+                  aspectRatio="square"
+                  disabled={disabled}
+                  h="4"
+                  minH="4"
+                  minW="4"
+                  onClick={() => formatDescription("**")}
+                  onMouseDown={(e) => e.preventDefault()}
+                  p={0}
+                  size="xs"
+                  type="button"
+                  variant="ghost"
+                />
+                <IconButton
+                  Icon={Italic}
+                  aria-label={t("form.event_details.description.italic")}
+                  aspectRatio="square"
+                  disabled={disabled}
+                  h="4"
+                  minH="4"
+                  minW="4"
+                  onClick={() => formatDescription("__")}
+                  onMouseDown={(e) => e.preventDefault()}
+                  p={0}
+                  size="xs"
+                  type="button"
+                  variant="ghost"
+                />
+              </HStack>
+            </HStack>
             <Textarea
-              defaultValue={initialValue?.description}
               name="description"
+              onChange={handleDescriptionChange}
+              onKeyDown={handleDescriptionKeyDown}
+              ref={descriptionRef}
+              rows={20}
               size="sm"
+              value={description}
             />
           </Field.Root>
 
